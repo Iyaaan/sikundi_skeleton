@@ -3,6 +3,7 @@ import { ThemeProvider } from "@sikundi/components/theme-provider"
 import localFont from 'next/font/local'
 import { ReactNode } from 'react'
 export { metadata } from '@sikundi/sikundi.config'
+import { Toaster } from "@sikundi/components/ui/toaster"
 
 const inter = localFont({
     src: [
@@ -118,6 +119,7 @@ export default function RootLayout(props: Props) {
                 >
                     {props.children}
                 </ThemeProvider>
+                <Toaster />
             </body>
         </html>
     )
