@@ -13,7 +13,7 @@ import {
 } from "@sikundi/components/ui/dropdown-menu"
 import { twMerge } from "tailwind-merge"
 
-export default function themeSwitcher(props: Props) {
+export default function ThemeSwitcher(props: Props) {
     const { setTheme } = useTheme()
 
     return (
