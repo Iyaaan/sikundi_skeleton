@@ -12,6 +12,8 @@ import {
 import { Input } from "@sikundi/components/ui/input"
 import { Label } from "@sikundi/components/ui/label"
 import Image from "next/image"
+import { passwordUpdate } from "@sikundi/app/(sikundi)/sikundi-login/actions"
+
 
 export default function PasswordUpdate() {
     return (
@@ -25,7 +27,7 @@ export default function PasswordUpdate() {
                     Enter your new passwords below to update
                 </CardDescription>
             </CardHeader>
-            <form action="/">
+            <form action={passwordUpdate}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>

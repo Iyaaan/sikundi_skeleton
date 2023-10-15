@@ -13,6 +13,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { Label } from "@sikundi/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
+import { login } from "@sikundi/app/(sikundi)/sikundi-login/actions"
 
 export default function LogIn() {
     return (
@@ -26,7 +27,7 @@ export default function LogIn() {
                     Enter your email below to login
                 </CardDescription>
             </CardHeader>
-            <form action="/">
+            <form action={login}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>

@@ -13,6 +13,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { Label } from "@sikundi/components/ui/label"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { otpVerify } from "@sikundi/app/(sikundi)/sikundi-login/actions"
 
 export default function Verification() {
     const router = useRouter()
@@ -28,7 +29,7 @@ export default function Verification() {
                     Enter otp sent to your email below to reset
                 </CardDescription>
             </CardHeader>
-            <form action="/">
+            <form action={otpVerify}>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="otp">Otp</Label>
