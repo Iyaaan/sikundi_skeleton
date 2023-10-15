@@ -12,9 +12,11 @@ import {
 import { Input } from "@sikundi/components/ui/input"
 import { Label } from "@sikundi/components/ui/label"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
-export default function LogIn() {
+export default function Verification() {
+    const router = useRouter()
+
     return (
         <Card className="w-full max-w-md">
             <CardHeader className="space-y-1">
@@ -23,20 +25,16 @@ export default function LogIn() {
                     <CardTitle className="text-3xl text-center font-bold">Sikundi io</CardTitle>
                 </div>
                 <CardDescription className="text-center">
-                    Enter your email below to login
+                    Enter otp sent to your email below to reset
                 </CardDescription>
             </CardHeader>
             <form action="/">
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="demo@sikundi.io" required />
+                        <Label htmlFor="otp">Otp</Label>
+                        <Input id="otp" type="password" placeholder="****" required />
                     </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" placeholder="*********" required />
-                    </div>
-                    <Button className="w-full mb-4">Log In</Button>
+                    <Button className="w-full mb-4">Verify</Button>
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
                             <span className="w-full border-t" />
@@ -50,12 +48,8 @@ export default function LogIn() {
                 </CardContent>
             </form>
             <CardFooter>
-                <Button className="w-full" variant={"outline"} asChild>
-                    <Link href={{pathname: "/sikundi-login", query: {
-                        "action": "lostpassword"
-                    }}}>
-                        Reset
-                    </Link>
+                <Button className="w-full" variant={"outline"} onClick={() => router.back()}>
+                    Back
                 </Button>
             </CardFooter>
         </Card>
