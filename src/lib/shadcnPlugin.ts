@@ -51,11 +51,8 @@ export const shadcnPlugin = plugin(
         })
 
         addBase({
-            "*": {
-                "@apply border-border": {}
-            },
-            "body": {
-                "@apply bg-background text-foreground": {}
+            ".sikundi": {
+                "@apply bg-background text-foreground border-border": {},
             }
         })
     },

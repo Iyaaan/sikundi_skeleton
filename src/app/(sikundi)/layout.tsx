@@ -109,7 +109,7 @@ interface Props {
 export default function RootLayout(props: Props) {
     return (
         <html lang="en" className={`${inter.variable}`}>
-            <body>
+            <body className='sikundi'>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

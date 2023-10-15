@@ -41,6 +41,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
     "hex-to-hsl": "^1.0.2",
     "lucide-react": "^0.287.0",
     "next": "13.5.4",
@@ -49,6 +50,7 @@
     "react-day-picker": "^8.9.0",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
+    "recharts": "^2.9.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
