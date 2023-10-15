@@ -14,13 +14,13 @@ export const theme = {
 }
 
 export const metadata: Metadata = {
-    title: 'Sikundi Skeleton',
+    title: 'Sikundi io',
     description: 'Hehe Just a project',
     metadataBase: new URL(`${process.env.site_name}`),
     openGraph: {
-        title: 'Sikundi Skeleton',
-        description: 'Hehe Just a project',
-        siteName: "Sikundi Io",
+        title: 'Sikundi io',
+        description: 'The future of jam stack web architecture',
+        siteName: "Sikundi io",
         url: `${process.env.site_name}`,
         images: [
             {
