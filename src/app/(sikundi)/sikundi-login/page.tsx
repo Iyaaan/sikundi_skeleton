@@ -1,7 +1,7 @@
+import LogIn from '@sikundi/app/(sikundi)/sikundi-login/(forms)/log-in'
+
 export default function SignIn() {
     return (
-        <main className="container mx-auto p-4">
-
-        </main>
+        <LogIn />
     )
 }
