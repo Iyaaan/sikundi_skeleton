@@ -16,6 +16,7 @@ export const theme = {
 export const metadata: Metadata = {
     title: 'Sikundi Skeleton',
     description: 'Hehe Just a project',
+    metadataBase: new URL(`${process.env.site_name}`),
     openGraph: {
         title: 'Sikundi Skeleton',
         description: 'Hehe Just a project',
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
         url: `${process.env.site_name}`,
         images: [
             {
-              url: `${process.env.site_name}/og.png`,
+              url: `/og.png`,
               width: 800,
               height: 600,
             }
