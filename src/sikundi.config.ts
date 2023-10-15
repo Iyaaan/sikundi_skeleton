@@ -15,5 +15,20 @@ export const theme = {
 
 export const metadata: Metadata = {
     title: 'Sikundi Skeleton',
-    description: 'Hehe Just a project'
+    description: 'Hehe Just a project',
+    openGraph: {
+        title: 'Sikundi Skeleton',
+        description: 'Hehe Just a project',
+        siteName: "Sikundi Io",
+        url: `${process.env.site_name}`,
+        images: [
+            {
+              url: '/og.png',
+              width: 800,
+              height: 600,
+            }
+        ],
+        locale: 'en_US',
+        type: 'website'
+    }
 }
