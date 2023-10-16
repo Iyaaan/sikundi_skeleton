@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Model {
+  User
+  Role
+  Post
+  Category
+  Tag
+}
+
+enum UserStatus {
+  active
+  blocked
+}
+
+enum CrudAction {
+  create
+  update
+  delete
+}
+
+model Country {
+  id Int @id @default(autoincrement())
+
+  name   String
+  states State[] @relation("country")
+}
+
+model State {
+  id        Int      @id @default(autoincrement())
+  countryId Int?     @unique
+  country   Country? @relation("country", fields: [countryId], references: [id])
+
+  name   String
+  cities City[] @relation("state")
+}
+
+model City {
+  id      Int    @id @default(autoincrement())
+  stateId Int?   @unique
+  state   State? @relation("state", fields: [stateId], references: [id])
+
+  name String
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id])
+
+  userName         String
+  email            String
+  password         String
+  description      String
+  status           UserStatus
+  profilePictureId Int?       @unique
+  profilePicture   Media?     @relation("profilePicture", fields: [profilePictureId], references: [id])
+
+  logs                 Log[]      @relation("logs")
+  usersCreated         User[]     @relation("usersCreated")
+  rolesCreated         Role[]     @relation("rolesCreated")
+  mediasCreated        Media[]    @relation("mediasCreated")
+  libraryGroupsCreated Library[]  @relation("libraryCreated")
+  postsCreated         Post[]     @relation("postsCreated")
+  categoriesCreated    Category[] @relation("categoriesCreated")
+  tagsCreated          Tag[]      @relation("tagsCreated")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id])
+
+  name   String
+  model  Model
+  action CrudAction
+}
+
+model Log {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("logs", fields: [createdById], references: [id])
+
+  action       CrudAction
+  model        Model
+  previousData Json?
+  newData      Json?
+}
+
+model Media {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id])
+
+  posts Post[] @relation("postFeatureImage")
+  user  User[] @relation("profilePicture")
+
+  url         String
+  name        String
+  description String
+
+  libraryGroupId Int     @unique
+  libraryGroup   Library @relation("libraryGroup", fields: [libraryGroupId], references: [id])
+}
+
+model Library {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id])
+
+  name        String
+  description String
+  library     Media[] @relation("libraryGroup")
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id])
+
+  categoryId        Int?      @unique
+  category          Category? @relation("postsCategory", fields: [categoryId], references: [id])
+  featureImageUrlId Int?
+  featureImageUrl   Media?    @relation("postFeatureImage", fields: [featureImageUrlId], references: [id])
+
+  title     String
+  longTitle String
+  lead      Json
+
+  postsTags PostsTags[] @relation("postsTags")
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("categoriesCreated", fields: [createdById], references: [id])
+
+  name        String
+  description String
+
+  posts Post[] @relation("postsCategory")
+}
+
+model Tag {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?     @unique
+  createdBy   User?    @relation("tagsCreated", fields: [createdById], references: [id])
+
+  name        String
+  description String
+
+  tagsPosts PostsTags[] @relation("tagsPosts")
+}
+
+model PostsTags {
+  id     Int   @id @default(autoincrement())
+  postId Int
+  post   Post? @relation("postsTags", fields: [postId], references: [id])
+  tagId  Int
+  tag    Tag?  @relation("tagsPosts", fields: [tagId], references: [id])
+}
