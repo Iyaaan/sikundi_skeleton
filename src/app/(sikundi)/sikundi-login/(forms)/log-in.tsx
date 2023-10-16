@@ -1,5 +1,6 @@
 "use client"
 
+import { Fragment, useTransition } from "react"
 import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
@@ -11,22 +12,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { useToast } from "@sikundi/components/ui/use-toast"
-import { CreateUser } from "../actions"
-// @ts-ignore
-import { experimental_useFormState as useFormState } from 'react-dom'
-// @ts-ignore
-import { experimental_useFormStatus as useFormStatus } from 'react-dom'
-
 import { Loader2 } from "lucide-react"
-import { Fragment, useEffect } from "react"
+import { CreateUser } from "@sikundi/app/(sikundi)/sikundi-login/actions"
+
 
 export default function LogIn() {
+    const [isPending, startTransition] = useTransition()
+
     const { toast } = useToast()
-    const { pending } = useFormStatus()
-    const [state, formAction] = useFormState(CreateUser, {
-        email: '',
-        password: ''
-    })
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
         defaultValues: {
@@ -35,17 +28,17 @@ export default function LogIn() {
         }
     })
 
-    useEffect(() => {
-        console.log(state)
-        if(state) {
-            toast({
+    const onSubmit = form.handleSubmit((data) => {
+        startTransition(async () => {
+            // @ts-ignore
+            const res = await CreateUser(data)
+            if (res.error) toast({
                 variant: "destructive",
-                title: "SERVER ERROR",
-                description: `${JSON.stringify(state).replaceAll('"', ' ')}`,
-                action: <ToastAction altText="Try again">Try again</ToastAction>
+                action: <ToastAction altText="Try again">Try again</ToastAction>,
+                ...res.error
             })
-        }
-    }, [state])
+        });
+    });
     
     return (
         <Card className="w-full max-w-md">
@@ -60,7 +53,7 @@ export default function LogIn() {
             </CardHeader>
 
             <Form {...form}>
-                <form action={formAction}>
+                <form onSubmit={onSubmit}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
@@ -69,7 +62,7 @@ export default function LogIn() {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                    <Input placeholder='coffeedev@sikundi.io' {...field} />
+                                        <Input placeholder='coffeedev@sikundi.io' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -82,18 +75,18 @@ export default function LogIn() {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                    <Input
-                                        type='password'
-                                        placeholder='******'
-                                        {...field}
-                                    />
+                                        <Input
+                                            type='password'
+                                            placeholder='******'
+                                            {...field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4" type="submit">
-                            {pending ? 
+                        <Button className="w-full mb-4" type="submit" disabled={isPending} aria-disabled={isPending}>
+                            {isPending ? 
                             <Fragment>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Please wait
@@ -115,7 +108,7 @@ export default function LogIn() {
             </Form>
 
             <CardFooter>
-                <Button className="w-full" variant={"outline"} asChild disabled={pending}>
+                <Button className="w-full" variant={"outline"} asChild>
                     <Link href={{pathname: "/sikundi-login", query: {
                         "action": "lostpassword"
                     }}}>
