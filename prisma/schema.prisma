@@ -21,10 +21,13 @@ enum UserStatus {
   blocked
 }
 
-enum CrudAction {
+enum Action {
+  draft
+  publish
+  soft_delete
+  delete
   create
   update
-  delete
 }
 
 model Country {
@@ -85,7 +88,7 @@ model Role {
 
   name   String
   model  Model
-  action CrudAction
+  action Action
 }
 
 model Log {
@@ -95,7 +98,7 @@ model Log {
   createdById Int?     @unique
   createdBy   User?    @relation("logs", fields: [createdById], references: [id])
 
-  action       CrudAction
+  action       Action
   model        Model
   previousData Json?
   newData      Json?
