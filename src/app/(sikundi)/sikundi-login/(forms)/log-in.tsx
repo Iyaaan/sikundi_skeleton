@@ -17,10 +17,12 @@ import { experimental_useFormState as useFormState } from 'react-dom'
 // @ts-ignore
 import { experimental_useFormStatus as useFormStatus } from 'react-dom'
 
-import { useEffect } from "react"
+import { Loader2 } from "lucide-react"
+import { Fragment, useEffect } from "react"
 
 export default function LogIn() {
     const { toast } = useToast()
+    const { pending } = useFormStatus()
     const [state, formAction] = useFormState(CreateUser, {
         email: '',
         password: ''
@@ -39,7 +41,7 @@ export default function LogIn() {
             toast({
                 variant: "destructive",
                 title: "SERVER ERROR",
-                description: `${state}`,
+                description: `${JSON.stringify(state).replaceAll('"', ' ')}`,
                 action: <ToastAction altText="Try again">Try again</ToastAction>
             })
         }
@@ -90,7 +92,14 @@ export default function LogIn() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4" type="submit">Log In</Button>
+                        <Button className="w-full mb-4" type="submit">
+                            {pending ? 
+                            <Fragment>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </Fragment>
+                            : "Log In"}
+                        </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t" />
@@ -106,7 +115,7 @@ export default function LogIn() {
             </Form>
 
             <CardFooter>
-                <Button className="w-full" variant={"outline"} asChild>
+                <Button className="w-full" variant={"outline"} asChild disabled={pending}>
                     <Link href={{pathname: "/sikundi-login", query: {
                         "action": "lostpassword"
                     }}}>
