@@ -8,12 +8,23 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/action/schema"
+import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { useToast } from "@sikundi/components/ui/use-toast"
+import { CreateUser } from "../actions"
+// @ts-ignore
+import { experimental_useFormState as useFormState } from 'react-dom'
+// @ts-ignore
+import { experimental_useFormStatus as useFormStatus } from 'react-dom'
+
+import { useEffect } from "react"
 
 export default function LogIn() {
     const { toast } = useToast()
+    const [state, formAction] = useFormState(CreateUser, {
+        email: '',
+        password: ''
+    })
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
         defaultValues: {
@@ -21,15 +32,18 @@ export default function LogIn() {
             password: '',
         }
     })
-  
-    const onSubmit = form.handleSubmit((values: LogInSchemaType) => {
-        toast({
-            variant: "destructive",
-            title: "SERVER ERROR",
-            description: "unknown error happened at postgres://192.168.0.12:5453",
-            action: <ToastAction altText="Try again">Try again</ToastAction>
-        })
-    })
+
+    useEffect(() => {
+        console.log(state)
+        if(state) {
+            toast({
+                variant: "destructive",
+                title: "SERVER ERROR",
+                description: `${state}`,
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+        }
+    }, [state])
     
     return (
         <Card className="w-full max-w-md">
@@ -44,7 +58,7 @@ export default function LogIn() {
             </CardHeader>
 
             <Form {...form}>
-                <form onSubmit={onSubmit}>
+                <form action={formAction}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}

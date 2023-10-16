@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { verificationSchema, verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/action/schema"
+import { verificationSchema, verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
 
 export default function Verification() {
     const router = useRouter()
