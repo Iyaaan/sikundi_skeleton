@@ -68,6 +68,8 @@ model User {
   status           UserStatus
   profilePictureId Int?       @unique
   profilePicture   Media?     @relation("profilePicture", fields: [profilePictureId], references: [id])
+  roleId           Int?       @unique
+  role             Role?      @relation("roleUsers", fields: [roleId], references: [id])
 
   logs                 Log[]      @relation("logs")
   usersCreated         User[]     @relation("usersCreated")
@@ -86,9 +88,10 @@ model Role {
   createdById Int?     @unique
   createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id])
 
-  name   String        @unique
+  name        String @unique
+  permissions Json
 
-  permissions   Json
+  users User[] @relation("roleUsers")
 }
 
 model Log {
