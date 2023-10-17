@@ -62,7 +62,7 @@ model User {
   createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id])
 
   userName         String
-  email            String
+  email            String     @unique
   password         String
   description      String
   status           UserStatus
@@ -86,9 +86,19 @@ model Role {
   createdById Int?     @unique
   createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id])
 
-  name   String
+  name   String        @unique
+
+  permissions   Permission[]    @relation("rolePermissions")
+}
+
+model Permission {
+  id     Int      @id @default(autoincrement())
+  roleId Int?     @unique
+  role   Role?    @relation("rolePermissions", fields: [roleId], references: [id])
+
   model  Model
   action Action
+  fields Json
 }
 
 model Log {
