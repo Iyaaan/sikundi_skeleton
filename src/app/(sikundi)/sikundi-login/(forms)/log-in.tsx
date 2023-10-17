@@ -11,14 +11,30 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
-import axios from 'axios'
-import { Fragment, useEffect } from "react"
+import { Fragment } from "react"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
+import { PostHandler } from "@sikundi/lib/client/fetcher"
 
 export default function LogIn() {
     const { toast } = useToast()
-    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/log-in', async (url, { arg }: { arg: LogInSchemaType }) => await axios.post<any>(url, arg))
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/log-in', PostHandler<LogInSchemaType>, {
+        onSuccess: (data) => {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        },
+        onError: ({ response }) => {
+            toast({
+                title: response.data.error,
+                description: JSON.stringify(response.data.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+            
+        }
+    })
     
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
@@ -27,25 +43,6 @@ export default function LogIn() {
             password: ''
         }
     })
-
-    useEffect(() => {
-        console.log("rerender")
-        if (error) {
-            const err = error.response.data
-            toast({
-                title: err.error,
-                description: JSON.stringify(err.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
-            })
-        }
-        if (data) {
-            toast({
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-        }
-    }, [data, error, toast])
 
     return (
         <Card className="w-full max-w-md">

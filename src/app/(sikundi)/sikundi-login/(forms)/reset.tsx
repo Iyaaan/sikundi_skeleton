@@ -12,39 +12,36 @@ import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-log
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import useSWRMutation from 'swr/mutation'
-import axios from 'axios'
-import { Fragment, useEffect } from "react"
+import { Fragment } from "react"
 import { Loader2 } from "lucide-react"
+import { PostHandler } from "@sikundi/lib/client/fetcher"
 
 export default function Reset() {
-    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/reset', async (url, { arg }: { arg: resetSchemaType }) => await axios.post<any>(url, arg))
     const { toast } = useToast()
     const router = useRouter()
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/reset', PostHandler<resetSchemaType>, {
+        onSuccess: (data) => {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        },
+        onError: ({ response }) => {
+            toast({
+                title: response.data.error,
+                description: JSON.stringify(response.data.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+            
+        }
+    })
     const form = useForm<resetSchemaType>({
         resolver: zodResolver(resetSchema),
         defaultValues: {
             email: ''
         }
     })
-
-    useEffect(() => {
-        console.log("rerender")
-        if (error) {
-            const err = error.response.data
-            toast({
-                title: err.error,
-                description: JSON.stringify(err.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
-            })
-        }
-        if (data) {
-            toast({
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-        }
-    }, [data, error, toast])
 
     return (
         <Card className="w-full max-w-md">

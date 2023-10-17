@@ -10,41 +10,38 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { zodResolver } from '@hookform/resolvers/zod'
 import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/schema"
 import useSWRMutation from 'swr/mutation'
-import axios from 'axios'
-import { Fragment, useEffect } from "react"
+import { Fragment } from "react"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
+import { PostHandler } from "@sikundi/lib/client/fetcher"
 
 export default function Verification() {
     const { toast } = useToast()
     const router = useRouter()
-    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/verify', async (url, { arg }: { arg: verificationSchemaType }) => await axios.post<any>(url, arg))
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/verify', PostHandler<verificationSchemaType>, {
+        onSuccess: (data) => {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        },
+        onError: ({ response }) => {
+            toast({
+                title: response.data.error,
+                description: JSON.stringify(response.data.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+            
+        }
+    })
     const form = useForm<verificationSchemaType>({
         resolver: zodResolver(verificationSchema),
         defaultValues: {
             otp: ''
         }
     })
-
-    useEffect(() => {
-        console.log("rerender")
-        if (error) {
-            const err = error.response.data
-            toast({
-                title: err.error,
-                description: JSON.stringify(err.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
-            })
-        }
-        if (data) {
-            toast({
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-        }
-    }, [data, error, toast])
 
     return (
         <Card className="w-full max-w-md">
