@@ -41,7 +41,11 @@ export default function LogIn() {
                 title: response.data.notification.title || response.data.error.name,
                 description: response.data.notification.description || JSON.stringify(response.data.error.details),
                 variant: "destructive",
-                action: <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>Try again</ToastAction>
+                action: response.data.error.name !== "Validation Error" ? 
+                    <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                        Try again
+                    </ToastAction> 
+                : undefined
             })
         }
     })
