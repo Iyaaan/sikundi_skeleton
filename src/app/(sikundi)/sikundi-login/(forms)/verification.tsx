@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { verificationSchema, verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/route"
+import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/schema"
 import useSWRMutation from 'swr/mutation'
 import axios from 'axios'
 import { Fragment, useEffect } from "react"
@@ -28,6 +28,7 @@ export default function Verification() {
     })
 
     useEffect(() => {
+        console.log("rerender")
         if (error) {
             const err = error.response.data
             toast({
@@ -43,7 +44,7 @@ export default function Verification() {
                 description: JSON.stringify(data.data)
             })
         }
-    }, [data, error])
+    }, [data, error, toast])
 
     return (
         <Card className="w-full max-w-md">

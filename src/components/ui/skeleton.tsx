@@ -1,4 +1,4 @@
-import { cn } from "@sikundi/lib/utils"
+import { cn } from "@sikundi/lib/client/utils"
 
 function Skeleton({
   className,

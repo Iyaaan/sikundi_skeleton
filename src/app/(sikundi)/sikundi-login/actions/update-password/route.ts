@@ -1,11 +1,7 @@
 import { NextResponse, type NextRequest  } from 'next/server'
-import * as z from 'zod'
+import updatePasswordSchema from './schema'
 
-export const updatePasswordSchema = z.object({
-    password: z.string().min(1, 'Password is required').min(8, 'Password must have than 8 characters'),
-    confirm_password: z.string().min(1, 'Password is required').min(8, 'Password must have than 8 characters')
-})
-export async function updatePassword(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
         const data = await updatePasswordSchema.safeParseAsync(await request.json())
         if (!data.success) return NextResponse.json({ 
@@ -21,4 +17,3 @@ export async function updatePassword(request: NextRequest) {
         }, { status: 500 })
     }
 }
-export type updatePasswordSchemaType = z.infer<typeof updatePasswordSchema>

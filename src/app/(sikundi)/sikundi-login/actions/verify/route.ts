@@ -1,10 +1,7 @@
 import { NextResponse, type NextRequest  } from 'next/server'
-import * as z from 'zod'
+import verificationSchema from './schema'
 
-export const verificationSchema = z.object({
-    otp: z.string().min(1, 'Otp is required').min(4, 'Otp must have than 4 characters')
-})
-export async function verify(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
         const data = await verificationSchema.safeParseAsync(await request.json())
         if (!data.success) return NextResponse.json({ 
@@ -20,4 +17,3 @@ export async function verify(request: NextRequest) {
         }, { status: 500 })
     }
 }
-export type verificationSchemaType = z.infer<typeof verificationSchema>

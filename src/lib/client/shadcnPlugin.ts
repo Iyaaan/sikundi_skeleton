@@ -1,6 +1,6 @@
 import plugin from 'tailwindcss/plugin'
 import { hexToHslString } from './utils'
-import { theme } from "../sikundi.config"
+import { theme } from "../../sikundi.config"
 
 export const shadcnPlugin = plugin(
     function ({ addBase }) {

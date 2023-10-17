@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/route"
+import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import axios from 'axios'
@@ -29,6 +29,7 @@ export default function LogIn() {
     })
 
     useEffect(() => {
+        console.log("rerender")
         if (error) {
             const err = error.response.data
             toast({
@@ -44,7 +45,7 @@ export default function LogIn() {
                 description: JSON.stringify(data.data)
             })
         }
-    }, [data, error])
+    }, [data, error, toast])
 
     return (
         <Card className="w-full max-w-md">
