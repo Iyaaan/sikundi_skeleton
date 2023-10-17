@@ -14,6 +14,7 @@ import { Fragment } from "react"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
+import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 
 
 export default function PasswordUpdate() {
@@ -26,10 +27,12 @@ export default function PasswordUpdate() {
             })
         },
         onError: ({ response }) => {
-            if (response.data.error.name === "Validation Error") response?.data?.error?.details?.issues?.forEach((element:any) => {
+            zodErrorGenerator(response.data.error, (data) => form.setError(
                 // @ts-ignore
-                form.setError(String(element.path[0]), {message: (element.message || element.code)}, {shouldFocus: true})
-            })
+                data.field,
+                { message: data.message },
+                { shouldFocus: true }
+            ))
             toast({
                 title: response.data.notification.title || response.data.error.name,
                 description: response.data.notification.description || JSON.stringify(response.data.error.details),
