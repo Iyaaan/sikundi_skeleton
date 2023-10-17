@@ -88,17 +88,7 @@ model Role {
 
   name   String        @unique
 
-  permissions   Permission[]    @relation("rolePermissions")
-}
-
-model Permission {
-  id     Int      @id @default(autoincrement())
-  roleId Int?     @unique
-  role   Role?    @relation("rolePermissions", fields: [roleId], references: [id])
-
-  model  Model
-  action Action
-  fields Json
+  permissions   Json
 }
 
 model Log {
