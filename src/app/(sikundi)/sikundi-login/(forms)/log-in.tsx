@@ -8,23 +8,44 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/login/route"
+import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/route"
 import { useToast } from "@sikundi/components/ui/use-toast"
+import useSWRMutation from 'swr/mutation'
+import axios from 'axios'
+import { Fragment, useEffect } from "react"
+import { ToastAction } from "@sikundi/components/ui/toast"
+import { Loader2 } from "lucide-react"
 
 export default function LogIn() {
     const { toast } = useToast()
+    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/log-in', async (url, { arg }: { arg: LogInSchemaType }) => await axios.post<any>(url, arg))
+    
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
         defaultValues: {
             email: '',
-            password: '',
+            password: ''
         }
     })
 
-    const onSubmit = form.handleSubmit((data) => {
-        
-    });
-    
+    useEffect(() => {
+        if (error) {
+            const err = error.response.data
+            toast({
+                title: err.error,
+                description: JSON.stringify(err.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+        }
+        if (data) {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        }
+    }, [data, error])
+
     return (
         <Card className="w-full max-w-md">
             <CardHeader className="space-y-1">
@@ -38,7 +59,7 @@ export default function LogIn() {
             </CardHeader>
 
             <Form {...form}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={form.handleSubmit(data => trigger(data))}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
@@ -70,8 +91,13 @@ export default function LogIn() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4" type="submit">
-                            Log In
+                        <Button className="w-full mb-4" type="submit" disabled={isMutating} aria-disabled={isMutating}>
+                            {isMutating ? 
+                            <Fragment>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </Fragment>
+                            : "Log In"}
                         </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">

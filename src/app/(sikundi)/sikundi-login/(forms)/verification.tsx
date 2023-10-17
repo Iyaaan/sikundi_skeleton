@@ -9,19 +9,41 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { verificationSchema, verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/route"
+import useSWRMutation from 'swr/mutation'
+import axios from 'axios'
+import { Fragment, useEffect } from "react"
+import { useToast } from "@sikundi/components/ui/use-toast"
+import { ToastAction } from "@sikundi/components/ui/toast"
+import { Loader2 } from "lucide-react"
 
 export default function Verification() {
+    const { toast } = useToast()
     const router = useRouter()
+    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/verify', async (url, { arg }: { arg: verificationSchemaType }) => await axios.post<any>(url, arg))
     const form = useForm<verificationSchemaType>({
         resolver: zodResolver(verificationSchema),
         defaultValues: {
             otp: ''
         }
     })
-  
-    const onSubmit = form.handleSubmit((values: verificationSchemaType) => {
 
-    })
+    useEffect(() => {
+        if (error) {
+            const err = error.response.data
+            toast({
+                title: err.error,
+                description: JSON.stringify(err.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+        }
+        if (data) {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        }
+    }, [data, error])
 
     return (
         <Card className="w-full max-w-md">
@@ -37,7 +59,7 @@ export default function Verification() {
 
 
             <Form {...form}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={form.handleSubmit(data => trigger(data))}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
@@ -56,7 +78,14 @@ export default function Verification() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4">Verify</Button>
+                        <Button className="w-full mb-4" type={"submit"}>
+                            {isMutating ? 
+                            <Fragment>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </Fragment>
+                            : "Verify"}
+                        </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t" />

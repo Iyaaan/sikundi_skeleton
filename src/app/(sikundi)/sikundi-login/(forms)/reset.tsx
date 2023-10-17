@@ -11,25 +11,39 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { resetSchema, resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/reset/route"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
+import useSWRMutation from 'swr/mutation'
+import axios from 'axios'
+import { Fragment, useEffect } from "react"
+import { Loader2 } from "lucide-react"
 
 export default function Reset() {
+    const { trigger, isMutating, data, error } = useSWRMutation('/sikundi-login/actions/reset', async (url, { arg }: { arg: resetSchemaType }) => await axios.post<any>(url, arg))
+    const { toast } = useToast()
+    const router = useRouter()
     const form = useForm<resetSchemaType>({
         resolver: zodResolver(resetSchema),
         defaultValues: {
             email: ''
         }
     })
-    const { toast } = useToast()
-    const router = useRouter()
-  
-    const onSubmit = form.handleSubmit((values: resetSchemaType) => {
-        toast({
-            variant: "destructive",
-            title: "SERVER ERROR",
-            description: "unknown error happened at postgres://192.168.0.12:5453",
-            action: <ToastAction altText="Try again">Try again</ToastAction>
-        })
-    })
+
+    useEffect(() => {
+        if (error) {
+            const err = error.response.data
+            toast({
+                title: err.error,
+                description: JSON.stringify(err.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again">Try again</ToastAction>
+            })
+        }
+        if (data) {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        }
+    }, [data, error])
 
     return (
         <Card className="w-full max-w-md">
@@ -45,7 +59,7 @@ export default function Reset() {
 
 
             <Form {...form}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={form.handleSubmit(data => trigger(data))}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
@@ -60,7 +74,15 @@ export default function Reset() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4">Reset</Button>
+                        
+                        <Button className="w-full mb-4" type={"submit"}>
+                            {isMutating ? 
+                            <Fragment>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </Fragment>
+                            : "Reset"}
+                        </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t" />
