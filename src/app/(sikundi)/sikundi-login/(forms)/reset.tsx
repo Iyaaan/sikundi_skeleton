@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { resetSchema, resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
+import { resetSchema, resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/reset/route"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
 
@@ -22,14 +22,14 @@ export default function Reset() {
     const { toast } = useToast()
     const router = useRouter()
   
-    const onSubmit = (values: resetSchemaType) => {
+    const onSubmit = form.handleSubmit((values: resetSchemaType) => {
         toast({
             variant: "destructive",
             title: "SERVER ERROR",
             description: "unknown error happened at postgres://192.168.0.12:5453",
             action: <ToastAction altText="Try again">Try again</ToastAction>
         })
-    }
+    })
 
     return (
         <Card className="w-full max-w-md">
@@ -45,7 +45,7 @@ export default function Reset() {
 
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form onSubmit={onSubmit}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}

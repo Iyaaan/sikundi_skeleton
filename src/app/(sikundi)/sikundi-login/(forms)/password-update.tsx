@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { updatePasswordSchema, updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
+import { updatePasswordSchema, updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/update-password/route"
 
 
 export default function PasswordUpdate() {

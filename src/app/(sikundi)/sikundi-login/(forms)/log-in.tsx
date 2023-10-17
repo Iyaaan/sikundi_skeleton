@@ -1,6 +1,5 @@
 "use client"
 
-import { Fragment, useTransition } from "react"
 import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
@@ -9,16 +8,10 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/schema"
-import { ToastAction } from "@sikundi/components/ui/toast"
+import { LogInSchema, LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/login/route"
 import { useToast } from "@sikundi/components/ui/use-toast"
-import { Loader2 } from "lucide-react"
-import { CreateUser } from "@sikundi/app/(sikundi)/sikundi-login/actions"
-
 
 export default function LogIn() {
-    const [isPending, startTransition] = useTransition()
-
     const { toast } = useToast()
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
@@ -29,15 +22,7 @@ export default function LogIn() {
     })
 
     const onSubmit = form.handleSubmit((data) => {
-        startTransition(async () => {
-            // @ts-ignore
-            const res = await CreateUser(data)
-            if (res.error) toast({
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-                ...res.error
-            })
-        });
+        
     });
     
     return (
@@ -85,13 +70,8 @@ export default function LogIn() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4" type="submit" disabled={isPending} aria-disabled={isPending}>
-                            {isPending ? 
-                            <Fragment>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Please wait
-                            </Fragment>
-                            : "Log In"}
+                        <Button className="w-full mb-4" type="submit">
+                            Log In
                         </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
