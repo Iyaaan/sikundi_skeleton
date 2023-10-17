@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/reset/schema"
+import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/reset/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import useSWRMutation from 'swr/mutation'
@@ -19,7 +19,7 @@ import { PostHandler } from "@sikundi/lib/client/fetcher"
 export default function Reset() {
     const { toast } = useToast()
     const router = useRouter()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/reset', PostHandler<resetSchemaType>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/reset', PostHandler<resetSchemaType>, {
         onSuccess: (data) => {
             toast({
                 title: "successfully submitted",
@@ -27,13 +27,16 @@ export default function Reset() {
             })
         },
         onError: ({ response }) => {
-            toast({
-                title: response.data.error,
-                description: JSON.stringify(response.data.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
+            if (response.data.error.name === "Validation Error") response?.data?.error?.details?.issues?.forEach((element:any) => {
+                // @ts-ignore
+                form.setError(String(element.path[0]), {message: (element.message || element.code)}, {shouldFocus: true})
             })
-            
+            toast({
+                title: response.data.notification.title || response.data.error.name,
+                description: response.data.notification.description || JSON.stringify(response.data.error.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>Try again</ToastAction>
+            })
         }
     })
     const form = useForm<resetSchemaType>({

@@ -6,16 +6,28 @@ export default async function ErrorHandlerWrapper(request: NextRequest, schema: 
         const data = await schema.safeParseAsync(await request.json())
         if (!data.success) {
             return NextResponse.json({ 
-                error: 'Validation Error',
-                details: data.error
+                error: {
+                    name: 'Validation Error',
+                    details: data.error
+                },
+                notification: {
+                    title: 'Validation Error',
+                    description: 'Your submitted inputs are not valid'
+                }
             }, { status: 403 })
         }
     
         return await responseCallback(data.data)
     } catch (e) {
         return NextResponse.json({ 
-            error: 'Internal Server Error',
-            details: e
+            error: {
+                name: "Server Error",
+                detail: e
+            },
+            notification: {
+                title: 'Internal Server Error',
+                description: 'An unidentified error has occured. please contact your sys-admin'
+            }
         }, { status: 500 })
     }
 }

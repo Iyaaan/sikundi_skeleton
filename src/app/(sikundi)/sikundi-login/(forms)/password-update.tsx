@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import updatePasswordSchema, { updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/update-password/schema"
+import updatePasswordSchema, { updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/update-password/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"
@@ -18,7 +18,7 @@ import { PostHandler } from "@sikundi/lib/client/fetcher"
 
 export default function PasswordUpdate() {
     const { toast } = useToast()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/update-password', PostHandler<updatePasswordSchemaType>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/update-password', PostHandler<updatePasswordSchemaType>, {
         onSuccess: (data) => {
             toast({
                 title: "successfully submitted",
@@ -26,13 +26,16 @@ export default function PasswordUpdate() {
             })
         },
         onError: ({ response }) => {
-            toast({
-                title: response.data.error,
-                description: JSON.stringify(response.data.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
+            if (response.data.error.name === "Validation Error") response?.data?.error?.details?.issues?.forEach((element:any) => {
+                // @ts-ignore
+                form.setError(String(element.path[0]), {message: (element.message || element.code)}, {shouldFocus: true})
             })
-            
+            toast({
+                title: response.data.notification.title || response.data.error.name,
+                description: response.data.notification.description || JSON.stringify(response.data.error.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>Try again</ToastAction>
+            })
         }
     })
 

@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
+import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"
@@ -18,7 +18,14 @@ import { PostHandler } from "@sikundi/lib/client/fetcher"
 
 export default function LogIn() {
     const { toast } = useToast()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/actions/log-in', PostHandler<LogInSchemaType>, {
+    const form = useForm<LogInSchemaType>({
+        resolver: zodResolver(LogInSchema),
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+    })
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/log-in', PostHandler<LogInSchemaType>, {
         onSuccess: (data) => {
             toast({
                 title: "successfully submitted",
@@ -26,21 +33,16 @@ export default function LogIn() {
             })
         },
         onError: ({ response }) => {
-            toast({
-                title: response.data.error,
-                description: JSON.stringify(response.data.details),
-                variant: "destructive",
-                action: <ToastAction altText="Try again">Try again</ToastAction>
+            if (response.data.error.name === "Validation Error") response?.data?.error?.details?.issues?.forEach((element:any) => {
+                // @ts-ignore
+                form.setError(String(element.path[0]), {message: (element.message || element.code)}, {shouldFocus: true})
             })
-            
-        }
-    })
-    
-    const form = useForm<LogInSchemaType>({
-        resolver: zodResolver(LogInSchema),
-        defaultValues: {
-            email: '',
-            password: ''
+            toast({
+                title: response.data.notification.title || response.data.error.name,
+                description: response.data.notification.description || JSON.stringify(response.data.error.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>Try again</ToastAction>
+            })
         }
     })
 
