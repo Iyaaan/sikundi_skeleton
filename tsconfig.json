@@ -22,6 +22,6 @@
       "@sikundi/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/seeders/roles.mts", "src/seeders/index.mts", "src/seeders/users.mts"],
   "exclude": ["node_modules"]
 }
