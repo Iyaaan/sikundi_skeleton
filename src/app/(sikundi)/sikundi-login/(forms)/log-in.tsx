@@ -16,9 +16,11 @@ import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { zodErrorGenerator } from "@sikundi/lib/client/utils"
+import { useRouter } from "next/navigation"
 
 export default function LogIn() {
     const { toast } = useToast()
+    const router = useRouter()
     const form = useForm<LogInSchemaType>({
         resolver: zodResolver(LogInSchema),
         defaultValues: {
@@ -32,6 +34,7 @@ export default function LogIn() {
                 title: "successfully submitted",
                 description: JSON.stringify(data.data)
             })
+            router.replace("/sikundi-admin")
         },
         onError: ({ response }) => {
             zodErrorGenerator(response.data.error, (data) => form.setError(

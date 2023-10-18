@@ -3,7 +3,7 @@ import LogInSchema, { LogInSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/ErrorHandlerWrapper'
 import bcrypt from 'bcrypt'
 import { prisma } from '@sikundi/lib/server/prisma'
-import jwt from 'jsonwebtoken'
+import * as jose from 'jose'
 import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
@@ -22,7 +22,15 @@ export async function POST(request: NextRequest) {
         }
 
         if (await bcrypt.compare(data.password, user.password)) {
-            const token = jwt.sign({ ...user, password:undefined }, String(process.env.ACCESS_TOKEN_SECRET), { expiresIn: '30d' })
+            const token = await (new jose.SignJWT({ ...user, password:undefined })
+                .setProtectedHeader({ alg: "HS256" })
+                .setSubject("sikundi")
+                .setIssuedAt()
+                .setIssuer(`${process.env.SITE_NAME}`)
+                .setAudience(`${process.env.SITE_NAME}/sikundi-admin`)
+                .setExpirationTime("30d")
+                .sign(new TextEncoder().encode(`${process.env.ACCESS_TOKEN_SECRET}`)))
+            
             cookies().set({
                 name: 'token',
                 value: token,

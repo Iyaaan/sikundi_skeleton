@@ -1,48 +1,49 @@
 import { NextResponse, type NextFetchEvent, type NextMiddleware, type NextRequest } from 'next/server'
 import { cookies, headers } from 'next/headers'
-import jwt from 'jsonwebtoken'
+import * as jose from 'jose'
+import getUser from '@sikundi/lib/server/getUser'
 
 export function sikundiMiddleware(middleware: NextMiddleware) {
     return async (request: NextRequest, event: NextFetchEvent) => {
-        const headersList = headers()
-        const cookieStore = cookies()
-        const csrf = headersList.get('X-CSRF-Token')
-        const token = cookieStore.get('token')
-        if(request.nextUrl.pathname.startsWith("/sikundi-login")) {
-
-
+        if (request.nextUrl.pathname.startsWith("/sikundi-login") || request.nextUrl.pathname.startsWith("/sikundi-admin")) {
+            const expectsJson = headers().get('Accept') === "application/json"
+            const user = await getUser()
             
-        }
-        if(request.nextUrl.pathname.startsWith("/sikundi-admin")) {
-            try {
-                jwt.verify(String(token?.value), String(process.env.ACCESS_TOKEN_SECRET))
-            } catch (error) {
-                return NextResponse.json({ 
-                    error: {
-                        name: "Authentication Error",
-                        detail: "jwt mismatch"
-                    },
-                    notification: {
-                        title: 'Authentication error',
-                        description: 'Your authentication is wrong. please log in to continue'
+            if(request.nextUrl.pathname.startsWith("/sikundi-admin")) {
+                if (!user) {
+                    if(expectsJson) {
+                        return NextResponse.json({ 
+                            error: {
+                                name: "Authentication Error",
+                                detail: "jwt mismatch"
+                            },
+                            notification: {
+                                title: 'Authentication error',
+                                description: 'Your authentication is wrong. please log in to continue'
+                            }
+                        }, { status: 401 })
                     }
-                }, { status: 401 })
+                    return NextResponse.redirect(new URL('/sikundi-login', request.url))
+                }
             }
 
-
-        }
-        if(String(request.method).toUpperCase() !== "GET" && csrf !== process.env.CSRF_SECRET) {
-            return NextResponse.json({ 
-                error: {
-                    name: "Authentication Error",
-                    detail: "CSRF Missing"
-                },
-                notification: {
-                    title: 'Auth error',
-                    description: 'your csrf token is missing. please reload and try again'
+            
+            if(request.nextUrl.pathname.startsWith("/sikundi-login")) {
+                if (user) {
+                    if(expectsJson) {
+                        return NextResponse.json({ 
+                            data: {
+                                token: request.cookies.get('token')
+                            },
+                            notification: {
+                                title: 'Login Successfully',
+                                description: 'welcome to your workspace'
+                            }
+                        }, { status: 200 })
+                    }
+                    return NextResponse.redirect(new URL('/sikundi-admin', request.url))
                 }
-            }, { status: 401 })
-
+            }
         }
         return middleware(request, event)
     }
