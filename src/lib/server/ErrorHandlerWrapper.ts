@@ -19,7 +19,6 @@ export default async function ErrorHandlerWrapper(request: NextRequest, schema: 
     
         return await responseCallback(data.data)
     } catch (e:any) {
-        console.log(e)
         return NextResponse.json({ 
             error: {
                 name: "Server Error",

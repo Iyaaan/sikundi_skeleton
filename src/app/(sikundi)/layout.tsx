@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import { ReactNode } from 'react'
 export { metadata } from '@sikundi/sikundi.config'
 import { Toaster } from "@sikundi/components/ui/toaster"
+import CsrfProvider from '@sikundi/components/csrf-provider'
 
 const inter = localFont({
     src: [
@@ -117,7 +118,9 @@ export default function RootLayout(props: Props) {
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {props.children}
+                    <CsrfProvider token={String(1)}>
+                        {props.children}
+                    </CsrfProvider>
                 </ThemeProvider>
                 <Toaster />
             </body>
