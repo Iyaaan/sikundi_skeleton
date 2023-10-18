@@ -6,6 +6,7 @@ declare global {
             DATABASE_URL: String            
             SHADOW_DATABASE_URL: String            
             REDIS_URL: String            
+            CSRF_SECRET: String         
         }
     }
 }

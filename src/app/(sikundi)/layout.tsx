@@ -118,7 +118,7 @@ export default function RootLayout(props: Props) {
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <CsrfProvider token={String(1)}>
+                    <CsrfProvider token={String(process.env.CSRF_SECRET)}>
                         {props.children}
                     </CsrfProvider>
                 </ThemeProvider>
