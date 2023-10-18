@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import { prisma } from '@sikundi/lib/server/prisma'
 import * as jose from 'jose'
 import { cookies } from 'next/headers'
+import { sessionMaxDays } from '@sikundi/sikundi.config'
 
 export async function POST(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, LogInSchema, async (data:LogInSchemaType) => {
@@ -28,14 +29,15 @@ export async function POST(request: NextRequest) {
                 .setIssuedAt()
                 .setIssuer(`${process.env.SITE_NAME}`)
                 .setAudience(`${process.env.SITE_NAME}/sikundi-admin`)
-                .setExpirationTime("30d")
+                .setExpirationTime(`${sessionMaxDays}d`)
                 .sign(new TextEncoder().encode(`${process.env.ACCESS_TOKEN_SECRET}`)))
+
             
             cookies().set({
                 name: 'token',
                 value: token,
                 httpOnly: true,
-                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                maxAge: sessionMaxDays * 24 * 60 * 60,
                 secure: true
             })
             return NextResponse.json({ 

@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import LogOutSchema, { LogOutSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/ErrorHandlerWrapper'
-import { prisma } from '@sikundi/lib/server/prisma'
 import { cookies } from 'next/headers'
 import getUser from '@sikundi/lib/server/getUser'
 

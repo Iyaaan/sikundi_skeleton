@@ -6,7 +6,7 @@ interface Props {
 
 export default function SikundiAdminLayout(props: Props) {
     return (
-        <main>
+        <main className="">
             {props.children}
         </main>
     )

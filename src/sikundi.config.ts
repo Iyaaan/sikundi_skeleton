@@ -33,3 +33,5 @@ export const metadata: Metadata = {
         type: 'website'
     }
 }
+
+export const sessionMaxDays = 30
