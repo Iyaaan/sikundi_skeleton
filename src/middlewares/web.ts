@@ -6,11 +6,8 @@ export function webMiddleware(middleware: NextMiddleware) {
         const headersList = headers()
         const csrf = headersList.get('X-CSRF-Token')
         if(!request.nextUrl.pathname.startsWith("/sikundi-login") && !request.nextUrl.pathname.startsWith("/sikundi-admin")) {
+
             
-
-
-
-
 
             
         }
