@@ -26,9 +26,9 @@ export default function LogIn() {
             password: ''
         }
     })
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/log-in', PostHandler<LogInSchemaType>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/log-in', PostHandler<any>, {
         onSuccess: (data) => {
-            toast({
+            toast(data?.data?.notification || {
                 title: "successfully submitted",
                 description: JSON.stringify(data.data)
             })

@@ -1,4 +1,5 @@
 import { prisma } from "@sikundi/lib/server/prisma"
+import bcrypt from 'bcrypt'
 
 const users = [
     {
@@ -18,9 +19,9 @@ const users = [
 export default async function seed() {
     await Promise.all([users.forEach(async (user) => console.table(await prisma.user.upsert({
         // @ts-ignore
-        create: user,
+        create: {...user, password: String(await bcrypt.hash(user.password, 10))},
         // @ts-ignore
-        update: user,
+        update: {...user, password: String(await bcrypt.hash(user.password, 10))},
         where: {
             email: user.email
         }

@@ -28,6 +28,6 @@ export default async function ErrorHandlerWrapper(request: NextRequest, schema: 
                 title: 'Internal Server Error',
                 description: 'An unidentified error has occured. please contact your sys-admin'
             }
-        }, { status: 500 })
+        }, { status: e?.statusCode || 500 })
     }
 }
