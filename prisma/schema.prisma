@@ -66,9 +66,9 @@ model User {
   password         String
   description      String
   status           UserStatus
-  profilePictureId Int?       @unique
+  profilePictureId Int?       
   profilePicture   Media?     @relation("profilePicture", fields: [profilePictureId], references: [id])
-  roleId           Int?       @unique
+  roleId           Int?       
   role             Role?      @relation("roleUsers", fields: [roleId], references: [id])
 
   logs                 Log[]      @relation("logs")
