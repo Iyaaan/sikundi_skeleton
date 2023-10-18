@@ -3,18 +3,16 @@ import LogOutSchema, { LogOutSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/ErrorHandlerWrapper'
 import { prisma } from '@sikundi/lib/server/prisma'
 import { cookies } from 'next/headers'
+import getUser from '@sikundi/lib/server/getUser'
 
 export async function POST(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, LogOutSchema, async (data:LogOutSchemaType) => {
-        const user = await prisma.user.findUnique({where: {
-            email: data.email,
-            status: "active"
-        }})
+        const user:any = await getUser()
         
-        if (!user?.email) throw {
+        if (!user) throw {
             notification: {
                 title: "user not found",
-                description: `there is no active account under ${data.email}.`
+                description: `there is no active account under ${user?.email}.`
             },
             statusCode: 404
         }

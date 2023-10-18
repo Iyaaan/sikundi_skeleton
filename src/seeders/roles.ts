@@ -3,7 +3,15 @@ import { prisma } from "@sikundi/lib/server/prisma"
 const roles = [
     {
         name: "Admin",
-        permissions: {}
+        permissions: {
+            
+        }
+    },
+    {
+        name: "Editor",
+        permissions: {
+
+        }
     }
 ]
 

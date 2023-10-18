@@ -28,7 +28,7 @@ export function sikundiMiddleware(middleware: NextMiddleware) {
             }
 
             
-            if(request.nextUrl.pathname.startsWith("/sikundi-login")) {
+            if(request.nextUrl.pathname.startsWith("/sikundi-login") && request.nextUrl.pathname !== "/sikundi-login/log-out") {
                 if (user) {
                     if(expectsJson) {
                         return NextResponse.json({ 

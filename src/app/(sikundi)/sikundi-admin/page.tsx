@@ -1,10 +1,13 @@
 import getUser from "@sikundi/lib/server/getUser"
+import LogOut from "../_components/logout"
+import H3 from "@sikundi/components/ui/typography/h3"
 
 export default async function Dashboard() {
     const user = await getUser()
     return (
         <main className="container mx-auto p-4">
-            <h1>Welcome {String(user?.payload?.email)}</h1>
+            <H3>Welcome {String(user?.payload?.email)}</H3>
+            <LogOut />
         </main>
     )
 }
