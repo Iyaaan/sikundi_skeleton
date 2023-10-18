@@ -7,6 +7,7 @@ declare global {
             SHADOW_DATABASE_URL: String            
             REDIS_URL: String            
             CSRF_SECRET: String         
+            ACCESS_TOKEN_SECRET: String
         }
     }
 }

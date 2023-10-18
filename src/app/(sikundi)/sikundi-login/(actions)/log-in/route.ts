@@ -3,6 +3,8 @@ import LogInSchema, { LogInSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/ErrorHandlerWrapper'
 import bcrypt from 'bcrypt'
 import { prisma } from '@sikundi/lib/server/prisma'
+import jwt from 'jsonwebtoken'
+import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, LogInSchema, async (data:LogInSchemaType) => {
@@ -20,9 +22,17 @@ export async function POST(request: NextRequest) {
         }
 
         if (await bcrypt.compare(data.password, user.password)) {
+            const token = jwt.sign({ ...user, password:undefined }, String(process.env.ACCESS_TOKEN_SECRET), { expiresIn: '30d' })
+            cookies().set({
+                name: 'token',
+                value: token,
+                httpOnly: true,
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                secure: true
+            })
             return NextResponse.json({ 
                 data: {
-                    
+                    token: token
                 },
                 notification: {
                     title: 'Login Successfully',
