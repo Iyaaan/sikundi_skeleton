@@ -16,7 +16,7 @@ const users = [
 ]
 
 export default async function seed() {
-    console.table(await Promise.all([users.forEach(async (user) => prisma.user.upsert({
+    await Promise.all([users.forEach(async (user) => console.table(await prisma.user.upsert({
         // @ts-ignore
         create: user,
         // @ts-ignore
@@ -24,7 +24,7 @@ export default async function seed() {
         where: {
             email: user.email
         }
-    }))]))
+    })))])
 
     console.log("Users Seeded!")
 }

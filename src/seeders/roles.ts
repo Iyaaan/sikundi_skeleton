@@ -8,7 +8,7 @@ const roles = [
 ]
 
 export default async function seed() {
-    console.table(await Promise.all([roles.forEach(async (role) => prisma.role.upsert({
+    await Promise.all([roles.forEach(async (role) => console.table(await prisma.role.upsert({
         // @ts-ignore
         create: role,
         // @ts-ignore
@@ -16,7 +16,7 @@ export default async function seed() {
         where: {
             name: role.name
         }
-    }))]))
+    })))])
 
     console.log("Roles Seeded!")
 }
