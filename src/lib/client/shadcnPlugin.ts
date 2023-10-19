@@ -1,6 +1,4 @@
 import plugin from 'tailwindcss/plugin'
-import { hexToHslString } from './utils'
-import { theme } from "../../sikundi.config"
 
 export const shadcnPlugin = plugin(
     function ({ addBase }) {
@@ -12,8 +10,8 @@ export const shadcnPlugin = plugin(
                 "--card-foreground": "0 0% 3.9%",
                 "--popover": "0 0% 100%",
                 "--popover-foreground": "0 0% 3.9%",
-                "--primary": hexToHslString(theme.primary.DEFAULT.background),
-                "--primary-foreground": hexToHslString(theme.primary.DEFAULT.foreground),
+                "--primary": "358 72% 46%",
+                "--primary-foreground": "255, 0%, 100%",
                 "--secondary": "0 0% 96.1%",
                 "--secondary-foreground": "0 0% 9%",
                 "--muted": "0 0% 96.1%",
@@ -34,8 +32,8 @@ export const shadcnPlugin = plugin(
                 "--card-foreground": "0 0% 98%",
                 "--popover": "0 0% 3.9%",
                 "--popover-foreground": "0 0% 98%",
-                "--primary": hexToHslString(theme.primary.dark.background),
-                "--primary-foreground": hexToHslString(theme.primary.dark.foreground),
+                "--primary": "358 72% 46%",
+                "--primary-foreground": "255, 0%, 100%",
                 "--secondary": "0 0% 14.9%",
                 "--secondary-foreground": "0 0% 98%",
                 "--muted": "0 0% 14.9%",
