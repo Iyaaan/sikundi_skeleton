@@ -10,7 +10,8 @@
         "db:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
         "orm:generate": "dotenv -e .env.local -- npx prisma generate",
         "orm:studio": "dotenv -e .env.local -- npx prisma studio",
-        "lint": "next lint"
+        "lint": "next lint",
+        "deploy": "git checkout . && git pull && npm run build && pm2 reload sikundi"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.3.2",
