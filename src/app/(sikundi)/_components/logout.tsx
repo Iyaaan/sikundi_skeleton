@@ -6,14 +6,15 @@ import { Form } from '@sikundi/components/ui/form'
 import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
-import { Fragment } from "react"
+import { Fragment, ReactNode } from "react"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
+import { DropdownMenuItem } from "@sikundi/components/ui/dropdown-menu"
 
-export default function LogOut() {
+export default function LogOut({children}: {children: ReactNode}) {
     const { toast } = useToast()
     const router = useRouter()
     const form = useForm<LogInSchemaType>()
@@ -49,14 +50,14 @@ export default function LogOut() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(data => trigger(data))}>
-                <Button className="w-full mb-4" type="submit" disabled={isMutating} aria-disabled={isMutating}>
+                <DropdownMenuItem disabled={isMutating} aria-disabled={isMutating} onClick={form.handleSubmit(data => trigger(data))}>
                     {isMutating ? 
                     <Fragment>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Please wait
                     </Fragment>
-                    : "Log Out"}
-                </Button>
+                    : children || "Log Out"}
+                </DropdownMenuItem>
             </form>
         </Form>
     )
