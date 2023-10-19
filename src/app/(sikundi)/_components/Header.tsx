@@ -3,13 +3,13 @@ import LogOut from "../_components/logout"
 import ThemeSwitcher from "@sikundi/components/ui/theme-switcher"
 import { Avatar, AvatarFallback, AvatarImage } from "@sikundi/components/ui/avatar"
 import { Button } from "@sikundi/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@sikundi/components/ui/dropdown-menu"
-import { Input } from "@sikundi/components/ui/input"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@sikundi/components/ui/dropdown-menu"
 import Image from "next/image"
 import getUser from "@sikundi/lib/server/getUser"
 import H1 from '@sikundi/components/ui/typography/h1'
 import { SheetTrigger } from '@sikundi/components/ui/sheet'
 import { MoreVertical } from 'lucide-react'
+import Search from './Search'
 
 export default async function Header () {
     const user = await getUser()
@@ -22,11 +22,7 @@ export default async function Header () {
                         <H1 className="text-2xl text-center font-bold hidden lg:block">Sikundi.io</H1>
                     </div>
                     <div className="flex-1">
-                        <Input
-                            type="search"
-                            placeholder="Search..."
-                            className="md:w-[150px] lg:w-[400px]"
-                        />
+                        <Search />
                     </div>
                     <ThemeSwitcher />
                     <DropdownMenu>

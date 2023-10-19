@@ -4,6 +4,7 @@ import { cn } from '@sikundi/lib/client/utils'
 import React, { Fragment } from 'react'
 import { menuItems } from '@sikundi/sikundi.config'
 import { ScrollArea } from '@sikundi/components/ui/scroll-area'
+import Link from 'next/link'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -31,9 +32,11 @@ export function SideBar(props:SidebarProps) {
                         </h2>
                         <div className="space-y-1">
                             {item.items.map((child, key) => (
-                                <Button key={key} variant={(index===0 && key === 0) ? "secondary" : "ghost"} className="w-full justify-start">
-                                    <child.Icon className='h-5 w-5 me-3' />
-                                    {child.name}
+                                <Button asChild key={key} variant={(index===0 && key === 0) ? "secondary" : "ghost"} className="w-full justify-start">
+                                    <Link href={child.link}>
+                                        <child.Icon className='h-5 w-5 me-3' />
+                                        {child.name}
+                                    </Link>
                                 </Button>
                             ))}
                         </div>
