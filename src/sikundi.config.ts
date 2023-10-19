@@ -4,7 +4,6 @@ import { Bell, File, FileImage, ImageIcon, LayoutDashboard, LibraryIcon, LucideI
 export const metadata: Metadata = {
     title: 'Sikundi io',
     description: 'Hehe Just a project',
-    // metadataBase: new URL(`${process.env.SITE_NAME}`),
     openGraph: {
         title: 'Sikundi io',
         description: 'The future of jam stack web architecture',
