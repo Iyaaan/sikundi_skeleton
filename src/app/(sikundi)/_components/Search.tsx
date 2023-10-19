@@ -27,11 +27,11 @@ export default function Search() {
         <Fragment>
             <Button 
                 variant="outline"
-                className="md:w-[150px] lg:w-[400px] text-muted-foreground justify-between w-full"
+                className="md:w-[150px] lg:w-[400px] text-muted-foreground justify-between w-full text-start"
                 onClick={()=>setOpen(true)}
             >
                 Search for actions...
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <kbd className="hidden lg:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                     <span className="text-xs">⌘</span>J
                 </kbd>
             </Button>
