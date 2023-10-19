@@ -43,7 +43,7 @@ export default function Search() {
                         <Fragment key={index}>
                             <CommandGroup heading={item.title} key={index} className='my-3'>
                                 {item.items.map((child, key) => (
-                                    <CommandItem key={key}>
+                                    <CommandItem key={key} className='my-1'>
                                         <Link href={child.link} className='flex'>
                                             <child.Icon className='h-5 w-5 me-3' />
                                             {child.name}
