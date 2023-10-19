@@ -40,7 +40,7 @@ export default function Search() {
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     {menuItems.map((item, index) => (
-                        <Fragment>
+                        <Fragment key={index}>
                             <CommandGroup heading={item.title} key={index} className='my-3'>
                                 {item.items.map((child, key) => (
                                     <CommandItem key={key}>
