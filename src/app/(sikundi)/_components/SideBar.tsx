@@ -1,38 +1,13 @@
 import { Button } from '@sikundi/components/ui/button'
 import { SheetContent } from '@sikundi/components/ui/sheet'
 import { cn } from '@sikundi/lib/client/utils'
-import { File, Image, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay } from 'lucide-react'
 import React, { Fragment } from 'react'
+import { menuItems } from '@sikundi/sikundi.config'
+import { ScrollArea } from '@sikundi/components/ui/scroll-area'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-
-interface itemType {
-    title: string
-    items: {
-        name: string
-        link: string
-        Icon: LucideIcon
-    }[]
-}
-const items:itemType[] = [
-    {
-        title: "Dashboard",
-        items: [
-            { name: "Insights", link: "/", Icon: LayoutDashboard }
-        ]
-    },
-    {
-        title: "Collections",
-        items: [
-            { name: "Posts", link: "/", Icon: File },
-            { name: "Photos", link: "/", Icon: ImageIcon },
-            { name: "Videos", link: "/", Icon: MonitorPlay },
-            { name: "Library", link: "/", Icon: LibraryIcon }
-        ]
-    }
-]
 
 export default function SideBarContainer(props:SidebarProps) {
     return (
@@ -47,9 +22,9 @@ export default function SideBarContainer(props:SidebarProps) {
 
 export function SideBar(props:SidebarProps) {
     return (
-        <div className={cn("pb-12", props.className)}>
+        <ScrollArea className={cn("h-full", props.className)}>
             <div className="space-y-4 py-4">
-                {items.map((item, index) => (
+                {menuItems.map((item, index) => (
                     <div className="py-2" key={index}>
                         <h2 className="mb-2 text-lg font-semibold tracking-tight">
                             {item.title}
@@ -65,6 +40,6 @@ export function SideBar(props:SidebarProps) {
                     </div>
                 ))}
             </div>
-        </div>
+        </ScrollArea>
     )
 }
