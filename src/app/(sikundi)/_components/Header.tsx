@@ -8,6 +8,8 @@ import { Input } from "@sikundi/components/ui/input"
 import Image from "next/image"
 import getUser from "@sikundi/lib/server/getUser"
 import H1 from '@sikundi/components/ui/typography/h1'
+import { SheetTrigger } from '@sikundi/components/ui/sheet'
+import { MoreVertical } from 'lucide-react'
 
 export default async function Header () {
     const user = await getUser()
@@ -15,9 +17,9 @@ export default async function Header () {
         <div className="border-b">
             <div className="flex h-16 items-center px-4">
                 <div className="flex items-center space-x-4 w-full">
-                    <div className='flex w-[300px] items-center gap-4'>
-                        <Image src={"/sikundi.svg"} alt="sikundi logo" width={55} height={55} />
-                        <H1 className="text-3xl text-center font-semibold">Sikundi io</H1>
+                    <div className='flex lg:w-[300px] items-center gap-4'>
+                        <Image src={"/sikundi.svg"} alt="sikundi logo" width={45} height={45} />
+                        <H1 className="text-3xl text-center font-semibold hidden lg:block">Sikundi io</H1>
                     </div>
                     <div className="flex-1">
                         <Input
@@ -58,6 +60,9 @@ export default async function Header () {
                                 <LogOut>Log out</LogOut>
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <SheetTrigger className='lg:hidden'>
+                        <MoreVertical />
+                    </SheetTrigger>
                 </div>
             </div>
         </div>
