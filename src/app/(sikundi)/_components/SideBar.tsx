@@ -1,17 +1,38 @@
 import { Button } from '@sikundi/components/ui/button'
-import { Input } from '@sikundi/components/ui/input'
-import { Label } from '@sikundi/components/ui/label'
-import { ScrollArea } from '@sikundi/components/ui/scroll-area'
-import { SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@sikundi/components/ui/sheet'
+import { SheetContent } from '@sikundi/components/ui/sheet'
 import { cn } from '@sikundi/lib/client/utils'
-import { File, Image, LayoutDashboard, LibraryIcon, MonitorPlay } from 'lucide-react'
+import { File, Image, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay } from 'lucide-react'
 import React, { Fragment } from 'react'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-const items:string[] = []
+interface itemType {
+    title: string
+    items: {
+        name: string
+        link: string
+        Icon: LucideIcon
+    }[]
+}
+const items:itemType[] = [
+    {
+        title: "Dashboard",
+        items: [
+            { name: "Insights", link: "/", Icon: LayoutDashboard }
+        ]
+    },
+    {
+        title: "Collections",
+        items: [
+            { name: "Posts", link: "/", Icon: File },
+            { name: "Photos", link: "/", Icon: ImageIcon },
+            { name: "Videos", link: "/", Icon: MonitorPlay },
+            { name: "Library", link: "/", Icon: LibraryIcon }
+        ]
+    }
+]
 
 export default function SideBarContainer(props:SidebarProps) {
     return (
@@ -28,40 +49,21 @@ export function SideBar(props:SidebarProps) {
     return (
         <div className={cn("pb-12", props.className)}>
             <div className="space-y-4 py-4">
-                <div className="py-2">
-                    <h2 className="mb-2 text-lg font-semibold tracking-tight">
-                        Dashboard
-                    </h2>
-                    <div className="space-y-1">
-                        <Button variant="secondary" className="w-full justify-start">
-                            <LayoutDashboard className='h-5 w-5 me-3' />
-                            Insights
-                        </Button>
+                {items.map((item, index) => (
+                    <div className="py-2" key={index}>
+                        <h2 className="mb-2 text-lg font-semibold tracking-tight">
+                            {item.title}
+                        </h2>
+                        <div className="space-y-1">
+                            {item.items.map((child, key) => (
+                                <Button key={key} variant={(index===0 && key === 0) ? "secondary" : "ghost"} className="w-full justify-start">
+                                    <child.Icon className='h-5 w-5 me-3' />
+                                    {child.name}
+                                </Button>
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <div className="py-2">
-                    <h2 className="mb-2 text-lg font-semibold tracking-tight">
-                        Collections
-                    </h2>
-                    <div className="space-y-1">
-                        <Button variant="ghost" className="w-full justify-start">
-                            <File className='h-5 w-5 me-3' />
-                            Posts
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start">
-                            <Image className='h-5 w-5 me-3' />
-                            Photos
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start">
-                            <MonitorPlay className='h-5 w-5 me-3' />
-                            Videos
-                        </Button>
-                        <Button variant="ghost" className="w-full justify-start">
-                            <LibraryIcon className='h-5 w-5 me-3' />
-                            Library
-                        </Button>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     )
