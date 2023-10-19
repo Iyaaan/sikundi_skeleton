@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Bell, File, FileImage, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, Send } from 'lucide-react'
+import { Bell, File, FileImage, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, Send, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'Sikundi io',
@@ -49,7 +49,8 @@ export const menuItems:menuItemType[] = [
             { name: "Graphics", link: "/", Icon: FileImage },
             { name: "Photos", link: "/", Icon: ImageIcon },
             { name: "Videos", link: "/", Icon: MonitorPlay },
-            { name: "Library", link: "/", Icon: LibraryIcon }
+            { name: "Library", link: "/", Icon: LibraryIcon },
+            { name: "Users", link: "/", Icon: UserIcon }
         ]
     },
     {
