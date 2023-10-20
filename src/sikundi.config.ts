@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, Send, UserIcon } from 'lucide-react'
+import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, PanelTop, ScrollText, Send, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'Sikundi io',
@@ -37,8 +37,8 @@ export const menuItems:menuItemType[] = [
     {
         title: "Dashboard",
         items: [
-            { name: "Insights", link: "/", Icon: LayoutDashboard },
-            { name: "Notifications", link: "/", Icon: Bell }
+            { name: "Insights", link: "/sikundi-admin", Icon: LayoutDashboard },
+            { name: "Notifications", link: "/sikundi-admin/notification", Icon: Bell }
         ]
     },
     {
@@ -49,6 +49,7 @@ export const menuItems:menuItemType[] = [
             { name: "Photos", link: "/", Icon: ImageIcon },
             { name: "Videos", link: "/", Icon: MonitorPlay },
             { name: "Library", link: "/", Icon: LibraryIcon },
+            { name: "Pages", link: "/", Icon: PanelTop },
             { name: "Users", link: "/", Icon: UserIcon }
         ]
     },
@@ -56,6 +57,7 @@ export const menuItems:menuItemType[] = [
         title: "Plugins",
         items: [
             { name: "Ads Manager", link: "/", Icon: GalleryHorizontal },
+            { name: "Logs", link: "/", Icon: ScrollText },
             { name: "FCM Notification", link: "/", Icon: Send }
         ]
     }
