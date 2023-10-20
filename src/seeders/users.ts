@@ -1,4 +1,4 @@
-import { prisma } from "@sikundi/lib/server/prisma"
+import { prisma } from "@sikundi/lib/server/utils/prisma"
 import bcrypt from 'bcrypt'
 
 const users = [

@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import LogOutSchema, { LogOutSchemaType } from './schema'
-import ErrorHandlerWrapper from '@sikundi/lib/server/ErrorHandlerWrapper'
+import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
 import { cookies } from 'next/headers'
-import getUser from '@sikundi/lib/server/getUser'
+import getUser from '@sikundi/lib/server/utils/getUser'
 
 export async function POST(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, LogOutSchema, async (data:LogOutSchemaType) => {
