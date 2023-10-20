@@ -1,9 +1,8 @@
 "use client"
 
 import { Button } from '@sikundi/components/ui/button'
-import { CommandDialog, CommandInput, CommandItem, CommandList, CommandSeparator } from '@sikundi/components/ui/command'
+import { CommandEmpty, CommandGroup, CommandDialog, CommandInput, CommandItem, CommandList, CommandSeparator } from '@sikundi/components/ui/command'
 import { menuItems } from '@sikundi/sikundi.config'
-import { CommandEmpty, CommandGroup } from 'cmdk'
 import Link from 'next/link'
 import React, { Fragment, useState } from 'react'
 
@@ -40,9 +39,9 @@ export default function Search() {
                     <CommandEmpty>No results found.</CommandEmpty>
                     {menuItems.map((item, index) => (
                         <Fragment key={index}>
-                            <CommandGroup heading={item.title} key={index} className='my-3'>
+                            <CommandGroup heading={item.title} key={index}>
                                 {item.items.map((child, key) => (
-                                    <CommandItem key={key} className='my-1'>
+                                    <CommandItem key={key}>
                                         <Link href={child.link} className='flex'>
                                             <child.Icon className='h-5 w-5 me-3' />
                                             {child.name}
@@ -51,7 +50,7 @@ export default function Search() {
 
                                 ))}
                             </CommandGroup>
-                            {index !== (menuItems.length - 1) && <CommandSeparator className='my-2' />}
+                            {index !== (menuItems.length - 1) && <CommandSeparator />}
                         </Fragment>
                     ))}
                 </CommandList>

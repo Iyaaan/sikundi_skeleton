@@ -44,7 +44,7 @@ export const menuItems:menuItemType[] = [
     {
         title: "Collections",
         items: [
-            { name: "Posts", link: "/", Icon: File },
+            { name: "Posts", link: "/sikundi-admin/post", Icon: File },
             { name: "Graphics", link: "/", Icon: FileImage },
             { name: "Photos", link: "/", Icon: ImageIcon },
             { name: "Videos", link: "/", Icon: MonitorPlay },
