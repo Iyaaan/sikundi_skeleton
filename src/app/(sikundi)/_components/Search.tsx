@@ -1,10 +1,9 @@
 "use client"
 
 import { Button } from '@sikundi/components/ui/button'
-import { CommandDialog, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from '@sikundi/components/ui/command'
+import { CommandDialog, CommandInput, CommandItem, CommandList, CommandSeparator } from '@sikundi/components/ui/command'
 import { menuItems } from '@sikundi/sikundi.config'
 import { CommandEmpty, CommandGroup } from 'cmdk'
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 import Link from 'next/link'
 import React, { Fragment, useState } from 'react'
 
@@ -13,7 +12,7 @@ export default function Search() {
    
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
-            if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault()
                 setOpen((open) => !open)
             }
@@ -32,7 +31,7 @@ export default function Search() {
             >
                 Search for actions...
                 <kbd className="hidden lg:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                    <span className="text-xs">⌘</span>J
+                    <span className="text-xs">⌘</span>K
                 </kbd>
             </Button>
             <CommandDialog open={open} onOpenChange={setOpen}>
