@@ -5,6 +5,8 @@ import React, { Fragment } from 'react'
 import { menuItems } from '@sikundi/sikundi.config'
 import { ScrollArea } from '@sikundi/components/ui/scroll-area'
 import Link from 'next/link'
+import Image from 'next/image'
+import H1 from '@sikundi/components/ui/typography/h1'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -14,6 +16,10 @@ export default function SideBarContainer(props:SidebarProps) {
     return (
         <Fragment>
             <SheetContent side={"left"}>
+                <div className='items-center gap-3 flex'>
+                    <Image src={"/sikundi.svg"} alt="sikundi logo" width={45} height={45} />
+                    <H1 className="text-2xl text-center font-bold">Sikundi.io</H1>
+                </div>
                 <SideBar {...props} />
             </SheetContent>
             <SideBar {...props} className={cn(props.className, 'px-4 lg:max-w-[325px] hidden lg:block ')} />

@@ -16,10 +16,10 @@ export default async function Header () {
     return (
         <div className="border-b">
             <div className="flex h-16 items-center px-4">
-                <div className="flex items-center space-x-4 w-full">
-                    <div className='flex lg:w-[300px] items-center gap-3'>
+                <div className="flex items-center gap-x-4 w-full">
+                    <div className='lg:w-[300px] items-center gap-3 hidden lg:flex'>
                         <Image src={"/sikundi.svg"} alt="sikundi logo" width={45} height={45} />
-                        <H1 className="text-2xl text-center font-bold hidden lg:block">Sikundi.io</H1>
+                        <H1 className="text-2xl text-center font-bold">Sikundi.io</H1>
                     </div>
                     <div className="flex-1">
                         <Search />
