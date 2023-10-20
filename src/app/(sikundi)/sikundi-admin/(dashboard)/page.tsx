@@ -53,7 +53,7 @@ export default async function Dashboard() {
                         <CardTitle>Your notes</CardTitle>
                     </CardHeader>
                     <CardContent className="flex-1">
-                        <Textarea placeholder="Type your notes here." className="h-full" />
+                        <Textarea placeholder="Type your notes here." className="h-full min-h-[350px]" />
                     </CardContent>
                 </Card>
                 <Card className="lg:col-span-4 md:col-span-12">
