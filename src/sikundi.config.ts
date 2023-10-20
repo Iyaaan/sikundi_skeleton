@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Bell, File, FileImage, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, Send, UserIcon } from 'lucide-react'
+import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, Send, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'Sikundi io',
@@ -55,7 +55,7 @@ export const menuItems:menuItemType[] = [
     {
         title: "Plugins",
         items: [
-            { name: "Message Bird", link: "/", Icon: MessageSquare },
+            { name: "Ads Manager", link: "/", Icon: GalleryHorizontal },
             { name: "FCM Notification", link: "/", Icon: Send }
         ]
     }
