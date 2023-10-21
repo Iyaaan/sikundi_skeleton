@@ -1,5 +1,6 @@
 import Header from "@sikundi/app/(sikundi)/sikundi-admin/_components/Header"
 import EmptyPlaceholder from "@sikundi/app/(sikundi)/sikundi-admin/_components/EmptyPlaceHolder"
+import { PackageOpen } from "lucide-react"
 
 async function getMenu() {
     return {
@@ -13,6 +14,7 @@ async function getMenu() {
             url: "/sikundi-admin/post/category", 
             name: "categories", 
             slug: "category",
+            Icon: PackageOpen,
             permissions: {
                 create: true
             }

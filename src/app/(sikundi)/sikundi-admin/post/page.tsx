@@ -1,5 +1,6 @@
 import Header from "@sikundi/app/(sikundi)/sikundi-admin/_components/Header"
 import EmptyPlaceholder from "@sikundi/app/(sikundi)/sikundi-admin/_components/EmptyPlaceHolder"
+import { File } from "lucide-react"
 
 async function getMenu() {
     return {
@@ -13,6 +14,7 @@ async function getMenu() {
             slug: "post",
             name: "posts",
             url: "/sikundi/admin/post",
+            Icon: File,
             permissions: {
                 create: true
             }
