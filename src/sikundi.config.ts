@@ -37,20 +37,56 @@ export const menuItems:menuItemType[] = [
     {
         title: "Dashboard",
         items: [
-            { name: "Insights", link: "/sikundi-admin", Icon: LayoutDashboard },
-            { name: "Notifications", link: "/sikundi-admin/notification", Icon: Bell }
+            { 
+                name: "Insights", 
+                link: "/sikundi-admin",
+                Icon: LayoutDashboard
+            },
+            { 
+                name: "Notifications", 
+                link: "/sikundi-admin/notification", 
+                Icon: Bell
+            }
         ]
     },
     {
         title: "Collections",
         items: [
-            { name: "Posts", link: "/sikundi-admin/post", Icon: File },
-            { name: "Graphics", link: "/", Icon: FileImage },
-            { name: "Photos", link: "/", Icon: ImageIcon },
-            { name: "Videos", link: "/", Icon: MonitorPlay },
-            { name: "Library", link: "/", Icon: LibraryIcon },
-            { name: "Pages", link: "/", Icon: PanelTop },
-            { name: "Users", link: "/", Icon: UserIcon }
+            {
+                name: "Posts", 
+                link: "/sikundi-admin/post", 
+                Icon: File 
+            },
+            { 
+                name: "Graphics", 
+                link: "/", 
+                Icon: FileImage 
+            },
+            { 
+                name: "Photos", 
+                link: "/", 
+                Icon: ImageIcon
+            },
+            { 
+                name: "Videos", 
+                link: "/", 
+                Icon: MonitorPlay 
+            },
+            { 
+                name: "Library", 
+                link: "/", 
+                Icon: LibraryIcon 
+            },
+            { 
+                name: "Pages", 
+                link: "/", 
+                Icon: PanelTop 
+            },
+            { 
+                name: "Users", 
+                link: "/", 
+                Icon: UserIcon
+            }
         ]
     },
     {
