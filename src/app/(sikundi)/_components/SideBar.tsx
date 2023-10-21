@@ -54,7 +54,10 @@ export function SideBar(props:SidebarProps) {
                         </h2>
                         <div className="space-y-1">
                             {item.items.map((child, key) => (
-                                <Button asChild key={key} variant={(path === child.link) ? "secondary" : "ghost"} className="w-full justify-start">
+                                <Button asChild key={key} variant={
+                                    (path === "/sikundi-admin" && child.link === "/sikundi-admin") ? "secondary" :
+                                    (child.link !== "/sikundi-admin" && path.startsWith(child.link)) ? "secondary" :"ghost"
+                                } className="w-full justify-start">
                                     <Link href={child.link}>
                                         <child.Icon className='h-5 w-5 me-3' />
                                         {child.name}

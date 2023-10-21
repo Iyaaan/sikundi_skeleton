@@ -59,32 +59,32 @@ export const menuItems:menuItemType[] = [
             },
             { 
                 name: "Graphics", 
-                link: "/", 
+                link: "/sikundi-admin/graphic", 
                 Icon: FileImage 
             },
             { 
                 name: "Photos", 
-                link: "/", 
+                link: "/sikundi-admin/photo", 
                 Icon: ImageIcon
             },
             { 
                 name: "Videos", 
-                link: "/", 
+                link: "/sikundi-admin/video", 
                 Icon: MonitorPlay 
             },
             { 
                 name: "Library", 
-                link: "/", 
+                link: "/sikundi-admin/library", 
                 Icon: LibraryIcon 
             },
             { 
                 name: "Pages", 
-                link: "/", 
+                link: "/sikundi-admin/page", 
                 Icon: PanelTop 
             },
             { 
                 name: "Users", 
-                link: "/", 
+                link: "/sikundi-admin/user", 
                 Icon: UserIcon
             }
         ]
@@ -92,9 +92,9 @@ export const menuItems:menuItemType[] = [
     {
         title: "Plugins",
         items: [
-            { name: "Ads Manager", link: "/", Icon: GalleryHorizontal },
-            { name: "Logs", link: "/", Icon: ScrollText },
-            { name: "FCM Notification", link: "/", Icon: Send }
+            { name: "Ads Manager", link: "/sikundi-admin/ad", Icon: GalleryHorizontal },
+            { name: "Logs", link: "/sikundi-admin/log", Icon: ScrollText },
+            { name: "FCM Notification", link: "/sikundi-admin/fcm", Icon: Send }
         ]
     }
 ]
