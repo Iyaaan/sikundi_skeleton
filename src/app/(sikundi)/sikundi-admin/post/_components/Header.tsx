@@ -20,6 +20,9 @@ export default function Header() {
                         <TabsTrigger value="tag" disabled>
                             <Link href={"/sikundi-admin/post/tag"}>Tags</Link>
                         </TabsTrigger>
+                        <TabsTrigger value="comment" disabled>
+                            <Link href={"/sikundi-admin/post/comment"}>Comments</Link>
+                        </TabsTrigger>
                     </TabsList>
                 </div>
             </Tabs>
