@@ -17,8 +17,9 @@ export const metadata: Metadata = {
             }
         ],
         locale: 'en_US',
-        type: 'website'
-    }
+        type: 'website',
+    },
+    metadataBase: new URL(String(process.env.SITE_NAME || "http://localhost:3000"))
 }
 
 export const sessionMaxDays = 30
