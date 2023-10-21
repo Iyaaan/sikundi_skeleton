@@ -86,6 +86,18 @@ const users = [
             }
         }
     },
+    {
+        userName: "އަބްދުالله ރިޒާރ",
+        email: "abdullariza93@gmail.com",
+        password: "riza@sikundi",
+        description: "Journalist tester",
+        status: "active",
+        role: {
+            connect: {
+                name: "Editor"
+            }
+        }
+    }
 ]
 
 export default async function seed() {
