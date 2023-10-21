@@ -1,9 +1,12 @@
+"use client"
+
 import React, { FC, Fragment } from 'react'
 import { TabsList, TabsTrigger, Tabs } from "@sikundi/components/ui/tabs"
 import Link from "next/link"
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
 import { PlusIcon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 interface Props {
     menu: {
@@ -11,26 +14,23 @@ interface Props {
             url: string;
             name: string;
             slug: string;
-        }[];
-        active: {
-            url: string;
-            slug: string;
-            name: string;
             permissions: {
                 create: boolean
-            }
-        };
+            };
+        }[]
     }
 }
 
-export default async function Header({ menu }:Props) {
+const Header:FC<Props> = ({ menu }) => {
+    const path = usePathname()
+
     return (
         <Fragment>
-            <Tabs defaultValue={menu.active.slug} className="h-full space-y-6 mb-4">
+            <Tabs defaultValue={path} className="h-full space-y-6 mb-4">
                 <div className="space-between flex items-center">
                     <TabsList>
                         {menu.items.map((item, index) => (
-                            <TabsTrigger asChild value={item.slug} key={index} className="relative capitalize">
+                            <TabsTrigger asChild value={item.url} key={index} className="relative capitalize">
                                 <Link href={item.url}>{item.name}</Link>
                             </TabsTrigger>
                         ))}
@@ -39,13 +39,15 @@ export default async function Header({ menu }:Props) {
             </Tabs>
             <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-semibold tracking-tight capitalize">
-                    {menu.active.name}
+                    {menu.items.filter((item) => item.url === path)[0].name}
                 </h2>
-                {menu.active.permissions.create && <Button className='capitalize'>
-                    <PlusIcon className='me-2 h-4 w-4' /> {menu.active.slug}
+                {menu.items.filter((item) => item.url === path)[0].permissions.create && <Button className='capitalize'>
+                    <PlusIcon className='me-2 h-4 w-4' /> {menu.items.filter((item) => item.url === path)[0].slug}
                 </Button>}
             </div>
             <Separator className="my-4" />
         </Fragment>
     )
 }
+
+export default Header

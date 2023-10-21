@@ -1,9 +1,9 @@
 "use client"
 
 import { Button } from '@sikundi/components/ui/button'
-import { Sheet, SheetClose, SheetContent } from '@sikundi/components/ui/sheet'
+import { SheetClose, SheetContent } from '@sikundi/components/ui/sheet'
 import { cn } from '@sikundi/lib/client/utils'
-import React, { Fragment, RefAttributes, useEffect, useRef } from 'react'
+import React, { Fragment, useRef } from 'react'
 import { menuItems } from '@sikundi/sikundi.config'
 import { ScrollArea } from '@sikundi/components/ui/scroll-area'
 import Link from 'next/link'
