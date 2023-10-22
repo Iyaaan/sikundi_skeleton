@@ -1,31 +1,18 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import EmptyPlaceholder from '../../../_components/EmptyPlaceHolder'
 import { File } from 'lucide-react'
-import { Skeleton } from '@sikundi/components/ui/skeleton'
 
-interface Props {
-    params: {}
-    searchParams: { 
-        [name:string]: string
-    }
-
-}
-
-export default async function page({params, searchParams }: Props) {
-    await new Promise(r => setTimeout(r, 2000))
-    
+export default async function page() {
     return (
-        <Suspense key={JSON.stringify(searchParams)} fallback={<Skeleton className="w-full aspect-video" />}>
-            <EmptyPlaceholder data={{
-                slug: "post",
-                name: "posts",
-                url: 'sikundi-admin/post',
-                Icon: File,
-                permissions: {
-                    create: true,
-                }
-            }} />
-        </Suspense>
+        <EmptyPlaceholder data={{
+            slug: "post",
+            name: "posts",
+            url: 'sikundi-admin/post',
+            Icon: File,
+            permissions: {
+                create: true,
+            }
+        }} />
     )
 }
 
