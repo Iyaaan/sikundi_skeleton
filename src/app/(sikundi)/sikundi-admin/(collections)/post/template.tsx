@@ -8,13 +8,13 @@ const template = ({ children }: {children: ReactNode}) => {
                 {url: "/sikundi-admin/post", name: "posts", slug: "post", permissions: {
                     create: true
                 }},
-                {url: "/sikundi-admin/category", name: "categories", slug: "category", permissions: {
+                {url: "/sikundi-admin/post/category", name: "categories", slug: "category", permissions: {
                     create: true
                 }},
-                {url: "/sikundi-admin/tag", name: "tags", slug: "tag", permissions: {
+                {url: "/sikundi-admin/post/tag", name: "tags", slug: "tag", permissions: {
                     create: true
                 }},
-                {url: "/sikundi-admin/comment", name: "comments", slug: "comment", permissions: {
+                {url: "/sikundi-admin/post/comment", name: "comments", slug: "comment", permissions: {
                     create: true
                 }}
             ]}} />

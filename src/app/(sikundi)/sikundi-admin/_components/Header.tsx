@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
 import { CalendarIcon, Check, ChevronsUpDown, PlusIcon, SlidersHorizontal } from 'lucide-react'
@@ -42,8 +42,7 @@ const Header:FC<Props> = ({ data }) => {
         const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
         Object.keys(filters).forEach(key => url.searchParams.append(key, filters[key]))
         router.push(url.toString())
-        router.refresh()
-    }, [filters])
+    }, [filters, router])
 
     return (
         <Fragment>
@@ -111,8 +110,8 @@ const Header:FC<Props> = ({ data }) => {
                                             </PopoverTrigger>
                                             <PopoverContent className="col-span-2 p-0" align="end">
                                                 <Command>
-                                                    <CommandInput placeholder="Search framework..." />
-                                                    <CommandEmpty>No framework found.</CommandEmpty>
+                                                    <CommandInput placeholder={`Search ${filter.name}...`} />
+                                                    <CommandEmpty>{`No ${filter.name} found.`}</CommandEmpty>
                                                     <CommandGroup>
                                                         {filter.options?.map((option) => (
                                                             <CommandItem

@@ -1,14 +1,14 @@
 import React from 'react'
 import EmptyPlaceholder from '../../../_components/EmptyPlaceHolder'
-import { File } from 'lucide-react'
+import { Tag } from 'lucide-react'
 
 export default async function page() {
     return (
         <EmptyPlaceholder data={{
-            slug: "post",
-            name: "posts",
-            url: 'sikundi-admin/post',
-            Icon: File,
+            slug: "tag",
+            name: "tags",
+            url: 'sikundi-admin/post/tag',
+            Icon: Tag,
             permissions: {
                 create: true,
             }

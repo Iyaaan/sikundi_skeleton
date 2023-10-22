@@ -5,12 +5,12 @@ import { File } from 'lucide-react'
 export default async function page() {
     return (
         <EmptyPlaceholder data={{
-            slug: "post",
-            name: "posts",
-            url: 'sikundi-admin/post',
+            slug: "comment",
+            name: "comments",
+            url: 'sikundi-admin/post/comment',
             Icon: File,
             permissions: {
-                create: true,
+                create: false,
             }
         }} />
     )
