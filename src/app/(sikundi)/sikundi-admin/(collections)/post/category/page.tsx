@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import EmptyPlaceholder from '../../../_components/EmptyPlaceHolder'
 import { Package } from 'lucide-react'
+import { Skeleton } from '@sikundi/components/ui/skeleton'
 
 export default async function page() {
     await new Promise(r => setTimeout(r, 2000))
 
     return (
-        <EmptyPlaceholder data={{
-            slug: "category",
-            name: "categories",
-            url: 'sikundi-admin/post/category',
-            Icon: Package,
-            permissions: {
-                create: true,
-            }
-        }} />
+        <Suspense fallback={<Skeleton className="w-full aspect-video" />}>
+            <EmptyPlaceholder data={{
+                slug: "category",
+                name: "categories",
+                url: 'sikundi-admin/post/category',
+                Icon: Package,
+                permissions: {
+                    create: true,
+                }
+            }} />
+        </Suspense>
     )
 }
 
