@@ -57,7 +57,7 @@ const Header:FC<Props> = ({ data }) => {
             </div>
             <Separator className="my-4" />
             <div className='flex items-center justify-between lg:flex-row flex-col gap-4 mb-4'>
-                <Input type="search" placeholder="Search..." className='lg:max-w-sm' />
+                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} />
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='w-full lg:w-auto'>Filter <SlidersHorizontal className='ms-3 w-3' /></Button>
