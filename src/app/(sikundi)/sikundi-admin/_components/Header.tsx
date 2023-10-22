@@ -11,7 +11,7 @@ import { Calendar } from '@sikundi/components/ui/calendar'
 import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@sikundi/components/ui/command'
-import { useUpdateEffect } from 'usehooks-ts'
+import { useDebounce, useUpdateEffect } from 'usehooks-ts'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -36,13 +36,14 @@ interface Props {
 
 const Header:FC<Props> = ({ data }) => {
     const [filters, setFilters] = useState<{[key: string]: any}>({})
+    const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
     const router = useRouter()
 
     useUpdateEffect(() => {
         const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
-        Object.keys(filters).forEach(key => url.searchParams.append(key, filters[key]))
+        Object.keys(debouncedValue).forEach(key => url.searchParams.append(key, debouncedValue[key]))
         router.push(url.toString())
-    }, [filters, router])
+    }, [debouncedValue, router])
 
     return (
         <Fragment>
