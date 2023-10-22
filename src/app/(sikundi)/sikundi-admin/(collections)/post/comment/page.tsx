@@ -1,6 +1,6 @@
 import React from 'react'
 import EmptyPlaceholder from '../../../_components/EmptyPlaceHolder'
-import { File } from 'lucide-react'
+import { MessageCircleIcon } from 'lucide-react'
 
 export default async function page() {
     return (
@@ -8,7 +8,7 @@ export default async function page() {
             slug: "comment",
             name: "comments",
             url: 'sikundi-admin/post/comment',
-            Icon: File,
+            Icon: MessageCircleIcon,
             permissions: {
                 create: false,
             }
