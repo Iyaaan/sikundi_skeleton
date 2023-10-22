@@ -12,7 +12,7 @@ interface Props {
 
 }
 
-export default function SignIn({params, searchParams }: Props) {
+export default async function SignIn({params, searchParams }: Props) {
     if (searchParams.action === "lostpassword") {
         return (
             <Reset />
