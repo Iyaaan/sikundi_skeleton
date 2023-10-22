@@ -3,6 +3,8 @@ import EmptyPlaceholder from '../../../_components/EmptyPlaceHolder'
 import { File } from 'lucide-react'
 
 export default async function page() {
+    await new Promise(r => setTimeout(r, 2000))
+
     return (
         <EmptyPlaceholder data={{
             slug: "comment",
@@ -15,3 +17,5 @@ export default async function page() {
         }} />
     )
 }
+
+export const dynamic = "force-dynamic"
