@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MessageSquare, MonitorPlay, PanelTop, ScrollText, Send, UserIcon } from 'lucide-react'
+import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay, PanelTop, ScrollText, Send, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'Sikundi io',
@@ -94,8 +94,7 @@ export const menuItems:menuItemType[] = [
         title: "Plugins",
         items: [
             { name: "Ads Manager", link: "/sikundi-admin/ad", Icon: GalleryHorizontal },
-            { name: "Logs", link: "/sikundi-admin/log", Icon: ScrollText },
-            { name: "FCM Notification", link: "/sikundi-admin/fcm", Icon: Send }
+            { name: "Logs", link: "/sikundi-admin/log", Icon: ScrollText }
         ]
     }
 ]

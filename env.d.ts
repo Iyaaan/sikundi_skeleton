@@ -3,6 +3,7 @@ declare global {
         interface ProcessEnv {
             NODE_ENV: "development" | "production" | "test"
             SITE_NAME: String            
+            NEXT_PUBLIC_SITE_NAME: String            
             DATABASE_URL: String            
             SHADOW_DATABASE_URL: String            
             REDIS_URL: String            
