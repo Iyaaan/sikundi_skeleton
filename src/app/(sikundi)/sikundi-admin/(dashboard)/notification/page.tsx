@@ -15,3 +15,5 @@ export default async function Notifications() {
         </Fragment>
     )
 }
+
+export const dynamic = "force-dynamic"
