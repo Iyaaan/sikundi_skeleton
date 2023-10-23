@@ -49,7 +49,7 @@ const Header:FC<Props> = ({ data }) => {
             Object.keys(debouncedValue).forEach(key => url.searchParams.append(key, JSON.stringify(debouncedValue[key])?.replaceAll('"', '')))
             router.push(url.toString())
         }
-    }, [debouncedValue, router])
+    }, [debouncedValue, router, data.url])
 
     return (
         <Fragment>
