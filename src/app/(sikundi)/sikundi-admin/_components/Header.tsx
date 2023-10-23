@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
 import { CalendarIcon, Check, ChevronsUpDown, PlusIcon, SlidersHorizontal } from 'lucide-react'
@@ -11,8 +11,8 @@ import { Calendar } from '@sikundi/components/ui/calendar'
 import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@sikundi/components/ui/command'
-import { useDebounce, useUpdateEffect } from 'usehooks-ts'
-import { useRouter } from 'next/navigation'
+import { useDebounce } from 'usehooks-ts'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
     data: {
@@ -35,14 +35,18 @@ interface Props {
 }
 
 const Header:FC<Props> = ({ data }) => {
-    const [filters, setFilters] = useState<{[key: string]: any}>({})
-    const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const [filters, setFilters] = useState<{[key: string]: any}>({})
+    const [dropDown, setDropDown] = useState<{[key: string]: any}>({})
+    const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
 
-    useUpdateEffect(() => {
-        const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
-        Object.keys(debouncedValue).forEach(key => url.searchParams.append(key, debouncedValue[key]))
-        router.push(url.toString())
+    useEffect(() => {
+        if (Object.entries(debouncedValue).length > 0) {
+            const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
+            Object.keys(debouncedValue).forEach(key => url.searchParams.append(key, JSON.stringify(debouncedValue[key])?.replaceAll('"', '')))
+            router.push(url.toString())
+        }
     }, [debouncedValue, router])
 
     return (
@@ -80,17 +84,17 @@ const Header:FC<Props> = ({ data }) => {
                                                     variant={"outline"}
                                                     className={cn(
                                                         "col-span-2 justify-start text-left font-normal",
-                                                        !filters[filter.name] && "text-muted-foreground"
+                                                        !(filters[filter.name] || searchParams.get(filter.name)) && "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                                    {filters[filter.name] ? format(filters[filter.name], "PPP") : <span>Pick a date</span>}
+                                                    {(filters[filter.name] || searchParams.get(filter.name)) ? format((filters[filter.name] || searchParams.get(filter.name)), "PPP") : <span>Pick a date</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="end">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={filters[filter.name]}
+                                                    selected={filters[filter.name] || searchParams.get(filter.name)}
                                                     onSelect={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
                                                     initialFocus
                                                 />
@@ -103,8 +107,8 @@ const Header:FC<Props> = ({ data }) => {
                                                     role="combobox"
                                                     className="col-span-2 justify-between"
                                                 >
-                                                    {filters[filter.name]
-                                                        ? filter.options?.find((option) => option.value === filters[filter.name])?.label
+                                                    {(filters[filter.name] || searchParams.get(filter.name))
+                                                        ? filter.options?.find((option) => option.value === (filters[filter.name] || searchParams.get(filter.name)))?.label
                                                         : "Select..."}
                                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                 </Button>
@@ -123,7 +127,7 @@ const Header:FC<Props> = ({ data }) => {
                                                                 <Check
                                                                     className={cn(
                                                                         "mr-2 h-4 w-4",
-                                                                        filters[filter.name] === option.value ? "opacity-100" : "opacity-0"
+                                                                        (filters[filter.name] || searchParams.get(filter.name)) === option.value ? "opacity-100" : "opacity-0"
                                                                     )}
                                                                 />
                                                                 {option.label}
