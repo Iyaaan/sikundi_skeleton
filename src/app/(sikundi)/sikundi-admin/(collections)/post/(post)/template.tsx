@@ -6,6 +6,7 @@ const template = ({ children }: {children: ReactNode}) => {
         <Fragment>
             <Header data={{
                 url: "/sikundi-admin/post",
+                softDeletable: true,
                 name: "posts",
                 slug: "post",
                 permissions: {

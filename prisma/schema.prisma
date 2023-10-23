@@ -30,6 +30,12 @@ enum Action {
   update
 }
 
+enum Status {
+  draft
+  publish
+  soft_deleted
+}
+
 model Country {
   id Int @id @default(autoincrement())
 
@@ -152,6 +158,7 @@ model Post {
   title     String
   longTitle String
   lead      Json
+  status    Status @default(draft)
 
   postsTags PostsTags[] @relation("postsTags")
 }

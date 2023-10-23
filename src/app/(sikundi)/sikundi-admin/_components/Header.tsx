@@ -3,7 +3,7 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
-import { CalendarIcon, Check, ChevronsUpDown, PlusIcon, SlidersHorizontal } from 'lucide-react'
+import { CalendarIcon, Check, ChevronsUpDown, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
 import { Input } from '@sikundi/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@sikundi/components/ui/popover'
 import { Label } from '@sikundi/components/ui/label'
@@ -13,6 +13,7 @@ import { format } from "date-fns"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@sikundi/components/ui/command'
 import { useDebounce } from 'usehooks-ts'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 interface Props {
     data: {
@@ -20,8 +21,9 @@ interface Props {
         name: string;
         slug: string;
         permissions: {
-            create: boolean;
+            create?: boolean;
         };
+        softDeletable?: boolean;
         filters: {
             type: "select" | "date";
             name: string;
@@ -55,9 +57,14 @@ const Header:FC<Props> = ({ data }) => {
                 <h2 className="text-2xl font-semibold tracking-tight capitalize">
                     {data.name}
                 </h2>
-                {data.permissions.create && <Button className='capitalize'>
-                    <PlusIcon className='me-2 h-4 w-4' /> {data.slug}
-                </Button>}
+                <div className='flex gap-2'>
+                    {data.permissions.create && <Button className='capitalize'>
+                        <PlusIcon className='me-2 h-4 w-4' /> {data.slug}
+                    </Button>}
+                    {data.softDeletable && <Button variant="outline" size="icon" asChild>
+                        <Link href={`${data.url}/trash`}><TrashIcon className="h-4 w-4" /></Link>
+                    </Button>}
+                </div>
             </div>
             <Separator className="my-4" />
             <div className='flex items-center justify-between lg:flex-row flex-col gap-4 mb-4'>
@@ -88,13 +95,13 @@ const Header:FC<Props> = ({ data }) => {
                                                     )}
                                                 >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                                    {(filters[filter.name] || searchParams.get(filter.name)) ? format((filters[filter.name] || searchParams.get(filter.name)), "PPP") : <span>Pick a date</span>}
+                                                    {(filters[filter.name] || searchParams.get(filter.name)) ? format(new Date (filters[filter.name] || searchParams.get(filter.name)), "PPP") : <span>Pick a date</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="end">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={filters[filter.name] || searchParams.get(filter.name)}
+                                                    selected={new Date (filters[filter.name] || searchParams.get(filter.name))}
                                                     onSelect={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
                                                     initialFocus
                                                 />
