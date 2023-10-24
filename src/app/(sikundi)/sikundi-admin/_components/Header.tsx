@@ -44,7 +44,7 @@ const Header:FC<Props> = ({ data }) => {
     const [filters, setFilters] = useState<{[key: string]: any}>(() => {
         const paramss:any = {}
         params.forEach((value, key)=>{
-            paramss[value] = key
+            paramss[key] = value 
         })
         return paramss
     })
