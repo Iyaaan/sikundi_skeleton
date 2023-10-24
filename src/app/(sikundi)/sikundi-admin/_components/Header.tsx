@@ -39,10 +39,16 @@ interface Props {
 
 const Header:FC<Props> = ({ data }) => {
     const router = useRouter()
-    const searchParams = useSearchParams()
     const pathName = usePathname()
-    const [filters, setFilters] = useState<{[key: string]: any}>({})
-    const [dropDown, setDropDown] = useState<{[key: string]: any}>({})
+    const params = useSearchParams()
+    const [filters, setFilters] = useState<{[key: string]: any}>(() => {
+        const paramss:any = {}
+        params.forEach((value, key)=>{
+            paramss[value] = key
+        })
+        return paramss
+    })
+    const [open, setOpen] = useState(false)
     const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
 
     useEffect(() => {
@@ -52,6 +58,10 @@ const Header:FC<Props> = ({ data }) => {
             router.push(url.toString())
         }
     }, [debouncedValue, router, data.url])
+
+    useEffect(() => {
+        setOpen(false)
+    }, [filters])
 
     return (
         <Fragment>
@@ -70,8 +80,8 @@ const Header:FC<Props> = ({ data }) => {
             </div>
             <Separator className="my-4" />
             <div className='flex items-center justify-between lg:flex-row flex-col gap-4 mb-4'>
-                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} />
-                {(!pathName.includes('trash') && data.hideFiltersOnTrash) && <Popover>
+                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} value={filters?.['search'] || ""} />
+                {(!pathName.includes('trash') && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='w-full lg:w-auto'>Filter <SlidersHorizontal className='ms-3 w-3' /></Button>
                     </PopoverTrigger>
@@ -87,72 +97,25 @@ const Header:FC<Props> = ({ data }) => {
                                 {data.filters.map((filter, index)=>(
                                     <div className="grid grid-cols-3 items-center gap-4" key={index}>
                                         <Label htmlFor={filter.name} className='capitalize'>{filter.label || filter.name}</Label>
-                                        {filter.type === "date" &&  <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "col-span-2 justify-start text-left font-normal",
-                                                        !(filters[filter.name] || searchParams.get(filter.name)) && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                                    {(filters[filter.name] || searchParams.get(filter.name)) ? format(new Date (filters[filter.name] || searchParams.get(filter.name)), "PPP") : <span>Pick a date</span>}
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0" align="end">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={new Date (filters[filter.name] || searchParams.get(filter.name))}
-                                                    onSelect={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
-                                                    initialFocus
-                                                />
-                                            </PopoverContent>
-                                        </Popover>}
-                                        {filter.type === "select" && <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className="col-span-2 justify-between"
-                                                >
-                                                    {(filters[filter.name] || searchParams.get(filter.name))
-                                                        ? filter.options?.find((option) => option.value === (filters[filter.name] || searchParams.get(filter.name)))?.label
-                                                        : "Select..."}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="col-span-2 p-0" align="end">
-                                                <Command>
-                                                    <CommandInput placeholder={`Search ${filter.name}...`} />
-                                                    <CommandEmpty>{`No ${filter.name} found.`}</CommandEmpty>
-                                                    <CommandGroup>
-                                                        {filter.options?.map((option) => (
-                                                            <CommandItem
-                                                                key={option.value}
-                                                                value={option.value}
-                                                                onSelect={(value) => setFilters((v) => ({ ...v, [filter.name]: value }))}
-                                                            >
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-2 h-4 w-4",
-                                                                        (filters[filter.name] || searchParams.get(filter.name)) === option.value ? "opacity-100" : "opacity-0"
-                                                                    )}
-                                                                />
-                                                                {option.label}
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </Command>
-                                            </PopoverContent>
-                                        </Popover>}
+                                        {filter.type === "date" && <DateComponent
+                                            value={filters[filter.name]}
+                                            onChange={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
+                                        />}
+                                        {filter.type === "select" && <SelectComponent 
+                                            name={filter.name} 
+                                            value={filters[filter.name]}
+                                            onChange={(value) => setFilters((v) => ({ ...v, [filter.name]: value }))} 
+                                            options={filter.options} 
+                                        />}
                                     </div>
                                 ))}
                             </div>
                             <Button onClick={() => {
                                 setFilters({})
                                 router.push(data.url)
-                            }}>Clear</Button>
+                            }}>
+                                Clear
+                            </Button>
                         </div>
                     </PopoverContent>
                 </Popover>}
@@ -162,3 +125,80 @@ const Header:FC<Props> = ({ data }) => {
 }
 
 export default Header
+
+function SelectComponent(props: {value: string, onChange: (data?:String) => void, options?: {label: string, value:string}[], name: string}) {
+    const [open, setOpen] = useState(false)
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant="outline"
+                    role="combobox"
+                    className="col-span-2 justify-between"
+                >
+                    {props.value
+                        ? props.options?.find((option) => option.value === props.value)?.label
+                        : "Select..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="col-span-2 p-0" align="end">
+                <Command>
+                    <CommandInput placeholder={`Search ${props.name}...`} />
+                    <CommandEmpty>{`No ${props.name} found.`}</CommandEmpty>
+                    <CommandGroup>
+                        {props.options?.map((option) => (
+                            <CommandItem
+                                key={option.value}
+                                value={option.value}
+                                onSelect={(data) => {
+                                    setOpen(false)
+                                    props.onChange(data)
+                                }}
+                            >
+                                <Check
+                                    className={cn(
+                                        "mr-2 h-4 w-4",
+                                        props.value === option.value ? "opacity-100" : "opacity-0"
+                                    )}
+                                />
+                                {option.label}
+                            </CommandItem>
+                        ))}
+                    </CommandGroup>
+                </Command>
+            </PopoverContent>
+        </Popover>
+    )
+}
+
+function DateComponent(props: {value: string, onChange: (data?:Date) => void}) {
+    const [open, setOpen] = useState(false)
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant={"outline"}
+                    className={cn(
+                        "col-span-2 justify-start text-left font-normal",
+                        !props.value && "text-muted-foreground"
+                    )}
+                >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {props.value ? format(new Date (props.value), "PPP") : <span>Pick a date</span>}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+                <Calendar
+                    mode="single"
+                    selected={new Date (props.value)}
+                    onSelect={(data) => {
+                        setOpen(false)
+                        props.onChange(data)
+                    }}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+    )
+}

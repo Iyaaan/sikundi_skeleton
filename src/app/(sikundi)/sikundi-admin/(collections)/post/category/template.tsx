@@ -1,5 +1,5 @@
 import React, { Fragment, ReactNode } from 'react'
-import Header from '../../../_components/Header'
+import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
 
 const template = ({ children }: {children: ReactNode}) => {
     return (
