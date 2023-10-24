@@ -3,7 +3,7 @@ import React from 'react'
 
 const loading = () => {
     return (
-        <Skeleton className="w-full aspect-video" />
+        <Skeleton className="w-full h-[450px]" />
     )
 }
 

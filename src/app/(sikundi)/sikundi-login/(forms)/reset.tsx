@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/reset/schema"
+import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/reset/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import useSWRMutation from 'swr/mutation'
@@ -20,7 +20,7 @@ import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 export default function Reset() {
     const { toast } = useToast()
     const router = useRouter()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/reset', PostHandler<resetSchemaType>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/reset', PostHandler<resetSchemaType>, {
         onSuccess: (data) => {
             toast({
                 title: "successfully submitted",

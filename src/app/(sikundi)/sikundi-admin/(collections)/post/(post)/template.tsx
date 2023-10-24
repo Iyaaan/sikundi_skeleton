@@ -9,6 +9,7 @@ const template = ({ children }: {children: ReactNode}) => {
                 softDeletable: true,
                 name: "posts",
                 slug: "post",
+                hideFiltersOnTrash: true,
                 permissions: {
                     create: true
                 },

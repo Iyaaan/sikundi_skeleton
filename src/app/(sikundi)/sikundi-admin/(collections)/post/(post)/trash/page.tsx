@@ -1,6 +1,6 @@
 import React from 'react'
-import EmptyPlaceholder from '@sikundi/app/(sikundi)/sikundi-admin/_components/EmptyPlaceHolder'
 import { File } from 'lucide-react'
+import EmptyPlaceholder from '@sikundi/app/(sikundi)/sikundi-admin/_components/EmptyPlaceHolder'
 
 interface Props {
     params: {}
@@ -18,8 +18,9 @@ export default async function page({params, searchParams}: Props) {
             url: 'sikundi-admin/post',
             Icon: File,
             permissions: {
-                create: true,
-            }
+                create: false
+            },
+            deleted: true
         }} />
     )
 }

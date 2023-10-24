@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/log-in/schema"
+import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"
@@ -28,7 +28,7 @@ export default function LogIn() {
             password: ''
         }
     })
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/log-in', PostHandler<any>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/log-in', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
                 title: "successfully submitted",

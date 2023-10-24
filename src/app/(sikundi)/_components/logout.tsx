@@ -3,7 +3,7 @@
 import { Button } from "@sikundi/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Form } from '@sikundi/components/ui/form'
-import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/(actions)/log-in/schema"
+import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/log-in/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { Fragment, ReactNode } from "react"
@@ -18,7 +18,7 @@ export default function LogOut({children}: {children: ReactNode}) {
     const { toast } = useToast()
     const router = useRouter()
     const form = useForm<LogInSchemaType>()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/log-out', PostHandler<any>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/log-out', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
                 title: "successfully submitted",

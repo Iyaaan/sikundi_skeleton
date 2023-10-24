@@ -12,7 +12,7 @@ import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@sikundi/components/ui/command'
 import { useDebounce } from 'usehooks-ts'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 interface Props {
@@ -24,6 +24,7 @@ interface Props {
             create?: boolean;
         };
         softDeletable?: boolean;
+        hideFiltersOnTrash?: boolean;
         filters: {
             type: "select" | "date";
             name: string;
@@ -39,6 +40,7 @@ interface Props {
 const Header:FC<Props> = ({ data }) => {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const pathName = usePathname()
     const [filters, setFilters] = useState<{[key: string]: any}>({})
     const [dropDown, setDropDown] = useState<{[key: string]: any}>({})
     const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
@@ -69,7 +71,7 @@ const Header:FC<Props> = ({ data }) => {
             <Separator className="my-4" />
             <div className='flex items-center justify-between lg:flex-row flex-col gap-4 mb-4'>
                 <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} />
-                <Popover>
+                {(!pathName.includes('trash') && data.hideFiltersOnTrash) && <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='w-full lg:w-auto'>Filter <SlidersHorizontal className='ms-3 w-3' /></Button>
                     </PopoverTrigger>
@@ -147,10 +149,13 @@ const Header:FC<Props> = ({ data }) => {
                                     </div>
                                 ))}
                             </div>
-                            <Button onClick={() => setFilters({})}>Clear</Button>
+                            <Button onClick={() => {
+                                setFilters({})
+                                router.push(data.url)
+                            }}>Clear</Button>
                         </div>
                     </PopoverContent>
-                </Popover>
+                </Popover>}
             </div>
         </Fragment>
     )
