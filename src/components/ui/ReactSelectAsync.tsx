@@ -1,15 +1,17 @@
 import clsx from 'clsx';
 import { ChevronDown, X } from 'lucide-react';
 import React from 'react';
-import Select, {
+import {
   components,
   type ClearIndicatorProps,
   type DropdownIndicatorProps,
   type GroupBase,
   type MultiValueRemoveProps,
-  type Props as SelectProps,
 } from 'react-select';
-import CreatableSelect from 'react-select/creatable';
+import Select, {
+  type AsyncProps as SelectProps,
+} from 'react-select/async';
+import CreatableSelect from 'react-select/async-creatable';
 
 const DropdownIndicator = <
   Option,
@@ -66,7 +68,7 @@ const optionsStyle =
 const groupHeadingStyles = 'ml-3 mt-2 mb-1 text-gray-500 text-sm bg-background';
 const noOptionsMessageStyles = 'text-muted-foreground bg-background';
 
-function SelectComponentInner<
+function SelectAsyncComponentInner<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -138,7 +140,7 @@ function SelectComponentInner<
   );
 }
 
-export const SelectComponent = React.forwardRef(SelectComponentInner) as <
+export const SelectAsyncComponent = React.forwardRef(SelectAsyncComponentInner) as <
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -149,4 +151,4 @@ export const SelectComponent = React.forwardRef(SelectComponentInner) as <
       React.ElementRef<typeof Select<Option, IsMulti, Group>>
     >;
   },
-) => ReturnType<typeof SelectComponentInner>;
+) => ReturnType<typeof SelectAsyncComponentInner>;
