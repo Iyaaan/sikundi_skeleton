@@ -1,5 +1,3 @@
-'use client'
-
 import { Alert, AlertDescription, AlertTitle } from "@sikundi/components/ui/alert"
 import { Brain } from "lucide-react"
 import { Fragment } from "react"
