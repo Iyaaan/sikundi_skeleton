@@ -42,8 +42,8 @@ const MultiValueRemove = (props: MultiValueRemoveProps) => (
 );
 
 const controlStyles = {
-  base: 'flex w-full rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground',
-  focus: 'outline-none ring-1 ring-ring',
+  base: 'flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground',
+  focus: 'outline-none ring-2 ring-ring ring-offset-2',
   nonFocus: 'border-border',
 };
 const placeholderStyles = 'text-muted-foreground text-sm ml-1';
@@ -62,11 +62,11 @@ const dropdownIndicatorStyles = 'hover:text-foreground text-gray-500';
 const menuStyles =
   'mt-2 p-2 border border-border bg-background text-sm rounded-lg';
 const optionsStyle =
-  'bg-background p-2 border-0 text-base hover:bg-secondary hover:cursor-pointer';
+  'bg-background p-2 border-0 text-base hover:bg-secondary hover:cursor-pointer rounded-sm';
 const groupHeadingStyles = 'ml-3 mt-2 mb-1 text-gray-500 text-sm bg-background';
 const noOptionsMessageStyles = 'text-muted-foreground bg-background';
 
-function SelectComponentInner<
+function Select2Inner<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -83,7 +83,7 @@ function SelectComponentInner<
     placeholder,
     defaultValue,
     ...props
-  }: SelectProps<Option, IsMulti, Group> & { createAble: boolean },
+  }: SelectProps<Option, IsMulti, Group> & { createAble?: boolean },
   ref: React.ForwardedRef<
     React.ElementRef<typeof Select<Option, IsMulti, Group>>
   >,
@@ -138,15 +138,17 @@ function SelectComponentInner<
   );
 }
 
-export const SelectComponent = React.forwardRef(SelectComponentInner) as <
+const Select2 = React.forwardRef(Select2Inner) as <
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
 >(
   props: SelectProps<Option, IsMulti, Group> & {
-    createAble: boolean;
+    createAble?: boolean;
     ref?: React.ForwardedRef<
       React.ElementRef<typeof Select<Option, IsMulti, Group>>
     >;
   },
-) => ReturnType<typeof SelectComponentInner>;
+) => ReturnType<typeof Select2Inner>;
+
+export default Select2

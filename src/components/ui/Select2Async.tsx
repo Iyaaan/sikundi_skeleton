@@ -45,7 +45,7 @@ const MultiValueRemove = (props: MultiValueRemoveProps) => (
 
 const controlStyles = {
   base: 'flex w-full rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground',
-  focus: 'outline-none ring-1 ring-ring',
+  focus: 'outline-none ring-2 ring-ring ring-offset-2',
   nonFocus: 'border-border',
 };
 const placeholderStyles = 'text-muted-foreground text-sm ml-1';
@@ -64,11 +64,11 @@ const dropdownIndicatorStyles = 'hover:text-foreground text-gray-500';
 const menuStyles =
   'mt-2 p-2 border border-border bg-background text-sm rounded-lg';
 const optionsStyle =
-  'bg-background p-2 border-0 text-base hover:bg-secondary hover:cursor-pointer';
+  'bg-background p-2 border-0 text-base hover:bg-secondary hover:cursor-pointer rounded-sm';
 const groupHeadingStyles = 'ml-3 mt-2 mb-1 text-gray-500 text-sm bg-background';
 const noOptionsMessageStyles = 'text-muted-foreground bg-background';
 
-function SelectAsyncComponentInner<
+function Select2AsyncInner<
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -140,7 +140,7 @@ function SelectAsyncComponentInner<
   );
 }
 
-export const SelectAsyncComponent = React.forwardRef(SelectAsyncComponentInner) as <
+export const Select2Async = React.forwardRef(Select2AsyncInner) as <
   Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -151,4 +151,4 @@ export const SelectAsyncComponent = React.forwardRef(SelectAsyncComponentInner) 
       React.ElementRef<typeof Select<Option, IsMulti, Group>>
     >;
   },
-) => ReturnType<typeof SelectAsyncComponentInner>;
+) => ReturnType<typeof Select2AsyncInner>;
