@@ -79,11 +79,11 @@ const Header:FC<Props> = ({ data }) => {
                 </div>
             </div>
             <Separator className="my-4" />
-            <div className='flex items-center justify-between lg:flex-row flex-col gap-4 mb-4'>
+            <div className='flex items-center justify-between flex-row gap-4 mb-4'>
                 <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} value={filters?.['search'] || ""} />
                 {(!pathName.includes('trash') && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
-                        <Button variant="outline" className='w-full lg:w-auto'>Filter <SlidersHorizontal className='ms-3 w-3' /></Button>
+                        <Button variant="outline" className='lg:w-auto'><span className='hidden lg:block me-3'>Filter</span> <SlidersHorizontal className='w-3' /></Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-full" align="end">
                         <div className="grid gap-4">
@@ -106,8 +106,8 @@ const Header:FC<Props> = ({ data }) => {
                                             isClearable={false}
                                             className='col-span-2 justify-start'
                                             options={filter.options}
-                                            value={filters[filter.name]}
-                                            onChange={({ value }) => setFilters((v) => ({ ...v, [filter.name]: value }))} 
+                                            value={filter.options?.filter(({value})=> value === filters[filter.name])}
+                                            onChange={(value) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
                                         />}
                                     </div>
                                 ))}
