@@ -3,17 +3,17 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
-import { CalendarIcon, Check, ChevronsUpDown, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
+import { CalendarIcon, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
 import { Input } from '@sikundi/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@sikundi/components/ui/popover'
 import { Label } from '@sikundi/components/ui/label'
 import { Calendar } from '@sikundi/components/ui/calendar'
 import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@sikundi/components/ui/command'
 import { useDebounce } from 'usehooks-ts'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Select2 from '@sikundi/components/ui/Select2'
 
 interface Props {
     data: {
@@ -101,11 +101,13 @@ const Header:FC<Props> = ({ data }) => {
                                             value={filters[filter.name]}
                                             onChange={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
                                         />}
-                                        {filter.type === "select" && <SelectComponent 
-                                            name={filter.name} 
+                                        {filter.type === "select" && <Select2
+                                            name={filter.name}
+                                            isClearable={false}
+                                            className='col-span-2 justify-start'
+                                            options={filter.options}
                                             value={filters[filter.name]}
-                                            onChange={(value) => setFilters((v) => ({ ...v, [filter.name]: value }))} 
-                                            options={filter.options} 
+                                            onChange={({ value }) => setFilters((v) => ({ ...v, [filter.name]: value }))} 
                                         />}
                                     </div>
                                 ))}
@@ -125,52 +127,6 @@ const Header:FC<Props> = ({ data }) => {
 }
 
 export default Header
-
-function SelectComponent(props: {value: string, onChange: (data?:String) => void, options?: {label: string, value:string}[], name: string}) {
-    const [open, setOpen] = useState(false)
-    return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
-                    role="combobox"
-                    className="col-span-2 justify-between"
-                >
-                    {props.value
-                        ? props.options?.find((option) => option.value === props.value)?.label
-                        : "Select..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="col-span-2 p-0" align="end">
-                <Command>
-                    <CommandInput placeholder={`Search ${props.name}...`} />
-                    <CommandEmpty>{`No ${props.name} found.`}</CommandEmpty>
-                    <CommandGroup>
-                        {props.options?.map((option) => (
-                            <CommandItem
-                                key={option.value}
-                                value={option.value}
-                                onSelect={(data) => {
-                                    setOpen(false)
-                                    props.onChange(data)
-                                }}
-                            >
-                                <Check
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        props.value === option.value ? "opacity-100" : "opacity-0"
-                                    )}
-                                />
-                                {option.label}
-                            </CommandItem>
-                        ))}
-                    </CommandGroup>
-                </Command>
-            </PopoverContent>
-        </Popover>
-    )
-}
 
 function DateComponent(props: {value: string, onChange: (data?:Date) => void}) {
     const [open, setOpen] = useState(false)
