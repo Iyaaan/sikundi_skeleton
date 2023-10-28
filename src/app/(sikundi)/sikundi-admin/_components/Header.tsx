@@ -54,7 +54,12 @@ const Header:FC<Props> = ({ data }) => {
     useEffect(() => {
         if (Object.entries(debouncedValue).length > 0) {
             const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
-            Object.keys(debouncedValue).forEach(key => url.searchParams.append(key, JSON.stringify(debouncedValue[key])?.replaceAll('"', '')))
+            Object.keys(debouncedValue).forEach((key) => {
+                const value = JSON.stringify(debouncedValue[key])?.replaceAll('"', '')
+                if (value.length > 0) {
+                    url.searchParams.append(key, JSON.stringify(debouncedValue[key])?.replaceAll('"', ''))
+                }
+            })
             router.push(url.toString())
         }
     }, [debouncedValue, router, data.url])
@@ -69,19 +74,19 @@ const Header:FC<Props> = ({ data }) => {
                 <h2 className="text-2xl font-semibold tracking-tight capitalize">
                     {data.name}
                 </h2>
-                <div className='flex gap-2'>
+                {(`${data.url}/trash` !== pathName) && <div className='flex gap-2'>
                     {data.permissions.create && <Button className='capitalize'>
                         <PlusIcon className='me-2 h-4 w-4' /> {data.slug}
                     </Button>}
                     {data.softDeletable && <Button variant="outline" size="icon" asChild>
                         <Link href={`${data.url}/trash`}><TrashIcon className="h-4 w-4" /></Link>
                     </Button>}
-                </div>
+                </div>}
             </div>
             <Separator className="my-4" />
             <div className='flex items-center justify-between flex-row gap-4 mb-4'>
                 <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} value={filters?.['search'] || ""} />
-                {(!pathName.includes('trash') && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
+                {((`${data.url}/trash` !== pathName) && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='lg:w-auto'><span className='hidden lg:block me-3'>Filter</span> <SlidersHorizontal className='w-3' /></Button>
                     </PopoverTrigger>

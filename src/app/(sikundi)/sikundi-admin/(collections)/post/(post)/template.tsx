@@ -14,11 +14,11 @@ const template = ({ children }: {children: ReactNode}) => {
                     create: true
                 },
                 filters: [
+                    {type: "date", name: "publishedAt", label: "published at"},
                     {type: "select", name: "status", options: [
                         {label: "draft", value: "draft"},
                         {label: "published", value: "published"}
-                    ]},
-                    {type: "date", name: "publishedAt", label: "published at"}
+                    ]}
                 ]
             }} />
             {children}
