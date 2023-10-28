@@ -85,7 +85,7 @@ function Select2AsyncInner<
     placeholder,
     defaultValue,
     ...props
-  }: SelectProps<Option, IsMulti, Group> & { createAble: boolean },
+  }: SelectProps<Option, IsMulti, Group> & { createAble?: boolean },
   ref: React.ForwardedRef<
     React.ElementRef<typeof Select<Option, IsMulti, Group>>
   >,
@@ -146,7 +146,7 @@ export const Select2Async = React.forwardRef(Select2AsyncInner) as <
   Group extends GroupBase<Option> = GroupBase<Option>,
 >(
   props: SelectProps<Option, IsMulti, Group> & {
-    createAble: boolean;
+    createAble?: boolean;
     ref?: React.ForwardedRef<
       React.ElementRef<typeof Select<Option, IsMulti, Group>>
     >;

@@ -18,7 +18,8 @@ const template = ({ children }: {children: ReactNode}) => {
                     {type: "select", name: "status", options: [
                         {label: "draft", value: "draft"},
                         {label: "published", value: "published"}
-                    ]}
+                    ]},
+                    {type: "select", name: "publishedBy", label: "published by", url: "/sikundi-admin/users"},
                 ]
             }} />
             {children}

@@ -25,7 +25,7 @@ export default function Search() {
         <Fragment>
             <Button 
                 variant="outline"
-                className="md:w-[150px] lg:w-[400px] text-muted-foreground justify-between w-full text-start"
+                className="lg:w-[400px] text-muted-foreground justify-between w-full text-start"
                 onClick={()=>setOpen(true)}
             >
                 Search for actions...
