@@ -30,48 +30,48 @@ async function List({getData}: {getData: () => Promise<{ [name:string]: string }
 }
 
 const invoices = async () => {
-    // await new Promise(r => setTimeout(r, 2000));
-    notFound()
+    await new Promise(r => setTimeout(r, 2000))
+    // notFound()
     return [
         {
-            invoice: "INV001",
-            paymentStatus: "Paid",
+            id: "1",
+            title: "Paid",
             totalAmount: "$250.00",
             paymentMethod: "Credit Card",
         },
         {
-            invoice: "INV002",
-            paymentStatus: "Pending",
+            id: "2",
+            title: "Pending",
             totalAmount: "$150.00",
             paymentMethod: "PayPal",
         },
         {
-            invoice: "INV003",
-            paymentStatus: "Unpaid",
+            id: "3",
+            title: "Unpaid",
             totalAmount: "$350.00",
             paymentMethod: "Bank Transfer",
         },
         {
-            invoice: "INV004",
-            paymentStatus: "Paid",
+            id: "3",
+            title: "Paid",
             totalAmount: "$450.00",
             paymentMethod: "Credit Card",
         },
         {
-            invoice: "INV005",
-            paymentStatus: "Paid",
+            id: "4",
+            title: "Paid",
             totalAmount: "$550.00",
             paymentMethod: "PayPal",
         },
         {
-            invoice: "INV006",
-            paymentStatus: "Pending",
+            id: "5",
+            title: "Pending",
             totalAmount: "$200.00",
             paymentMethod: "Bank Transfer",
         },
         {
-            invoice: "INV007",
-            paymentStatus: "Unpaid",
+            id: "6",
+            title: "Unpaid",
             totalAmount: "$300.00",
             paymentMethod: "Credit Card",
         },

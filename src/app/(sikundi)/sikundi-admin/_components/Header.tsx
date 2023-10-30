@@ -3,7 +3,7 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
-import { CalendarIcon, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
+import { CalendarIcon, CopyCheck, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
 import { Input } from '@sikundi/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@sikundi/components/ui/popover'
 import { Label } from '@sikundi/components/ui/label'
@@ -26,6 +26,7 @@ interface Props {
             create?: boolean;
         };
         softDeletable?: boolean;
+        publishable?: boolean;
         hideFiltersOnTrash?: boolean;
         filters: {
             type: "select" | "date";
@@ -74,7 +75,7 @@ const Header:FC<Props> = ({ data }) => {
     return (
         <Fragment>
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold tracking-tight capitalize">
+                <h2 className="text-2xl font-semibold tracking-tight capitalize break-all">
                     {data.name}
                 </h2>
                 {(`${data.url}/trash` !== pathName) && <div className='flex gap-2'>
@@ -83,6 +84,9 @@ const Header:FC<Props> = ({ data }) => {
                     </Button>}
                     {data.softDeletable && <Button variant="outline" size="icon" asChild>
                         <Link href={`${data.url}/trash`}><TrashIcon className="h-4 w-4" /></Link>
+                    </Button>}
+                    {data.publishable && <Button variant="outline" size="icon" asChild>
+                        <Link href={`${data.url}/copydesk`}><CopyCheck className="h-4 w-4" /></Link>
                     </Button>}
                 </div>}
             </div>
