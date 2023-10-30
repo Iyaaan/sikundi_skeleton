@@ -5,3 +5,8 @@
 .css-cp01gg-control {
     min-height: 40px !important;
 }
+
+body {
+    position: fixed;
+    inset: 0;
+}
