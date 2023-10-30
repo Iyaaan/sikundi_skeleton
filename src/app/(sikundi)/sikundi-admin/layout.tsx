@@ -14,11 +14,11 @@ export default async function SikundiAdminLayout(props: Props) {
             <Header />
             <div className="flex h-[calc(100vh-4.1rem)]">
                 <SideBar className="h-full" />
-                <ScrollArea className="w-full">
-                    <main className="lg:border-l min-h-[calc(100vh-4.1rem)]">
+                <main className="lg:border-l min-h-[calc(100vh-4.1rem)] w-full">
+                    <ScrollArea className="w-full">
                         {props.children}
-                    </main>
-                </ScrollArea>
+                    </ScrollArea>
+                </main>
             </div>
         </Sheet>
     )
