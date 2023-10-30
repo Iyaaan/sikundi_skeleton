@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import Menu from '../../_components/Menu'
+import Menu from '@sikundi/app/(sikundi)/sikundi-admin/_components/Menu'
 
 const template = ({ children }: {children: ReactNode}) => {
     return (
