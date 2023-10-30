@@ -23,7 +23,7 @@ async function List({getData}: {getData: () => Promise<{ [name:string]: string }
     const data = await getData()
 
     return (
-        <div className='relative overflow-x-scroll max-w-[calc(100vw-16px-16px)]'>
+        <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
             <DataTableDemo data={data} />
         </div>
     )
