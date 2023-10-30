@@ -14,7 +14,7 @@ export function DataTableDemo({data}: {data: {[name:string]: string}[]}) {
     return (
         <div className="rounded-md border">
             <Table>
-                <TableHeader>
+                <TableHeader className="bg-secondary">
                     <TableRow>
                         {Object.keys(data[0]).map((key) => (
                             <TableHead key={key}>

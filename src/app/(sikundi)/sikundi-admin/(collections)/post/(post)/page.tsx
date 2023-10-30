@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import Loading from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/loading'
-import { DataTableDemo } from '../../../_components/DataTable'
+import { DataTableDemo } from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTable'
 import { notFound } from 'next/navigation'
 export const dynamic = "force-dynamic"
 
@@ -30,6 +30,7 @@ async function List({getData}: {getData: () => Promise<{ [name:string]: string }
 }
 
 const invoices = async () => {
+    // await new Promise(r => setTimeout(r, 2000));
     notFound()
     return [
         {
