@@ -31,9 +31,10 @@ enum Action {
 }
 
 enum Status {
-  draft
-  publish
+  drafted
+  published
   soft_deleted
+  pending
 }
 
 model Country {
@@ -123,7 +124,7 @@ model Media {
   posts Post[] @relation("postFeatureImage")
   user  User[] @relation("profilePicture")
 
-  url         String
+  url         String     @unique
   name        String
   description String
 
@@ -152,13 +153,14 @@ model Post {
 
   categoryId        Int?      @unique
   category          Category? @relation("postsCategory", fields: [categoryId], references: [id])
-  featureImageUrlId Int?
-  featureImageUrl   Media?    @relation("postFeatureImage", fields: [featureImageUrlId], references: [id])
+  featureImageUrl   String?
+  featureImage      Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url])
 
-  title     String
-  longTitle String
-  lead      Json
-  status    Status @default(draft)
+  title       String
+  longTitle   String
+  description String
+  lead        Json
+  status      Status @default(drafted)
 
   postsTags PostsTags[] @relation("postsTags")
 }
