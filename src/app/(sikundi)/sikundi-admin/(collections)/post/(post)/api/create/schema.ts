@@ -11,7 +11,14 @@ const PostSchema = z.object({
     status: z.string().refine((status) => ['drafted', 'published', 'soft_deleted', 'pending'].includes(status), {
         message: 'Status is not valid'
     }),
-    tags: z.string().array().optional()
+    tags: z.string().array().optional(),
+    push: z.object({
+        facebook: z.boolean().optional(),
+        telegram: z.boolean().optional(),
+        viber: z.boolean().optional(),
+        x: z.boolean().optional(),
+        firebase: z.boolean().optional()
+    })
 })
 
 export type PostSchemaType = z.infer<typeof PostSchema>

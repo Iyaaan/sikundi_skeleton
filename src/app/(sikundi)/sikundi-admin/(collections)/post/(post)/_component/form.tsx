@@ -4,7 +4,7 @@ import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/api/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
@@ -20,6 +20,7 @@ import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
+import { Switch } from "@sikundi/components/ui/switch"
 
 export default function PostForm() {
     const { toast } = useToast()
@@ -110,11 +111,6 @@ export default function PostForm() {
                         
                     </CardContent>
                 </Card>
-                <Card className="pt-6 lg:col-span-4 lg:order-5 hidden lg:block aspect-video">
-                    <CardContent className="grid gap-4">
-                        
-                    </CardContent>
-                </Card>
                 <Card className="pt-6 lg:col-span-8 lg:order-6">
                     <CardContent className="grid gap-4">
                         
@@ -174,6 +170,38 @@ export default function PostForm() {
                                 </FormItem>
                             )}
                         />
+                    </CardContent>
+                </Card>
+                <Card className="pt-6 lg:col-span-4 lg:order-5">
+                    <CardContent className="grid gap-4">
+                        {[
+                            {name: "push.facebook", label: "Facebook", description: "Post the link to facebook page"},
+                            {name: "push.telegram", label: "Telegram", description: "Post the link to telegram channel"},
+                            {name: "push.viber", label: "Viber", description: "Post the link to viber community"},
+                            {name: "push.x", label: "X (Twitter)", description: "Post the link to x (twitter) account"},
+                            {name: "push.firebase", label: "Firebase", description: "Push notification to whom subscribed"}
+                        ].map((poster, index) => <FormField key={index}
+                            control={form.control}
+                            // @ts-ignore
+                            name={poster.name}
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                    <div className="space-y-0.5">
+                                        <FormLabel className="text-base">{poster.label}</FormLabel>
+                                        <FormDescription>
+                                            {poster.description}
+                                        </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch
+                                            // @ts-ignore
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />)}
                     </CardContent>
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-2">
@@ -240,7 +268,7 @@ export default function PostForm() {
                             )}
                         />
                         <div className="flex items-center gap-4">
-                            <Button className="bg-green-500 dark:bg-green-700 flex-1 hover:bg-green-400 dark:hover:bg-green-800">Publish</Button>
+                            <Button className="flex-1" variant={"secondary"}>Publish</Button>
                         </div>
                     </CardContent>
                 </Card>
