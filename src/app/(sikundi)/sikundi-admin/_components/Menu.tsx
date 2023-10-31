@@ -22,7 +22,7 @@ const Menu:FC<Props> = ({ menu }) => {
     const path = usePathname()
     
     return (
-        <Tabs defaultValue={path} className="h-full space-y-6 mb-4">
+        <Tabs defaultValue={path?.replaceAll("/trash", "")?.replaceAll("/copydesk", "")?.replaceAll("/create", "")?.replaceAll("/(\\d+)/update", "")} className="h-full space-y-6 mb-4">
             <div className="space-between flex items-center">
                 <TabsList>
                     {menu.items.map((item, index) => (

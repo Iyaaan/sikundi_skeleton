@@ -78,9 +78,9 @@ const Header:FC<Props> = ({ data }) => {
                 <h2 className="text-2xl font-semibold tracking-tight capitalize break-all">
                     {data.name}
                 </h2>
-                {(`${data.url}/trash` !== pathName) && <div className='flex gap-2'>
-                    {data.permissions.create && <Button className='capitalize'>
-                        <PlusIcon className='me-2 h-4 w-4' /> {data.slug}
+                {((`${data.url}/trash` !== pathName) && (`${data.url}/create` !== pathName)) && <div className='flex gap-2'>
+                    {data.permissions.create && <Button className='capitalize' asChild>
+                        <Link href={`${data.url}/create`}><PlusIcon className='me-2 h-4 w-4' /> {data.slug}</Link>
                     </Button>}
                     {data.softDeletable && <Button variant="outline" size="icon" asChild>
                         <Link href={`${data.url}/trash`}><TrashIcon className="h-4 w-4" /></Link>
@@ -91,7 +91,7 @@ const Header:FC<Props> = ({ data }) => {
                 </div>}
             </div>
             <Separator className="my-4" />
-            <div className='flex items-center justify-between flex-row gap-4 mb-4'>
+            {((`${data.url}/create` !== pathName)) && <div className='flex items-center justify-between flex-row gap-4 mb-4'>
                 <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} value={filters?.['search'] || ""} />
                 {((`${data.url}/trash` !== pathName) && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -149,7 +149,7 @@ const Header:FC<Props> = ({ data }) => {
                         </div>
                     </PopoverContent>
                 </Popover>}
-            </div>
+            </div>}
         </Fragment>
     )
 }
