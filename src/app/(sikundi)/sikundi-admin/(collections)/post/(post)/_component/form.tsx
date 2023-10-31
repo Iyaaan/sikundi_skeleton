@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/api/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
-import { Fragment } from "react"
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { CalendarIcon, Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
@@ -21,6 +20,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Switch } from "@sikundi/components/ui/switch"
+import { Editor } from "@sikundi/components/ui/editor"
 
 export default function PostForm() {
     const { toast } = useToast()
@@ -106,14 +106,13 @@ export default function PostForm() {
                         />
                     </CardContent>
                 </Card>
-                <Card className="pt-6 lg:col-span-8 lg:order-4">
-                    <CardContent className="grid gap-4">
-                        
+                <Card className="p-0 lg:col-span-8 lg:order-4">
+                    <CardContent className="grid gap-4 w-full p-0">
+                        <Editor />
                     </CardContent>
                 </Card>
                 <Card className="pt-6 lg:col-span-8 lg:order-6">
                     <CardContent className="grid gap-4">
-                        
                     </CardContent>
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-3">
@@ -185,7 +184,7 @@ export default function PostForm() {
                             // @ts-ignore
                             name={poster.name}
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                     <div className="space-y-0.5">
                                         <FormLabel className="text-base">{poster.label}</FormLabel>
                                         <FormDescription>
@@ -268,7 +267,7 @@ export default function PostForm() {
                             )}
                         />
                         <div className="flex items-center gap-4">
-                            <Button className="flex-1" variant={"secondary"}>Publish</Button>
+                            <Button className="flex-1">Publish</Button>
                         </div>
                     </CardContent>
                 </Card>
