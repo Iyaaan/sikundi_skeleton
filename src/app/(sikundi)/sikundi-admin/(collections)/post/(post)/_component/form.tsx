@@ -10,7 +10,7 @@ import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon, Loader2 } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
@@ -178,6 +178,8 @@ export default function PostForm() {
                             {name: "push.telegram", label: "Telegram", description: "Post the link to telegram channel"},
                             {name: "push.viber", label: "Viber", description: "Post the link to viber community"},
                             {name: "push.x", label: "X (Twitter)", description: "Post the link to x (twitter) account"},
+                            {name: "push.sms", label: "SMS", description: "SMS the link"},
+                            {name: "push.email", label: "Email", description: "Email the link"},
                             {name: "push.firebase", label: "Firebase", description: "Push notification to whom subscribed"}
                         ].map((poster, index) => <FormField key={index}
                             control={form.control}

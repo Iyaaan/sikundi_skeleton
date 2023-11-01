@@ -17,6 +17,8 @@ const PostSchema = z.object({
         telegram: z.boolean().optional(),
         viber: z.boolean().optional(),
         x: z.boolean().optional(),
+        sms: z.boolean().optional(),
+        email: z.boolean().optional(),
         firebase: z.boolean().optional()
     })
 })
