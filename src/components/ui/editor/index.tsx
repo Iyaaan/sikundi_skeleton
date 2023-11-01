@@ -9,7 +9,6 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code"
 import { AutoLinkNode, LinkNode } from "@lexical/link"
 import { TRANSFORMERS } from "@lexical/markdown"
 
-import TreeViewPlugin from "@sikundi/components/ui/editor/plugins/TreeViewPlugin"
 import ToolbarPlugin from "@sikundi/components/ui/editor/plugins/ToolbarPlugin"
 import AutoLinkPlugin from "@sikundi/components/ui/editor/plugins/AutoLinkPlugin"
 import CodeHighlightPlugin from "@sikundi/components/ui/editor/plugins/CodeHighlightPlugin"
@@ -68,7 +67,7 @@ export function Editor(): JSX.Element | null {
         <LexicalComposer initialConfig={editorConfig}>
             <div className="editor-container">
                 <ToolbarPlugin />
-                <div className="editor-inner">
+                <div className="editor-inner overflow-y-auto">
                     <RichTextPlugin
                         contentEditable={<ContentEditable className="editor-input" />}
                         placeholder={<Placeholder />}
@@ -82,7 +81,6 @@ export function Editor(): JSX.Element | null {
                     <TabIndentationPlugin />
                     <AutoLinkPlugin />
                     <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-                    {/* <TreeViewPlugin /> */}
                 </div>
             </div>
         </LexicalComposer>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
     CAN_REDO_COMMAND,
     CAN_UNDO_COMMAND,
@@ -17,17 +17,17 @@ import {
 } from "lexical"
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link"
 import {
-  $isParentElementRTL,
-  $wrapNodes,
-  $isAtNodeEnd
+    $isParentElementRTL,
+    $wrapNodes,
+    $isAtNodeEnd
 } from "@lexical/selection"
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils"
 import {
-  INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND,
-  REMOVE_LIST_COMMAND,
-  $isListNode,
-  ListNode
+    INSERT_ORDERED_LIST_COMMAND,
+    INSERT_UNORDERED_LIST_COMMAND,
+    REMOVE_LIST_COMMAND,
+    $isListNode,
+    ListNode
 } from "@lexical/list"
 import { createPortal } from "react-dom"
 import {
@@ -41,6 +41,10 @@ import {
     getDefaultCodeLanguage,
     getCodeLanguages
 } from "@lexical/code"
+import { twMerge } from "tailwind-merge"
+import { Toggle } from "../../toggle"
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Code, Italic, Link, Redo2, Strikethrough, Underline, Undo2 } from "lucide-react"
+import { Separator } from "../../separator"
 
 const LowPriority = 1
 
@@ -150,20 +154,20 @@ function FloatingLinkEditor({ editor }: { editor:any }) {
 
     useEffect(() => {
         return mergeRegister(
-        editor.registerUpdateListener(({ editorState }: {editorState:any}) => {
-            editorState.read(() => {
-            updateLinkEditor();
-            });
-        }),
+            editor.registerUpdateListener(({ editorState }: {editorState:any}) => {
+                editorState.read(() => {
+                    updateLinkEditor();
+                });
+            }),
 
-        editor.registerCommand(
-            SELECTION_CHANGE_COMMAND,
-            () => {
-                updateLinkEditor();
-                return true;
-            },
-            LowPriority
-        )
+            editor.registerCommand(
+                SELECTION_CHANGE_COMMAND,
+                () => {
+                    updateLinkEditor();
+                    return true;
+                },
+                LowPriority
+            )
         );
     }, [editor, updateLinkEditor]);
 
@@ -195,32 +199,32 @@ function FloatingLinkEditor({ editor }: { editor:any }) {
                     event.preventDefault();
                     if (lastSelection !== null) {
                         if (linkUrl !== "") {
-                        editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
+                            editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
                         }
                         setEditMode(false);
                     }
                     } else if (event.key === "Escape") {
-                    event.preventDefault();
-                    setEditMode(false);
+                        event.preventDefault();
+                        setEditMode(false);
                     }
                 }}
                 />
             ) : (
                 <>
-                <div className="link-input">
-                    <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-                    {linkUrl}
-                    </a>
-                    <div
-                    className="link-edit"
-                    role="button"
-                    tabIndex={0}
-                    onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => {
-                        setEditMode(true);
-                    }}
-                    />
-                </div>
+                    <div className="link-input">
+                        <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+                            {linkUrl}
+                        </a>
+                        <div
+                            className="link-edit"
+                            role="button"
+                            tabIndex={0}
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => {
+                                setEditMode(true);
+                            }}
+                        />
+                    </div>
                 </>
             )}
         </div>
@@ -229,199 +233,199 @@ function FloatingLinkEditor({ editor }: { editor:any }) {
 
 // @ts-ignore
 function Select({ onChange, className, options, value }) {
-  return (
-    <select className={className} onChange={onChange} value={value}>
-      <option hidden={true} value="" />
-      {options.map((option:string) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  );
+    return (
+        <select className={className} onChange={onChange} value={value}>
+            <option hidden={true} value="" />
+            {options.map((option:string) => (
+                <option key={option} value={option}>
+                    {option}
+                </option>
+            ))}
+        </select>
+    );
 }
 
 // @ts-ignore
 function getSelectedNode(selection) {
-  const anchor = selection.anchor;
-  const focus = selection.focus;
-  const anchorNode = selection.anchor.getNode();
-  const focusNode = selection.focus.getNode();
-  if (anchorNode === focusNode) {
-    return anchorNode;
-  }
-  const isBackward = selection.isBackward();
-  if (isBackward) {
-    return $isAtNodeEnd(focus) ? anchorNode : focusNode;
-  } else {
-    return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
-  }
+    const anchor = selection.anchor;
+    const focus = selection.focus;
+    const anchorNode = selection.anchor.getNode();
+    const focusNode = selection.focus.getNode();
+    if (anchorNode === focusNode) {
+        return anchorNode;
+    }
+    const isBackward = selection.isBackward();
+    if (isBackward) {
+        return $isAtNodeEnd(focus) ? anchorNode : focusNode;
+    } else {
+        return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
+    }
 }
 
 function BlockOptionsDropdownList({
-  editor,
-  blockType,
-  toolbarRef,
-  setShowBlockOptionsDropDown
+    editor,
+    blockType,
+    toolbarRef,
+    setShowBlockOptionsDropDown
 }:any) {
-  const dropDownRef = useRef(null);
+    const dropDownRef = useRef(null);
 
-  useEffect(() => {
-    const toolbar = toolbarRef.current;
-    const dropDown = dropDownRef.current;
+    useEffect(() => {
+        const toolbar = toolbarRef.current;
+        const dropDown = dropDownRef.current;
 
-    if (toolbar !== null && dropDown !== null) {
-      const { top, left } = toolbar.getBoundingClientRect();
-      // @ts-ignore
-      dropDown.style.top = `${top + 40}px`;
-      // @ts-ignore
-      dropDown.style.left = `${left}px`;
-    }
-  }, [dropDownRef, toolbarRef]);
-
-  useEffect(() => {
-    const dropDown = dropDownRef.current;
-    const toolbar = toolbarRef.current;
-
-    if (dropDown !== null && toolbar !== null) {
-        // @ts-ignore
-        const handle = (event) => {
-            const target = event.target;
+        if (toolbar !== null && dropDown !== null) {
+            const { top, left } = toolbar.getBoundingClientRect();
             // @ts-ignore
-            if (!dropDown.contains(target) && !toolbar.contains(target)) {
-                setShowBlockOptionsDropDown(false);
+            dropDown.style.top = `${top + 40}px`;
+            // @ts-ignore
+            dropDown.style.left = `${left}px`;
+        }
+    }, [dropDownRef, toolbarRef]);
+
+    useEffect(() => {
+        const dropDown = dropDownRef.current;
+        const toolbar = toolbarRef.current;
+
+        if (dropDown !== null && toolbar !== null) {
+            // @ts-ignore
+            const handle = (event) => {
+                const target = event.target;
+                // @ts-ignore
+                if (!dropDown.contains(target) && !toolbar.contains(target)) {
+                    setShowBlockOptionsDropDown(false);
+                }
+            };
+            document.addEventListener("click", handle);
+
+            return () => {
+                document.removeEventListener("click", handle);
+            };
+        }
+    }, [dropDownRef, setShowBlockOptionsDropDown, toolbarRef]);
+
+    const formatParagraph = () => {
+            if (blockType !== "paragraph") {
+                editor.update(() => {
+                    const selection = $getSelection();
+
+                    if ($isRangeSelection(selection)) {
+                    $wrapNodes(selection, () => $createParagraphNode());
+                    }
+                });
             }
-        };
-        document.addEventListener("click", handle);
+            setShowBlockOptionsDropDown(false);
+    };
 
-        return () => {
-            document.removeEventListener("click", handle);
-        };
-    }
-  }, [dropDownRef, setShowBlockOptionsDropDown, toolbarRef]);
-
-  const formatParagraph = () => {
-        if (blockType !== "paragraph") {
+    const formatLargeHeading = () => {
+            if (blockType !== "h1") {
             editor.update(() => {
                 const selection = $getSelection();
 
                 if ($isRangeSelection(selection)) {
-                $wrapNodes(selection, () => $createParagraphNode());
+                    $wrapNodes(selection, () => $createHeadingNode("h1"));
                 }
             });
-        }
-        setShowBlockOptionsDropDown(false);
-  };
-
-  const formatLargeHeading = () => {
-        if (blockType !== "h1") {
-        editor.update(() => {
-            const selection = $getSelection();
-
-            if ($isRangeSelection(selection)) {
-                $wrapNodes(selection, () => $createHeadingNode("h1"));
             }
-        });
-        }
-        setShowBlockOptionsDropDown(false);
-  };
+            setShowBlockOptionsDropDown(false);
+    };
 
-  const formatSmallHeading = () => {
-        if (blockType !== "h2") {
-        editor.update(() => {
-            const selection = $getSelection();
+    const formatSmallHeading = () => {
+            if (blockType !== "h2") {
+            editor.update(() => {
+                const selection = $getSelection();
 
-            if ($isRangeSelection(selection)) {
-                $wrapNodes(selection, () => $createHeadingNode("h2"));
+                if ($isRangeSelection(selection)) {
+                    $wrapNodes(selection, () => $createHeadingNode("h2"));
+                }
+            });
             }
-        });
-        }
-        setShowBlockOptionsDropDown(false);
-  };
+            setShowBlockOptionsDropDown(false);
+    };
 
-  const formatBulletList = () => {
-        if (blockType !== "ul") {
-            editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
-        } else {
-            editor.dispatchCommand(REMOVE_LIST_COMMAND);
-        }
-        setShowBlockOptionsDropDown(false);
-  };
-
-  const formatNumberedList = () => {
-        if (blockType !== "ol") {
-            editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
-        } else {
-            editor.dispatchCommand(REMOVE_LIST_COMMAND);
-        }
-        setShowBlockOptionsDropDown(false);
-  };
-
-  const formatQuote = () => {
-        if (blockType !== "quote") {
-        editor.update(() => {
-            const selection = $getSelection();
-
-            if ($isRangeSelection(selection)) {
-                $wrapNodes(selection, () => $createQuoteNode());
+    const formatBulletList = () => {
+            if (blockType !== "ul") {
+                editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
+            } else {
+                editor.dispatchCommand(REMOVE_LIST_COMMAND);
             }
-        });
-        }
-        setShowBlockOptionsDropDown(false);
-  };
+            setShowBlockOptionsDropDown(false);
+    };
 
-  const formatCode = () => {
-        if (blockType !== "code") {
-        editor.update(() => {
-            const selection = $getSelection();
-
-            if ($isRangeSelection(selection)) {
-                $wrapNodes(selection, () => $createCodeNode());
+    const formatNumberedList = () => {
+            if (blockType !== "ol") {
+                editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
+            } else {
+                editor.dispatchCommand(REMOVE_LIST_COMMAND);
             }
-        });
-        }
-        setShowBlockOptionsDropDown(false);
-  };
+            setShowBlockOptionsDropDown(false);
+    };
 
-  return (
-    <div className="dropdown" ref={dropDownRef}>
-        <button className="item" onClick={formatParagraph}>
-            <span className="icon paragraph" />
-            <span className="text">Normal</span>
-            {blockType === "paragraph" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatLargeHeading}>
-            <span className="icon large-heading" />
-            <span className="text">Large Heading</span>
-            {blockType === "h1" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatSmallHeading}>
-            <span className="icon small-heading" />
-            <span className="text">Small Heading</span>
-            {blockType === "h2" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatBulletList}>
-            <span className="icon bullet-list" />
-            <span className="text">Bullet List</span>
-            {blockType === "ul" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatNumberedList}>
-            <span className="icon numbered-list" />
-            <span className="text">Numbered List</span>
-            {blockType === "ol" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatQuote}>
-            <span className="icon quote" />
-            <span className="text">Quote</span>
-            {blockType === "quote" && <span className="active" />}
-        </button>
-        <button className="item" onClick={formatCode}>
-            <span className="icon code" />
-            <span className="text">Code Block</span>
-            {blockType === "code" && <span className="active" />}
-        </button>
-    </div>
-  );
+    const formatQuote = () => {
+            if (blockType !== "quote") {
+                editor.update(() => {
+                    const selection = $getSelection();
+
+                    if ($isRangeSelection(selection)) {
+                        $wrapNodes(selection, () => $createQuoteNode());
+                    }
+                });
+            }
+            setShowBlockOptionsDropDown(false);
+    };
+
+    const formatCode = () => {
+            if (blockType !== "code") {
+                editor.update(() => {
+                    const selection = $getSelection();
+
+                    if ($isRangeSelection(selection)) {
+                        $wrapNodes(selection, () => $createCodeNode());
+                    }
+                });
+            }
+            setShowBlockOptionsDropDown(false);
+    };
+
+    return (
+        <div className="dropdown" ref={dropDownRef}>
+            <button type={'button'} className="item" onClick={formatParagraph}>
+                <span className="icon paragraph" />
+                <span className="text">Normal</span>
+                {blockType === "paragraph" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatLargeHeading}>
+                <span className="icon large-heading" />
+                <span className="text">Large Heading</span>
+                {blockType === "h1" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatSmallHeading}>
+                <span className="icon small-heading" />
+                <span className="text">Small Heading</span>
+                {blockType === "h2" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatBulletList}>
+                <span className="icon bullet-list" />
+                <span className="text">Bullet List</span>
+                {blockType === "ul" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatNumberedList}>
+                <span className="icon numbered-list" />
+                <span className="text">Numbered List</span>
+                {blockType === "ol" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatQuote}>
+                <span className="icon quote" />
+                <span className="text">Quote</span>
+                {blockType === "quote" && <span className="active" />}
+            </button>
+            <button type={'button'} className="item" onClick={formatCode}>
+                <span className="icon code" />
+                <span className="text">Code Block</span>
+                {blockType === "code" && <span className="active" />}
+            </button>
+        </div>
+    );
 }
 
 export default function ToolbarPlugin() {
@@ -446,267 +450,209 @@ export default function ToolbarPlugin() {
     const updateToolbar = useCallback(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
-        const anchorNode = selection.anchor.getNode();
-        const element =
-            anchorNode.getKey() === "root"
-            ? anchorNode
-            : anchorNode.getTopLevelElementOrThrow();
-        const elementKey = element.getKey();
-        const elementDOM = editor.getElementByKey(elementKey);
-        if (elementDOM !== null) {
-            setSelectedElementKey(elementKey);
-            if ($isListNode(element)) {
-            const parentList = $getNearestNodeOfType(anchorNode, ListNode);
-            const type = parentList ? parentList.getTag() : element.getTag();
-            setBlockType(type);
-            } else {
-            const type = $isHeadingNode(element)
-                ? element.getTag()
-                : element.getType();
-            setBlockType(type);
-            if ($isCodeNode(element)) {
-                setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage());
+            const anchorNode = selection.anchor.getNode();
+            const element =
+                anchorNode.getKey() === "root"
+                ? anchorNode
+                : anchorNode.getTopLevelElementOrThrow();
+            const elementKey = element.getKey();
+            const elementDOM = editor.getElementByKey(elementKey);
+            if (elementDOM !== null) {
+                setSelectedElementKey(elementKey);
+                if ($isListNode(element)) {
+                    const parentList = $getNearestNodeOfType(anchorNode, ListNode);
+                    const type = parentList ? parentList.getTag() : element.getTag();
+                    setBlockType(type);
+                } else {
+                    const type = $isHeadingNode(element)
+                        ? element.getTag()
+                        : element.getType();
+                    setBlockType(type);
+                    if ($isCodeNode(element)) {
+                        setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage());
+                    }
+                }
             }
-            }
-        }
-        // Update text format
-        setIsBold(selection.hasFormat("bold"));
-        setIsItalic(selection.hasFormat("italic"));
-        setIsUnderline(selection.hasFormat("underline"));
-        setIsStrikethrough(selection.hasFormat("strikethrough"));
-        setIsCode(selection.hasFormat("code"));
-        setIsRTL($isParentElementRTL(selection));
+            // Update text format
+            setIsBold(selection.hasFormat("bold"));
+            setIsItalic(selection.hasFormat("italic"));
+            setIsUnderline(selection.hasFormat("underline"));
+            setIsStrikethrough(selection.hasFormat("strikethrough"));
+            setIsCode(selection.hasFormat("code"));
+            setIsRTL($isParentElementRTL(selection));
 
-        // Update links
-        const node = getSelectedNode(selection);
-        const parent = node.getParent();
-        if ($isLinkNode(parent) || $isLinkNode(node)) {
-            setIsLink(true);
-        } else {
-            setIsLink(false);
-        }
+            // Update links
+            const node = getSelectedNode(selection);
+            const parent = node.getParent();
+            if ($isLinkNode(parent) || $isLinkNode(node)) {
+                setIsLink(true);
+            } else {
+                setIsLink(false);
+            }
         }
     }, [editor]);
 
-  useEffect(() => {
-    return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateToolbar();
-        });
-      }),
-      editor.registerCommand(
-        SELECTION_CHANGE_COMMAND,
-        (_payload, newEditor) => {
-          updateToolbar();
-          return false;
+    useEffect(() => {
+        return mergeRegister(
+            editor.registerUpdateListener(({ editorState }) => {
+                editorState.read(() => {
+                updateToolbar();
+                });
+            }),
+            editor.registerCommand(
+                SELECTION_CHANGE_COMMAND,
+                (_payload, newEditor) => {
+                updateToolbar();
+                return false;
+                },
+                LowPriority
+            ),
+            editor.registerCommand(
+                CAN_UNDO_COMMAND,
+                (payload) => {
+                setCanUndo(payload);
+                return false;
+                },
+                LowPriority
+            ),
+            editor.registerCommand(
+                CAN_REDO_COMMAND,
+                (payload) => {
+                setCanRedo(payload);
+                return false;
+                },
+                LowPriority
+            )
+        );
+    }, [editor, updateToolbar]);
+
+    const codeLanguges = useMemo(() => getCodeLanguages(), []);
+    const onCodeLanguageSelect = useCallback(
+        (e:any) => {
+            editor.update(() => {
+                if (selectedElementKey !== null) {
+                    const node = $getNodeByKey(selectedElementKey);
+                    if ($isCodeNode(node)) {
+                        node.setLanguage(e.target.value);
+                    }
+                }
+            });
         },
-        LowPriority
-      ),
-      editor.registerCommand(
-        CAN_UNDO_COMMAND,
-        (payload) => {
-          setCanUndo(payload);
-          return false;
-        },
-        LowPriority
-      ),
-      editor.registerCommand(
-        CAN_REDO_COMMAND,
-        (payload) => {
-          setCanRedo(payload);
-          return false;
-        },
-        LowPriority
-      )
+        [editor, selectedElementKey]
     );
-  }, [editor, updateToolbar]);
 
-  const codeLanguges = useMemo(() => getCodeLanguages(), []);
-  const onCodeLanguageSelect = useCallback(
-    (e:any) => {
-      editor.update(() => {
-        if (selectedElementKey !== null) {
-          const node = $getNodeByKey(selectedElementKey);
-          if ($isCodeNode(node)) {
-            node.setLanguage(e.target.value);
-          }
+    const insertLink = useCallback(() => {
+        if (!isLink) {
+            editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
+        } else {
+            editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
         }
-      });
-    },
-    [editor, selectedElementKey]
-  );
+    }, [editor, isLink]);
 
-  const insertLink = useCallback(() => {
-    if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
-    } else {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    }
-  }, [editor, isLink]);
-
-  return (
-    <div className="toolbar" ref={toolbarRef}>
-      <button
-        disabled={!canUndo}
-        onClick={() => {
-            // @ts-ignore
-          editor.dispatchCommand(UNDO_COMMAND);
-        }}
-        className="toolbar-item spaced"
-        aria-label="Undo"
-      >
-        <i className="format undo" />
-      </button>
-      <button
-        disabled={!canRedo}
-        onClick={() => {
-            // @ts-ignore
-          editor.dispatchCommand(REDO_COMMAND);
-        }}
-        className="toolbar-item"
-        aria-label="Redo"
-      >
-        <i className="format redo" />
-      </button>
-      <Divider />
-      {supportedBlockTypes.has(blockType) && (
-        <>
-          <button
-            className="toolbar-item block-controls"
-            onClick={() =>
-              setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
-            }
-            aria-label="Formatting Options"
-          >
-            <span className={"icon block-type " + blockType} />
-            
-            <span className="text">{
-                // @ts-ignore 
-                blockTypeToBlockName[blockType]
-            }</span>
-            <i className="chevron-down" />
-          </button>
-          {showBlockOptionsDropDown &&
-            createPortal(
-              <BlockOptionsDropdownList
-                editor={editor}
-                blockType={blockType}
-                toolbarRef={toolbarRef}
-                setShowBlockOptionsDropDown={setShowBlockOptionsDropDown}
-              />,
-              document.body
-            )}
-          <Divider />
-        </>
-      )}
-      {blockType === "code" ? (
-        <>
-          <Select
-            className="toolbar-item code-language"
-            onChange={onCodeLanguageSelect}
-            options={codeLanguges}
-            value={codeLanguage}
-          />
-          <i className="chevron-down inside" />
-        </>
-      ) : (
-        <>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-            }}
-            className={"toolbar-item spaced " + (isBold ? "active" : "")}
-            aria-label="Format Bold"
-          >
-            <i className="format bold" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-            }}
-            className={"toolbar-item spaced " + (isItalic ? "active" : "")}
-            aria-label="Format Italics"
-          >
-            <i className="format italic" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-            }}
-            className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
-            aria-label="Format Underline"
-          >
-            <i className="format underline" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-            }}
-            className={
-              "toolbar-item spaced " + (isStrikethrough ? "active" : "")
-            }
-            aria-label="Format Strikethrough"
-          >
-            <i className="format strikethrough" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
-            }}
-            className={"toolbar-item spaced " + (isCode ? "active" : "")}
-            aria-label="Insert Code"
-          >
-            <i className="format code" />
-          </button>
-          <button
-            onClick={insertLink}
-            className={"toolbar-item spaced " + (isLink ? "active" : "")}
-            aria-label="Insert Link"
-          >
-            <i className="format link" />
-          </button>
-          {isLink &&
-            createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
-          <Divider />
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-            }}
-            className="toolbar-item spaced"
-            aria-label="Left Align"
-          >
-            <i className="format left-align" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-            }}
-            className="toolbar-item spaced"
-            aria-label="Center Align"
-          >
-            <i className="format center-align" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-            }}
-            className="toolbar-item spaced"
-            aria-label="Right Align"
-          >
-            <i className="format right-align" />
-          </button>
-          <button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-            }}
-            className="toolbar-item"
-            aria-label="Justify Align"
-          >
-            <i className="format justify-align" />
-          </button>{" "}
-        </>
-      )}
-    </div>
-  );
+    return (
+        <Fragment>
+            <div ref={toolbarRef} className={twMerge(['flex items-center rounded-md flex-wrap gap-2'])}>
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    disabled={!canUndo}
+                    className="block"
+                    // @ts-ignore
+                    onClick={() => editor.dispatchCommand(UNDO_COMMAND)}
+                    aria-label="Undo"
+                >
+                    <Undo2 className="h-4 w-4" />
+                </Toggle>
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    disabled={!canRedo}
+                    className="block"
+                    // @ts-ignore
+                    onClick={() => editor.dispatchCommand(REDO_COMMAND)}
+                    aria-label="Redo"
+                >
+                    <Redo2 className="h-4 w-4" />
+                </Toggle>
+                <Separator orientation="vertical" className="h-5" />
+                <Toggle type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+                    pressed={isBold}
+                    className="block"
+                    aria-label="Format Bold"
+                >
+                    <Bold className="h-4 w-4" />
+                </Toggle>
+                <Toggle type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
+                    pressed={isItalic}
+                    className="block"
+                    aria-label="Format Italics"
+                >
+                    <Italic className="h-4 w-4" />
+                </Toggle>
+                <Toggle type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
+                    pressed={isUnderline}
+                    className="block"
+                    aria-label="Format Underline"
+                >
+                    <Underline className="h-4 w-4" />
+                </Toggle>
+                <Toggle type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")}
+                    pressed={isStrikethrough}
+                    className="block"
+                    aria-label="Format Strikethrough"
+                >
+                    <Strikethrough className="h-4 w-4" />
+                </Toggle>
+                <Toggle type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code")}
+                    pressed={isCode}
+                    className="block"
+                    aria-label="Insert Code"
+                >
+                    <Code className="h-4 w-4" />
+                </Toggle>
+                <Toggle type={'button'} size={"sm"}
+                    onClick={insertLink}
+                    pressed={isLink}
+                    className="block"
+                    aria-label="Insert Link"
+                >
+                    <Link className="h-4 w-4" />
+                </Toggle>
+                {isLink &&
+                    createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
+                <Divider />
+                <Separator orientation="vertical" className="h-5" />
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
+                    className="block"
+                    aria-label="Left Align"
+                >
+                    <AlignLeft className="h-4 w-4" />
+                </Toggle>
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")}
+                    className="block"
+                    aria-label="Center Align"
+                >
+                    <AlignCenter className="h-4 w-4" />
+                </Toggle>
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")}
+                    className="block"
+                    aria-label="Right Align"
+                >
+                    <AlignRight className="h-4 w-4" />
+                </Toggle>
+                <Toggle pressed={false} type={'button'} size={"sm"}
+                    onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")}
+                    className="block"
+                    aria-label="Justify Align"
+                >
+                    <AlignJustify className="h-4 w-4" />
+                </Toggle>
+            </div>
+            <Separator className="my-1" />
+        </Fragment>
+    );
 }

@@ -7,25 +7,6 @@
 }
 
 @layer components {
-    body {
-  margin: 0;
-  background: #eee;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular",
-    sans-serif;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  color: #333;
-}
 
 .ltr {
   text-align: left;
@@ -334,7 +315,7 @@ pre::-webkit-scrollbar-thumb {
   background-image: url(./../components/ui/editor/images/emoji/1F642.png);
 }
 
-.toolbar {
+/* .toolbar {
   display: flex;
   margin-bottom: 1px;
   background: #fff;
@@ -343,7 +324,7 @@ pre::-webkit-scrollbar-thumb {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   overflow: auto;
-}
+} */
 
 .toolbar button.toolbar-item {
   border: 0;
