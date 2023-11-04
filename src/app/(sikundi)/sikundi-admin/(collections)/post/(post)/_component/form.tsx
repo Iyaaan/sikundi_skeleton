@@ -20,7 +20,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Switch } from "@sikundi/components/ui/switch"
-import { Editor } from "@sikundi/components/ui/editor"
 
 export default function PostForm() {
     const { toast } = useToast()
@@ -62,7 +61,7 @@ export default function PostForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => trigger(data))} className="grid lg:grid-cols-12 gap-4">
+            <form onSubmit={form.handleSubmit(data => trigger(data))} className="grid lg:grid-cols-12 gap-4 items-start">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField
@@ -106,9 +105,9 @@ export default function PostForm() {
                         />
                     </CardContent>
                 </Card>
-                <Card className="p-0 lg:col-span-8 lg:order-4">
-                    <CardContent className="grid gap-4 w-full p-0">
-                        <Editor />
+                <Card className="p-0 lg:col-span-8 lg:order-4 h-full">
+                    <CardContent className="grid gap-4 w-full p-0 h-full">
+
                     </CardContent>
                 </Card>
                 <Card className="pt-6 lg:col-span-8 lg:order-6">

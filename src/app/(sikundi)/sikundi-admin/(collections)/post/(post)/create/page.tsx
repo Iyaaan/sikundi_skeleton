@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
-    // await new Promise(r => setTimeout(r, 10000))
     return (
         <Form />
     )
