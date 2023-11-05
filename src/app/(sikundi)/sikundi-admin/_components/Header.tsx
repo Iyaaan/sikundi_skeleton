@@ -45,13 +45,7 @@ const Header:FC<Props> = ({ data }) => {
     const router = useRouter()
     const pathName = usePathname()
     const params = useSearchParams()
-    const [filters, setFilters] = useState<{[key: string]: any}>(() => {
-        const paramss:any = {}
-        params.forEach((value, key)=>{
-            paramss[key] = value 
-        })
-        return paramss
-    })
+    const [filters, setFilters] = useState<{[key: string]: any}>({})
     const [open, setOpen] = useState(false)
     const debouncedValue = useDebounce<{[key: string]: any}>(filters, 500)
 
@@ -67,6 +61,14 @@ const Header:FC<Props> = ({ data }) => {
             router.push(url.toString())
         }
     }, [debouncedValue, router, data.url])
+
+    useEffect(() => {
+        const p:any = {}
+        params.forEach((value, key)=>{
+            p[key] = value 
+        })
+        setFilters(p)
+    }, [params])
 
     useEffect(() => {
         setOpen(false)

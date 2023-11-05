@@ -1,5 +1,6 @@
 import { Button } from "@sikundi/components/ui/button"
 import { LucideIcon } from "lucide-react"
+import Link from "next/link";
 
 interface Props {
     data: {
@@ -24,8 +25,8 @@ export default function EmptyPlaceholder(props:Props) {
                 <p className="mb-4 mt-2 text-sm text-muted-foreground">
                 You have not {props.data.deleted ? "deleted" : "added"} any {props.data.name}. {props.data.permissions.create && `Add one below.`}
                 </p>
-                {props.data.permissions.create && <Button size="sm" className="relative">
-                    Add {props.data.slug}
+                {props.data.permissions.create && <Button size="sm" className="relative" asChild>
+                    <Link href={`${props.data.url}/create`}>Add {props.data.slug}</Link>
                 </Button>}
             </div>
         </div>

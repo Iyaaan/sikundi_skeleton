@@ -12,9 +12,9 @@ export function webMiddleware(middleware: NextMiddleware) {
             }, { status: 401 })
             
 
-            if (request.nextUrl.pathname === "/") {
-                return NextResponse.redirect(new URL('/sikundi-login', request.url))
-            }
+            // if (request.nextUrl.pathname === "/") {
+            //     return NextResponse.redirect(new URL('/sikundi-login', request.url))
+            // }
         }
         return middleware(request, event)
     }

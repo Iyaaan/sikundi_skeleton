@@ -106,7 +106,7 @@ function Select2Inner<
         MultiValueRemove,
         ...components,
       }}
-      defaultValue={value}
+      defaultValue={defaultValue}
       options={options}
       noOptionsMessage={() => 'No options found !!'}
       onChange={onChange}

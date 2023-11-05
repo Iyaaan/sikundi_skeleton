@@ -101,6 +101,48 @@ export const shadcnPlugin = plugin(
                         DEFAULT: "hsl(var(--card))",
                         foreground: "hsl(var(--card-foreground))",
                     },
+                    web: {
+                        primary: {
+                            DEFAULT: "#DD1212",
+                            dark: "#DD1212"
+                        },
+                        secondary: {
+                            DEFAULT: "#1E1E1E",
+                            dark: "#1E1E1E"
+                        },
+                        tertiary: {
+                            DEFAULT: "#49586D",
+                            dark: "#49586D"
+                        },
+                        background: {
+                            DEFAULT: "#F6F6F6",
+                            dark: "#292D32"
+                        },
+                        foreground: {
+                            DEFAULT: "#FFFFFF",
+                            dark: "#373C43"
+                        },
+                        accent: {
+                            DEFAULT: "#49586D",
+                            dark: "#FFFFFF",
+                            sub: {
+                                DEFAULT: "#46526475",
+                                dark: "#FFFFFF75"
+                            },
+                            des: {
+                                DEFAULT: "#DFDFDF",
+                                dark: "#DFDFDF"
+                            },
+                            wall: {
+                                DEFAULT: "#495058",
+                                dark: "#DFDFDF",
+                                shaded: {
+                                    DEFAULT: "#FFFFFF75",
+                                    dark: "#FFFFFF75"
+                                }
+                            }
+                        },
+                    }
                 },
                 borderRadius: {
                     lg: "var(--radius)",

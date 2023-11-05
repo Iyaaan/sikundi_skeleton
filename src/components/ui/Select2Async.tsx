@@ -108,7 +108,7 @@ function Select2AsyncInner<
         MultiValueRemove,
         ...components,
       }}
-      defaultValue={value}
+      defaultValue={defaultValue}
       options={options}
       noOptionsMessage={() => 'No options found !!'}
       onChange={onChange}
