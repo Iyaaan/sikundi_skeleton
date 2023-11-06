@@ -66,6 +66,7 @@
         "react": "^18.2.0",
         "react-day-picker": "^8.9.0",
         "react-dom": "^18.2.0",
+        "react-dropzone": "^14.2.3",
         "react-hook-form": "^7.47.0",
         "react-select": "^5.7.7",
         "recharts": "^2.9.0",
