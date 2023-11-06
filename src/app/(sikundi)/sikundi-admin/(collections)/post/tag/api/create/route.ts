@@ -1,18 +1,30 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import TagSchema, { TagSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
+import { prisma } from "@sikundi/lib/server/utils/prisma"
 
 export async function POST(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, TagSchema, async (data:TagSchemaType) => {
-        return NextResponse.json({
-            data: data
+        const tag = await prisma.tag.create({
+            data: {
+                name: data.title,
+                slug: data.slug,
+                createdAt: data.createdAt,
+                createdBy: {
+                    connect: {
+                        email: data.createdBy.value
+                    }
+                }
+            }
         })
-        throw {
-            notification: {
-                title: "password incorrect",
-                description: `Please try again with the corrent password. if you forgot, please reset your password.`
+        return NextResponse.json({ 
+            data: {
+                tag: tag
             },
-            statusCode: 401
-        }
+            notification: {
+                title: `Tag Successfully Created`,
+                description: `a tag have created under the name ${tag.name}`
+            }
+        }, { status: 200 })
     }))
 }

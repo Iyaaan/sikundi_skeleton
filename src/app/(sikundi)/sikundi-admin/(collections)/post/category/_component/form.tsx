@@ -33,7 +33,8 @@ export default function CategoryForm({ user }: Props) {
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
-            
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdAt: new Date()
         }
     })
 
@@ -155,8 +156,6 @@ export default function CategoryForm({ user }: Props) {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
-                                            // @ts-ignore
-                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                 axios.get('/sikundi-admin/user/api/select', {
                                                     params: {

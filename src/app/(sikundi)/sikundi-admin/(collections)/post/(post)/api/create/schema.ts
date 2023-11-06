@@ -5,7 +5,10 @@ const PostSchema = z.object({
     latinTitle: z.string().optional(),
     description: z.string().optional(),
     lead: z.string().optional(),
-    createdBy: z.string().optional(),
+    createdBy: z.object({
+        value: z.string(),
+        label: z.string()
+    }),
     createdAt: z.date().optional(),
     category: z.object({
         value: z.string(),

@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
@@ -18,7 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import TagSchema, { TagSchemaType } from "../api/create/schema"
-import { useEffect } from "react"
+import { Fragment, useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
@@ -33,7 +33,10 @@ export default function TagForm({ user }: Props) {
     const form = useForm<TagSchemaType>({
         resolver: zodResolver(TagSchema),
         defaultValues: {
-            
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdAt: new Date(),
+            title: "",
+            slug: ""
         }
     })
 
@@ -41,13 +44,13 @@ export default function TagForm({ user }: Props) {
         form.setValue("slug", ThaanaLatin(form.getValues('title'))?.replaceAll(" ", "-"))
     }, [form.watch("title")])
 
-    const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/tag/api/create', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
                 title: "successfully submitted",
                 description: JSON.stringify(data.data)
             })
-            // router.replace("/sikundi-admin")
+            router.back()
         },
         onError: ({ response }) => {
             zodErrorGenerator(response.data.error, (data) => form.setError(
@@ -121,7 +124,7 @@ export default function TagForm({ user }: Props) {
                                                 )}
                                                 >
                                                 {field.value ? (
-                                                    format(field.value, "PPP")
+                                                    format(new Date(field.value), "PPP")
                                                 ) : (
                                                     <span>Publish at</span>
                                                 )}
@@ -132,7 +135,7 @@ export default function TagForm({ user }: Props) {
                                         <PopoverContent className="w-auto p-0" align="start">
                                             <Calendar
                                                 mode="single"
-                                                selected={field.value}
+                                                selected={field.value ? new Date(field.value) : undefined}
                                                 onSelect={field.onChange}
                                             />
                                         </PopoverContent>
@@ -155,8 +158,6 @@ export default function TagForm({ user }: Props) {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
-                                            // @ts-ignore
-                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                 axios.get('/sikundi-admin/user/api/select', {
                                                     params: {
@@ -186,7 +187,14 @@ export default function TagForm({ user }: Props) {
                             )}
                         />
                         <div className="flex items-center gap-4">
-                            <Button className="flex-1">Publish</Button>
+                            <Button className="flex-1" disabled={isMutating} aria-disabled={isMutating}>
+                                {isMutating ? 
+                                <Fragment>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Creating
+                                </Fragment>
+                                : "create"}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>

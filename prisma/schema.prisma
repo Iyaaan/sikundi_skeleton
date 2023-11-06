@@ -65,7 +65,7 @@ model User {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id])
 
   userName         String     @unique
@@ -92,7 +92,7 @@ model Role {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id])
 
   name        String @unique
@@ -105,7 +105,7 @@ model Log {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("logs", fields: [createdById], references: [id])
 
   action       Action
@@ -118,7 +118,7 @@ model Media {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id])
 
   posts Post[] @relation("postFeatureImage")
@@ -136,7 +136,7 @@ model Library {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id])
 
   name        String
@@ -148,7 +148,7 @@ model Post {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id])
 
   categoryId        Int?      @unique
@@ -158,6 +158,7 @@ model Post {
 
   title       String
   longTitle   String
+  latinTitle   String
   description String
   lead        Json
   status      Status @default(drafted)
@@ -169,10 +170,11 @@ model Category {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("categoriesCreated", fields: [createdById], references: [id])
 
   name        String
+  slug        String @unique
   description String
 
   posts Post[] @relation("postsCategory")
@@ -182,11 +184,11 @@ model Tag {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById Int?     @unique
+  createdById Int?
   createdBy   User?    @relation("tagsCreated", fields: [createdById], references: [id])
 
   name        String
-  description String
+  slug        String @unique
 
   tagsPosts PostsTags[] @relation("tagsPosts")
 }

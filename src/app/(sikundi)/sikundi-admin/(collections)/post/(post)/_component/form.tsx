@@ -36,7 +36,8 @@ export default function PostForm({ user }: Props) {
     const form = useForm<PostSchemaType>({
         resolver: zodResolver(PostSchema),
         defaultValues: {
-            
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdAt: new Date()
         }
     })
     
@@ -175,8 +176,25 @@ export default function PostForm({ user }: Props) {
                                                 label: `search for categories`, value: `search for categories`, isDisabled: true
                                             }]}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                // @ts-ignore
-                                                resolve([])
+                                                axios.get('/sikundi-admin/post/category/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error?.data?.notification?.title || error?.data?.error?.name,
+                                                        description: error?.data?.notification?.description || JSON.stringify(error?.data?.error?.details),
+                                                        variant: "destructive",
+                                                        action: error.data.error.name !== "Validation Error" ? 
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                                Try again
+                                                            </ToastAction> 
+                                                        : undefined
+                                                    })
+                                                    resolve([])
+                                                })
                                             })}
                                             {...field}
                                         />
@@ -202,8 +220,25 @@ export default function PostForm({ user }: Props) {
                                                 label: `search for tags`, value: `search for tags`, isDisabled: true
                                             }]}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                // @ts-ignore
-                                                resolve([])
+                                                axios.get('/sikundi-admin/post/tag/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error?.data?.notification?.title || error?.data?.error?.name,
+                                                        description: error?.data?.notification?.description || JSON.stringify(error?.data?.error?.details),
+                                                        variant: "destructive",
+                                                        action: error.data.error.name !== "Validation Error" ? 
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                                Try again
+                                                            </ToastAction> 
+                                                        : undefined
+                                                    })
+                                                    resolve([])
+                                                })
                                             })}
                                             {...field}
                                         />
@@ -300,8 +335,6 @@ export default function PostForm({ user }: Props) {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
-                                            // @ts-ignore
-                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                 axios.get('/sikundi-admin/user/api/select', {
                                                     params: {
