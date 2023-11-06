@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 interface payloadType extends jose.JWTPayload, Omit<User, 'password'> {
 
 }
-interface UserType extends jose.JWTVerifyResult {
+export interface UserType extends jose.JWTVerifyResult {
     payload: payloadType
 }
 

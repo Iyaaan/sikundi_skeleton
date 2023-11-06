@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon, File, Image } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
@@ -18,8 +18,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import TagSchema, { TagSchemaType } from "../api/create/schema"
+import { useEffect } from "react"
+import { ThaanaLatin } from "@sikundi/lib/transliterate"
+import axios from "axios"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
-export default function PostForm() {
+interface Props {
+    user: UserType
+}
+
+export default function TagForm({ user }: Props) {
     const { toast } = useToast()
     const router = useRouter()
     const form = useForm<TagSchemaType>({
@@ -28,6 +36,11 @@ export default function PostForm() {
             
         }
     })
+
+    useEffect(() => {
+        form.setValue("slug", ThaanaLatin(form.getValues('title'))?.replaceAll(" ", "-"))
+    }, [form.watch("title")])
+
     const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
@@ -80,9 +93,9 @@ export default function PostForm() {
                             name="slug"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Long title</FormLabel>
+                                    <FormLabel>Slug</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -142,9 +155,28 @@ export default function PostForm() {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
+                                            // @ts-ignore
+                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                // @ts-ignore
-                                                resolve([])
+                                                axios.get('/sikundi-admin/user/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error.data.notification.title || error.data.error.name,
+                                                        description: error.data.notification.description || JSON.stringify(error.data.error.details),
+                                                        variant: "destructive",
+                                                        action: error.data.error.name !== "Validation Error" ? 
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                                Try again
+                                                            </ToastAction> 
+                                                        : undefined
+                                                    })
+                                                    resolve([])
+                                                })
                                             })}
                                             {...field}
                                         />

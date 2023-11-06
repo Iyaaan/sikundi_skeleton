@@ -8,7 +8,7 @@ export default async function page() {
         <EmptyPlaceholder data={{
             slug: "tag",
             name: "tags",
-            url: 'sikundi-admin/post/tag',
+            url: '/sikundi-admin/post/tag',
             Icon: Tag,
             permissions: {
                 create: true,

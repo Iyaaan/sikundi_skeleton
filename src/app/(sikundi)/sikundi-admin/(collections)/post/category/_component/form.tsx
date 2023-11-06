@@ -4,25 +4,30 @@ import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon, File, Image } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
-import { Textarea } from "@sikundi/components/ui/textarea"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
-import { Switch } from "@sikundi/components/ui/switch"
-import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
 import CategorySchema, { CategorySchemaType } from "../api/create/schema"
+import { useEffect } from "react"
+import { ThaanaLatin } from "@sikundi/lib/transliterate"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
+import axios from "axios"
 
-export default function PostForm() {
+interface Props {
+    user: UserType
+}
+
+export default function CategoryForm({ user }: Props) {
     const { toast } = useToast()
     const router = useRouter()
     const form = useForm<CategorySchemaType>({
@@ -31,6 +36,11 @@ export default function PostForm() {
             
         }
     })
+
+    useEffect(() => {
+        form.setValue("slug", ThaanaLatin(form.getValues('title'))?.replaceAll(" ", "-"))
+    }, [form.watch("title")])
+
     const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
@@ -83,9 +93,9 @@ export default function PostForm() {
                             name="slug"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Long title</FormLabel>
+                                    <FormLabel>Slug</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -145,9 +155,28 @@ export default function PostForm() {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
+                                            // @ts-ignore
+                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                // @ts-ignore
-                                                resolve([])
+                                                axios.get('/sikundi-admin/user/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error.data.notification.title || error.data.error.name,
+                                                        description: error.data.notification.description || JSON.stringify(error.data.error.details),
+                                                        variant: "destructive",
+                                                        action: error.data.error.name !== "Validation Error" ? 
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                                Try again
+                                                            </ToastAction> 
+                                                        : undefined
+                                                    })
+                                                    resolve([])
+                                                })
                                             })}
                                             {...field}
                                         />

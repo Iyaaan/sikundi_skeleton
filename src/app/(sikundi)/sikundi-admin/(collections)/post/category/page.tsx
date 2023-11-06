@@ -8,7 +8,7 @@ export default async function page() {
         <EmptyPlaceholder data={{
             slug: "category",
             name: "categories",
-            url: 'sikundi-admin/post/category',
+            url: '/sikundi-admin/post/category',
             Icon: Package,
             permissions: {
                 create: true,

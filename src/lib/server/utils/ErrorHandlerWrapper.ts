@@ -1,23 +1,26 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { ZodSchema } from 'zod'
 
-export default async function ErrorHandlerWrapper(request: NextRequest, schema: ZodSchema<any>, responseCallback: (data: any) => Promise<NextResponse>) {
+export default async function ErrorHandlerWrapper(request: NextRequest, schema: ZodSchema<any> | null, responseCallback: (data?: any) => Promise<NextResponse>) {
     try {
-        const data = await schema.safeParseAsync(await request.json())
-        if (!data.success) {
-            return NextResponse.json({ 
-                error: {
-                    name: 'Validation Error',
-                    details: data.error
-                },
-                notification: {
-                    title: 'Validation Error',
-                    description: 'Your submitted inputs are not valid'
-                }
-            }, { status: 403 })
-        }
+        if (schema !== null) {
+            const data = await schema.safeParseAsync(await request.json())
+            if (!data.success) {
+                return NextResponse.json({ 
+                    error: {
+                        name: 'Validation Error',
+                        details: data.error
+                    },
+                    notification: {
+                        title: 'Validation Error',
+                        description: 'Your submitted inputs are not valid'
+                    }
+                }, { status: 403 })
+            }
     
-        return await responseCallback(data.data)
+            return await responseCallback(data.data)
+        }
+        return await responseCallback()
     } catch (e:any) {
         return NextResponse.json({ 
             error: {

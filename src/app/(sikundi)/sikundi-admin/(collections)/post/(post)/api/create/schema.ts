@@ -2,6 +2,7 @@ import * as z from 'zod'
 const PostSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     longTitle: z.string().optional(),
+    latinTitle: z.string().optional(),
     description: z.string().optional(),
     lead: z.string().optional(),
     createdBy: z.string().optional(),

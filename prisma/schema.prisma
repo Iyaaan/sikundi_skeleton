@@ -68,7 +68,7 @@ model User {
   createdById Int?     @unique
   createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id])
 
-  userName         String
+  userName         String     @unique
   email            String     @unique
   password         String
   description      String

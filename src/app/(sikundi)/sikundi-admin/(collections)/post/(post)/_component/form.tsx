@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@sikundi/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@sikundi/components/ui/card"
+import { Card, CardContent } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
@@ -21,8 +21,16 @@ import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Switch } from "@sikundi/components/ui/switch"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
+import { useEffect } from "react"
+import { ThaanaLatin } from "@sikundi/lib/transliterate"
+import axios from "axios"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
-export default function PostForm() {
+interface Props {
+    user: UserType
+}
+
+export default function PostForm({ user }: Props) {
     const { toast } = useToast()
     const router = useRouter()
     const form = useForm<PostSchemaType>({
@@ -31,6 +39,11 @@ export default function PostForm() {
             
         }
     })
+    
+    useEffect(() => {
+        form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
+    }, [form.watch("title")])
+
     const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
@@ -86,6 +99,19 @@ export default function PostForm() {
                                     <FormLabel>Long title</FormLabel>
                                     <FormControl>
                                         <Input dir="rtl" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='latinTitle'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Latin title</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -274,9 +300,28 @@ export default function PostForm() {
                                                 // @ts-ignore
                                                 label: `search for authors`, value: `search for authors`, isDisabled: true
                                             }]}
+                                            // @ts-ignore
+                                            defaultValue={{ label: `${user.payload.userName}`, value: `${user.payload.email}` }}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                // @ts-ignore
-                                                resolve([])
+                                                axios.get('/sikundi-admin/user/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error.data.notification.title || error.data.error.name,
+                                                        description: error.data.notification.description || JSON.stringify(error.data.error.details),
+                                                        variant: "destructive",
+                                                        action: error.data.error.name !== "Validation Error" ? 
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                                Try again
+                                                            </ToastAction> 
+                                                        : undefined
+                                                    })
+                                                    resolve([])
+                                                })
                                             })}
                                             {...field}
                                         />
