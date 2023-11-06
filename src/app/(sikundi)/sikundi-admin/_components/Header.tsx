@@ -94,7 +94,7 @@ const Header:FC<Props> = ({ data }) => {
             </div>
             <Separator className="my-4" />
             {((`${data.url}/create` !== pathName)) && <div className='flex items-center justify-between flex-row gap-4 mb-4'>
-                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'search': value.target.value }))} value={filters?.['search'] || ""} />
+                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'query': value.target.value }))} value={filters?.['query'] || ""} />
                 {((`${data.url}/trash` !== pathName) && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='lg:w-auto'><span className='hidden lg:block me-3'>Filter</span> <SlidersHorizontal className='w-3' /></Button>
@@ -125,7 +125,7 @@ const Header:FC<Props> = ({ data }) => {
                                                     label: `search for ${filter.label}`, value: `search for ${filter.label}`, isDisabled: true
                                                 }]}
                                                 loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                    resolve((await axios.get(`${filter.url}?search=${inputValue}`))?.data?.data || [])
+                                                    resolve((await axios.get(`${filter.url}?query=${inputValue}`))?.data?.data || [])
                                                 })}
                                                 value={filter.options?.filter(({value})=> value === filters[filter.name])}
                                                 onChange={(value:any) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 

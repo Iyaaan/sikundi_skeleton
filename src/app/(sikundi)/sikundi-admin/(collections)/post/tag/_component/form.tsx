@@ -51,6 +51,7 @@ export default function TagForm({ user }: Props) {
                 description: JSON.stringify(data.data)
             })
             router.back()
+            router.refresh()
         },
         onError: ({ response }) => {
             zodErrorGenerator(response.data.error, (data) => form.setError(

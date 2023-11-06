@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import Loading from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/loading'
-import { DataTableDemo } from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTable'
+import DataTable from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTable'
 import { notFound } from 'next/navigation'
 export const dynamic = "force-dynamic"
 
@@ -24,7 +24,7 @@ async function List({getData}: {getData: () => Promise<{ [name:string]: string }
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
-            <DataTableDemo data={data} />
+            <DataTable data={data} />
         </div>
     )
 }
