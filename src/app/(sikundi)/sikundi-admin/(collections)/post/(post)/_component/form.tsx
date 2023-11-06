@@ -61,12 +61,7 @@ export default function PostForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => {
-                toast({
-                    title: "You dont have permission",
-                    description: "contact your admin for permission"
-                })
-            })} className="grid lg:grid-cols-12 gap-4 items-start">
+            <form onSubmit={form.handleSubmit(data => trigger(data))} className="grid lg:grid-cols-12 gap-4 items-start">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField

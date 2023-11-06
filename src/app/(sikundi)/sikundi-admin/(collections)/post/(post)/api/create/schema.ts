@@ -6,12 +6,18 @@ const PostSchema = z.object({
     lead: z.string().optional(),
     createdBy: z.string().optional(),
     createdAt: z.date().optional(),
-    category: z.string().optional(),
+    category: z.object({
+        value: z.string(),
+        label: z.string()
+    }).optional(),
     featureImageUrl: z.string().optional(),
     status: z.string().refine((status) => ['drafted', 'published', 'soft_deleted', 'pending'].includes(status), {
         message: 'Status is not valid'
     }),
-    tags: z.string().array().optional(),
+    tags: z.object({
+        value: z.string(),
+        label: z.string()
+    }).array().optional(),
     push: z.object({
         facebook: z.boolean().optional(),
         telegram: z.boolean().optional(),
