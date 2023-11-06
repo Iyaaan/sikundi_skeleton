@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <Fragment>
 
-            {/* <VarientOne className="mb-12" />
+            <VarientOne className="mb-12" />
             <LandScapeAd href={"https://bankofmaldives.com.mv"} 
                 target="_blank"
                 containerClass="container px-4 mb-10"
@@ -31,7 +31,7 @@ export default function Home() {
             />
             <VarientFour title="ރިޕޯޓް" className="mb-12" />
             <VarientFive title="ގްރެފިކްސް" className="mb-12" />
-            <VarientOne title="ކުޅިވަރު" className="mb-12" /> */}
+            <VarientOne title="ކުޅިވަރު" className="mb-12" />
 
         </Fragment>
     )

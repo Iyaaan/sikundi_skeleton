@@ -12,12 +12,12 @@ import { useModalStore } from "@sikundi/store/modalStore"
 
 // @ts-ignore
 const menuItems = [
-    // { label: "ހަބަރު", link: "/category/news" },
-    // { label: "ރިޕޯޓު", link: "/category/reports" },
-    // { label: "ކުޅިވަރު", link: "/category/sports" },
-    // { label: "މުނިފޫހިފިލުވުން", link: "/category/entertainment" },
-    // { label: "ލައިފްސްޓައިލް", link: "/category/life-style" },
-    // { label: "ވިޔަފާރި", link: "/category/business" },
+    { label: "ހަބަރު", link: "/category/news" },
+    { label: "ރިޕޯޓު", link: "/category/reports" },
+    { label: "ކުޅިވަރު", link: "/category/sports" },
+    { label: "މުނިފޫހިފިލުވުން", link: "/category/entertainment" },
+    { label: "ލައިފްސްޓައިލް", link: "/category/life-style" },
+    { label: "ވިޔަފާރި", link: "/category/business" },
 ]
 
 const Header = () => {

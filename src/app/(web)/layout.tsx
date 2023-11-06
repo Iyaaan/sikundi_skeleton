@@ -6,6 +6,7 @@ import Header from '@sikundi/app/(web)/Header'
 import Footer from '@sikundi/app/(web)/Footer'
 import MenuModal from '@sikundi/app/(web)/MenuModal'
 import localFont from 'next/font/local'
+import NextTopLoader from 'nextjs-toploader'
 
 const font = localFont({
     src: [
@@ -119,6 +120,20 @@ export default function RootLayout(props: Props) {
         <html lang="dv-Mv" translate="no">
             <body className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`} dir='rtl'>
                 <ThemeProvider>
+                    <NextTopLoader
+                        color={"#ca2126"}
+                        initialPosition={0.08}
+                        crawlSpeed={200}
+                        height={3}
+                        crawl={true}
+                        showSpinner={false}
+                        easing="ease"
+                        speed={200}
+                        shadow="0 0 10px #000000,0 0 5px #000000"
+                        template='<div class="bar" role="bar"><div class="peg"></div></div> 
+                        <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+                        zIndex={1600}
+                    />
                     <AnalyticsProvider>
                         <Header />
                         <MenuModal />

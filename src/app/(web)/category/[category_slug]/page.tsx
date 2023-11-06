@@ -8,7 +8,6 @@ interface Props {
 
 export default function CategoryPage(props: Props) {
     return (
-        // <VarientFour title="ރިޕޯޓް" className="mb-12" loadMore />
-        null
+        <VarientFour title="ރިޕޯޓް" className="mb-12" loadMore />
     )
 }
