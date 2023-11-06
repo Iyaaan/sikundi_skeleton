@@ -13,10 +13,10 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     loadMore?: boolean
 }
 
-const VarientTwo:FC<Props> = ({title, data, loadMore, ...props}) => {
+const VarientTwo:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
     return (
         <div {...props} className={twMerge([
-            'container bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] relative',
+            'container bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] relative px-0',
             props.className
         ])}>
             <div className='grid lg:grid-cols-5 grid-cols-2 gap-4 p-6 pb-16 mb-6'>
@@ -36,7 +36,7 @@ const VarientTwo:FC<Props> = ({title, data, loadMore, ...props}) => {
     )
 }
 
-VarientTwo.defaultProps = {
+const defaultProps = {
     data: [
         {
             href: `/836487`, 

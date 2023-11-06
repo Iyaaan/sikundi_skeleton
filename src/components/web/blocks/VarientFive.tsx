@@ -22,12 +22,12 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     loadMore?: boolean
 }
 
-const VarientFive:FC<Props> = ({title, data, loadMore, ...props}) => {
+const VarientFive:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
     const router = useRouter()
     const swiperRef = useRef<any>(null)
 
     return (
-        <div {...props} className={twMerge(['container relative', props.className])}>
+        <div {...props} className={twMerge(['container relative px-0', props.className])}>
             <div className='lg:rounded-[20px] bg-web-secondary dark:bg-web-secondary-dark lg:pb-20 lg:pt-14 pt-10 pb-14 px-4 lg:px-8 mb-6 relative'>
                 {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-secondary dark:text-web-secondary-dark stroke-text-white lg:mb-16 mb-6'>
                     {title}
@@ -70,7 +70,7 @@ const VarientFive:FC<Props> = ({title, data, loadMore, ...props}) => {
     )
 }
 
-VarientFive.defaultProps = {
+const defaultProps = {
     data: [
         {
             href: `/836342387`, 

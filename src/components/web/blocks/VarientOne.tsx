@@ -15,13 +15,13 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     loadMore?: boolean
 }
 
-const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
+const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
     return (
         <div {...props} className={twMerge([
-            'container lg:px-4 ',
+            'container lg:px-4 px-0 ',
             props.className
         ])}>
-            {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark mb-10'>
+            {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark mb-10 stroke-text-accent'>
                 {title}
             </h1>}
             <div className='grid grid-cols-12 gap-8 mb-4'>
@@ -60,7 +60,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
     )
 }
 
-VarientOne.defaultProps = {
+const defaultProps = {
     data: [
         {
             href: `/836487`, 
