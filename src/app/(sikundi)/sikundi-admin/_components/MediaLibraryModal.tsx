@@ -63,8 +63,8 @@ export default function MediaLibraryModal({...props}: ButtonProps) {
                             <input {...getInputProps()} />
                             {
                                 isDragActive ?
-                                <P>Drop the files here ...</P> :
-                                <P>Drag 'n' drop some files here, or click to select files</P>
+                                <P>{"Drop the files here ..."}</P> :
+                                <P>{"Drag 'n' drop some files here, or click to select files"}</P>
                             }
                         </div>}
                     </TabsContent>

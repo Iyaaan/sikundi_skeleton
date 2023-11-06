@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import CategorySchema, { CategorySchemaType } from './schema'
+import TagSchema, { TagSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
 
 export async function POST(request: NextRequest) {
-    return (await ErrorHandlerWrapper(request, CategorySchema, async (data:CategorySchemaType) => {
+    return (await ErrorHandlerWrapper(request, TagSchema, async (data:TagSchemaType) => {
         return NextResponse.json({
             data: data
         })

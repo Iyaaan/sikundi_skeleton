@@ -10,7 +10,7 @@ import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon, File, Image } from "lucide-react"
+import { CalendarIcon, ImageIcon } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
@@ -20,11 +20,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Switch } from "@sikundi/components/ui/switch"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@sikundi/components/ui/dialog"
-import { Label } from "@sikundi/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@sikundi/components/ui/tabs"
-import { ScrollArea } from "@sikundi/components/ui/scroll-area"
-import EmptyPlaceholder from "@sikundi/app/(sikundi)/sikundi-admin/_components/EmptyPlaceHolder"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
 
 export default function PostForm() {
@@ -132,7 +127,7 @@ export default function PostForm() {
                     <CardContent className="grid gap-4 aspect-video">
                         <div className="border rounded-md items-center justify-center flex">
                             <MediaLibraryModal>
-                                <Image className="mr-2" /> Add Feature Image
+                                <ImageIcon className="mr-2" /> Add Feature Image
                             </MediaLibraryModal>
                         </div>
                     </CardContent>
