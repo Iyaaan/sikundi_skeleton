@@ -14,7 +14,7 @@ interface Props {
 
 export default function SinglePage(props: Props) {
     return (
-        <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4">
+        <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
             <div className="lg:col-span-9 col-span-12">
                 <Feature className="pb-12" data={{
                     title: "އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ!",
