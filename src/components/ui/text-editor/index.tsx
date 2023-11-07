@@ -14,14 +14,14 @@ export default function TextEditor() {
     return (
         <Card className="lg:col-span-8 lg:order-4">
             <CardHeader className=''>
-                <div className='flex gap-2 items-center flex-wrap'>
+                <div className='flex lg:gap-2 gap-1 items-center flex-wrap'>
                     <Toggle size={"sm"} variant={"outline"}>
                         <Undo2Icon className='h-4 w-4' />
                     </Toggle>
                     <Toggle size={"sm"} variant={"outline"}>
                         <Redo2Icon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 mx-3' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <BoldIcon className='h-4 w-4' />
                     </Toggle>
@@ -34,7 +34,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <LinkIcon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 mx-3' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <ListIcon className='h-4 w-4' />
                     </Toggle>
@@ -44,7 +44,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <QuoteIcon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 mx-3' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <AlignLeft className='h-4 w-4' />
                     </Toggle>
@@ -54,7 +54,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <AlignRight className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-1 ml-3 mr-8' />
+                    <Separator orientation={"vertical"} className='h-1 lg:mx-3 mx-2' />
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild className='ml-auto'>
                             <Button
