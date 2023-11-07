@@ -93,7 +93,7 @@ const Header:FC<Props> = ({ data }) => {
                 </div>}
             </div>
             <Separator className="my-4" />
-            {((`${data.url}/create` !== pathName)) && <div className='flex items-center justify-between flex-row gap-4 mb-4'>
+            {((!pathName.endsWith("create")) && !(pathName.endsWith("update"))) && <div className='flex items-center justify-between flex-row gap-4 mb-4'>
                 <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'query': value.target.value }))} value={filters?.['query'] || ""} />
                 {((`${data.url}/trash` !== pathName) && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>

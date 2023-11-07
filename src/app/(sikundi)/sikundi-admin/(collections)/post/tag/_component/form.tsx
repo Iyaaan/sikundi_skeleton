@@ -12,7 +12,7 @@ import { ToastAction } from "@sikundi/components/ui/toast"
 import { CalendarIcon, Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
@@ -25,26 +25,33 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 
 interface Props {
     user: UserType
+    data?: {[name:string]: unknown}
+    type: "create" | "update"
 }
 
-export default function TagForm({ user }: Props) {
+export default function TagForm({ user, data, type }: Props) {
     const { toast } = useToast()
     const router = useRouter()
+  const params = useParams()
     const form = useForm<TagSchemaType>({
         resolver: zodResolver(TagSchema),
         defaultValues: {
             createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
             createdAt: new Date(),
-            title: "",
-            slug: ""
+            name: "",
+            slug: "",
+            ...data
         }
     })
 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('title'))?.replaceAll(" ", "-"))
-    }, [form.watch("title")])
+        form.setValue("slug", ThaanaLatin(form.getValues('name'))?.replaceAll(" ", "-"))
+    }, [form.watch("name")])
 
-    const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/tag/api/create', PostHandler<any>, {
+    const { trigger, isMutating } = useSWRMutation(
+        type === 'create' ? '/sikundi-admin/post/tag/api/create' :
+        `/sikundi-admin/post/tag/api/${params.id}/update`
+        , PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
                 title: "successfully submitted",
@@ -81,7 +88,7 @@ export default function TagForm({ user }: Props) {
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name='title'
+                            name='name'
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Title</FormLabel>
@@ -187,15 +194,36 @@ export default function TagForm({ user }: Props) {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex items-center gap-4">
-                            <Button className="flex-1" disabled={isMutating} aria-disabled={isMutating}>
-                                {isMutating ? 
+                        <div className="grid grid-cols-2 items-center gap-2">
+                            {
+                                type === "create" ?
+                                <Button className="col-span-2" disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "create")}>
+                                    {(isMutating && form.getValues("action") === "create") ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "create"}
+                                </Button> :
                                 <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating
+                                    <Button disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "update")}>
+                                        {(isMutating && form.getValues("action") === "update") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "update"}
+                                    </Button> 
+                                    <Button disabled={isMutating} aria-disabled={isMutating} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
+                                        {(isMutating && form.getValues("action") === "delete") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "delete"}
+                                    </Button> 
                                 </Fragment>
-                                : "create"}
-                            </Button>
+                            }
                         </div>
                     </CardContent>
                 </Card>
