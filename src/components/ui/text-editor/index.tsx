@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { Button } from '../button'
 import { Command, CommandGroup, CommandItem } from '../command'
 
-export default function index() {
+export default function TextEditor() {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
