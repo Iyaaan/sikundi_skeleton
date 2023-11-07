@@ -45,6 +45,15 @@ export default function PostForm({ user }: Props) {
     useEffect(() => {
         form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
     }, [title, form])
+    
+    const push_all = form.watch("push.all") 
+    useEffect(() => {
+        form.setValue("push.facebook", form.getValues("push.all"))
+        form.setValue("push.firebase", form.getValues("push.all"))
+        form.setValue("push.telegram", form.getValues("push.all"))
+        form.setValue("push.viber", form.getValues("push.all"))
+        form.setValue("push.x", form.getValues("push.all"))
+    }, [push_all, form])
 
     const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
         onSuccess: (data) => {
@@ -253,12 +262,11 @@ export default function PostForm({ user }: Props) {
                 <Card className="pt-6 lg:col-span-4 lg:order-5">
                     <CardContent className="grid gap-4">
                         {[
+                            {name: "push.all", label: "All", description: "Post the link to all channels"},
                             {name: "push.facebook", label: "Facebook", description: "Post the link to facebook page"},
                             {name: "push.telegram", label: "Telegram", description: "Post the link to telegram channel"},
                             {name: "push.viber", label: "Viber", description: "Post the link to viber community"},
                             {name: "push.x", label: "X (Twitter)", description: "Post the link to x (twitter) account"},
-                            {name: "push.sms", label: "SMS", description: "SMS the link"},
-                            {name: "push.email", label: "Email", description: "Email the link"},
                             {name: "push.firebase", label: "Firebase", description: "Push notification to whom subscribed"}
                         ].map((poster, index) => <FormField key={index}
                             control={form.control}

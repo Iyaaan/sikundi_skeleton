@@ -6,7 +6,7 @@ import { prisma } from '@sikundi/lib/server/utils/prisma'
 
 export async function GET(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, null, async () => {
-        const categories = await prisma.category.findMany({
+        const tags = await prisma.tag.findMany({
             select: {
                 name: true,
                 slug: true
@@ -28,9 +28,9 @@ export async function GET(request: NextRequest) {
             take: 5
         })
         return NextResponse.json({
-            data: categories.map((category) => ({
-                label: category.name,
-                value: category.slug
+            data: tags.map((tag) => ({
+                label: tag.name,
+                value: tag.slug
             }))
         })
     }))
