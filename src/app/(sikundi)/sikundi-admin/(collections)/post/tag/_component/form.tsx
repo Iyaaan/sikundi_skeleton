@@ -46,7 +46,7 @@ export default function TagForm({ user, data, type }: Props) {
     
     const name = form.watch("name") 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('slug')))
+        form.setValue("slug", ThaanaLatin(form.getValues('name')))
     }, [name, form])
 
     const { trigger, isMutating } = useSWRMutation(

@@ -47,7 +47,7 @@ export default function CategoryForm({ user, data, type }: Props) {
     
     const name = form.watch("name") 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('slug')))
+        form.setValue("slug", ThaanaLatin(form.getValues('name')))
     }, [name, form])
 
     const { trigger, isMutating } = useSWRMutation(
@@ -93,7 +93,7 @@ export default function CategoryForm({ user, data, type }: Props) {
                             name='name'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Title</FormLabel>
+                                    <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input dir="rtl" {...field} />
                                     </FormControl>
