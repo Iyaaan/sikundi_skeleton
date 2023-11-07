@@ -21,7 +21,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <Redo2Icon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-1' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <BoldIcon className='h-4 w-4' />
                     </Toggle>
@@ -34,7 +34,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <LinkIcon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-1' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <ListIcon className='h-4 w-4' />
                     </Toggle>
@@ -44,7 +44,7 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <QuoteIcon className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-2' />
+                    <Separator orientation={"vertical"} className='h-7 lg:mx-3 mx-1' />
                     <Toggle size={"sm"} variant={"outline"}>
                         <AlignLeft className='h-4 w-4' />
                     </Toggle>
@@ -54,7 +54,6 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <AlignRight className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-1 lg:mx-3 mx-2' />
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild className='ml-auto'>
                             <Button
