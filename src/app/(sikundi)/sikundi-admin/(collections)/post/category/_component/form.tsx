@@ -9,46 +9,57 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import CategorySchema, { CategorySchemaType } from "../api/create/schema"
-import { useEffect } from "react"
+import { Fragment, useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import axios from "axios"
+import { Textarea } from "@sikundi/components/ui/textarea"
 
 interface Props {
     user: UserType
+    data?: {[name:string]: unknown}
+    type: "create" | "update"
 }
 
-export default function CategoryForm({ user }: Props) {
+export default function CategoryForm({ user, data, type }: Props) {
     const { toast } = useToast()
     const router = useRouter()
+    const params = useParams()
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
             createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
-            createdAt: new Date()
+            createdAt: new Date(),
+            name: "",
+            slug: "",
+            ...data
         }
     })
 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('title'))?.replaceAll(" ", "-"))
-    }, [form.watch("title")])
+        form.setValue("slug", ThaanaLatin(form.getValues('name'))?.replaceAll(" ", "-"))
+    }, [form.watch("name")])
 
-    const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
+    const { trigger, isMutating } = useSWRMutation(
+        type === 'create' ? '/sikundi-admin/post/category/api/create' :
+        `/sikundi-admin/post/category/api/${params.id}/update`
+        , PostHandler<any>, {
         onSuccess: (data) => {
             toast(data?.data?.notification || {
                 title: "successfully submitted",
                 description: JSON.stringify(data.data)
             })
-            // router.replace("/sikundi-admin")
+            router.back()
+            router.refresh()
         },
         onError: ({ response }) => {
             zodErrorGenerator(response.data.error, (data) => form.setError(
@@ -78,7 +89,7 @@ export default function CategoryForm({ user }: Props) {
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name='title'
+                            name='name'
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Title</FormLabel>
@@ -97,6 +108,19 @@ export default function CategoryForm({ user }: Props) {
                                     <FormLabel>Slug</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea dir="rtl" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -122,7 +146,7 @@ export default function CategoryForm({ user }: Props) {
                                                 )}
                                                 >
                                                 {field.value ? (
-                                                    format(field.value, "PPP")
+                                                    format(new Date(field.value), "PPP")
                                                 ) : (
                                                     <span>Publish at</span>
                                                 )}
@@ -133,7 +157,7 @@ export default function CategoryForm({ user }: Props) {
                                         <PopoverContent className="w-auto p-0" align="start">
                                             <Calendar
                                                 mode="single"
-                                                selected={field.value}
+                                                selected={field.value ? new Date(field.value) : undefined}
                                                 onSelect={field.onChange}
                                             />
                                         </PopoverContent>
@@ -184,8 +208,36 @@ export default function CategoryForm({ user }: Props) {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex items-center gap-4">
-                            <Button className="flex-1">Publish</Button>
+                        <div className="grid grid-cols-2 items-center gap-2">
+                            {
+                                type === "create" ?
+                                <Button className="col-span-2" disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "create")}>
+                                    {(isMutating && form.getValues("action") === "create") ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "create"}
+                                </Button> :
+                                <Fragment>
+                                    <Button disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "update")}>
+                                        {(isMutating && form.getValues("action") === "update") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "update"}
+                                    </Button> 
+                                    <Button disabled={isMutating} aria-disabled={isMutating} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
+                                        {(isMutating && form.getValues("action") === "delete") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "delete"}
+                                    </Button> 
+                                </Fragment>
+                            }
                         </div>
                     </CardContent>
                 </Card>

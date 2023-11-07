@@ -32,7 +32,7 @@ interface Props {
 export default function TagForm({ user, data, type }: Props) {
     const { toast } = useToast()
     const router = useRouter()
-  const params = useParams()
+    const params = useParams()
     const form = useForm<TagSchemaType>({
         resolver: zodResolver(TagSchema),
         defaultValues: {

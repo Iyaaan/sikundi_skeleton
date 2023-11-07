@@ -17,7 +17,7 @@ export default async function page({params, searchParams}: Props) {
 
     return (
         <Suspense fallback={<Loading />}>
-            <Form user={JSON.parse(JSON.stringify(user))} />
+            <Form user={JSON.parse(JSON.stringify(user))} type='create' />
         </Suspense>
     )
 }
