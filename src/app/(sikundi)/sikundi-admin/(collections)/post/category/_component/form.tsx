@@ -44,10 +44,11 @@ export default function CategoryForm({ user, data, type }: Props) {
             ...data
         }
     })
-
+    
+    const name = form.watch("name") 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('name'))?.replaceAll(" ", "-"))
-    }, [form.watch("name"), form])
+        form.setValue("slug", ThaanaLatin(form.getValues('slug')))
+    }, [name, form])
 
     const { trigger, isMutating } = useSWRMutation(
         type === 'create' ? '/sikundi-admin/post/category/api/create' :
