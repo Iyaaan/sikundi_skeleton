@@ -57,6 +57,9 @@ const tags = async (query: Props) => {
                     }
                 }
             ] : undefined
+        },
+        orderBy: {
+            id: "asc"
         }
     })
 

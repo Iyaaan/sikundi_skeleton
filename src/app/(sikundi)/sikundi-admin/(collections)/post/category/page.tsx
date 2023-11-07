@@ -57,6 +57,9 @@ const categories = async (query: Props) => {
                     }
                 }
             ] : undefined
+        },
+        orderBy: {
+            id: "asc"
         }
     })
 

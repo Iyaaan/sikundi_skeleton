@@ -1,5 +1,6 @@
 import * as z from 'zod'
 const TagSchema = z.object({
+    id: z.number().optional(),
     name: z.string().min(1, 'Title is required'),
     slug: z.string().min(1, 'Slug is required'),
     createdBy: z.object({

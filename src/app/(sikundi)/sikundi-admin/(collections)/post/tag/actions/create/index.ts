@@ -1,13 +1,15 @@
-import { NextResponse, type NextRequest } from 'next/server'
-import TagSchema, { TagSchemaType } from './schema'
-import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
-import { prisma } from "@sikundi/lib/server/utils/prisma"
+"use server"
 
-export async function POST(request: NextRequest) {
-    return (await ErrorHandlerWrapper(request, TagSchema, async (data:TagSchemaType) => {
+import TagSchema, { TagSchemaType } from './schema'
+import { prisma } from "@sikundi/lib/server/utils/prisma"
+import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
+import { revalidatePath } from 'next/cache'
+
+export default async function TagCreate(data:TagSchemaType) {
+    return (await ErrorHandler<TagSchemaType, { tag: any }>(data, TagSchema, async (data:TagSchemaType) => {
         const tag = await prisma.tag.create({
             data: {
-                ...{...data, action: undefined},
+                ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
                         email: data.createdBy.value
@@ -16,7 +18,9 @@ export async function POST(request: NextRequest) {
                 
             }
         })
-        return NextResponse.json({ 
+
+        revalidatePath('/sikundi-admin/post/tag')
+        return ({ 
             data: {
                 tag: tag
             },
@@ -24,6 +28,6 @@ export async function POST(request: NextRequest) {
                 title: `Tag Successfully Created`,
                 description: `a tag have created under the name ${tag.name}`
             }
-        }, { status: 200 })
+        })
     }))
 }

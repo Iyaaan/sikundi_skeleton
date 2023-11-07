@@ -7,11 +7,9 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@sikundi/components/ui/use-toast"
-import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
 import { CalendarIcon, Loader2 } from "lucide-react"
-import { PostHandler } from "@sikundi/lib/client/fetcher"
-import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
+import { cn } from "@sikundi/lib/client/utils"
 import { useParams, useRouter } from "next/navigation"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
@@ -22,6 +20,9 @@ import { Fragment, useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
+import useAction from "@sikundi/lib/client/hooks/useAction"
+import TagCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/actions/create"
+import TagUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/actions/update"
 
 interface Props {
     user: UserType
@@ -49,42 +50,23 @@ export default function TagForm({ user, data, type }: Props) {
         form.setValue("slug", ThaanaLatin(form.getValues('name')))
     }, [name, form])
 
-    const { trigger, isMutating } = useSWRMutation(
-        type === 'create' ? '/sikundi-admin/post/tag/api/create' :
-        `/sikundi-admin/post/tag/api/${params.id}/update`
-        , PostHandler<any>, {
-        onSuccess: (data) => {
-            toast(data?.data?.notification || {
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-            router.back()
-            router.refresh()
-        },
-        onError: ({ response }) => {
-            zodErrorGenerator(response.data.error, (data) => form.setError(
-                // @ts-ignore
-                data.field,
-                { message: data.message },
-                { shouldFocus: true }
-            ))
 
-            toast({
-                title: response.data.notification.title || response.data.error.name,
-                description: response.data.notification.description || JSON.stringify(response.data.error.details),
-                variant: "destructive",
-                action: response.data.error.name !== "Validation Error" ? 
-                    <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                        Try again
-                    </ToastAction> 
-                : undefined
-            })
-        }
+    const { isLoading, execute } = useAction(type === "create" ? TagCreateAction : TagUpdateAction, {
+        onSuccess: ({ data }) => {
+            router.back()
+        },
+        onError: ({ error }) => console.error(error),
+        onValidationError: (data) => form.setError(
+            // @ts-ignore
+            data.field,
+            { message: data.message },
+            { shouldFocus: true }
+        )
     })
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => trigger(data))} className="grid lg:grid-cols-12 gap-4">
+            <form onSubmit={form.handleSubmit(data => execute({ ...data, id: type === "update" ? parseInt(`${params.id}`) : undefined }))} className="grid lg:grid-cols-12 gap-4">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField
@@ -180,7 +162,7 @@ export default function TagForm({ user, data, type }: Props) {
                                                         description: error.data.notification.description || JSON.stringify(error.data.error.details),
                                                         variant: "destructive",
                                                         action: error.data.error.name !== "Validation Error" ? 
-                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => execute({ ...data, id: type === "update" ? parseInt(`${params.id}`) : undefined }))}>
                                                                 Try again
                                                             </ToastAction> 
                                                         : undefined
@@ -198,8 +180,8 @@ export default function TagForm({ user, data, type }: Props) {
                         <div className="grid grid-cols-2 items-center gap-2">
                             {
                                 type === "create" ?
-                                <Button className="col-span-2" disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "create")}>
-                                    {(isMutating && form.getValues("action") === "create") ? 
+                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
+                                    {(isLoading && form.getValues("action") === "create") ? 
                                     <Fragment>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Loading
@@ -207,16 +189,16 @@ export default function TagForm({ user, data, type }: Props) {
                                     : "create"}
                                 </Button> :
                                 <Fragment>
-                                    <Button disabled={isMutating} aria-disabled={isMutating} onClick={()=>form.setValue("action", "update")}>
-                                        {(isMutating && form.getValues("action") === "update") ? 
+                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
+                                        {(isLoading && form.getValues("action") === "update") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
                                         : "update"}
                                     </Button> 
-                                    <Button disabled={isMutating} aria-disabled={isMutating} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
-                                        {(isMutating && form.getValues("action") === "delete") ? 
+                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
+                                        {(isLoading && form.getValues("action") === "delete") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading

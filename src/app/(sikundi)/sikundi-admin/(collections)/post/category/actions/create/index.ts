@@ -1,13 +1,15 @@
-import { NextResponse, type NextRequest } from 'next/server'
-import CategorySchema, { CategorySchemaType } from './schema'
-import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
-import { prisma } from "@sikundi/lib/server/utils/prisma"
+"use client"
 
-export async function POST(request: NextRequest) {
-    return (await ErrorHandlerWrapper(request, CategorySchema, async (data:CategorySchemaType) => {
+import CategorySchema, { CategorySchemaType } from './schema'
+import { prisma } from "@sikundi/lib/server/utils/prisma"
+import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
+import { revalidatePath } from 'next/cache'
+
+export default async function POST(data: CategorySchemaType) {
+    return (await ErrorHandler(data, CategorySchema, async (data:CategorySchemaType) => {
         const category = await prisma.category.create({
             data: {
-                ...{...data, action: undefined},
+                ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
                         email: data.createdBy.value
@@ -16,7 +18,9 @@ export async function POST(request: NextRequest) {
                 
             }
         })
-        return NextResponse.json({ 
+
+        revalidatePath('/sikundi-admin/post/category')
+        return ({ 
             data: {
                 category: category
             },
@@ -24,6 +28,6 @@ export async function POST(request: NextRequest) {
                 title: `Category Successfully Created`,
                 description: `a category have created under the name ${category.name}`
             }
-        }, { status: 200 })
+        })
     }))
 }

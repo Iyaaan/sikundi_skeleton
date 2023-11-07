@@ -1,40 +1,42 @@
-import { NextResponse, type NextRequest } from 'next/server'
-import TagSchema, { TagSchemaType } from './schema'
-import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
-import { prisma } from "@sikundi/lib/server/utils/prisma"
+"use server"
 
-export async function POST(request: NextRequest, { params }: {params:{id: string}}) {
-    return (await ErrorHandlerWrapper(request, TagSchema, async (data:TagSchemaType) => {
-        if (!parseInt(params.id)) throw({
+import TagSchema, { TagSchemaType } from './schema'
+import { prisma } from "@sikundi/lib/server/utils/prisma"
+import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
+import { revalidatePath } from 'next/cache'
+
+export default async function UpdateTag(data:TagSchemaType) {
+    return (await ErrorHandler<TagSchemaType, { tag: any }>(data, TagSchema, async (data:TagSchemaType) => {
+        if (!data.id) throw({
             notification: {
                 title: "Tag doesn't exist",
                 description: `Please try again with a tag that exists`
-            },
-            statusCode: 404
+            }
         })
 
         const tag = data.action === "update" ? (await prisma.tag.update({
             data: {
-                ...{...data, action: undefined},
+                ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
                         email: data.createdBy.value
                     }
                 },
-                
             },
             where: {
-                id: parseInt(params.id)
+                id: data.id
             }
         })) : (await prisma.tag.delete({
             select: {
                 name: true
             },
             where: {
-                id: parseInt(params.id)
+                id: data.id
             }
         }))
-        return NextResponse.json({ 
+
+        revalidatePath('/sikundi-admin/post/tag')
+        return ({ 
             data: {
                 tag: tag
             },
@@ -42,6 +44,6 @@ export async function POST(request: NextRequest, { params }: {params:{id: string
                 title: `Tag Successfully ${data.action === "update" ? "updated" : "deleted"}`,
                 description: `a tag have created under the name ${tag.name}`
             }
-        }, { status: 200 })
+        })
     }))
 }
