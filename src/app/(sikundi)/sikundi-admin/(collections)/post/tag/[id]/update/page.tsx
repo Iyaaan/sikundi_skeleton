@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import dynamicImport from 'next/dynamic'
 import Loading from './loading'
 import getUser from '@sikundi/lib/server/utils/getUser'
@@ -14,14 +14,15 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
-    const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_component/form'), { ssr: false })
+    const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_component/form'), { 
+        ssr: false,
+        loading: () => <Loading />
+    })
     const user = await getUser()
     const data = await tag({params, searchParams})
 
     return (
-        <Suspense fallback={<Loading />}>
-            <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' />
-        </Suspense>
+        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' />
     )
 }
 
