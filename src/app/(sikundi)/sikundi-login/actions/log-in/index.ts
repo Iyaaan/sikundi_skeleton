@@ -1,3 +1,5 @@
+"use server"
+
 import LogInSchema, { LogInSchemaType } from './schema'
 import bcrypt from 'bcrypt'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
@@ -16,7 +18,8 @@ export default async function LogIn(data:LogInSchemaType) {
         if (!user?.email) throw {
             notification: {
                 title: "user not found",
-                description: `there is no active account under ${data.email}.`
+                description: `there is no active account under ${data.email}.`,
+                variant: "destructive"
             }
         }
 
@@ -51,7 +54,8 @@ export default async function LogIn(data:LogInSchemaType) {
         throw {
             notification: {
                 title: "password incorrect",
-                description: `Please try again with the corrent password. if you forgot, please reset your password.`
+                description: `Please try again with the corrent password. if you forgot, please reset your password.`,
+                variant: "destructive"
             }
         }
     }))

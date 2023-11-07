@@ -17,6 +17,8 @@ import { Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 import { useRouter } from "next/navigation"
+import useAction from "@sikundi/lib/client/hooks/useAction"
+import LogInAction from "../actions/log-in"
 
 export default function LogIn() {
     const { toast } = useToast()
@@ -28,33 +30,46 @@ export default function LogIn() {
             password: ''
         }
     })
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/log-in', PostHandler<any>, {
-        onSuccess: (data) => {
-            toast(data?.data?.notification || {
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-            router.replace("/sikundi-admin")
-        },
-        onError: ({ response }) => {
-            zodErrorGenerator(response.data.error, (data) => form.setError(
-                // @ts-ignore
-                data.field,
-                { message: data.message },
-                { shouldFocus: true }
-            ))
+    // const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/log-in', PostHandler<any>, {
+    //     onSuccess: (data) => {
+    //         toast(data?.data?.notification || {
+    //             title: "successfully submitted",
+    //             description: JSON.stringify(data.data)
+    //         })
+    //         router.replace("/sikundi-admin")
+    //     },
+    //     onError: ({ response }) => {
+    //         zodErrorGenerator(response.data.error, (data) => form.setError(
+    //             // @ts-ignore
+    //             data.field,
+    //             { message: data.message },
+    //             { shouldFocus: true }
+    //         ))
 
-            toast({
-                title: response.data.notification.title || response.data.error.name,
-                description: response.data.notification.description || JSON.stringify(response.data.error.details),
-                variant: "destructive",
-                action: response.data.error.name !== "Validation Error" ? 
-                    <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                        Try again
-                    </ToastAction> 
-                : undefined
-            })
-        }
+    //         toast({
+    //             title: response.data.notification.title || response.data.error.name,
+    //             description: response.data.notification.description || JSON.stringify(response.data.error.details),
+    //             variant: "destructive",
+    //             action: response.data.error.name !== "Validation Error" ? 
+    //                 <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
+    //                     Try again
+    //                 </ToastAction> 
+    //             : undefined
+    //         })
+    //     }
+    // })
+
+    const { isLoading, execute } = useAction(LogInAction, {
+        onSuccess: ({ data }) => {
+            router.refresh()
+        },
+        onError: ({ error }) => console.error(error),
+        onValidationError: (data) => form.setError(
+            // @ts-ignore
+            data.field,
+            { message: data.message },
+            { shouldFocus: true }
+        )
     })
 
     return (
@@ -70,7 +85,7 @@ export default function LogIn() {
             </CardHeader>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(data => trigger(data))}>
+                <form onSubmit={form.handleSubmit(data => execute(data))}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
@@ -102,8 +117,8 @@ export default function LogIn() {
                                 </FormItem>
                             )}
                         />
-                        <Button className="w-full mb-4" type="submit" disabled={isMutating} aria-disabled={isMutating}>
-                            {isMutating ? 
+                        <Button className="w-full mb-4" type="submit" disabled={isLoading} aria-disabled={isLoading}>
+                            {isLoading ? 
                             <Fragment>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Please wait

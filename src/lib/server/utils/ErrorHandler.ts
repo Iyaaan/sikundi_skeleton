@@ -1,6 +1,6 @@
 import { ZodSchema } from 'zod'
 
-export type response<T> = {
+export type customResponse<T> = {
     data?: T;
     error?: {
         name: string;
@@ -12,19 +12,21 @@ export type response<T> = {
     }
 }
 
-export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema: ZodSchema<INPUT> | null, responseCallback: (data: INPUT) => Promise<response<OUTPUT>>) {
+export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema: ZodSchema<INPUT> | null, responseCallback: (data: INPUT) => Promise<customResponse<OUTPUT>>) {
     try {
         if (schema !== null) {
             const data = await schema.safeParseAsync(inputs)
             if (!data.success) {
-                return({ 
+                return({
+                    data: null,
                     error: {
                         name: 'Validation Error',
                         details: data.error
                     },
                     notification: {
                         title: 'Validation Error',
-                        description: 'Your submitted inputs are not valid'
+                        description: 'Your submitted inputs are not valid',
+                        variant: "destructive"
                     }
                 })
             }
@@ -35,6 +37,7 @@ export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema:
     } catch (e:any) {
         if (e?.name === "PrismaClientKnownRequestError" && e?.code === "P2002") {
             return({ 
+                data: null,
                 error: {
                     name: "Validation Error",
                     details: {
@@ -53,18 +56,21 @@ export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema:
                 },
                 notification: e?.notification || {
                     title: 'Validation Error',
-                    description: `${e?.meta?.target?.[0]} must be unique`
+                    description: `${e?.meta?.target?.[0]} must be unique`,
+                    variant: "destructive"
                 }
             })
         }
         return ({ 
+            data: null,
             error: {
                 name: "Server Error",
-                detail: e
+                details: e
             },
             notification: e?.notification || {
                 title: 'Internal Server Error',
-                description: 'An unidentified error has occured. please contact your sys-admin'
+                description: 'An unidentified error has occured. please contact your sys-admin',
+                variant: "destructive"
             }
         })
     }

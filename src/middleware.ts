@@ -4,7 +4,7 @@ import { sikundiMiddleware } from "@sikundi/middlewares/sikundi"
 import { webMiddleware } from "@sikundi/middlewares/web"
 
 export default chain([
-    csrfMiddleware,
+    // csrfMiddleware,
     sikundiMiddleware, 
     webMiddleware
 ])
