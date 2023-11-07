@@ -1,3 +1,5 @@
+"use server"
+
 import updatePasswordSchema, { updatePasswordSchemaType } from './schema'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler';
 

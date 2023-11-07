@@ -1,9 +1,11 @@
+"use server"
+
 import LogOutSchema, { LogOutSchemaType } from './schema'
 import { cookies } from 'next/headers'
 import getUser from '@sikundi/lib/server/utils/getUser'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 
-export async function POST(data: LogOutSchemaType) {
+export default async function LogOut(data: LogOutSchemaType) {
     return (await ErrorHandler<LogOutSchemaType, {}>(data, LogOutSchema, async (data:LogOutSchemaType) => {
         const user:any = await getUser()
         

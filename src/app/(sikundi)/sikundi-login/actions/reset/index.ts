@@ -1,3 +1,5 @@
+"use server"
+
 import resetSchema, { resetSchemaType } from './schema'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler';
 
