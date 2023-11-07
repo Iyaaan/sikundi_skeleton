@@ -14,7 +14,7 @@ export default function TextEditor() {
     return (
         <Card className="lg:col-span-8 lg:order-4">
             <CardHeader className=''>
-                <div className='flex gap-2 items-center'>
+                <div className='flex gap-2 items-center flex-wrap'>
                     <Toggle size={"sm"} variant={"outline"}>
                         <Undo2Icon className='h-4 w-4' />
                     </Toggle>
@@ -54,20 +54,20 @@ export default function TextEditor() {
                     <Toggle size={"sm"} variant={"outline"}>
                         <AlignRight className='h-4 w-4' />
                     </Toggle>
-                    <Separator orientation={"vertical"} className='h-7 ml-3 mr-8' />
+                    <Separator orientation={"vertical"} className='h-1 ml-3 mr-8' />
                     <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
+                        <PopoverTrigger asChild className='ml-auto'>
                             <Button
                                 variant="outline"
                                 role="combobox"
                                 aria-expanded={open}
-                                className="w-[200px] justify-between"
+                                className="justify-between"
                             >
                             {"Blocks"}
-                            <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronDownIcon className="ml-3 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0" align="end">
+                        <PopoverContent className="p-0" align="end">
                             <Command>
                             <CommandGroup>
                                 <CommandItem
