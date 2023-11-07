@@ -1,4 +1,4 @@
-"use client"
+"use server"
 
 import CategorySchema, { CategorySchemaType } from './schema'
 import { prisma } from "@sikundi/lib/server/utils/prisma"
