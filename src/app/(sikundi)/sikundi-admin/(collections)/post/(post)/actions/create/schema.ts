@@ -23,12 +23,11 @@ const PostSchema = z.object({
         label: z.string()
     }).array().optional(),
     push: z.object({
+        all: z.boolean().optional(),
         facebook: z.boolean().optional(),
         telegram: z.boolean().optional(),
         viber: z.boolean().optional(),
         x: z.boolean().optional(),
-        sms: z.boolean().optional(),
-        email: z.boolean().optional(),
         firebase: z.boolean().optional()
     })
 })

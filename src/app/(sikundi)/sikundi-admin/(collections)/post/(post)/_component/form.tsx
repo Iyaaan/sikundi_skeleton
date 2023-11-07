@@ -6,7 +6,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/api/create/schema"
+import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { ToastAction } from "@sikundi/components/ui/toast"
