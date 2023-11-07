@@ -25,6 +25,7 @@ import { useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
+import TextEditor from "@sikundi/components/ui/text-editor" 
 
 interface Props {
     user: UserType
@@ -143,23 +144,18 @@ export default function PostForm({ user }: Props) {
                         />
                     </CardContent>
                 </Card>
-                <Card className="pt-6 lg:col-span-8 lg:order-4">
-                    <CardContent className="grid gap-4">
-                        <FormField
-                            control={form.control}
-                            name='lead'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Lead</FormLabel>
-                                    <FormControl>
-                                        <Textarea dir="rtl" rows={27} {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </CardContent>
-                </Card>
+                <FormField
+                    control={form.control}
+                    name='lead'
+                    render={({ field }) => (
+                        <FormItem className="lg:col-span-8 lg:order-4">
+                            <FormControl>
+                                <TextEditor />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <Card className="pt-6 lg:col-span-8 lg:order-6">
                     <CardContent className="grid gap-4 aspect-video">
                         <div className="border rounded-md items-center justify-center flex">
