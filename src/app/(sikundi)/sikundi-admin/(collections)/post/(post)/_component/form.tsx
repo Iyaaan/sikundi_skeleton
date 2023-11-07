@@ -43,7 +43,7 @@ export default function PostForm({ user }: Props) {
     
     useEffect(() => {
         form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
-    }, [form.watch("title")])
+    }, [form.watch("title"), form])
 
     const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
         onSuccess: (data) => {
