@@ -3,12 +3,10 @@ import { customResponse } from "@sikundi/lib/server/utils/ErrorHandler"
 import { useCallback, useState } from "react"
 import { zodErrorGenerator } from "../utils"
 import useCsrfStore from "@sikundi/stores/useCsrfStore"
-
 export default function useAction<OUTPUT>(action: (data:any) => Promise<customResponse<OUTPUT>>, options: OPTIONS<customResponse<OUTPUT>>) {
     const [error, setError] = useState<customResponse<OUTPUT> | undefined>(undefined)
     const [data, setData] = useState<customResponse<OUTPUT> | undefined>(undefined)
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const { csrf } = useCsrfStore()
 
     
     const execute = useCallback(async (input: any) => {
@@ -62,7 +60,7 @@ export default function useAction<OUTPUT>(action: (data:any) => Promise<customRe
         } finally {
             setIsLoading(false)
         }
-    }, [action, options])
+    }, [action, options, error?.error])
 
     return {
         execute,
