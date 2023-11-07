@@ -1,6 +1,6 @@
 "use client"
 
-import { useModalStore } from '@sikundi/store/modalStore'
+import { useModalStore } from '@sikundi/stores/modalStore'
 import { SearchNormal1 } from 'iconsax-react'
 import React, { Fragment, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'

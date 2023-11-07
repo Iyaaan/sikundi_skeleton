@@ -1,6 +1,5 @@
 import { NextResponse, type NextFetchEvent, type NextMiddleware, type NextRequest } from 'next/server'
-import { cookies, headers } from 'next/headers'
-import * as jose from 'jose'
+import { headers } from 'next/headers'
 import getUser from '@sikundi/lib/server/utils/getUser'
 
 export function sikundiMiddleware(middleware: NextMiddleware) {

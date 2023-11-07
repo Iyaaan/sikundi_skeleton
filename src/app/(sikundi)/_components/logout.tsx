@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@sikundi/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Form } from '@sikundi/components/ui/form'
 import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/log-in/schema"

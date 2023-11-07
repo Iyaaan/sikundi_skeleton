@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { type NextRequest } from 'next/server'
 import verificationSchema, { verificationSchemaType } from './schema'
 import ErrorHandlerWrapper from '@sikundi/lib/server/utils/ErrorHandlerWrapper'
 

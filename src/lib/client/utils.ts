@@ -1,7 +1,5 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-// @ts-ignore
-import hexToHsl from 'hex-to-hsl'
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

@@ -8,7 +8,7 @@ import ToggleBtn from "@sikundi/components/web/ToggleBtn"
 import { ThemeSwitcher } from "@sikundi/components/web/Theme"
 import { useEffect, useRef, useState } from "react"
 import transliterate from '@sikundi/lib/transliterate'
-import { useModalStore } from "@sikundi/store/modalStore"
+import { useModalStore } from "@sikundi/stores/modalStore"
 
 // @ts-ignore
 const menuItems = [
