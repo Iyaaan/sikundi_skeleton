@@ -142,16 +142,27 @@ export default function ExcalidrawModal({
       const appState = excaliDrawSceneRef?.current?.getAppState();
       // We only need a subset of the state
       const partialState: Partial<AppState> = {
+        // @ts-ignore
         exportBackground: appState.exportBackground,
+        // @ts-ignore
         exportScale: appState.exportScale,
+        // @ts-ignore
         exportWithDarkMode: appState.theme === 'dark',
+        // @ts-ignore
         isBindingEnabled: appState.isBindingEnabled,
+        // @ts-ignore
         isLoading: appState.isLoading,
+        // @ts-ignore
         name: appState.name,
+        // @ts-ignore
         theme: appState.theme,
+        // @ts-ignore
         viewBackgroundColor: appState.viewBackgroundColor,
+        // @ts-ignore
         viewModeEnabled: appState.viewModeEnabled,
+        // @ts-ignore
         zenModeEnabled: appState.zenModeEnabled,
+        // @ts-ignore
         zoom: appState.zoom,
       };
       onSave(elements, partialState, files);
@@ -216,6 +227,7 @@ export default function ExcalidrawModal({
   // In DEV, Vite pulls this in fine, in prod it doesn't. It seems
   // like a module resolution issue with ESM vs CJS?
   const _Excalidraw =
+  // @ts-ignore
     Excalidraw.$$typeof != null ? Excalidraw : Excalidraw.default;
 
   return createPortal(

@@ -23,7 +23,6 @@ import TableCellNodes from './nodes/TableCellNodes';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
-import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 // import CommentPlugin from './plugins/CommentPlugin';
@@ -37,7 +36,6 @@ import EquationsPlugin from './plugins/EquationsPlugin';
 import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
-import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
 import InlineImagePlugin from './plugins/InlineImagePlugin';
 import KeywordsPlugin from './plugins/KeywordsPlugin';
@@ -159,7 +157,6 @@ export default function Editor(): JSX.Element {
                 <ImagesPlugin captionsEnabled={false} />
                 <LinkPlugin />
                 <LexicalClickableLinkPlugin />
-                <FloatingTextFormatToolbarPlugin />
                 </NewTablePlugin>
                 <ImagesPlugin />
                 <InlineImagePlugin />
@@ -180,7 +177,6 @@ export default function Editor(): JSX.Element {
                 {floatingAnchorElem && !isSmallWidthViewport && (
                     <React.Fragment>
                         <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-                        <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
                         <FloatingLinkEditorPlugin
                             anchorElem={floatingAnchorElem}
                             isLinkEditMode={isLinkEditMode}

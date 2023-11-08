@@ -42,7 +42,6 @@ import {Suspense, useCallback, useEffect, useRef, useState} from 'react';
 
 import useModal from '../hooks/useModal';
 import FloatingLinkEditorPlugin from '../plugins/FloatingLinkEditorPlugin/index';
-import FloatingTextFormatToolbarPlugin from '../plugins/FloatingTextFormatToolbarPlugin/index';
 import LinkPlugin from '../plugins/LinkPlugin';
 import Button from '../ui/Button';
 import ContentEditable from '../ui/ContentEditable';
@@ -399,7 +398,6 @@ export default function InlineImageComponent({
                 isLinkEditMode={false}
                 setIsLinkEditMode={() => {}}
               />
-              <FloatingTextFormatToolbarPlugin />
               <RichTextPlugin
                 contentEditable={
                   <ContentEditable className="InlineImageNode__contentEditable" />

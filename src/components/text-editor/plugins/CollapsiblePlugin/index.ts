@@ -188,6 +188,7 @@ export default function CollapsiblePlugin(): null {
             return false;
           }
 
+          // @ts-ignore
           const container = topLevelElement.getPreviousSibling<LexicalNode>();
           if (!$isCollapsibleContainerNode(container) || container.getOpen()) {
             return false;

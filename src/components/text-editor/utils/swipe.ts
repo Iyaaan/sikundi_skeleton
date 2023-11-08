@@ -43,6 +43,7 @@ function addListener(element: HTMLElement, cb: Listener): () => void {
         return;
       }
       const end = readTouch(e);
+      // @ts-ignore
       for (const listener of listeners) {
         if (end !== null) {
           listener([end[0] - start[0], end[1] - start[1]], e);

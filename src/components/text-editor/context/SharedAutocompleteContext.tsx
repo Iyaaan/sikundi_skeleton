@@ -50,6 +50,7 @@ export const SharedAutocompleteContext = ({
       },
       (newSuggestion: Suggestion) => {
         suggestion = newSuggestion;
+        // @ts-ignore
         for (const listener of listeners) {
           listener(newSuggestion);
         }
