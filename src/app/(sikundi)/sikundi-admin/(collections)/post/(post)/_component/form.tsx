@@ -150,7 +150,6 @@ export default function PostForm({ user }: Props) {
                     render={({ field }) => (
                         <FormItem className="lg:col-span-8 lg:order-4">
                             <FormControl>
-                                
                                 <TextEditor />
                             </FormControl>
                             <FormMessage />
