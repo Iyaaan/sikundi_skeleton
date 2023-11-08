@@ -15,7 +15,7 @@ export default function ToolBar() {
     return (
         <div className='flex gap-1 items-center flex-wrap'>
             {toolBarItems.map(({ separator, ...Item }, index) => separator ? (
-                <Separator orientation={"vertical"} className='h-7 mx-2' />
+                <Separator orientation={"vertical"} className='h-7 mx-2' key={index} />
             ) : (
                 <Toggle size={"sm"} variant={"outline"} key={index} 
                     pressed={active.includes(String(Item.name))} 

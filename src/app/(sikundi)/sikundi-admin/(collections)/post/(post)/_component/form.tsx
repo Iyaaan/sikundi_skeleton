@@ -369,7 +369,7 @@ export default function PostForm({ user }: Props) {
                             )}
                         />
                         <div className="flex items-center gap-4">
-                            <Button className="flex-1">Publish</Button>
+                            <Button className="flex-1">Draft</Button>
                         </div>
                     </CardContent>
                 </Card>
