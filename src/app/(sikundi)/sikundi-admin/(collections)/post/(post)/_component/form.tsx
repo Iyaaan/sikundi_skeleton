@@ -25,7 +25,7 @@ import { useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
-import TextEditor from "@sikundi/components/ui/text-editor" 
+import TextEditor from "@sikundi/components/text-editor"
 
 interface Props {
     user: UserType
