@@ -15,6 +15,7 @@ import ToolBar from '@sikundi/components/ui/text-editor/plugins/toolbarPlugin'
 import PlaygroundNodes from '@sikundi/components/ui/text-editor/nodes/PlaygroundNodes'
 import PlaygroundEditorTheme from '@sikundi/components/ui/text-editor/themes/PlaygroundEditorTheme'
 import { ScrollArea } from '../scroll-area'
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 
 
 export default function TextEditor() {
@@ -46,22 +47,13 @@ export default function TextEditor() {
 }
 
 function Content() {
-    const isEditable = useLexicalEditable();
-    const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
-
-    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-      if (_floatingAnchorElem !== null) {
-        setFloatingAnchorElem(_floatingAnchorElem);
-      }
-    };
 
     return (
         <Fragment>
+            <AutoFocusPlugin />
             <RichTextPlugin
                 contentEditable={
-                    <div className="min-h-[31rem]" ref={onRef}>
-                        <ContentEditable className={'relative text-base border-0 block outline-none min-h-[31rem]'} />
-                    </div>
+                    <ContentEditable className={'relative text-base border-0 block outline-none min-h-[31rem]'} />
                 }
                 placeholder={<Muted className='absolute top-0'>Type Here</Muted>}
                 ErrorBoundary={LexicalErrorBoundary}
