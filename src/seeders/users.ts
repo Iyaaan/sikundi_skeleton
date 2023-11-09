@@ -97,7 +97,19 @@ const users = [
                 name: "Editor"
             }
         }
-    }
+    },
+    {
+        userName: "ދާއިން",
+        email: "asneird@gmail.com",
+        password: "asneird@sikundi",
+        description: "Journalist tester",
+        status: "active",
+        role: {
+            connect: {
+                name: "Editor"
+            }
+        }
+    },
 ]
 
 export default async function seed() {
