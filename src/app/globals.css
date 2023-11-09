@@ -24,4 +24,22 @@
     .dark .stroke-text-accent {
         -webkit-text-stroke: 1px #FFF;
     }
+    .PlaygroundEditorTheme__ul {
+        @apply list-disc;
+    }
+    .PlaygroundEditorTheme__ol1 {
+        @apply list-decimal;
+    }
+    .PlaygroundEditorTheme__ol2 {
+        @apply list-decimal;
+    }
+    .PlaygroundEditorTheme__ol3 {
+        @apply list-decimal;
+    }
+    .PlaygroundEditorTheme__ol4 {
+        @apply list-decimal;
+    }
+    .PlaygroundEditorTheme__ol5 {
+        @apply list-decimal;
+    }
 }

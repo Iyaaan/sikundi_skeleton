@@ -59,6 +59,7 @@ import YouTubePlugin from './plugins/YouTubePlugin';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import ContentEditable from './ui/ContentEditable';
 import Placeholder from './ui/Placeholder';
+import { ScrollArea } from '../ui/scroll-area';
 
 export default function Editor(): JSX.Element {
     const {historyState} = useSharedHistoryContext();
@@ -107,7 +108,7 @@ export default function Editor(): JSX.Element {
             <div
                 className={`editor-container`}>
                 {/* <MaxLengthPlugin maxLength={30} /> */}
-                <DragDropPaste />
+                {/* <DragDropPaste /> */}
                 {/* <AutoFocusPlugin /> */}
                 <ClearEditorPlugin />
                 <ComponentPickerPlugin />
@@ -124,11 +125,13 @@ export default function Editor(): JSX.Element {
                 <HistoryPlugin externalHistoryState={historyState} />
                 <RichTextPlugin
                     contentEditable={
-                        <div className="editor-scroller">
+                        <ScrollArea className='h-[550px]'>
+                        <div className="relative editor-scroller">
                             <div className="editor" ref={onRef}>
                                 <ContentEditable />
                             </div>
                         </div>
+                        </ScrollArea>
                     }
                     placeholder={placeholder}
                     ErrorBoundary={LexicalErrorBoundary}
