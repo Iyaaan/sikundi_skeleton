@@ -689,7 +689,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
     }, [activeEditor, selectedElementKey]);
 
     return (
-        <div className="toolbar items-center">
+        <div className="toolbar items-center gap-1 text-foreground">
             <Toggle
                 size={"sm"}
                 pressed={false}

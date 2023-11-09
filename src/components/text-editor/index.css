@@ -9,7 +9,7 @@
 }
 
 .editor-shell .editor-container {
-  background: var(hsl(--background));
+  background: hsl(var(--background));
   position: relative;
   display: block;
   border-bottom-left-radius: 10px;
@@ -532,7 +532,7 @@ i.page-break,
 
 .link-editor .button.active,
 .toolbar .button.active {
-  background-color: rgb(223, 232, 250);
+  background-color: hsl(var(--background));
 }
 
 .link-editor .link-input {
@@ -1387,7 +1387,7 @@ button.action-button:disabled {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 1px;
-  background: #fff;
+  background: hsl(var(--background));
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
