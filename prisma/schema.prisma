@@ -16,6 +16,11 @@ enum Model {
   Tag
 }
 
+enum Lang {
+    EN
+    DV
+}
+
 enum UserStatus {
   active
   blocked
@@ -151,16 +156,17 @@ model Post {
   createdById Int?
   createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id])
 
-  categoryId        Int?      @unique
-  category          Category? @relation("postsCategory", fields: [categoryId], references: [id])
-  featureImageUrl   String?
-  featureImage      Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url])
+  categoryId      Int?      @unique
+  category        Category? @relation("postsCategory", fields: [categoryId], references: [id])
+  featureImageUrl String?
+  featureImage    Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url])
 
   title       String
   longTitle   String
-  latinTitle   String
+  latinTitle  String
   description String
   lead        Json
+  language    Lang @default(EN)
   status      Status @default(drafted)
 
   postsTags PostsTags[] @relation("postsTags")
@@ -176,6 +182,7 @@ model Category {
   name        String
   slug        String @unique
   description String?
+  language    Lang @default(EN)
 
   posts Post[] @relation("postsCategory")
 }

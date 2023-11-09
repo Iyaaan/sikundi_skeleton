@@ -24,6 +24,7 @@ import { Textarea } from "@sikundi/components/ui/textarea"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import CategoryCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/category/actions/create"
 import CategoryUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/category/actions/update"
+import Select2 from "@sikundi/components/ui/Select2"
 
 interface Props {
     user: UserType
@@ -113,6 +114,32 @@ export default function CategoryForm({ user, data, type }: Props) {
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-2">
                     <CardContent className="grid gap-4">
+                        <FormField
+                            control={form.control}
+                            name='language'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Select2
+                                            isClearable={false}
+                                            className='col-span-2 justify-start'
+                                            defaultValue={{
+                                                // @ts-ignore
+                                                label: "Dhivehi", value: "DV"
+                                            }}
+                                            options={[
+                                                // @ts-ignore
+                                                {label: "English", value: "EN"},
+                                                // @ts-ignore
+                                                {label: "Dhivehi", value: "DV"}
+                                            ]}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name='createdAt'

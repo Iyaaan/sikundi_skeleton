@@ -8,6 +8,9 @@ const CategorySchema = z.object({
         value: z.string(),
         label: z.string()
     }),
+    language: z.string().refine((lang) => ['EN', 'DV'].includes(lang), {
+        message: 'language is not valid'
+    }),
     createdAt: z.date().optional().or(z.string().optional()),
     action: z.string().refine((action) => ['update', 'create', 'delete'].includes(action), {
         message: 'Action is not valid'

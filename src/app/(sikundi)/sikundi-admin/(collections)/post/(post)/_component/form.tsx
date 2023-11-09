@@ -26,6 +26,7 @@ import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
+import Select2 from "@sikundi/components/ui/Select2"
 
 interface Props {
     user: UserType
@@ -87,7 +88,7 @@ export default function PostForm({ user }: Props) {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => trigger(data))} className="grid lg:grid-cols-12 gap-4">
+            <form onSubmit={form.handleSubmit(data => console.log(data))} className="grid lg:grid-cols-12 gap-4">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField
@@ -290,6 +291,32 @@ export default function PostForm({ user }: Props) {
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-2">
                     <CardContent className="grid gap-4">
+                        <FormField
+                            control={form.control}
+                            name='language'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Select2
+                                            isClearable={false}
+                                            className='col-span-2 justify-start'
+                                            defaultValue={{
+                                                // @ts-ignore
+                                                label: "Dhivehi", value: "DV"
+                                            }}
+                                            options={[
+                                                // @ts-ignore
+                                                {label: "English", value: "EN"},
+                                                // @ts-ignore
+                                                {label: "Dhivehi", value: "DV"}
+                                            ]}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name='createdAt'
