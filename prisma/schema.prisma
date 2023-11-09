@@ -131,7 +131,7 @@ model Media {
 
   url         String     @unique
   name        String
-  description String
+  mediasTags  MediasTags[] @relation("mediasTags")
 
   libraryGroupId Int     @unique
   libraryGroup   Library @relation("libraryGroup", fields: [libraryGroupId], references: [id])
@@ -197,7 +197,8 @@ model Tag {
   name        String
   slug        String @unique
 
-  tagsPosts PostsTags[] @relation("tagsPosts")
+  tagsPosts  PostsTags[] @relation("tagsPosts")
+  tagsMedias MediasTags[] @relation("tagsMedias")
 }
 
 model PostsTags {
@@ -206,4 +207,12 @@ model PostsTags {
   post   Post? @relation("postsTags", fields: [postId], references: [id])
   tagId  Int
   tag    Tag?  @relation("tagsPosts", fields: [tagId], references: [id])
+}
+
+model MediasTags {
+  id      Int   @id @default(autoincrement())
+  mediaId Int
+  media   Media? @relation("mediasTags", fields: [mediaId], references: [id])
+  tagId   Int
+  tag     Tag?  @relation("tagsMedias", fields: [tagId], references: [id])
 }
