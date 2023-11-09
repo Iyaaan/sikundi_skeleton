@@ -108,7 +108,7 @@ export default function Editor(): JSX.Element {
                 className={`editor-container`}>
                 {/* <MaxLengthPlugin maxLength={30} /> */}
                 <DragDropPaste />
-                <AutoFocusPlugin />
+                {/* <AutoFocusPlugin /> */}
                 <ClearEditorPlugin />
                 <ComponentPickerPlugin />
                 <EmojiPickerPlugin />
