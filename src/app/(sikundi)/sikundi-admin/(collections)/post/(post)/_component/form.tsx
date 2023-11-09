@@ -8,12 +8,9 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { zodResolver } from '@hookform/resolvers/zod'
 import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
-import useSWRMutation from 'swr/mutation'
-import { ToastAction } from "@sikundi/components/ui/toast"
-import { CalendarIcon, ImageIcon } from "lucide-react"
-import { PostHandler } from "@sikundi/lib/client/fetcher"
-import { cn, zodErrorGenerator } from "@sikundi/lib/client/utils"
-import { useRouter } from "next/navigation"
+import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
+import { cn } from "@sikundi/lib/client/utils"
+import { useParams, useRouter } from "next/navigation"
 import { Textarea } from "@sikundi/components/ui/textarea"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
@@ -28,20 +25,45 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from "next/image"
+import useAction from "@sikundi/lib/client/hooks/useAction"
+import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create"
+import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/update"
 
 interface Props {
     user: UserType
+    data?: {[name:string]: unknown}
+    type: "create" | "update"
 }
 
-export default function PostForm({ user }: Props) {
+export default function PostForm({ user, data, type }: Props) {
     const { toast } = useToast()
     const [image, setImage] = useState<string | undefined>(undefined)
+    const [lead, setLead] = useState<{[name:string]: any}>(data?.lead ? JSON?.parse(String(data?.lead)) : {})
     const router = useRouter()
+    const params = useParams()
     const form = useForm<PostSchemaType>({
         resolver: zodResolver(PostSchema),
         defaultValues: {
             createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
-            createdAt: new Date()
+            createdAt: new Date(),
+            language: {
+                label: "Dhivehi", value: "DV"
+            },
+            title: "",
+            latinTitle: "",
+            longTitle: "",
+            description: "",
+            featureImageUrl: "",
+            tags: [],
+            push: {
+                all: false,
+                facebook: false,
+                telegram: false,
+                viber: false,
+                x: false,
+                firebase: false
+            },
+            ...data
         }
     })
     
@@ -54,6 +76,10 @@ export default function PostForm({ user }: Props) {
     useEffect(() => {
         setImage(featureImageUrl)
     }, [featureImageUrl, form])
+
+    useEffect(() => {
+        form.setValue("lead", JSON.stringify(lead))
+    }, [lead, form])
     
     const push_all = form.watch("push.all") 
     useEffect(() => {
@@ -64,38 +90,23 @@ export default function PostForm({ user }: Props) {
         form.setValue("push.x", form.getValues("push.all"))
     }, [push_all, form])
 
-    const { trigger, isMutating } = useSWRMutation('/sikundi-admin/post/api/create', PostHandler<any>, {
-        onSuccess: (data) => {
-            toast(data?.data?.notification || {
-                title: "successfully submitted",
-                description: JSON.stringify(data.data)
-            })
-            // router.replace("/sikundi-admin")
-        },
-        onError: ({ response }) => {
-            zodErrorGenerator(response.data.error, (data) => form.setError(
-                // @ts-ignore
-                data.field,
-                { message: data.message },
-                { shouldFocus: true }
-            ))
 
-            toast({
-                title: response.data.notification.title || response.data.error.name,
-                description: response.data.notification.description || JSON.stringify(response.data.error.details),
-                variant: "destructive",
-                action: response.data.error.name !== "Validation Error" ? 
-                    <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                        Try again
-                    </ToastAction> 
-                : undefined
-            })
-        }
+    const { isLoading, execute } = useAction(type === "create" ? PostCreateAction : PostUpdateAction, {
+        onSuccess: ({ data }) => {
+            router.back()
+        },
+        onError: ({ error }) => console.error(error),
+        onValidationError: (data) => form.setError(
+            // @ts-ignore
+            data.field,
+            { message: data.message },
+            { shouldFocus: true }
+        )
     })
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => console.log(data))} className="grid lg:grid-cols-12 gap-4">
+            <form onSubmit={form.handleSubmit(data => execute({ ...data, id: type === "update" ? parseInt(`${params.id}`) : undefined }), (e) => console.error(e))} className="grid lg:grid-cols-12 gap-4">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField
@@ -152,18 +163,12 @@ export default function PostForm({ user }: Props) {
                         />
                     </CardContent>
                 </Card>
-                <FormField
-                    control={form.control}
-                    name='lead'
-                    render={({ field }) => (
-                        <FormItem className="lg:col-span-8 lg:order-4">
-                            <FormControl>
-                                <TextEditor {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <FormItem className="lg:col-span-8 lg:order-4">
+                    <FormControl>
+                        <TextEditor defaultValue={data?.lead || null} value={lead} onChange={(v) => setLead(v)} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
                 <Card className="lg:col-span-8 lg:order-6 overflow-hidden">
                     <CardContent className="grid gap-4 aspect-video relative">
                         {
@@ -225,12 +230,7 @@ export default function PostForm({ user }: Props) {
                                                     toast({
                                                         title: error?.data?.notification?.title || error?.data?.error?.name,
                                                         description: error?.data?.notification?.description || JSON.stringify(error?.data?.error?.details),
-                                                        variant: "destructive",
-                                                        action: error.data.error.name !== "Validation Error" ? 
-                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                                                                Try again
-                                                            </ToastAction> 
-                                                        : undefined
+                                                        variant: "destructive"
                                                     })
                                                     resolve([])
                                                 })
@@ -269,12 +269,7 @@ export default function PostForm({ user }: Props) {
                                                     toast({
                                                         title: error?.data?.notification?.title || error?.data?.error?.name,
                                                         description: error?.data?.notification?.description || JSON.stringify(error?.data?.error?.details),
-                                                        variant: "destructive",
-                                                        action: error.data.error.name !== "Validation Error" ? 
-                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                                                                Try again
-                                                            </ToastAction> 
-                                                        : undefined
+                                                        variant: "destructive"
                                                     })
                                                     resolve([])
                                                 })
@@ -332,10 +327,6 @@ export default function PostForm({ user }: Props) {
                                         <Select2
                                             isClearable={false}
                                             className='col-span-2 justify-start'
-                                            defaultValue={{
-                                                // @ts-ignore
-                                                label: "Dhivehi", value: "DV"
-                                            }}
                                             options={[
                                                 // @ts-ignore
                                                 {label: "English", value: "EN"},
@@ -365,7 +356,7 @@ export default function PostForm({ user }: Props) {
                                                 )}
                                                 >
                                                 {field.value ? (
-                                                    format(field.value, "PPP")
+                                                    format(new Date(field.value), "PPP")
                                                 ) : (
                                                     <span>Publish at</span>
                                                 )}
@@ -376,7 +367,7 @@ export default function PostForm({ user }: Props) {
                                         <PopoverContent className="w-auto p-0" align="start">
                                             <Calendar
                                                 mode="single"
-                                                selected={field.value}
+                                                selected={field.value ? new Date(field.value) : undefined}
                                                 onSelect={field.onChange}
                                             />
                                         </PopoverContent>
@@ -410,12 +401,7 @@ export default function PostForm({ user }: Props) {
                                                     toast({
                                                         title: error.data.notification.title || error.data.error.name,
                                                         description: error.data.notification.description || JSON.stringify(error.data.error.details),
-                                                        variant: "destructive",
-                                                        action: error.data.error.name !== "Validation Error" ? 
-                                                            <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>
-                                                                Try again
-                                                            </ToastAction> 
-                                                        : undefined
+                                                        variant: "destructive"
                                                     })
                                                     resolve([])
                                                 })
@@ -427,8 +413,44 @@ export default function PostForm({ user }: Props) {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex items-center gap-4">
-                            <Button className="flex-1">Draft</Button>
+                        <div className="grid grid-cols-2 items-center gap-2">
+                            {
+                                type === "create" ?
+                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                    {(isLoading && form.getValues("action") === "draft") ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "draft"}
+                                </Button> :
+                                <Fragment>
+                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" onClick={()=>form.setValue("action", "pending")}>
+                                        {(isLoading && form.getValues("action") === "pending") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "pending"}
+                                    </Button>
+                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                        {(isLoading && form.getValues("action") === "draft") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "draft"}
+                                    </Button>
+                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
+                                        {(isLoading && form.getValues("action") === "delete") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "delete"}
+                                    </Button> 
+                                </Fragment>
+                            }
                         </div>
                     </CardContent>
                 </Card>

@@ -19,7 +19,7 @@ export default async function page({params, searchParams}: Props) {
     const user = await getUser()
 
     return (
-        <Form user={JSON.parse(JSON.stringify(user))} />
+        <Form user={JSON.parse(JSON.stringify(user))} type='create' />
     )
 }
 

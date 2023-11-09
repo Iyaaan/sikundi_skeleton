@@ -1,5 +1,6 @@
 import * as z from 'zod'
 const PostSchema = z.object({
+    id: z.number().optional(),
     title: z.string().min(1, 'Title is required'),
     longTitle: z.string().optional(),
     latinTitle: z.string().optional(),
@@ -9,15 +10,12 @@ const PostSchema = z.object({
         value: z.string(),
         label: z.string()
     }),
-    createdAt: z.date().optional(),
+    createdAt: z.date().optional().or(z.string().optional()),
     category: z.object({
         value: z.string(),
         label: z.string()
     }).optional(),
     featureImageUrl: z.string().optional(),
-    status: z.string().refine((status) => ['drafted', 'published', 'soft_deleted', 'pending'].includes(status), {
-        message: 'Status is not valid'
-    }),
     language: z.object({
         value: z.string(),
         label: z.string()
@@ -35,7 +33,10 @@ const PostSchema = z.object({
         viber: z.boolean().optional(),
         x: z.boolean().optional(),
         firebase: z.boolean().optional()
-    })
+    }).optional(),
+    action: z.string().refine((action) => ['draft', 'delete', 'soft_delete', 'publish', 'pending'].includes(action), {
+        message: 'Action is not valid'
+    }).optional(),
 })
 
 export type PostSchemaType = z.infer<typeof PostSchema>

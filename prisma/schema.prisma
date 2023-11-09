@@ -52,7 +52,7 @@ model Country {
 model State {
   id        Int      @id @default(autoincrement())
   countryId Int?     @unique
-  country   Country? @relation("country", fields: [countryId], references: [id])
+  country   Country? @relation("country", fields: [countryId], references: [id], onDelete: Cascade)
 
   name   String
   cities City[] @relation("state")
@@ -61,7 +61,7 @@ model State {
 model City {
   id      Int    @id @default(autoincrement())
   stateId Int?   @unique
-  state   State? @relation("state", fields: [stateId], references: [id])
+  state   State? @relation("state", fields: [stateId], references: [id], onDelete: Cascade)
 
   name String
 }
@@ -71,7 +71,7 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   userName         String     @unique
   email            String     @unique
@@ -79,9 +79,9 @@ model User {
   description      String
   status           UserStatus
   profilePictureId Int?       
-  profilePicture   Media?     @relation("profilePicture", fields: [profilePictureId], references: [id])
+  profilePicture   Media?     @relation("profilePicture", fields: [profilePictureId], references: [id], onDelete: SetNull)
   roleId           Int?       
-  role             Role?      @relation("roleUsers", fields: [roleId], references: [id])
+  role             Role?      @relation("roleUsers", fields: [roleId], references: [id], onDelete: SetNull)
 
   logs                 Log[]      @relation("logs")
   usersCreated         User[]     @relation("usersCreated")
@@ -98,7 +98,7 @@ model Role {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String @unique
   permissions Json
@@ -111,7 +111,7 @@ model Log {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("logs", fields: [createdById], references: [id])
+  createdBy   User?    @relation("logs", fields: [createdById], references: [id], onDelete: SetNull)
 
   action       Action
   model        Model
@@ -124,7 +124,7 @@ model Media {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   posts      Post[] @relation("postFeatureImage")
   user       User[] @relation("profilePicture")
@@ -133,8 +133,8 @@ model Media {
   url         String     @unique
   name        String
 
-  libraryGroupId Int
-  libraryGroup   Library @relation("libraryGroup", fields: [libraryGroupId], references: [id])
+  libraryGroupId Int?
+  libraryGroup   Library? @relation("libraryGroup", fields: [libraryGroupId], references: [id], onDelete: SetNull)
 }
 
 model Library {
@@ -142,11 +142,11 @@ model Library {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String  @unique
   description String
-  library     Media[] @relation("libraryGroup")
+  medias      Media[] @relation("libraryGroup")
 }
 
 model Post {
@@ -154,18 +154,18 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
-  categoryId      Int?      @unique
-  category        Category? @relation("postsCategory", fields: [categoryId], references: [id])
+  categoryId      Int?
+  category        Category? @relation("postsCategory", fields: [categoryId], references: [id], onDelete: Cascade)
   featureImageUrl String?
-  featureImage    Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url])
+  featureImage    Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url], onDelete: SetNull)
 
   title       String
-  longTitle   String
-  latinTitle  String
-  description String
-  lead        Json
+  longTitle   String?
+  latinTitle  String?
+  description String?
+  lead        String?
   language    Lang @default(EN)
   status      Status @default(drafted)
 
@@ -177,7 +177,7 @@ model Category {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("categoriesCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("categoriesCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String
   slug        String @unique
@@ -192,7 +192,7 @@ model Tag {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
-  createdBy   User?    @relation("tagsCreated", fields: [createdById], references: [id])
+  createdBy   User?    @relation("tagsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String
   slug        String @unique
@@ -204,15 +204,15 @@ model Tag {
 model PostsTags {
   id     Int   @id @default(autoincrement())
   postId Int
-  post   Post? @relation("postsTags", fields: [postId], references: [id])
+  post   Post? @relation("postsTags", fields: [postId], references: [id], onDelete: Cascade)
   tagId  Int
-  tag    Tag?  @relation("tagsPosts", fields: [tagId], references: [id])
+  tag    Tag?  @relation("tagsPosts", fields: [tagId], references: [id], onDelete: Cascade)
 }
 
 model MediasTags {
   id      Int   @id @default(autoincrement())
   mediaId Int
-  media   Media? @relation("mediasTags", fields: [mediaId], references: [id])
+  media   Media? @relation("mediasTags", fields: [mediaId], references: [id], onDelete: Cascade)
   tagId   Int
-  tag     Tag?  @relation("tagsMedias", fields: [tagId], references: [id])
+  tag     Tag?  @relation("tagsMedias", fields: [tagId], references: [id], onDelete: Cascade)
 }

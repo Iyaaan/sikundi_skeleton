@@ -95,7 +95,7 @@ export async function uploadToLibrary(formData:FormData) {
             })
             try {
                 if(tags.length > 0) {
-                    const tagsMedia = await prisma.mediasTags.createMany({
+                    await prisma.mediasTags.createMany({
                         data: tags.map((tag:any) => ({
                             mediaId: media.id,
                             tagId: tag.id

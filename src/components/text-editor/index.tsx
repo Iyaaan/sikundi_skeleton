@@ -10,14 +10,23 @@ import PlaygroundNodes from './nodes/PlaygroundNodes';
 import {TableContext} from './plugins/TablePlugin';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import ModalContext from './context/ModalContext';
-import { TextareaProps } from '../ui/textarea';
 
-export interface RichTextProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export interface RichTextProps {
+    value: {
+        [name: string]: any
+    },
+    defaultValue: {
+        [name: string]: any
+    } | null,
+    onChange: (data:{
+        [name: string]: any
+    }) => void
+}
 
-const RichTextEditor = React.forwardRef<HTMLTextAreaElement, TextareaProps>((({ className, ...props }, ref) => {
+const RichTextEditor = ({ value, defaultValue, onChange }:RichTextProps) => {
     const [editorState, setEditorState] = React.useState<any>();
     const initialConfig = {
-        editorState: props.value,
+        editorState: defaultValue,
         namespace: 'Playground',
         nodes: [...PlaygroundNodes],
         onError: (error: Error) => {
@@ -33,21 +42,15 @@ const RichTextEditor = React.forwardRef<HTMLTextAreaElement, TextareaProps>((({ 
                 <SharedHistoryContext>
                     <TableContext>
                         <div className="editor-shell">
-                            <OnChangePlugin onChange={(editorState) => {
-                                setEditorState(JSON.stringify(editorState))
-                            }} />
+                            <OnChangePlugin onChange={onChange} />
                             <Editor />
-                            <textarea
-                                ref={ref}
-                                {...{...props, value: editorState, disabled: true, className: "hidden" }}
-                            />
                         </div>
                     </TableContext>
                 </SharedHistoryContext>
             </ModalContext>
         </LexicalComposer>
     );
-}))
+}
 
 RichTextEditor.displayName = "RichTextEditor"
 

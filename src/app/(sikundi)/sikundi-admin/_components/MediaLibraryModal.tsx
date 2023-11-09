@@ -44,8 +44,8 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
   
     useEffect(() => {
         (async () => {
-            const data = await photos()
-            setPhotoList((p) => ([
+            const { data } = await photos()
+            data && setPhotoList((p) => ([
                 ...p,
                 ...data
             ]))

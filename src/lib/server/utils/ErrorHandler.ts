@@ -35,6 +35,7 @@ export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema:
         }
         return await responseCallback(inputs)
     } catch (e:any) {
+        console.error(e)
         if (e?.name === "PrismaClientKnownRequestError" && e?.code === "P2002") {
             return({ 
                 data: null,
