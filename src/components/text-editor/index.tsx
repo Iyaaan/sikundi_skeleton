@@ -8,6 +8,7 @@ import Editor from './Editor';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 import {TableContext} from './plugins/TablePlugin';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
+import ModalContext from './context/ModalContext';
 
 export default function App(): JSX.Element {
     const initialConfig = {
@@ -22,13 +23,15 @@ export default function App(): JSX.Element {
 
     return (
         <LexicalComposer initialConfig={initialConfig}>
-            <SharedHistoryContext>
-                <TableContext>
-                    <div className="editor-shell">
-                        <Editor />
-                    </div>
-                </TableContext>
-            </SharedHistoryContext>
+            <ModalContext>
+                <SharedHistoryContext>
+                    <TableContext>
+                        <div className="editor-shell">
+                            <Editor />
+                        </div>
+                    </TableContext>
+                </SharedHistoryContext>
+            </ModalContext>
         </LexicalComposer>
     );
 }

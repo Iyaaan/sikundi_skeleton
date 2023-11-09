@@ -67,6 +67,7 @@ import {
 import {Dispatch, useCallback, useEffect, useState} from 'react';
 import * as React from 'react';
 import {IS_APPLE} from '../../utils/environment';
+import { OperateModal } from '../../context/ModalContext'
 
 import useModal from '../../hooks/useModal';
 import {$createStickyNode} from '../../nodes/StickyNode';
@@ -100,6 +101,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@sikundi/components/ui/popover"
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
 
 const blockTypeToBlockName = {
     bullet: 'Bulleted List',
@@ -479,6 +481,7 @@ function ElementFormatDropdown({ editor, value, isRTL, disabled = false }: Eleme
 
 export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode: Dispatch<boolean>}): JSX.Element {
     const [editor] = useLexicalComposerContext();
+    const { OpenModal, CloseModal } = OperateModal();
     const [activeEditor, setActiveEditor] = useState(editor);
     const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
     const [rootType, setRootType] = useState<keyof typeof rootTypeToRootName>('root');
@@ -937,12 +940,20 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                         <span className='ml-2'>{"Page Break"}</span>
                                     </CommandItem>
                                     <CommandItem value={"Image"} title="Image" onSelect={() => {
-                                        showModal('Insert Image', (onClose) => (
-                                            <InsertImageDialog
-                                                activeEditor={activeEditor}
-                                                onClose={onClose}
-                                            />
-                                        ));
+                                        OpenModal(
+                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Add a Photo</DialogTitle>
+                                                    <DialogDescription>
+                                                        Choose a option
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <InsertImageDialog
+                                                    activeEditor={activeEditor}
+                                                    onClose={() => CloseModal()}
+                                                />
+                                            </DialogContent>
+                                        )
                                         setBlocksMenu(false)
                                     }}>
                                         <ImageIcon className='w-4 h-4' />
@@ -959,48 +970,80 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                         <span className='ml-2'>{"Excalidraw"}</span>
                                     </CommandItem>
                                     <CommandItem value={"Table"} title="Table" onSelect={() => {
-                                        showModal('Insert Table', (onClose) => (
-                                            <InsertTableDialog
-                                                activeEditor={activeEditor}
-                                                onClose={onClose}
-                                            />
-                                        ));
+                                        OpenModal(
+                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Insert Table</DialogTitle>
+                                                    <DialogDescription>
+                                                        Customize Your Table
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <InsertTableDialog
+                                                    activeEditor={activeEditor}
+                                                    onClose={() => CloseModal()}
+                                                />
+                                            </DialogContent>
+                                        )
                                         setBlocksMenu(false)
                                     }}>
                                         <TableIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Table"}</span>
                                     </CommandItem>
                                     <CommandItem value={"Poll"} title="Poll" onSelect={() => {
-                                        showModal('Insert Poll', (onClose) => (
-                                            <InsertPollDialog
-                                                activeEditor={activeEditor}
-                                                onClose={onClose}
-                                            />
-                                        ));
+                                        OpenModal(
+                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Insert Poll</DialogTitle>
+                                                    <DialogDescription>
+                                                        Customize Your Poll
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <InsertPollDialog
+                                                    activeEditor={activeEditor}
+                                                    onClose={() => CloseModal()}
+                                                />
+                                            </DialogContent>
+                                        )
                                         setBlocksMenu(false)
                                     }}>
                                         <VoteIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Poll"}</span>
                                     </CommandItem>
                                     <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
-                                        showModal('Insert Columns Layout', (onClose) => (
-                                            <InsertLayoutDialog
-                                                activeEditor={activeEditor}
-                                                onClose={onClose}
-                                            />
-                                        ));
+                                        OpenModal(
+                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Insert Columns Layout</DialogTitle>
+                                                    <DialogDescription>
+                                                        Customize Your Layout
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <InsertLayoutDialog
+                                                    activeEditor={activeEditor}
+                                                    onClose={() => CloseModal()}
+                                                />
+                                            </DialogContent>
+                                        )
                                         setBlocksMenu(false)
                                     }}>
                                         <LayoutIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Columns Layout"}</span>
                                     </CommandItem>
                                     <CommandItem value={"Equation"} title="Equation" onSelect={() => {
-                                        showModal('Insert Equation', (onClose) => (
-                                            <InsertEquationDialog
-                                                activeEditor={activeEditor}
-                                                onClose={onClose}
-                                            />
-                                        ));
+                                        OpenModal(
+                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Insert Equation</DialogTitle>
+                                                    <DialogDescription>
+                                                        Customize Your Equation
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <InsertEquationDialog
+                                                    activeEditor={activeEditor}
+                                                    onClose={() => CloseModal()}
+                                                />
+                                            </DialogContent>
+                                        )
                                         setBlocksMenu(false)
                                     }}>
                                         <SigmaIcon className='w-4 h-4' />
