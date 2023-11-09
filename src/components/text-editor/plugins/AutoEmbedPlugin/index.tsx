@@ -27,6 +27,8 @@ import {INSERT_FIGMA_COMMAND} from '../FigmaPlugin';
 import {INSERT_TWEET_COMMAND} from '../TwitterPlugin';
 import {INSERT_YOUTUBE_COMMAND} from '../YouTubePlugin';
 import { TwitterIcon, YoutubeIcon } from 'lucide-react';
+import { OperateModal } from '../../context/ModalContext';
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -292,11 +294,17 @@ export function AutoEmbedDialog({
 
 export default function AutoEmbedPlugin(): JSX.Element {
   const [modal, showModal] = useModal();
+  const { OpenModal, CloseModal } = OperateModal();
 
   const openEmbedModal = (embedConfig: PlaygroundEmbedConfig) => {
-    showModal(`Embed ${embedConfig.contentName}`, (onClose) => (
-      <AutoEmbedDialog embedConfig={embedConfig} onClose={onClose} />
-    ));
+    OpenModal(
+        <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
+            <DialogHeader>
+                <DialogTitle>{`Embed a ${embedConfig.contentName}`}</DialogTitle>
+            </DialogHeader>
+            <AutoEmbedDialog embedConfig={embedConfig} onClose={() => CloseModal()} />
+        </DialogContent>
+    )
   };
 
   const getMenuOptions = (

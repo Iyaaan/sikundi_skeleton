@@ -28,19 +28,15 @@ import {
 import {useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import {CAN_USE_DOM} from '../../utils/canUseDOM';
-
-import landscapeImage from '../../images/landscape.jpg';
-import yellowFlowerImage from '../../images/yellow-flower.jpg';
 import {
   $createImageNode,
   $isImageNode,
   ImageNode,
   ImagePayload,
 } from '../../nodes/ImageNode';
-import Button from '../../ui/Button';
-import {DialogActions, DialogButtonsList} from '../../ui/Dialog';
+import {Button} from '../..../../../../ui/button';
 import FileInput from '../../ui/FileInput';
-import TextInput from '../../ui/TextInput';
+import { Input } from '../..../../../../ui/input';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
@@ -62,28 +58,25 @@ export function InsertImageUriDialogBody({
 
   return (
     <>
-      <TextInput
-        label="Image URL"
+    <Input
         placeholder="i.e. https://source.unsplash.com/random"
-        onChange={setSrc}
+        onChange={(text)=>setSrc(text.target.value)}
         value={src}
         data-test-id="image-modal-url-input"
-      />
-      <TextInput
-        label="Alt Text"
+    />
+    <Input
         placeholder="Random unsplash image"
-        onChange={setAltText}
+        onChange={(text)=>setAltText(text.target.value)}
         value={altText}
         data-test-id="image-modal-alt-text-input"
-      />
-      <DialogActions>
-        <Button
-          data-test-id="image-modal-confirm-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
-          Confirm
-        </Button>
-      </DialogActions>
+    />
+    <Button
+        variant={"secondary"}
+        data-test-id="image-modal-confirm-btn"
+        disabled={isDisabled}
+        onClick={() => onClick({altText, src})}>
+        Confirm
+    </Button>
     </>
   );
 }
@@ -119,21 +112,19 @@ export function InsertImageUploadedDialogBody({
         accept="image/*"
         data-test-id="image-modal-file-upload"
       />
-      <TextInput
-        label="Alt Text"
+      <Input
         placeholder="Descriptive alternative text"
-        onChange={setAltText}
+        onChange={(e) => setAltText(e.target.value)}
         value={altText}
         data-test-id="image-modal-alt-text-input"
       />
-      <DialogActions>
-        <Button
-          data-test-id="image-modal-file-upload-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
-          Confirm
-        </Button>
-      </DialogActions>
+      <Button
+        variant={"outline"}
+        data-test-id="image-modal-file-upload-btn"
+        disabled={isDisabled}
+        onClick={() => onClick({altText, src})}>
+        Confirm
+      </Button>
     </>
   );
 }
@@ -170,11 +161,13 @@ export function InsertImageDialog({
         <>
         
             <Button
+            variant={"secondary"}
             data-test-id="image-modal-option-url"
             onClick={() => setMode('url')}>
             URL
           </Button>
           <Button
+           variant={"secondary"}
             data-test-id="image-modal-option-file"
             onClick={() => setMode('file')}>
             File

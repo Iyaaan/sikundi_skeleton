@@ -629,15 +629,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
         }, COMMAND_PRIORITY_NORMAL);
     }, [activeEditor, isLink, setIsLinkEditMode]);
 
-    const applyStyleText = useCallback((styles: Record<string, string>) => {
-        activeEditor.update(() => {
-            const selection = $getSelection();
-            if ( $isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection)) {
-                $patchStyleText(selection, styles);
-            }
-        });
-    }, [activeEditor]);
-
     const clearFormatting = useCallback(() => {
         activeEditor.update(() => {
             const selection = $getSelection();
@@ -941,7 +932,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     </CommandItem>
                                     <CommandItem value={"Image"} title="Image" onSelect={() => {
                                         OpenModal(
-                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
                                                     <DialogTitle>Add a Photo</DialogTitle>
                                                     <DialogDescription>
@@ -959,7 +950,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                         <ImageIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Image"}</span>
                                     </CommandItem>
-                                    <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
+                                    {/* <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
                                         activeEditor.dispatchCommand(
                                             INSERT_EXCALIDRAW_COMMAND,
                                             undefined,
@@ -968,10 +959,10 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     }}>
                                         <PencilIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Excalidraw"}</span>
-                                    </CommandItem>
+                                    </CommandItem> */}
                                     <CommandItem value={"Table"} title="Table" onSelect={() => {
                                         OpenModal(
-                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
                                                     <DialogTitle>Insert Table</DialogTitle>
                                                     <DialogDescription>
@@ -991,7 +982,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     </CommandItem>
                                     <CommandItem value={"Poll"} title="Poll" onSelect={() => {
                                         OpenModal(
-                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
                                                     <DialogTitle>Insert Poll</DialogTitle>
                                                     <DialogDescription>
@@ -1011,7 +1002,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     </CommandItem>
                                     <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
                                         OpenModal(
-                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
                                                     <DialogTitle>Insert Columns Layout</DialogTitle>
                                                     <DialogDescription>
@@ -1029,9 +1020,9 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                         <LayoutIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Columns Layout"}</span>
                                     </CommandItem>
-                                    <CommandItem value={"Equation"} title="Equation" onSelect={() => {
+                                    {/* <CommandItem value={"Equation"} title="Equation" onSelect={() => {
                                         OpenModal(
-                                            <DialogContent className="sm:max-w-[425px] w-[calc(100vw-16px)]">
+                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
                                                     <DialogTitle>Insert Equation</DialogTitle>
                                                     <DialogDescription>
@@ -1048,7 +1039,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     }}>
                                         <SigmaIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Equation"}</span>
-                                    </CommandItem>
+                                    </CommandItem> */}
                                     <CommandItem value={"Collapsible container"} title="Collapsible container" onSelect={() => {
                                         editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
                                         setBlocksMenu(false)
