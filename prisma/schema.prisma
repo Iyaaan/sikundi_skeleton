@@ -126,14 +126,14 @@ model Media {
   createdById Int?
   createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id])
 
-  posts Post[] @relation("postFeatureImage")
-  user  User[] @relation("profilePicture")
+  posts      Post[] @relation("postFeatureImage")
+  user       User[] @relation("profilePicture")
+  mediasTags MediasTags[] @relation("mediasTags")
 
   url         String     @unique
   name        String
-  mediasTags  MediasTags[] @relation("mediasTags")
 
-  libraryGroupId Int     @unique
+  libraryGroupId Int
   libraryGroup   Library @relation("libraryGroup", fields: [libraryGroupId], references: [id])
 }
 
@@ -144,7 +144,7 @@ model Library {
   createdById Int?
   createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id])
 
-  name        String
+  name        String  @unique
   description String
   library     Media[] @relation("libraryGroup")
 }

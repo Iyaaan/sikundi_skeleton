@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@sikundi/components/ui/tabs'
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import EmptyPlaceholder from './EmptyPlaceHolder'
-import { ImageIcon, XIcon } from 'lucide-react'
+import { ImageIcon, Loader2Icon, XIcon } from 'lucide-react'
 import { useDropzone } from 'react-dropzone'
 import P from '@sikundi/components/ui/typography/p'
 import { ScrollArea } from '@sikundi/components/ui/scroll-area'
@@ -12,17 +12,28 @@ import Image from 'next/image'
 import { Input } from '@sikundi/components/ui/input'
 import { Select2Async } from '@sikundi/components/ui/Select2Async'
 import axios from 'axios'
-import { toast } from '@sikundi/components/ui/use-toast'
+import { useToast } from '@sikundi/components/ui/use-toast'
 import { uploadToLibrary } from '../(collections)/library/actions/upload'
 
 
 interface Props extends ButtonProps {
-
+    onComplete?: (values: {
+        id: number
+        createdAt: string
+        updatedAt: string
+        createdById: number
+        url: string
+        name: string
+        libraryGroupId: number
+    }[]) => void
 }
 
-export default function MediaLibraryModal({...props}: ButtonProps) {
+export default function MediaLibraryModal({onComplete, ...props}: Props) {
     const [files, setFiles] = useState([])
+    const [active, setActive] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [rejected, setRejected] = useState([])
+    const { toast } = useToast()
   
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -72,21 +83,36 @@ export default function MediaLibraryModal({...props}: ButtonProps) {
     }
   
     async function action() {
-        // upload to cloudinary using the signature
-        const formData = new FormData()
-        files.map((file, index) => {
-            formData.append(`file_${index}`, file)
-            // @ts-ignore
-            formData.append(`file_${index}_data`, JSON.stringify(file.custom))
-        })
-        formData.append('folder', 'photos')
+        try {
+            setLoading(true)
+            const formData = new FormData()
+            files.map((file, index) => {
+                formData.append(`file_${index}`, file)
+                // @ts-ignore
+                formData.append(`file_${index}_data`, JSON.stringify(file.custom))
+            })
+            formData.append('folder', 'photos')
 
-        const d = await uploadToLibrary(formData)
-        console.log(d)
+            const d = await uploadToLibrary(formData)
+            if (d.notification) {
+                // @ts-ignore
+                toast(d.notification)
+            }
+            setActive(false)
+            onComplete && onComplete(d.files)
+        } catch (error) {
+            // @ts-ignore
+            if (error.notification) {
+                // @ts-ignore
+                toast(error.notification)
+            }
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
-        <Dialog>
+        <Dialog open={active} onOpenChange={setActive}>
             <DialogTrigger asChild>
                 <Button {...props}>{props.children || "Add Item"}</Button>
             </DialogTrigger>
@@ -212,8 +238,17 @@ export default function MediaLibraryModal({...props}: ButtonProps) {
                                     ))}
                                 </ScrollArea>    
                             </Fragment>}
-                            <Button onClick={() => action()} className='w-full' size={"lg"}>Upload</Button>
-                            <Button className='w-full' onClick={removeAll} size={"lg"} variant={"secondary"}>clear</Button>
+                            <Button onClick={() => action()} className='w-full' size={"lg"} disabled={loading}>
+                                {loading ? 
+                                    <Fragment>
+                                        <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                                        {"Loading"}
+                                    </Fragment> 
+                                : "Upload"}
+                            </Button>
+                            <Button className='w-full' onClick={removeAll} size={"lg"} variant={"secondary"} disabled={loading}>
+                                clear
+                            </Button>
                         </div> :
                         <div {...getRootProps()} className='aspect-video bg-secondary grid items-center justify-center rounded-lg border border-dashed cursor-pointer'>
                             <input {...getInputProps()} />

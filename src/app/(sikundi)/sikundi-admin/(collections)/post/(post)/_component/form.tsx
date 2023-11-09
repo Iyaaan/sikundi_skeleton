@@ -21,12 +21,13 @@ import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Switch } from "@sikundi/components/ui/switch"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
-import { useEffect } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
+import Image from "next/image"
 
 interface Props {
     user: UserType
@@ -34,6 +35,7 @@ interface Props {
 
 export default function PostForm({ user }: Props) {
     const { toast } = useToast()
+    const [image, setImage] = useState<string | undefined>(undefined)
     const router = useRouter()
     const form = useForm<PostSchemaType>({
         resolver: zodResolver(PostSchema),
@@ -47,6 +49,11 @@ export default function PostForm({ user }: Props) {
     useEffect(() => {
         form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
     }, [title, form])
+
+    const featureImageUrl = form.watch("featureImageUrl") 
+    useEffect(() => {
+        setImage(featureImageUrl)
+    }, [featureImageUrl, form])
     
     const push_all = form.watch("push.all") 
     useEffect(() => {
@@ -157,13 +164,38 @@ export default function PostForm({ user }: Props) {
                         </FormItem>
                     )}
                 />
-                <Card className="pt-6 lg:col-span-8 lg:order-6">
-                    <CardContent className="grid gap-4 aspect-video">
-                        <div className="border rounded-md items-center justify-center flex">
-                            <MediaLibraryModal>
-                                <ImageIcon className="mr-2" /> Add Feature Image
-                            </MediaLibraryModal>
-                        </div>
+                <Card className="lg:col-span-8 lg:order-6 overflow-hidden">
+                    <CardContent className="grid gap-4 aspect-video relative">
+                        {
+                            !image ? 
+                            <div className="border rounded-md items-center justify-center flex mt-6">
+                                <MediaLibraryModal onComplete={(values) => {
+                                    form.setValue("featureImageUrl", values[0].url)
+                                }}>
+                                    <ImageIcon className="mr-2" /> Add Feature Image
+                                </MediaLibraryModal>
+                            </div>
+                            : <Fragment>
+                                <FormField
+                                    control={form.control}
+                                    name='featureImageUrl'
+                                    render={({ field }) => (
+                                        <FormItem className="hidden">
+                                            <FormControl>
+                                                <Input {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
+                                    form.setValue("featureImageUrl", undefined)
+                                }}>
+                                    Remove
+                                </Button>
+                            </Fragment>
+                        }
                     </CardContent>
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-3">
