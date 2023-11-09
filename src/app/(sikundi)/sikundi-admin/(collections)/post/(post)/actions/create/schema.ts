@@ -18,7 +18,10 @@ const PostSchema = z.object({
     status: z.string().refine((status) => ['drafted', 'published', 'soft_deleted', 'pending'].includes(status), {
         message: 'Status is not valid'
     }),
-    language: z.string().refine((lang) => ['EN', 'DV'].includes(lang), {
+    language: z.object({
+        value: z.string(),
+        label: z.string()
+    }).refine((lang) => ['EN', 'DV'].includes(lang.value), {
         message: 'language is not valid'
     }),
     tags: z.object({

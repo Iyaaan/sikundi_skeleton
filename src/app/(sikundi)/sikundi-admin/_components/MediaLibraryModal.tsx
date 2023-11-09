@@ -1,3 +1,5 @@
+"use client"
+
 import { Button, ButtonProps } from '@sikundi/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@sikundi/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@sikundi/components/ui/tabs'
@@ -14,17 +16,17 @@ import { Select2Async } from '@sikundi/components/ui/Select2Async'
 import axios from 'axios'
 import { useToast } from '@sikundi/components/ui/use-toast'
 import { uploadToLibrary } from '../(collections)/library/actions/upload'
-
+import { photos } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/actions/photos'
 
 interface Props extends ButtonProps {
     onComplete?: (values: {
         id: number
-        createdAt: string
-        updatedAt: string
-        createdById: number
+        createdAt?: string
+        updatedAt?: string
+        createdById?: number
         url: string
-        name: string
-        libraryGroupId: number
+        name?: string
+        libraryGroupId?: number
     }[]) => void
 }
 
@@ -33,8 +35,23 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
     const [rejected, setRejected] = useState([])
+    const [page, setPage] = useState(1)
+    const [photoList, setPhotoList] = useState<{
+        url: string,
+        id: number
+    }[]>([])
     const { toast } = useToast()
   
+    useEffect(() => {
+        (async () => {
+            const data = await photos()
+            setPhotoList((p) => ([
+                ...p,
+                ...data
+            ]))
+        })()
+    }, [page])
+
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         if (acceptedFiles?.length) {
@@ -129,6 +146,25 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
                         <TabsTrigger value="upload">Upload</TabsTrigger>
                     </TabsList>
                     <TabsContent value="library">
+                        {photoList.length > 0 ? 
+                        <ScrollArea className='h-[500px]'>
+                            <div className='grid grid-cols-3 gap-4'>
+                                {photoList.map((photo, index) => photo.url.length > 0 && (
+                                    <button type='button' className='relative aspect-square col-span-1' key={index} onClick={() => {
+                                        onComplete?.([
+                                            {url: photo.url, id: photo.id}
+                                        ])
+                                    }}>
+                                        <Image
+                                            src={photo.url}
+                                            alt={photo.url}
+                                            fill
+                                            className='h-full w-full rounded-lg object-cover'
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        </ScrollArea> :
                         <EmptyPlaceholder data={{
                             slug: "library",
                             name: "library",
@@ -137,7 +173,7 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
                             permissions: {
                                 create: false,
                             }
-                        }} />
+                        }} />}
                     </TabsContent>
                     <TabsContent value="upload">
                         {(files?.length > 0 || rejected?.length > 0) ? <div className='space-y-3'>
