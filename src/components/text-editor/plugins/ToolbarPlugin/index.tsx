@@ -71,7 +71,6 @@ import {IS_APPLE} from '../../utils/environment';
 import useModal from '../../hooks/useModal';
 import {$createStickyNode} from '../../nodes/StickyNode';
 import DropDown, {DropDownItem} from '../../ui/DropDown';
-import DropdownColorPicker from '../../ui/DropdownColorPicker';
 import {getSelectedNode} from '../../utils/getSelectedNode';
 import {sanitizeUrl} from '../../utils/url';
 import {EmbedConfigs} from '../AutoEmbedPlugin';
@@ -84,6 +83,23 @@ import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import {INSERT_PAGE_BREAK} from '../PageBreakPlugin';
 import {InsertPollDialog} from '../PollPlugin';
 import {InsertNewTableDialog, InsertTableDialog} from '../TablePlugin';
+import { Toggle } from '@sikundi/components/ui/toggle';
+import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, ChevronsDownIcon, Code2Icon, CodeIcon, ContainerIcon, FileTypeIcon, Heading1Icon, Heading2Icon, Heading3Icon, ImageIcon, IndentIcon, ItalicIcon, LayoutIcon, Link2Icon, ListIcon, ListOrderedIcon, ListTodoIcon, OutdentIcon, PencilIcon, PlusIcon, QuoteIcon, Redo2Icon, RulerIcon, ScissorsIcon, SigmaIcon, StrikethroughIcon, SubscriptIcon, SuperscriptIcon, TableIcon, TrashIcon, TypeIcon, UnderlineIcon, Undo2Icon, VoteIcon } from 'lucide-react';
+import { Separator } from '@sikundi/components/ui/separator';
+import { cn } from "@sikundi/lib/client/utils"
+import { Button } from "@sikundi/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@sikundi/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@sikundi/components/ui/popover"
 
 const blockTypeToBlockName = {
     bullet: 'Bulleted List',
@@ -118,29 +134,6 @@ function getCodeLanguageOptions(): [string, string][] {
 }
 
 const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
-
-const FONT_FAMILY_OPTIONS: [string, string][] = [
-    ['Arial', 'Arial'],
-    ['Courier New', 'Courier New'],
-    ['Georgia', 'Georgia'],
-    ['Times New Roman', 'Times New Roman'],
-    ['Trebuchet MS', 'Trebuchet MS'],
-    ['Verdana', 'Verdana'],
-];
-
-const FONT_SIZE_OPTIONS: [string, string][] = [
-    ['10px', '10px'],
-    ['11px', '11px'],
-    ['12px', '12px'],
-    ['13px', '13px'],
-    ['14px', '14px'],
-    ['15px', '15px'],
-    ['16px', '16px'],
-    ['17px', '17px'],
-    ['18px', '18px'],
-    ['19px', '19px'],
-    ['20px', '20px'],
-];
 
 const ELEMENT_FORMAT_OPTIONS: {
     [key in Exclude<ElementFormatType, ''>]: {
@@ -186,17 +179,14 @@ function dropDownActiveClass(active: boolean) {
     else return '';
 }
 
-function BlockFormatDropDown({
-    editor,
-    blockType,
-    rootType,
-    disabled = false,
-}: {
+interface BlockFormatDropDownProps {
     blockType: keyof typeof blockTypeToBlockName;
     rootType: keyof typeof rootTypeToRootName;
     editor: LexicalEditor;
     disabled?: boolean;
-}): JSX.Element {
+}
+function BlockFormatDropDown({ editor, blockType, rootType, disabled = false }: BlockFormatDropDownProps): JSX.Element {
+    const [open, setOpen] = React.useState(false)
     const formatParagraph = () => {
         editor.update(() => {
         const selection = $getSelection();
@@ -280,176 +270,211 @@ function BlockFormatDropDown({
     };
 
     return (
-        <DropDown
-            disabled={disabled}
-            buttonClassName="toolbar-item block-controls"
-            buttonIconClassName={'icon block-type ' + blockType}
-            buttonLabel={blockTypeToBlockName[blockType]}
-            buttonAriaLabel="Formatting options for text style"
-        >
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'paragraph')}
-                onClick={formatParagraph}>
-                <i className="icon paragraph" />
-                <span className="text">Normal</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'h1')}
-                onClick={() => formatHeading('h1')}>
-                <i className="icon h1" />
-                <span className="text">Heading 1</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'h2')}
-                onClick={() => formatHeading('h2')}>
-                <i className="icon h2" />
-                <span className="text">Heading 2</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'h3')}
-                onClick={() => formatHeading('h3')}>
-                <i className="icon h3" />
-                <span className="text">Heading 3</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'bullet')}
-                onClick={formatBulletList}>
-                <i className="icon bullet-list" />
-                <span className="text">Bullet List</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'number')}
-                onClick={formatNumberedList}>
-                <i className="icon numbered-list" />
-                <span className="text">Numbered List</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'check')}
-                onClick={formatCheckList}>
-                <i className="icon check-list" />
-                <span className="text">Check List</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'quote')}
-                onClick={formatQuote}>
-                <i className="icon quote" />
-                <span className="text">Quote</span>
-            </DropDownItem>
-            <DropDownItem
-                className={'item ' + dropDownActiveClass(blockType === 'code')}
-                onClick={formatCode}>
-                <i className="icon code" />
-                <span className="text">Code Block</span>
-            </DropDownItem>
-        </DropDown>
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    disabled={disabled}
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="justify-between gap-2"
+                    aria-label="Formatting options for text style"
+                >
+                    {
+                        blockTypeToBlockName[blockType] === "Normal" ?
+                        <TypeIcon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Heading 1" ?
+                        <Heading1Icon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Heading 2" ?
+                        <Heading2Icon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Heading 3" ?
+                        <Heading3Icon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Bulleted List" ?
+                        <ListIcon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Numbered List" ?
+                        <ListOrderedIcon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Check List" ?
+                        <ListTodoIcon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Quote" ?
+                        <QuoteIcon className='h-4 w-4' /> :
+                        blockTypeToBlockName[blockType] === "Code Block" ?
+                        <Code2Icon className='h-4 w-4' /> :
+                        null
+                    }
+                    <span className='hidden md:inline'>{blockTypeToBlockName[blockType]}</span>
+                    <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0 max-w-[175px]" align='start'>
+                <Command>
+                    <CommandGroup>
+                        <CommandItem value={"Normal"} onSelect={() => {
+                            formatParagraph()
+                            setOpen(false)
+                        }}>
+                            <TypeIcon className='h-4 w-4 mr-2' />{"Normal"}
+                        </CommandItem>
+                        <CommandItem value={"Heading 1"} onSelect={() => {
+                            formatHeading('h1')
+                            setOpen(false)
+                        }}>
+                            <Heading1Icon className='h-4 w-4 mr-2' />{"Heading 1"}
+                        </CommandItem>
+                        <CommandItem value={"Heading 2"} onSelect={() => {
+                            formatHeading('h2')
+                            setOpen(false)
+                        }}>
+                            <Heading2Icon className='h-4 w-4 mr-2' />{"Heading 2"}
+                        </CommandItem>
+                        <CommandItem value={"Heading 3"} onSelect={() => {
+                            formatHeading('h3')
+                            setOpen(false)
+                        }}>
+                            <Heading3Icon className='h-4 w-4 mr-2' />{"Heading 3"}
+                        </CommandItem>
+                        <CommandItem value={"bullet"} onSelect={() => {
+                            formatBulletList()
+                            setOpen(false)
+                        }}>
+                            <ListIcon className='h-4 w-4 mr-2' />{"Bullet List"}
+                        </CommandItem>
+                        <CommandItem value={"number"} onSelect={() => {
+                            formatNumberedList()
+                            setOpen(false)
+                        }}>
+                            <ListOrderedIcon className='h-4 w-4 mr-2' />{"Numbered List"}
+                        </CommandItem>
+                        <CommandItem value={"check"} onSelect={() => {
+                            formatCheckList()
+                            setOpen(false)
+                        }}>
+                            <ListTodoIcon className='h-4 w-4 mr-2' />{"Check List"}
+                        </CommandItem>
+                        <CommandItem value={"quote"} onSelect={() => {
+                            formatQuote()
+                            setOpen(false)
+                        }}>
+                            <QuoteIcon className='h-4 w-4 mr-2' />{"Quote"}
+                        </CommandItem>
+                        <CommandItem value={"code"} onSelect={() => {
+                            formatCode()
+                            setOpen(false)
+                        }}>
+                            <Code2Icon className='h-4 w-4 mr-2' />{"Code Block"}
+                        </CommandItem>
+                    </CommandGroup>
+                </Command>
+            </PopoverContent>
+        </Popover>
     );
 }
 
-function Divider(): JSX.Element {
-    return <div className="divider" />;
+interface ElementFormatDropdownProps {
+    editor: LexicalEditor;
+    value: ElementFormatType;
+    isRTL: boolean;
+    disabled: boolean;
 }
 
-function ElementFormatDropdown({
-  editor,
-  value,
-  isRTL,
-  disabled = false,
-}: {
-  editor: LexicalEditor;
-  value: ElementFormatType;
-  isRTL: boolean;
-  disabled: boolean;
-}) {
-  const formatOption = ELEMENT_FORMAT_OPTIONS[value || 'left'];
+function ElementFormatDropdown({ editor, value, isRTL, disabled = false }: ElementFormatDropdownProps) {
+    const formatOption = ELEMENT_FORMAT_OPTIONS[value || 'left'];
+    const [open, setOpen] = React.useState(false)
 
-  return (
-    <DropDown
-      disabled={disabled}
-      buttonLabel={formatOption.name}
-      buttonIconClassName={`icon ${
-        isRTL ? formatOption.iconRTL : formatOption.icon
-      }`}
-      buttonClassName="toolbar-item spaced alignment"
-      buttonAriaLabel="Formatting options for text alignment">
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
-        }}
-        className="item">
-        <i className="icon left-align" />
-        <span className="text">Left Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
-        }}
-        className="item">
-        <i className="icon center-align" />
-        <span className="text">Center Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
-        }}
-        className="item">
-        <i className="icon right-align" />
-        <span className="text">Right Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
-        }}
-        className="item">
-        <i className="icon justify-align" />
-        <span className="text">Justify Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'start');
-        }}
-        className="item">
-        <i
-          className={`icon ${
-            isRTL
-              ? ELEMENT_FORMAT_OPTIONS.start.iconRTL
-              : ELEMENT_FORMAT_OPTIONS.start.icon
-          }`}
-        />
-        <span className="text">Start Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'end');
-        }}
-        className="item">
-        <i
-          className={`icon ${
-            isRTL
-              ? ELEMENT_FORMAT_OPTIONS.end.iconRTL
-              : ELEMENT_FORMAT_OPTIONS.end.icon
-          }`}
-        />
-        <span className="text">End Align</span>
-      </DropDownItem>
-      <Divider />
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
-        }}
-        className="item">
-        <i className={'icon ' + (isRTL ? 'indent' : 'outdent')} />
-        <span className="text">Outdent</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
-        }}
-        className="item">
-        <i className={'icon ' + (isRTL ? 'outdent' : 'indent')} />
-        <span className="text">Indent</span>
-      </DropDownItem>
-    </DropDown>
-  );
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    disabled={disabled}
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="justify-between gap-2"
+                    aria-label="Formatting options for text alignment"
+                >
+                    {
+                        formatOption.name === "Left Align" ?
+                        <AlignLeftIcon className='h-4 w-4' /> :
+                        formatOption.name === "Right Align" ?
+                        <AlignRightIcon className='h-4 w-4' /> :
+                        formatOption.name === "Center Align" ?
+                        <AlignCenterIcon className='h-4 w-4' /> :
+                        formatOption.name === "Justify Align" ?
+                        <AlignJustifyIcon className='h-4 w-4' /> :
+                        formatOption.name === "Start Align" ?
+                        (isRTL ? <AlignRightIcon className='h-4 w-4 mr-2' /> : 
+                        <AlignLeftIcon className='h-4 w-4 mr-2' />) :
+                        formatOption.name === "End Align" ?
+                        (isRTL ? <AlignLeftIcon className='h-4 w-4 mr-2' /> : 
+                        <AlignRightIcon className='h-4 w-4 mr-2' />) :
+                        null
+                    }
+                    <span className='hidden md:inline'>{formatOption.name}</span>
+                    <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0 max-w-[175px]" align='end'>
+                <Command>
+                    <CommandGroup>
+                        <CommandItem value={"Left Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+                            setOpen(false)
+                        }}>
+                            <AlignLeftIcon className='h-4 w-4 mr-2' />{"Left Align"}
+                        </CommandItem>
+                        <CommandItem value={"Center Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+                            setOpen(false)
+                        }}>
+                            <AlignCenterIcon className='h-4 w-4 mr-2' />{"Center Align"}
+                        </CommandItem>
+                        <CommandItem value={"Right Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+                            setOpen(false)
+                        }}>
+                            <AlignRightIcon className='h-4 w-4 mr-2' />{"Right Align"}
+                        </CommandItem>
+                        <CommandItem value={"Justify Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
+                            setOpen(false)
+                        }}>
+                            <AlignJustifyIcon className='h-4 w-4 mr-2' />{"Justify Align"}
+                        </CommandItem>
+                        <CommandItem value={"Start Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'start')
+                            setOpen(false)
+                        }}>
+                            {
+                                isRTL ? <AlignRightIcon className='h-4 w-4 mr-2' /> :
+                                <AlignLeftIcon className='h-4 w-4 mr-2' />
+                            }{"Start Align"}
+                        </CommandItem>
+                        <CommandItem value={"End Align"} onSelect={() => {
+                            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'end')
+                            setOpen(false)
+                        }}>
+                            {
+                                isRTL ? <AlignLeftIcon className='h-4 w-4 mr-2' /> : 
+                                <AlignRightIcon className='h-4 w-4 mr-2' />
+                            }{"End Align"}
+                        </CommandItem>
+                        <Separator />
+                        <CommandItem value={"outdent"} onSelect={() => {
+                            editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined)
+                            setOpen(false)
+                        }}>
+                            <OutdentIcon className='h-4 w-4 mr-2' />{"Outdent"}
+                        </CommandItem>
+                        <CommandItem value={"indent"} onSelect={() => {
+                            editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined)
+                            setOpen(false)
+                        }}>
+                            <IndentIcon className='h-4 w-4 mr-2' />{"Indent"}
+                        </CommandItem>
+                    </CommandGroup>
+                </Command>
+            </PopoverContent>
+        </Popover>
+    );
 }
 
 export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode: Dispatch<boolean>}): JSX.Element {
@@ -458,10 +483,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
     const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
     const [rootType, setRootType] = useState<keyof typeof rootTypeToRootName>('root');
     const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(null);
-    const [fontSize, setFontSize] = useState<string>('15px');
-    const [fontColor, setFontColor] = useState<string>('#000');
-    const [bgColor, setBgColor] = useState<string>('#fff');
-    const [fontFamily, setFontFamily] = useState<string>('Arial');
     const [elementFormat, setElementFormat] = useState<ElementFormatType>('left');
     const [isLink, setIsLink] = useState(false);
     const [isBold, setIsBold] = useState(false);
@@ -477,6 +498,9 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
     const [isRTL, setIsRTL] = useState(false);
     const [codeLanguage, setCodeLanguage] = useState<string>('');
     const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+    const [codeMenu, setCodeMenu] = useState(false);
+    const [blockMenu, setBlocksMenu] = useState(false);
+    const [TextMenu, setTextMenu] = useState(false);
 
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -543,23 +567,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                     }
                 }
             }
-            // Handle buttons
-            setFontSize(
-                $getSelectionStyleValueForProperty(selection, 'font-size', '15px'),
-            );
-            setFontColor(
-                $getSelectionStyleValueForProperty(selection, 'color', '#000'),
-            );
-            setBgColor(
-                $getSelectionStyleValueForProperty(
-                selection,
-                'background-color',
-                '#fff',
-                ),
-            );
-            setFontFamily(
-                $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'),
-            );
             setElementFormat(
                 ($isElementNode(node)
                 ? node.getFormatType()
@@ -668,14 +675,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
         });
     }, [activeEditor]);
 
-    const onFontColorSelect = useCallback((value: string) => {
-        applyStyleText({color: value});
-    }, [applyStyleText]);
-
-    const onBgColorSelect = useCallback((value: string) => {
-        applyStyleText({'background-color': value});
-    }, [applyStyleText]);
-
     const insertLink = useCallback(() => {
         if (!isLink) {
             editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl('https://'));
@@ -696,358 +695,343 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
     }, [activeEditor, selectedElementKey]);
 
     return (
-        <div className="toolbar">
-            <button
+        <div className="toolbar items-center">
+            <Toggle
+                size={"sm"}
+                pressed={false}
                 disabled={!canUndo || !isEditable}
                 onClick={() => {
                 activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
                 }}
                 title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
                 type="button"
-                className="toolbar-item spaced"
-                aria-label="Undo">
-                <i className="format undo" />
-            </button>
-            <button
+                aria-label="Undo"
+            >
+                <Undo2Icon className='w-4 h-4' />
+            </Toggle>
+            <Toggle
+                size={"sm"}
+                pressed={false}
                 disabled={!canRedo || !isEditable}
                 onClick={() => {
                 activeEditor.dispatchCommand(REDO_COMMAND, undefined);
                 }}
                 title={IS_APPLE ? 'Redo (⌘Y)' : 'Redo (Ctrl+Y)'}
                 type="button"
-                className="toolbar-item"
-                aria-label="Redo">
-                <i className="format redo" />
-            </button>
-            <Divider />
+                aria-label="Redo"
+            >
+                <Redo2Icon className='w-4 h-4' />
+            </Toggle>
+            <Separator className='mx-1 h-8' orientation={"vertical"} />
             {blockType in blockTypeToBlockName && activeEditor === editor && (
-                <>
-                    <BlockFormatDropDown
-                        disabled={!isEditable}
-                        blockType={blockType}
-                        rootType={rootType}
-                        editor={editor}
-                    />
-                </>
+                <BlockFormatDropDown
+                    disabled={!isEditable}
+                    blockType={blockType}
+                    rootType={rootType}
+                    editor={editor}
+                />
             )}
             {blockType === 'code' ? (
-                <DropDown
-                disabled={!isEditable}
-                buttonClassName="toolbar-item code-language"
-                buttonLabel={getLanguageFriendlyName(codeLanguage)}
-                buttonAriaLabel="Select language">
-                {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
-                    return (
-                    <DropDownItem
-                        className={`item ${dropDownActiveClass(
-                        value === codeLanguage,
-                        )}`}
-                        onClick={() => onCodeLanguageSelect(value)}
-                        key={value}>
-                        <span className="text">{name}</span>
-                    </DropDownItem>
-                    );
-                })}
-                </DropDown>
+                <React.Fragment>
+                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    <Popover open={codeMenu} onOpenChange={setCodeMenu}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                disabled={!isEditable}
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={codeMenu}
+                                className="justify-between gap-2"
+                                aria-label="Select language"
+                            >
+                                {getLanguageFriendlyName(codeLanguage)}
+                                <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0 max-w-[175px]" align='start'>
+                            <Command>
+                                <CommandGroup>
+                                    {CODE_LANGUAGE_OPTIONS.map(([value, name]) => (
+                                        <CommandItem key={value} value={value} onSelect={() => {
+                                            onCodeLanguageSelect(value)
+                                            setCodeMenu(false)
+                                        }}>{name}</CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                </React.Fragment>
             ) : (
-                <>
-                <Divider />
-                <button
-                    disabled={!isEditable}
-                    onClick={() => {
-                    activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-                    }}
-                    className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
-                    title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
-                    type="button"
-                    aria-label={`Format text as bold. Shortcut: ${
-                    IS_APPLE ? '⌘B' : 'Ctrl+B'
-                    }`}>
-                    <i className="format bold" />
-                </button>
-                <button
-                    disabled={!isEditable}
-                    onClick={() => {
-                    activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-                    }}
-                    className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
-                    title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
-                    type="button"
-                    aria-label={`Format text as italics. Shortcut: ${
-                    IS_APPLE ? '⌘I' : 'Ctrl+I'
-                    }`}>
-                    <i className="format italic" />
-                </button>
-                <button
-                    disabled={!isEditable}
-                    onClick={() => {
-                    activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
-                    }}
-                    className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
-                    title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
-                    type="button"
-                    aria-label={`Format text to underlined. Shortcut: ${
-                    IS_APPLE ? '⌘U' : 'Ctrl+U'
-                    }`}>
-                    <i className="format underline" />
-                </button>
-                <button
-                    disabled={!isEditable}
-                    onClick={() => {
-                    activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
-                    }}
-                    className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
-                    title="Insert code block"
-                    type="button"
-                    aria-label="Insert code block">
-                    <i className="format code" />
-                </button>
-                <button
-                    disabled={!isEditable}
-                    onClick={insertLink}
-                    className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
-                    aria-label="Insert link"
-                    title="Insert link"
-                    type="button">
-                    <i className="format link" />
-                </button>
-                <DropDown
-                    disabled={!isEditable}
-                    buttonClassName="toolbar-item spaced"
-                    buttonLabel=""
-                    buttonAriaLabel="Formatting options for additional text styles"
-                    buttonIconClassName="icon dropdown-more">
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(
-                        FORMAT_TEXT_COMMAND,
-                        'strikethrough',
-                        );
-                    }}
-                    className={'item ' + dropDownActiveClass(isStrikethrough)}
-                    title="Strikethrough"
-                    aria-label="Format text with a strikethrough">
-                    <i className="icon strikethrough" />
-                    <span className="text">Strikethrough</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
-                    }}
-                    className={'item ' + dropDownActiveClass(isSubscript)}
-                    title="Subscript"
-                    aria-label="Format text with a subscript">
-                    <i className="icon subscript" />
-                    <span className="text">Subscript</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(
-                        FORMAT_TEXT_COMMAND,
-                        'superscript',
-                        );
-                    }}
-                    className={'item ' + dropDownActiveClass(isSuperscript)}
-                    title="Superscript"
-                    aria-label="Format text with a superscript">
-                    <i className="icon superscript" />
-                    <span className="text">Superscript</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={clearFormatting}
-                    className="item"
-                    title="Clear text formatting"
-                    aria-label="Clear all text formatting">
-                    <i className="icon clear" />
-                    <span className="text">Clear Formatting</span>
-                    </DropDownItem>
-                </DropDown>
-                <Divider />
-                {rootType === 'table' && (
-                    <>
-                    <DropDown
+                <React.Fragment>
+                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    <Toggle
+                        size={"sm"}
                         disabled={!isEditable}
-                        buttonClassName="toolbar-item spaced"
-                        buttonLabel="Table"
-                        buttonAriaLabel="Open table toolkit"
-                        buttonIconClassName="icon table secondary">
-                        <DropDownItem
                         onClick={() => {
-                            /**/
+                        activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
                         }}
-                        className="item">
-                        <span className="text">TODO</span>
-                        </DropDownItem>
-                    </DropDown>
-                    <Divider />
-                    </>
-                )}
-                <DropDown
-                    disabled={!isEditable}
-                    buttonClassName="toolbar-item spaced"
-                    buttonLabel="Insert"
-                    buttonAriaLabel="Insert specialized editor node"
-                    buttonIconClassName="icon plus">
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(
-                        INSERT_HORIZONTAL_RULE_COMMAND,
-                        undefined,
-                        );
-                    }}
-                    className="item">
-                    <i className="icon horizontal-rule" />
-                    <span className="text">Horizontal Rule</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
-                    }}
-                    className="item">
-                    <i className="icon page-break" />
-                    <span className="text">Page Break</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Image', (onClose) => (
-                        <InsertImageDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon image" />
-                    <span className="text">Image</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Inline Image', (onClose) => (
-                        <InsertInlineImageDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon image" />
-                    <span className="text">Inline Image</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        activeEditor.dispatchCommand(
-                        INSERT_EXCALIDRAW_COMMAND,
-                        undefined,
-                        );
-                    }}
-                    className="item">
-                    <i className="icon diagram-2" />
-                    <span className="text">Excalidraw</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Table', (onClose) => (
-                        <InsertTableDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon table" />
-                    <span className="text">Table</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Table', (onClose) => (
-                        <InsertNewTableDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon table" />
-                    <span className="text">Table (Experimental)</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Poll', (onClose) => (
-                        <InsertPollDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon poll" />
-                    <span className="text">Poll</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Columns Layout', (onClose) => (
-                        <InsertLayoutDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon columns" />
-                    <span className="text">Columns Layout</span>
-                    </DropDownItem>
-
-                    <DropDownItem
-                    onClick={() => {
-                        showModal('Insert Equation', (onClose) => (
-                        <InsertEquationDialog
-                            activeEditor={activeEditor}
-                            onClose={onClose}
-                        />
-                        ));
-                    }}
-                    className="item">
-                    <i className="icon equation" />
-                    <span className="text">Equation</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        editor.update(() => {
-                        const root = $getRoot();
-                        const stickyNode = $createStickyNode(0, 0);
-                        root.append(stickyNode);
-                        });
-                    }}
-                    className="item">
-                    <i className="icon sticky" />
-                    <span className="text">Sticky Note</span>
-                    </DropDownItem>
-                    <DropDownItem
-                    onClick={() => {
-                        editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
-                    }}
-                    className="item">
-                    <i className="icon caret-right" />
-                    <span className="text">Collapsible container</span>
-                    </DropDownItem>
-                    {EmbedConfigs.map((embedConfig) => (
-                    <DropDownItem
-                        key={embedConfig.type}
+                        pressed={isBold}
+                        title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
+                        type="button"
+                        aria-label={`Format text as bold. Shortcut: ${
+                        IS_APPLE ? '⌘B' : 'Ctrl+B'
+                        }`}
+                    >
+                        <BoldIcon className='h-4 w-4' />
+                    </Toggle>
+                    <Toggle
+                        size={"sm"}
+                        disabled={!isEditable}
                         onClick={() => {
-                        activeEditor.dispatchCommand(
-                            INSERT_EMBED_COMMAND,
-                            embedConfig.type,
-                        );
+                        activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
                         }}
-                        className="item">
-                        {embedConfig.icon}
-                        <span className="text">{embedConfig.contentName}</span>
-                    </DropDownItem>
-                    ))}
-                </DropDown>
-                </>
+                        pressed={isItalic}
+                        title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
+                        type="button"
+                        aria-label={`Format text as italics. Shortcut: ${
+                        IS_APPLE ? '⌘I' : 'Ctrl+I'
+                        }`}
+                    >
+                        <ItalicIcon className='h-4 w-4' />
+                    </Toggle>
+                    <Toggle
+                        size={"sm"}
+                        disabled={!isEditable}
+                        onClick={() => {
+                        activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+                        }}
+                        pressed={isUnderline}
+                        title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
+                        type="button"
+                        aria-label={`Format text to underlined. Shortcut: ${
+                        IS_APPLE ? '⌘U' : 'Ctrl+U'
+                        }`}
+                    >
+                        <UnderlineIcon className='h-4 w-4' />
+                    </Toggle>
+                    <Toggle
+                        size={"sm"}
+                        disabled={!isEditable}
+                        onClick={() => {
+                        activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
+                        }}
+                        pressed={isCode}
+                        title="Insert code block"
+                        type="button"
+                        aria-label="Insert code block"
+                    >
+                        <CodeIcon className='h-4 w-4' />
+                    </Toggle>
+                    <Toggle
+                        size={"sm"}
+                        disabled={!isEditable}
+                        onClick={insertLink}
+                        pressed={isLink}
+                        aria-label="Insert link"
+                        title="Insert link"
+                        type="button"
+                    >
+                        <Link2Icon className='h-4 w-4' />
+                    </Toggle>
+                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    <Popover open={TextMenu} onOpenChange={setTextMenu}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                disabled={!isEditable}
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={TextMenu}
+                                className="justify-between gap-2"
+                                aria-label="Formatting options for additional text styles"
+                            >
+                                {isStrikethrough ? <StrikethroughIcon className='w-4 h-4' /> : 
+                                isSubscript ? <StrikethroughIcon className='w-4 h-4' /> : 
+                                isSuperscript ? <SuperscriptIcon className='w-4 h-4' /> : 
+                                <FileTypeIcon className='w-4 h-4' />}
+                                <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0 max-w-[175px]" align='center'>
+                            <Command>
+                                <CommandGroup>
+                                    <CommandItem value={"Strikethrough"} title="Strikethrough" aria-label="Format text with a strikethrough" 
+                                        onSelect={() => {
+                                            activeEditor.dispatchCommand(
+                                                FORMAT_TEXT_COMMAND,
+                                                'strikethrough',
+                                            );
+                                            setTextMenu(false)
+                                        }}
+                                    >
+                                        <StrikethroughIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Strikethrough"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Subscript"} title="Subscript" aria-label="Format text with a subscript" 
+                                        onSelect={() => {
+                                            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
+                                            setTextMenu(false)
+                                        }}
+                                    >
+                                        <SubscriptIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Subscript"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Superscript"} title="Superscript" aria-label="Format text with a superscript" 
+                                        onSelect={() => {
+                                            activeEditor.dispatchCommand(
+                                                FORMAT_TEXT_COMMAND,
+                                                'superscript',
+                                            );
+                                            setTextMenu(false)
+                                        }}
+                                    >
+                                        <SuperscriptIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Superscript"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Clear formatting"} title="Clear text formatting" aria-label="Clear all text formatting" 
+                                        onSelect={() => {
+                                            clearFormatting();
+                                            setTextMenu(false)
+                                        }}
+                                    >
+                                        <TrashIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Clear Formatting"}</span>
+                                    </CommandItem>
+                                </CommandGroup>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    <Popover open={blockMenu} onOpenChange={setBlocksMenu}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                disabled={!isEditable}
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={blockMenu}
+                                className="justify-between gap-2"
+                                aria-label="Insert specialized editor node"
+                            >
+                                <span className='hidden md:inline mr-2'>{"Insert"}</span>
+                                <PlusIcon className="h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0 max-w-[175px]" align='end'>
+                            <Command>
+                                <CommandGroup>
+                                    <CommandItem value={"Horizontal Rule"} title="Horizontal Rule" onSelect={() => {
+                                        activeEditor.dispatchCommand(
+                                            INSERT_HORIZONTAL_RULE_COMMAND,
+                                            undefined,
+                                        );
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <RulerIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Horizontal Rule"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Page Break"} title="Page Break" onSelect={() => {
+                                        activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <ScissorsIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Page Break"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Image"} title="Image" onSelect={() => {
+                                        showModal('Insert Image', (onClose) => (
+                                            <InsertImageDialog
+                                                activeEditor={activeEditor}
+                                                onClose={onClose}
+                                            />
+                                        ));
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <ImageIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Image"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
+                                        activeEditor.dispatchCommand(
+                                            INSERT_EXCALIDRAW_COMMAND,
+                                            undefined,
+                                        );
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <PencilIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Excalidraw"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Table"} title="Table" onSelect={() => {
+                                        showModal('Insert Table', (onClose) => (
+                                            <InsertTableDialog
+                                                activeEditor={activeEditor}
+                                                onClose={onClose}
+                                            />
+                                        ));
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <TableIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Table"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Poll"} title="Poll" onSelect={() => {
+                                        showModal('Insert Poll', (onClose) => (
+                                            <InsertPollDialog
+                                                activeEditor={activeEditor}
+                                                onClose={onClose}
+                                            />
+                                        ));
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <VoteIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Poll"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
+                                        showModal('Insert Columns Layout', (onClose) => (
+                                            <InsertLayoutDialog
+                                                activeEditor={activeEditor}
+                                                onClose={onClose}
+                                            />
+                                        ));
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <LayoutIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Columns Layout"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Equation"} title="Equation" onSelect={() => {
+                                        showModal('Insert Equation', (onClose) => (
+                                            <InsertEquationDialog
+                                                activeEditor={activeEditor}
+                                                onClose={onClose}
+                                            />
+                                        ));
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <SigmaIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Equation"}</span>
+                                    </CommandItem>
+                                    <CommandItem value={"Collapsible container"} title="Collapsible container" onSelect={() => {
+                                        editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
+                                        setBlocksMenu(false)
+                                    }}>
+                                        <ContainerIcon className='w-4 h-4' />
+                                        <span className='ml-2'>{"Collapsible"}</span>
+                                    </CommandItem>
+                                    {EmbedConfigs.map((embedConfig) => (
+                                        <CommandItem key={embedConfig.type} value={embedConfig.contentName} title={embedConfig.contentName} onSelect={() => {
+                                            activeEditor.dispatchCommand(
+                                                INSERT_EMBED_COMMAND,
+                                                embedConfig.type,
+                                            );
+                                            setBlocksMenu(false)
+                                        }}>
+                                            {embedConfig.icon}
+                                            {embedConfig.contentName}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                </React.Fragment>
             )}
-            <Divider />
+            <Separator className='mx-1 h-8' orientation={"vertical"} />
             <ElementFormatDropdown
                 disabled={!isEditable}
                 value={elementFormat}
