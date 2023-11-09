@@ -8,7 +8,10 @@ const CategorySchema = z.object({
         value: z.string(),
         label: z.string()
     }),
-    language: z.string().refine((lang) => ['EN', 'DV'].includes(lang), {
+    language: z.object({
+        value: z.string(),
+        label: z.string()
+    }).refine((lang) => ['EN', 'DV'].includes(lang.value), {
         message: 'language is not valid'
     }),
     createdAt: z.date().optional().or(z.string().optional()),

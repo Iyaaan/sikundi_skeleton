@@ -43,7 +43,8 @@ const category = async (query: Props) => {
                     userName: true,
                     email: true
                 }
-            }
+            },
+            language: true
         },
         where: {
             id: parseInt(query.params.id)
@@ -57,6 +58,10 @@ const category = async (query: Props) => {
         createdBy: {
             value: categorySingle?.createdBy?.email,
             label: categorySingle?.createdBy?.userName
+        },
+        language: {
+            value: categorySingle?.language,
+            label: categorySingle?.language === "EN" ? "English" : "Dhivehi"
         }
     }
 }

@@ -22,7 +22,8 @@ export default async function POST(data: CategorySchemaType) {
                         email: data.createdBy.value
                     }
                 },
-                
+                // @ts-ignore
+                language: data.language.value
             },
             where: {
                 id: data.id

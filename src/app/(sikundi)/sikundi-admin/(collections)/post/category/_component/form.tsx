@@ -43,6 +43,10 @@ export default function CategoryForm({ user, data, type }: Props) {
             createdAt: new Date(),
             name: "",
             slug: "",
+            language: {
+                // @ts-ignore
+                label: "Dhivehi", value: "DV"
+            },
             ...data
         }
     })
@@ -123,10 +127,6 @@ export default function CategoryForm({ user, data, type }: Props) {
                                         <Select2
                                             isClearable={false}
                                             className='col-span-2 justify-start'
-                                            defaultValue={{
-                                                // @ts-ignore
-                                                label: "Dhivehi", value: "DV"
-                                            }}
                                             options={[
                                                 // @ts-ignore
                                                 {label: "English", value: "EN"},
