@@ -689,7 +689,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
     }, [activeEditor, selectedElementKey]);
 
     return (
-        <div className="toolbar items-center gap-1 text-foreground">
+        <div className="toolbar items-center text-foreground gap-1">
             <Toggle
                 size={"sm"}
                 pressed={false}
@@ -716,7 +716,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
             >
                 <Redo2Icon className='w-4 h-4' />
             </Toggle>
-            <Separator className='mx-1 h-8' orientation={"vertical"} />
             {blockType in blockTypeToBlockName && activeEditor === editor && (
                 <BlockFormatDropDown
                     disabled={!isEditable}
@@ -727,7 +726,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
             )}
             {blockType === 'code' ? (
                 <React.Fragment>
-                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    
                     <Popover open={codeMenu} onOpenChange={setCodeMenu}>
                         <PopoverTrigger asChild>
                             <Button
@@ -758,7 +757,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 </React.Fragment>
             ) : (
                 <React.Fragment>
-                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    
                     <Toggle
                         size={"sm"}
                         disabled={!isEditable}
@@ -828,7 +827,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                     >
                         <Link2Icon className='h-4 w-4' />
                     </Toggle>
-                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    
                     <Popover open={TextMenu} onOpenChange={setTextMenu}>
                         <PopoverTrigger asChild>
                             <Button
@@ -895,7 +894,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                             </Command>
                         </PopoverContent>
                     </Popover>
-                    <Separator className='mx-1 h-8' orientation={"vertical"} />
+                    
                     <Popover open={blockMenu} onOpenChange={setBlocksMenu}>
                         <PopoverTrigger asChild>
                             <Button
@@ -1065,7 +1064,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                     </Popover>
                 </React.Fragment>
             )}
-            <Separator className='mx-1 h-8' orientation={"vertical"} />
+            
             <ElementFormatDropdown
                 disabled={!isEditable}
                 value={elementFormat}
