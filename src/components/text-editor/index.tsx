@@ -49,4 +49,6 @@ const RichTextEditor = React.forwardRef<HTMLTextAreaElement, TextareaProps>((({ 
     );
 }))
 
+RichTextEditor.displayName = "RichTextEditor"
+
 export default RichTextEditor
