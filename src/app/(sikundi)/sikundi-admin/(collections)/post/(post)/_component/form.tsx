@@ -70,7 +70,10 @@ export default function PostForm({ user, data, type }: Props) {
     
     const title = form.watch("title") 
     useEffect(() => {
-        form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
+        // @ts-ignore
+        if(title !== data?.title) {
+            form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
+        }
     }, [title, form])
 
     const featureImageUrl = form.watch("featureImageUrl") 
