@@ -29,6 +29,7 @@ import useAction from "@sikundi/lib/client/hooks/useAction"
 import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create"
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
+import Link from "next/link"
 
 interface Props {
     user: UserType
@@ -72,7 +73,7 @@ export default function PostForm({ user, data, type }: Props) {
     useEffect(() => {
         // @ts-ignore
         if(title !== data?.title) {
-            form.setValue("latinTitle", ThaanaLatin(form.getValues('title')))
+            form.setValue("latinTitle", ThaanaLatin(form.getValues('title'))?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))?.join(' '))
         }
     }, [title, form])
 
@@ -432,7 +433,7 @@ export default function PostForm({ user, data, type }: Props) {
                                     : "draft"}
                                 </Button> :
                                 <Fragment>
-                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")} className="col-span-2">
+                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
                                         {(isLoading && form.getValues("action") === "draft") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -448,7 +449,7 @@ export default function PostForm({ user, data, type }: Props) {
                                         </Fragment>
                                         : "pending"}
                                     </Button>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
+                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")} className="col-span-2">
                                         {(isLoading && form.getValues("action") === "delete") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -456,6 +457,9 @@ export default function PostForm({ user, data, type }: Props) {
                                         </Fragment>
                                         : "delete"}
                                     </Button> 
+                                    <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
+                                        <Link href={`/${data?.id}`}>Preview</Link>
+                                    </Button>
                                 </Fragment>
                             }
                         </div>
