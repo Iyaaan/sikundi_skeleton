@@ -78,7 +78,7 @@ export default function PostForm({ user, data, type }: Props) {
                 form.setValue("longTitle", form.getValues('title'))
             }
         }
-    }, [title, form])
+    }, [title, form, data?.title, type])
 
     const featureImageUrl = form.watch("featureImageUrl") 
     useEffect(() => {

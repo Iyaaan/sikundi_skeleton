@@ -58,7 +58,7 @@ export default function CategoryForm({ user, data, type }: Props) {
         if(name !== data?.name) {
             form.setValue("slug", ThaanaLatin(form.getValues('name')))
         }
-    }, [name, form])
+    }, [name, form, type, data?.name])
 
 
     const { isLoading, execute } = useAction(type === "create" ? CategoryCreateAction : CategoryUpdateAction, {

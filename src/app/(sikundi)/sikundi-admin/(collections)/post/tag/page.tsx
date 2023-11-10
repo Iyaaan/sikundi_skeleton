@@ -3,6 +3,7 @@ import Loading from './loading'
 import DataTable from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTable'
 import { notFound } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import NotFound from './not-found'
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +24,9 @@ export default async function page({params, searchParams}: Props) {
 
 async function List({getData}: {getData: Promise<{ [name:string]: string }[]>}) {
     const data = await getData
+    if(data.length === 0 || data === null) {
+        return <NotFound />
+    }
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
@@ -63,7 +67,7 @@ const tags = async (query: Props) => {
         }
     })
 
-    if (tags.length === 0) return notFound()
+    // if (tags.length === 0) return notFound()
     
     return tags.map((tag)=>({
         name: tag.name,
@@ -71,5 +75,5 @@ const tags = async (query: Props) => {
         "created at": new Date(tag.createdAt).toLocaleString(),
         "created by": `${tag.createdBy?.userName}`,
         href: `/sikundi-admin/post/tag/${tag.id}/update`
-    }))
+    })) || []
 }

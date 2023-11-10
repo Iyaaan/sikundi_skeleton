@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react'
 import Loading from './loading'
 import DataTable from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTable'
-import { notFound } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import NotFound from './not-found'
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +23,9 @@ export default async function page({params, searchParams}: Props) {
 
 async function List({getData}: {getData: Promise<{ [name:string]: any }[]>}) {
     const data = await getData
+    if(data.length === 0 || data === null) {
+        return <NotFound />
+    }
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
@@ -64,7 +67,7 @@ const posts = async (query: Props) => {
         }
     })
 
-    if (posts.length === 0) return notFound()
+    // if (posts.length === 0) return notFound()
     
     return posts.map((post)=>({
         title: post.title,
@@ -73,5 +76,5 @@ const posts = async (query: Props) => {
         "created at": new Date(post.createdAt).toLocaleString(),
         "created by": `${post.createdBy?.userName}`,
         href: `/sikundi-admin/post/${post.id}/update`
-    }))
+    })) || []
 }

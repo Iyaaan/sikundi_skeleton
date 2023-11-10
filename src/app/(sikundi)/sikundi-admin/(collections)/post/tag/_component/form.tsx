@@ -51,7 +51,7 @@ export default function TagForm({ user, data, type }: Props) {
         if(name !== data?.name) {
             form.setValue("slug", ThaanaLatin(form.getValues('name')))
         }
-    }, [name, form])
+    }, [name, form, data?.name, type])
 
 
     const { isLoading, execute } = useAction(type === "create" ? TagCreateAction : TagUpdateAction, {
