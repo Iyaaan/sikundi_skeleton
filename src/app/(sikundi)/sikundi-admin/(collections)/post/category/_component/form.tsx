@@ -43,6 +43,7 @@ export default function CategoryForm({ user, data, type }: Props) {
             createdAt: new Date(),
             name: "",
             slug: "",
+            icon: "",
             language: {
                 // @ts-ignore
                 label: "Dhivehi", value: "DV"
@@ -110,6 +111,19 @@ export default function CategoryForm({ user, data, type }: Props) {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
+                                    <FormControl>
+                                        <Textarea dir="rtl" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="icon"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Icon</FormLabel>
                                     <FormControl>
                                         <Textarea dir="rtl" {...field} />
                                     </FormControl>

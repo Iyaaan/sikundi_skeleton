@@ -1,3 +1,5 @@
+"use client"
+
 import React, { Fragment, ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
 
@@ -8,16 +10,14 @@ const template = ({ children }: {children: ReactNode}) => {
                 url: "/sikundi-admin/post/comment",
                 name: "comments",
                 slug: "comment",
-                permissions: {
-                    create: false
-                },
-                filters: [
-                    {type: "select", name: "status", options: [
-                        {label: "draft", value: "draft"},
-                        {label: "published", value: "published"}
-                    ]},
-                    {type: "date", name: "publishedAt", label: "published at"}
-                ]
+                filters: [],
+                ui: {
+                    search: true, 
+                    filters: false, 
+                    create: false,
+                    trash: false,
+                    copyDesk: false
+                }
             }} />
             {children}
         </Fragment>

@@ -22,12 +22,6 @@ interface Props {
         url: string;
         name: string;
         slug: string;
-        permissions: {
-            create?: boolean;
-        };
-        softDeletable?: boolean;
-        publishable?: boolean;
-        hideFiltersOnTrash?: boolean;
         filters: {
             type: "select" | "date";
             name: string;
@@ -37,7 +31,14 @@ interface Props {
                 label: string;
             }[];
             url?: string
-        }[]
+        }[];
+        ui: {
+            search: boolean;
+            filters: boolean;
+            create: boolean;
+            trash: boolean;
+            copyDesk: boolean;
+        }
     }
 }
 
@@ -80,22 +81,31 @@ const Header:FC<Props> = ({ data }) => {
                 <h2 className="text-2xl font-semibold tracking-tight capitalize break-all">
                     {data.name}
                 </h2>
-                {((`${data.url}/trash` !== pathName) && (`${data.url}/create` !== pathName)) && <div className='flex gap-2'>
-                    {data.permissions.create && <Button className='capitalize' asChild>
+                <div className='flex gap-2'>
+                    {data?.ui?.create && <Button className='capitalize' asChild>
                         <Link href={`${data.url}/create`}><PlusIcon className='me-2 h-4 w-4' /> {data.slug}</Link>
                     </Button>}
-                    {data.softDeletable && <Button variant="outline" size="icon" asChild>
+                    {data?.ui?.trash && <Button variant="outline" size="icon" asChild>
                         <Link href={`${data.url}/trash`}><TrashIcon className="h-4 w-4" /></Link>
                     </Button>}
-                    {data.publishable && <Button variant="outline" size="icon" asChild>
+                    {data?.ui?.copyDesk && <Button variant="outline" size="icon" asChild>
                         <Link href={`${data.url}/copydesk`}><CopyCheck className="h-4 w-4" /></Link>
                     </Button>}
-                </div>}
+                </div>
             </div>
             <Separator className="my-4" />
-            {((!pathName.endsWith("create")) && !(pathName.endsWith("update"))) && <div className='flex items-center justify-between flex-row gap-4 mb-4'>
-                <Input type="search" placeholder="Search..." className='lg:max-w-sm' onChange={(value) => setFilters((v) => ({ ...v, 'query': value.target.value }))} value={filters?.['query'] || ""} />
-                {((`${data.url}/trash` !== pathName) && data.hideFiltersOnTrash) && <Popover open={open} onOpenChange={setOpen}>
+            {(data?.ui?.search || data?.ui?.filters) &&
+            <div className='flex items-center justify-between flex-row gap-4 mb-4'>
+                {
+                    data?.ui?.search &&
+                    <Input 
+                        type="search" placeholder="Search..." 
+                        className='lg:max-w-sm' 
+                        onChange={(value) => setFilters((v) => ({ ...v, 'query': value.target.value }))} 
+                        value={filters?.['query'] || ""}
+                    />
+                }
+                {(data?.filters?.length > 0 && data?.ui?.filters) && <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button variant="outline" className='lg:w-auto'><span className='hidden lg:block me-3'>Filter</span> <SlidersHorizontal className='w-3' /></Button>
                     </PopoverTrigger>

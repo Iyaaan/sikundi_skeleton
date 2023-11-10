@@ -4,6 +4,7 @@ const CategorySchema = z.object({
     name: z.string().min(1, 'Title is required'),
     slug: z.string().min(1, 'Slug is required'),
     description: z.string().optional(),
+    icon: z.string().optional(),
     createdBy: z.object({
         value: z.string(),
         label: z.string()

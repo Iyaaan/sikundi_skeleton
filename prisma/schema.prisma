@@ -182,6 +182,7 @@ model Category {
   name        String
   slug        String @unique
   description String?
+  icon        String?
   language    Lang @default(EN)
 
   posts Post[] @relation("postsCategory")
