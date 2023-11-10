@@ -23,9 +23,10 @@ import * as React from 'react';
 import invariant from '../utils/invariant';
 
 import {$createTableNodeWithDimensions, TableNode} from '../nodes/TableNode';
-import Button from '../ui/Button';
 import {DialogActions} from '../ui/Dialog';
 import TextInput from '../ui/TextInput';
+import { Input } from '@sikundi/components/ui/input';
+import { Button } from '@sikundi/components/ui/button';
 
 export type InsertTableCommandPayload = Readonly<{
   columns: string;
@@ -118,27 +119,25 @@ export function InsertTableDialog({
 
   return (
     <>
-      <TextInput
+      <Input
         placeholder={'# of rows (1-500)'}
-        label="Rows"
-        onChange={setRows}
+        onChange={(e) =>setRows(e.target.value)}
         value={rows}
         data-test-id="table-modal-rows"
         type="number"
       />
-      <TextInput
+      <Input
         placeholder={'# of columns (1-50)'}
-        label="Columns"
-        onChange={setColumns}
+        onChange={(e) =>setColumns(e.target.value)}
         value={columns}
         data-test-id="table-modal-columns"
         type="number"
       />
-      <DialogActions data-test-id="table-model-confirm-insert">
+      <div data-test-id="table-model-confirm-insert">
         <Button disabled={isDisabled} onClick={onClick}>
           Confirm
         </Button>
-      </DialogActions>
+      </div>
     </>
   );
 }

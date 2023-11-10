@@ -895,6 +895,10 @@ i.page-break,
   transition: transform 0.2s;
 }
 
+.Collapsible__container {
+  background-color: hsl(var(--border)) !important;
+}
+
 .switch button[aria-checked='true'] {
   background-color: rgb(24, 119, 242);
 }
@@ -908,6 +912,14 @@ i.page-break,
   display: inline-block;
   position: relative;
   user-select: none;
+}
+
+.editor-image img {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+.image-caption-container {
+  min-height: 25px !important;
 }
 
 .editor-shell .editor-image img {

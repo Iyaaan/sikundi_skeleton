@@ -38,6 +38,7 @@ const category = async (query: Props) => {
             slug: true,
             createdAt: true,
             description: true,
+            icon: true,
             createdBy: {
                 select: {
                     userName: true,

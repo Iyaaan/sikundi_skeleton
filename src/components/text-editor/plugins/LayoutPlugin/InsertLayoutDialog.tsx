@@ -9,9 +9,10 @@ import {LexicalEditor} from 'lexical';
 import * as React from 'react';
 import {useState} from 'react';
 
-import Button from '../../ui/Button';
+import { Button } from '../../../ui/button';
 import DropDown, {DropDownItem} from '../../ui/DropDown';
 import {INSERT_LAYOUT_COMMAND} from './LayoutPlugin';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@sikundi/components/ui/select';
 
 const LAYOUTS = [
   {label: '2 columns (equal width)', value: '1fr 1fr'},
@@ -38,18 +39,18 @@ export default function InsertLayoutDialog({
 
   return (
     <>
-      <DropDown
-        buttonClassName="toolbar-item dialog-dropdown"
-        buttonLabel={buttonLabel}>
-        {LAYOUTS.map(({label, value}) => (
-          <DropDownItem
-            key={value}
-            className="item"
-            onClick={() => setLayout(value)}>
-            <span className="text">{label}</span>
-          </DropDownItem>
-        ))}
-      </DropDown>
+      <Select onValueChange={(val)=>setLayout(val)}>
+        <SelectTrigger>
+          <SelectValue placeholder={buttonLabel} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {LAYOUTS.map(({label, value}) => (
+              <SelectItem key={value} value={value}>{label}</SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
       <Button onClick={onClick}>Insert</Button>
     </>
   );

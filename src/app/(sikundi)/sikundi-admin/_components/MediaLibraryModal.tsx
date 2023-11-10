@@ -154,6 +154,7 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
                                         onComplete?.([
                                             {url: photo.url, id: photo.id}
                                         ])
+                                        setActive(false)
                                     }}>
                                         <Image
                                             src={photo.url}

@@ -116,7 +116,7 @@ function TweetComponent({
       nodeKey={nodeKey}>
       {isTweetLoading ? loadingComponent : null}
       <div
-        style={{display: 'inline-block', width: '550px'}}
+        style={{display: 'inline-block', width: "100%", maxWidth: 550 }}
         ref={containerRef}
       />
     </BlockWithAlignableContents>

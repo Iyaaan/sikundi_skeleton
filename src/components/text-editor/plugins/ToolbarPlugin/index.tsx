@@ -78,7 +78,7 @@ import {EmbedConfigs} from '../AutoEmbedPlugin';
 import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
 import {InsertEquationDialog} from '../EquationsPlugin';
 import {INSERT_EXCALIDRAW_COMMAND} from '../ExcalidrawPlugin';
-import {InsertImageDialog} from '../ImagesPlugin';
+import {INSERT_IMAGE_COMMAND, InsertImageDialog} from '../ImagesPlugin';
 import {InsertInlineImageDialog} from '../InlineImagePlugin';
 import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import {INSERT_PAGE_BREAK} from '../PageBreakPlugin';
@@ -89,6 +89,9 @@ import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldI
 import { Separator } from '@sikundi/components/ui/separator';
 import { cn } from "@sikundi/lib/client/utils"
 import { Button } from "@sikundi/components/ui/button"
+
+import MediaLibraryModal from '@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal';
+// import { ImageIcon } from 'lucide-react';
 import {
   Command,
   CommandEmpty,
@@ -403,15 +406,15 @@ function ElementFormatDropdown({ editor, value, isRTL, disabled = false }: Eleme
                         formatOption.name === "Justify Align" ?
                         <AlignJustifyIcon className='h-4 w-4' /> :
                         formatOption.name === "Start Align" ?
-                        (isRTL ? <AlignRightIcon className='h-4 w-4 mr-2' /> : 
-                        <AlignLeftIcon className='h-4 w-4 mr-2' />) :
+                        (isRTL ? <AlignRightIcon className='h-4 w-4 mr-1' /> : 
+                        <AlignLeftIcon className='h-4 w-4 mr-1' />) :
                         formatOption.name === "End Align" ?
-                        (isRTL ? <AlignLeftIcon className='h-4 w-4 mr-2' /> : 
-                        <AlignRightIcon className='h-4 w-4 mr-2' />) :
+                        (isRTL ? <AlignLeftIcon className='h-4 w-4 mr-1' /> : 
+                        <AlignRightIcon className='h-4 w-4 mr-1' />) :
                         null
                     }
-                    <span className='hidden md:inline'>{formatOption.name}</span>
-                    <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    {/* <span className='hidden md:inline'>{formatOption.name}</span> */}
+                    <ChevronDownIcon className="ml-1 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0 max-w-[175px]" align='end'>
@@ -842,7 +845,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                 isSubscript ? <StrikethroughIcon className='w-4 h-4' /> : 
                                 isSuperscript ? <SuperscriptIcon className='w-4 h-4' /> : 
                                 <FileTypeIcon className='w-4 h-4' />}
-                                <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                <ChevronDownIcon className="h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="p-0 max-w-[175px]" align='center'>
@@ -894,7 +897,15 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                             </Command>
                         </PopoverContent>
                     </Popover>
-                    
+                    <MediaLibraryModal variant={"outline"} onComplete={(values) => {
+                        // form.setValue("featureImageUrl", values[0].url)
+                        activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                            altText: String(values[0].name), 
+                            src: values[0].url
+                        });
+                    }}>
+                        <ImageIcon className="mr-2" /> <span className='hidden md:block'>Image</span>
+                    </MediaLibraryModal>
                     <Popover open={blockMenu} onOpenChange={setBlocksMenu}>
                         <PopoverTrigger asChild>
                             <Button
@@ -905,8 +916,9 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                 className="justify-between gap-2"
                                 aria-label="Insert specialized editor node"
                             >
-                                <span className='hidden md:inline mr-2'>{"Insert"}</span>
-                                <PlusIcon className="h-4 w-4 shrink-0 opacity-50" />
+                                {/* <span className='hidden md:inline mr-2'>{"Insert"}</span> */}
+                                <PlusIcon className="h-4 w-4" />
+                                <ChevronDownIcon className="ml-1 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="p-0 max-w-[175px]" align='end'>
@@ -959,7 +971,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                         <PencilIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Excalidraw"}</span>
                                     </CommandItem> */}
-                                    <CommandItem value={"Table"} title="Table" onSelect={() => {
+                                    {/* <CommandItem value={"Table"} title="Table" onSelect={() => {
                                         OpenModal(
                                             <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
@@ -978,8 +990,8 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     }}>
                                         <TableIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Table"}</span>
-                                    </CommandItem>
-                                    <CommandItem value={"Poll"} title="Poll" onSelect={() => {
+                                    </CommandItem> */}
+                                    {/* <CommandItem value={"Poll"} title="Poll" onSelect={() => {
                                         OpenModal(
                                             <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
                                                 <DialogHeader>
@@ -998,7 +1010,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     }}>
                                         <VoteIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Poll"}</span>
-                                    </CommandItem>
+                                    </CommandItem> */}
                                     <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
                                         OpenModal(
                                             <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">

@@ -21,14 +21,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import useModal from '../../hooks/useModal';
-import Button from '../../ui/Button';
-import {DialogActions} from '../../ui/Dialog';
+import {Button} from '../../../ui/button';
 import {INSERT_FIGMA_COMMAND} from '../FigmaPlugin';
 import {INSERT_TWEET_COMMAND} from '../TwitterPlugin';
 import {INSERT_YOUTUBE_COMMAND} from '../YouTubePlugin';
 import { TwitterIcon, YoutubeIcon } from 'lucide-react';
 import { OperateModal } from '../../context/ModalContext';
-import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
+import { DialogContent, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
+import { Input } from '@sikundi/components/ui/input';
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -265,11 +265,10 @@ export function AutoEmbedDialog({
   };
 
   return (
-    <div style={{width: '600px'}}>
+    <div>
       <div className="Input__wrapper">
-        <input
+        <Input
           type="text"
-          className="Input__input"
           placeholder={embedConfig.exampleUrl}
           value={text}
           data-test-id={`${embedConfig.type}-embed-modal-url`}
@@ -280,14 +279,15 @@ export function AutoEmbedDialog({
           }}
         />
       </div>
-      <DialogActions>
+      <div>
         <Button
+          className='w-full'
           disabled={!embedResult}
           onClick={onClick}
           data-test-id={`${embedConfig.type}-embed-modal-submit-btn`}>
           Embed
         </Button>
-      </DialogActions>
+      </div>
     </div>
   );
 }

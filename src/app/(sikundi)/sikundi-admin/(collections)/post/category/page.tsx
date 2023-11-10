@@ -63,6 +63,8 @@ const categories = async (query: Props) => {
         }
     })
 
+    console.log("search:" )
+
     if (categories.length === 0) return notFound()
     
     return categories.map((category)=>({

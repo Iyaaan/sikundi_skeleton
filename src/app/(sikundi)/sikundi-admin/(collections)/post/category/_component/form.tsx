@@ -125,7 +125,7 @@ export default function CategoryForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Icon</FormLabel>
                                     <FormControl>
-                                        <Textarea dir="rtl" {...field} />
+                                        <Textarea rows={10} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
