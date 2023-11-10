@@ -66,7 +66,7 @@ export default async function ErrorHandler<INPUT, OUTPUT>(inputs: INPUT, schema:
             data: null,
             error: {
                 name: "Server Error",
-                details: e
+                details: JSON.parse(JSON.stringify(e))
             },
             notification: e?.notification || {
                 title: 'Internal Server Error',

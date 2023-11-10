@@ -34,9 +34,7 @@ export default function useAction<OUTPUT>(action: (data:any) => Promise<customRe
                     // @ts-ignore
                     zodErrorGenerator(error.error, (data) => options?.onValidationError?.(data))
                 }
-            }
-
-            if (result?.data) {
+            } else {
                 setData({
                     data: result?.data
                 })
@@ -44,6 +42,7 @@ export default function useAction<OUTPUT>(action: (data:any) => Promise<customRe
                     data: result?.data
                 })
             }
+            
         } catch (e:any) {
             setError({
                 error: e?.error

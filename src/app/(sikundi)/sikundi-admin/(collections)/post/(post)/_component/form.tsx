@@ -28,6 +28,7 @@ import Image from "next/image"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create"
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/update"
+import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 
 interface Props {
     user: UserType
@@ -356,7 +357,7 @@ export default function PostForm({ user, data, type }: Props) {
                                                 )}
                                                 >
                                                 {field.value ? (
-                                                    format(new Date(field.value), "PPP")
+                                                    format(new Date(field.value), "PPP HH:mm:ss")
                                                 ) : (
                                                     <span>Publish at</span>
                                                 )}
@@ -370,6 +371,9 @@ export default function PostForm({ user, data, type }: Props) {
                                                 selected={field.value ? new Date(field.value) : undefined}
                                                 onSelect={field.onChange}
                                             />
+                                            <div className="p-3 border-t border-border">
+                                                <TimePickerDemo setDate={(date)=>form.setValue("createdAt", date)} date={new Date(String(form.getValues("createdAt")))} />
+                                            </div>
                                         </PopoverContent>
                                     </Popover>
                                     <FormMessage />
