@@ -432,21 +432,21 @@ export default function PostForm({ user, data, type }: Props) {
                                     : "draft"}
                                 </Button> :
                                 <Fragment>
-                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" onClick={()=>form.setValue("action", "pending")}>
-                                        {(isLoading && form.getValues("action") === "pending") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "pending"}
-                                    </Button>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")} className="col-span-2">
                                         {(isLoading && form.getValues("action") === "draft") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
                                         : "draft"}
+                                    </Button>
+                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
+                                        {(isLoading && form.getValues("action") === "pending") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "pending"}
                                     </Button>
                                     <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
                                         {(isLoading && form.getValues("action") === "delete") ? 
