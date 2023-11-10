@@ -4,7 +4,7 @@ import React, { Fragment, ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
 import { usePathname } from 'next/navigation'
 
-const template = ({ children }: {children: ReactNode}) => {
+const Template = ({ children }: {children: ReactNode}) => {
     const path = usePathname()
 
     return (
@@ -48,4 +48,4 @@ const template = ({ children }: {children: ReactNode}) => {
     )
 }
 
-export default template
+export default Template

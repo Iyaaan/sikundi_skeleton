@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Menu from '@sikundi/app/(sikundi)/sikundi-admin/_components/Menu'
 
-const template = ({ children }: {children: ReactNode}) => {
+const Template = ({ children }: {children: ReactNode}) => {
     return (
         <div className='container p-4'>
             <Menu menu={{items: [
@@ -23,4 +23,4 @@ const template = ({ children }: {children: ReactNode}) => {
     )
 }
 
-export default template
+export default Template

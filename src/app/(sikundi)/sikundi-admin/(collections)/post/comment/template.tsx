@@ -3,7 +3,7 @@
 import React, { Fragment, ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
 
-const template = ({ children }: {children: ReactNode}) => {
+const Template = ({ children }: {children: ReactNode}) => {
     return (
         <Fragment>
             <Header data={{
@@ -24,4 +24,4 @@ const template = ({ children }: {children: ReactNode}) => {
     )
 }
 
-export default template
+export default Template
