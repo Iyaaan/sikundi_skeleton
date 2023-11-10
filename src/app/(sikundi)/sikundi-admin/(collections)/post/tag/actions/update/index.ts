@@ -4,6 +4,7 @@ import TagSchema, { TagSchemaType } from './schema'
 import { prisma } from "@sikundi/lib/server/utils/prisma"
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { revalidatePath } from 'next/cache'
+import getUser from '@sikundi/lib/server/utils/getUser'
 
 export default async function UpdateTag(data:TagSchemaType) {
     return (await ErrorHandler<TagSchemaType, { tag: any }>(data, TagSchema, async (data:TagSchemaType) => {
@@ -14,12 +15,14 @@ export default async function UpdateTag(data:TagSchemaType) {
             }
         })
 
+        const user = await getUser()
+
         const tag = data.action === "update" ? (await prisma.tag.update({
             data: {
                 ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
-                        email: data.createdBy.value
+                        userName: data.createdBy.value || user?.payload.email
                     }
                 },
             },

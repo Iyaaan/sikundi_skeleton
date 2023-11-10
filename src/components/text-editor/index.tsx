@@ -26,7 +26,7 @@ export interface RichTextProps {
 const RichTextEditor = ({ value, defaultValue, onChange }:RichTextProps) => {
     const [editorState, setEditorState] = React.useState<any>();
     const initialConfig = {
-        editorState: defaultValue,
+        editorState: String(defaultValue) === "{}" ? null : defaultValue,
         namespace: 'Playground',
         nodes: [...PlaygroundNodes],
         onError: (error: Error) => {

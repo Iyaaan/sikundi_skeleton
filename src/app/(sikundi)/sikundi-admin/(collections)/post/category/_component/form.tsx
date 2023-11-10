@@ -39,7 +39,7 @@ export default function CategoryForm({ user, data, type }: Props) {
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
             createdAt: new Date(),
             name: "",
             slug: "",

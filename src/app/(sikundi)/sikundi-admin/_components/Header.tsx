@@ -30,7 +30,8 @@ interface Props {
                 value: string;
                 label: string;
             }[];
-            url?: string
+            url?: string;
+            hidden?: boolean
         }[];
         ui: {
             search: boolean;
@@ -118,7 +119,7 @@ const Header:FC<Props> = ({ data }) => {
                                 </p>
                             </div>
                             <div className="grid gap-4">
-                                {data.filters.map((filter, index)=>(
+                                {data.filters.map((filter, index) => !filter.hidden && (
                                     <div className="flex flex-col gap-2" key={index}>
                                         <Label htmlFor={filter.name} className='capitalize'>{filter.label || filter.name}</Label>
                                         {filter.type === "date" && <DateComponent
@@ -129,6 +130,7 @@ const Header:FC<Props> = ({ data }) => {
                                             filter.url ? <Select2Async
                                                 name={filter.name}
                                                 isClearable={false}
+                                                defaultInputValue='hassan.iyan.l@gmail.com'
                                                 className='col-span-2 justify-start'
                                                 defaultOptions={filter.options || [{
                                                     // @ts-ignore

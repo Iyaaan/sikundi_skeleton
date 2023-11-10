@@ -52,12 +52,14 @@ const tags = async (query: Props) => {
             OR: query.searchParams?.query ? [
                 {
                     name: {
-                        contains: query.searchParams?.query
+                        contains: query.searchParams?.query,
+                        mode: "insensitive"
                     }
                 },
                 {
                     slug: {
-                        contains: query.searchParams?.query
+                        contains: query.searchParams?.query,
+                        mode: "insensitive"
                     }
                 }
             ] : undefined

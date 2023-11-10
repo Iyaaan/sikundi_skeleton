@@ -84,19 +84,19 @@ export default async function POST(data: PostSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        email: createdBy.value
+                        userName: createdBy.value || user?.payload.email
                     }
                 },
-                category: {
+                category: category?.value ? {
                     connect: {
                         slug: category?.value
                     }
-                },
-                featureImage: {
+                } : undefined,
+                featureImage: featureImageUrl ? {
                     connect: {
                         url: featureImageUrl
                     }
-                },
+                } : undefined,
                 // @ts-ignore
                 language: language?.value,
                 postsTags: {

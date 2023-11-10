@@ -46,7 +46,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<PostSchemaType>({
         resolver: zodResolver(PostSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
             createdAt: new Date(),
             language: {
                 label: "Dhivehi", value: "DV"

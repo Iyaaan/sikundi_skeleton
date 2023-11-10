@@ -50,21 +50,21 @@ export default async function POST(data: PostSchemaType) {
                 lead: data.lead,
                 createdBy: {
                     connect: {
-                        email: data.createdBy.value
+                        userName: data.createdBy.value || user?.payload.userName
                     }
                 },
                 // @ts-ignore
                 language: data.language.value,
-                category: {
+                category: data.category?.value ? {
                     connect: {
                         slug: data.category?.value
                     }
-                },
-                featureImage: {
+                } : undefined,
+                featureImage: data?.featureImageUrl ? {
                     connect: {
                         url: data?.featureImageUrl
                     }
-                },
+                } : undefined,
             }
         })
 

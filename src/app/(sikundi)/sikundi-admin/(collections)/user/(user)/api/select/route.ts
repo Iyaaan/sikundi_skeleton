@@ -8,8 +8,7 @@ export async function GET(request: NextRequest) {
     return (await ErrorHandlerWrapper(request, null, async () => {
         const users = await prisma.user.findMany({
             select: {
-                userName: true,
-                email: true
+                userName: true
             },
             where: {
                 OR: [
@@ -30,7 +29,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             data: users.map((user) => ({
                 label: user.userName,
-                value: user.email
+                value: user.userName
             }))
         })
     }))

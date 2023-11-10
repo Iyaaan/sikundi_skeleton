@@ -2,10 +2,11 @@
 
 import React, { Fragment, ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const Template = ({ children }: {children: ReactNode}) => {
     const path = usePathname()
+    const searchParams = useSearchParams()
 
     return (
         <Fragment>
@@ -16,11 +17,11 @@ const Template = ({ children }: {children: ReactNode}) => {
                 filters: [
                     {type: "date", name: "publishedAt", label: "published at"},
                     {type: "select", name: "status", options: [
-                        {label: "draft", value: "draft"},
+                        {label: "drafted", value: "drafted",},
                         {label: "published", value: "published"},
-                        {label: "rejected", value: "rejected"}
-                    ]},
-                    {type: "select", name: "publishedBy", label: "published by", url: "/sikundi-admin/users"},
+                    ], hidden: ((path === "/sikundi-admin/post/trash") ||
+                    (path === "/sikundi-admin/post/copydesk"))},
+                    {type: "select", name: "publishedBy", label: "published by", url: "/sikundi-admin/user/api/select"},
                 ],
                 ui: {
                     search: 

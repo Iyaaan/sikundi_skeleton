@@ -39,9 +39,9 @@ const posts = async (query: Props) => {
         select: {
             id: true,
             title: true,
-            latinTitle: true,
             createdAt: true,
             status: true,
+            language: true,
             createdBy: {
                 select: {
                     userName: true
@@ -52,12 +52,14 @@ const posts = async (query: Props) => {
             OR: query.searchParams?.query ? [
                 {
                     title: {
-                        contains: query.searchParams?.query
+                        contains: query.searchParams?.query,
+                        mode: "insensitive"
                     }
                 },
                 {
                     latinTitle: {
-                        contains: query.searchParams?.query
+                        contains: query.searchParams?.query,
+                        mode: "insensitive"
                     }
                 }
             ] : undefined
@@ -71,8 +73,8 @@ const posts = async (query: Props) => {
     
     return posts.map((post)=>({
         title: post.title,
-        latinTitle: post.latinTitle,
         status: post.status,
+        language: post.language === "DV" ? 'Dhivehi' : "English",
         "created at": new Date(post.createdAt).toLocaleString(),
         "created by": `${post.createdBy?.userName}`,
         href: `/sikundi-admin/post/${post.id}/update`

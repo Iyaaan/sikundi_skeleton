@@ -37,7 +37,7 @@ export default function TagForm({ user, data, type }: Props) {
     const form = useForm<TagSchemaType>({
         resolver: zodResolver(TagSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.email}` },
+            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
             createdAt: new Date(),
             name: "",
             slug: "",
