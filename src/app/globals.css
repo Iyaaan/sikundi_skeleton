@@ -14,10 +14,6 @@
     outline: none;
 }
 
-.image-caption-container {
-    min-height: 25px !important;
-}
-
 @layer components {
     .stroke-text-white {
         -webkit-text-stroke: 1px #FFF;

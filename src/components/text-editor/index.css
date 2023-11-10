@@ -919,7 +919,7 @@ i.page-break,
   overflow: hidden !important;
 }
 .image-caption-container {
-  min-height: 25px !important;
+  height: 50px !important;
 }
 
 .editor-shell .editor-image img {
