@@ -97,7 +97,7 @@ export default function PostForm({ user, data, type }: Props) {
 
     const { isLoading, execute } = useAction(type === "create" ? PostCreateAction : PostUpdateAction, {
         onSuccess: ({ data }) => {
-            router.back()
+            router.push('/sikundi-admin/post')
         },
         onError: ({ error }) => console.error(error),
         onValidationError: (data) => form.setError(

@@ -53,13 +53,16 @@ export default function CategoryForm({ user, data, type }: Props) {
     
     const name = form.watch("name") 
     useEffect(() => {
-        form.setValue("slug", ThaanaLatin(form.getValues('name')))
+        // @ts-ignore
+        if(name !== data?.name) {
+            form.setValue("slug", ThaanaLatin(form.getValues('name')))
+        }
     }, [name, form])
 
 
     const { isLoading, execute } = useAction(type === "create" ? CategoryCreateAction : CategoryUpdateAction, {
         onSuccess: ({ data }) => {
-            router.back()
+            router.push('/sikundi-admin/post/category')
         },
         onError: ({ error }) => console.error(error),
         onValidationError: (data) => form.setError(
