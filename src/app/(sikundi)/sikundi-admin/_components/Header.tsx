@@ -31,7 +31,7 @@ interface Props {
                 label: string;
             }[];
             url?: string;
-            hidden?: boolean
+            hidden?: boolean;
         }[];
         ui: {
             search: boolean;
@@ -130,7 +130,6 @@ const Header:FC<Props> = ({ data }) => {
                                             filter.url ? <Select2Async
                                                 name={filter.name}
                                                 isClearable={false}
-                                                defaultInputValue='hassan.iyan.l@gmail.com'
                                                 className='col-span-2 justify-start'
                                                 defaultOptions={filter.options || [{
                                                     // @ts-ignore
@@ -139,7 +138,10 @@ const Header:FC<Props> = ({ data }) => {
                                                 loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                     resolve((await axios.get(`${filter.url}?query=${inputValue}`))?.data?.data || [])
                                                 })}
-                                                value={filter.options?.filter(({value})=> value === filters[filter.name])}
+                                                value={filters[filter.name] ? {
+                                                    value: filters[filter.name],
+                                                    label: filters[filter.name]
+                                                } : undefined}
                                                 onChange={(value:any) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
                                             /> : <Select2
                                                 name={filter.name}

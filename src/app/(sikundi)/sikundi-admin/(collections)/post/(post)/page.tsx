@@ -49,33 +49,58 @@ const posts = async (query: Props) => {
             }
         },
         where: {
-            OR: query.searchParams?.query ? [
+            AND: [
                 {
-                    title: {
-                        contains: query.searchParams?.query,
-                        mode: "insensitive"
-                    }
+                    OR: query.searchParams?.query ? [
+                        {
+                            title: {
+                                contains: query.searchParams?.query,
+                                mode: "insensitive"
+                            }
+                        },
+                        {
+                            latinTitle: {
+                                contains: query.searchParams?.query,
+                                mode: "insensitive"
+                            }
+                        }
+                    ] : undefined
                 },
                 {
-                    latinTitle: {
-                        contains: query.searchParams?.query,
-                        mode: "insensitive"
-                    }
+                    createdBy: query.searchParams?.createdBy ? {
+                        userName: query.searchParams?.createdBy
+                    } : undefined
+                },
+                {
+                    // @ts-ignore
+                    OR: query.searchParams?.status ? [
+                        {
+                            status: query.searchParams?.status
+                        }
+                    ] : [
+                        {
+                            status: "drafted"
+                        },
+                        {
+                            status: "published"
+                        }
+                    ]
                 }
-            ] : undefined
+            ]
         },
         orderBy: {
             id: "asc"
         }
     })
-
     // if (posts.length === 0) return notFound()
     
+
     return posts.map((post)=>({
         title: post.title,
         status: post.status,
         language: post.language === "DV" ? 'Dhivehi' : "English",
-        "created at": new Date(post.createdAt).toLocaleString(),
+        "created at": new Date(post.createdAt).toISOString(),
+        // @ts-ignore
         "created by": `${post.createdBy?.userName}`,
         href: `/sikundi-admin/post/${post.id}/update`
     })) || []

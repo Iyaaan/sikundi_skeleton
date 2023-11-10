@@ -57,7 +57,7 @@ const category = async (query: Props) => {
     return {
         ...categorySingle,
         createdBy: {
-            value: categorySingle?.createdBy?.email,
+            value: categorySingle?.createdBy?.userName,
             label: categorySingle?.createdBy?.userName
         },
         language: {

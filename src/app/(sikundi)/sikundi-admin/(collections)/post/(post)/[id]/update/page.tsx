@@ -40,6 +40,7 @@ const post = async (query: Props) => {
             longTitle: true,
             latinTitle: true,
             description: true,
+            status: true,
             lead: true,
             featureImage: true,
             createdAt: true,
@@ -71,13 +72,13 @@ const post = async (query: Props) => {
     return {
         ...postSingle,
         createdBy: {
-            value: postSingle?.createdBy?.email,
+            value: postSingle?.createdBy?.userName,
             label: postSingle?.createdBy?.userName
         },
-        category: {
+        category: postSingle?.category?.name ? {
             value: postSingle?.category?.slug,
             label: postSingle?.category?.name
-        },
+        } : undefined,
         tags: postSingle?.postsTags?.map((tag)=>({
             label: tag.tag?.name,
             value: tag.tag?.slug

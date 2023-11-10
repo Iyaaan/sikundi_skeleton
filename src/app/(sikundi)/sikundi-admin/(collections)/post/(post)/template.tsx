@@ -15,13 +15,13 @@ const Template = ({ children }: {children: ReactNode}) => {
                 name: "posts",
                 slug: "post",
                 filters: [
-                    {type: "date", name: "publishedAt", label: "published at"},
+                    // {type: "date", name: "createdAt", label: "created at"},
                     {type: "select", name: "status", options: [
                         {label: "drafted", value: "drafted",},
                         {label: "published", value: "published"},
                     ], hidden: ((path === "/sikundi-admin/post/trash") ||
                     (path === "/sikundi-admin/post/copydesk"))},
-                    {type: "select", name: "publishedBy", label: "published by", url: "/sikundi-admin/user/api/select"},
+                    {type: "select", name: "createdBy", label: "created by", url: "/sikundi-admin/user/api/select"},
                 ],
                 ui: {
                     search: 

@@ -435,35 +435,86 @@ export default function PostForm({ user, data, type }: Props) {
                                     </Fragment>
                                     : "draft"}
                                 </Button> :
-                                <Fragment>
-                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
-                                        {(isLoading && form.getValues("action") === "draft") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "draft"}
-                                    </Button>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
-                                        {(isLoading && form.getValues("action") === "pending") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "pending"}
-                                    </Button>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")} className="col-span-2">
-                                        {(isLoading && form.getValues("action") === "delete") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "delete"}
-                                    </Button> 
-                                    <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
-                                        <Link href={`/${data?.id}`}>Preview</Link>
-                                    </Button>
-                                </Fragment>
+                                (
+                                    data?.status === "pending" ? <Fragment>
+                                        <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                            {(isLoading && form.getValues("action") === "draft") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "draft"}
+                                        </Button>
+                                        <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "publish")}>
+                                            {(isLoading && form.getValues("action") === "publish") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "publish"}
+                                        </Button>
+                                        <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")} className="col-span-2">
+                                            {(isLoading && form.getValues("action") === "soft_delete") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "delete"}
+                                        </Button> 
+                                        <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
+                                            <Link href={`/${data?.id}`}>Preview</Link>
+                                        </Button>
+                                    </Fragment> : 
+                                    data?.status === "soft_deleted" ? <Fragment>
+                                        <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                            {(isLoading && form.getValues("action") === "draft") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "draft"}
+                                        </Button>
+                                        <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "delete")}>
+                                            {(isLoading && form.getValues("action") === "delete") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "shift delete"}
+                                        </Button> 
+                                        <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
+                                            <Link href={`/${data?.id}`}>Preview</Link>
+                                        </Button>
+                                    </Fragment> : <Fragment>
+                                        <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
+                                            {(isLoading && form.getValues("action") === "draft") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "draft"}
+                                        </Button>
+                                        <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
+                                            {(isLoading && form.getValues("action") === "pending") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "pending"}
+                                        </Button>
+                                        <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")} className="col-span-2">
+                                            {(isLoading && form.getValues("action") === "soft_delete") ? 
+                                            <Fragment>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Loading
+                                            </Fragment>
+                                            : "delete"}
+                                        </Button> 
+                                        <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
+                                            <Link href={`/${data?.id}`}>Preview</Link>
+                                        </Button>
+                                    </Fragment>
+                                )
                             }
                         </div>
                     </CardContent>

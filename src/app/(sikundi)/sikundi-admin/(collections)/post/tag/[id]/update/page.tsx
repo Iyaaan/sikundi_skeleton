@@ -54,7 +54,7 @@ const tag = async (query: Props) => {
     return {
         ...tagSingle,
         createdBy: {
-            value: tagSingle?.createdBy?.email,
+            value: tagSingle?.createdBy?.userName,
             label: tagSingle?.createdBy?.userName
         }
     }
