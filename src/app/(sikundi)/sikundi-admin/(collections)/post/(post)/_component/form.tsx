@@ -74,6 +74,9 @@ export default function PostForm({ user, data, type }: Props) {
         // @ts-ignore
         if(title !== data?.title) {
             form.setValue("latinTitle", ThaanaLatin(form.getValues('title'))?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))?.join(' '))
+            if(type === "create") {
+                form.setValue("longTitle", form.getValues('title'))
+            }
         }
     }, [title, form])
 
