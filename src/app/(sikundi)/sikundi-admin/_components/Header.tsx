@@ -11,7 +11,7 @@ import { Calendar } from '@sikundi/components/ui/calendar'
 import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
 import { useDebounce } from 'usehooks-ts'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Select2 from '@sikundi/components/ui/Select2'
 import { Select2Async } from '@sikundi/components/ui/Select2Async'
@@ -45,7 +45,6 @@ interface Props {
 
 const Header:FC<Props> = ({ data }) => {
     const router = useRouter()
-    const pathName = usePathname()
     const params = useSearchParams()
     const [filters, setFilters] = useState<{[key: string]: any}>({})
     const [open, setOpen] = useState(false)

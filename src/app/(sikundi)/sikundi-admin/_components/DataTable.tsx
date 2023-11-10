@@ -13,7 +13,7 @@ import Link from "next/link"
 
 export default function DataTable({data}: {data: {[name:string]: string}[]}) {
     return (
-        <div className="rounded-md border">
+        <div className="rounded-md border mb-4">
             <Table>
                 <TableHeader className="bg-secondary hidden md:table-header-group">
                     <TableRow>
