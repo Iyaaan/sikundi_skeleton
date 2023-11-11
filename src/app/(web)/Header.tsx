@@ -10,17 +10,7 @@ import { useEffect, useRef, useState } from "react"
 import transliterate from '@sikundi/lib/transliterate'
 import { useModalStore } from "@sikundi/stores/modalStore"
 
-// @ts-ignore
-const menuItems = [
-    { label: "ހަބަރު", link: "/category/news" },
-    { label: "ރިޕޯޓު", link: "/category/reports" },
-    { label: "ކުޅިވަރު", link: "/category/sports" },
-    { label: "މުނިފޫހިފިލުވުން", link: "/category/entertainment" },
-    { label: "ލައިފްސްޓައިލް", link: "/category/life-style" },
-    { label: "ވިޔަފާރި", link: "/category/business" },
-]
-
-const Header = () => {
+const Header = ({ menuItems }: { menuItems: any }) => {
     const [isScrollTop, setIsScrollTop] = useState(true)
     const search = useRef<HTMLInputElement>(null)
     const { on } = useModalStore()
@@ -59,7 +49,7 @@ const Header = () => {
                     {
                         // @ts-ignore
                         menuItems?.map((menuItem, index)=>(
-                            <Link href={menuItem.link} key={index} className="hover:text-web-primary active:opacity-50">{menuItem.label}</Link>
+                            <Link href={menuItem.url} key={index} className="hover:text-web-primary active:opacity-50">{menuItem.name}</Link>
                         ))
                     }
                 </nav>

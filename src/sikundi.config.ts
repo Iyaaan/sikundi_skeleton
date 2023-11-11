@@ -78,11 +78,11 @@ export const menuItems:menuItemType[] = [
                 link: "/sikundi-admin/library", 
                 Icon: LibraryIcon 
             },
-            { 
-                name: "Pages", 
-                link: "/sikundi-admin/page", 
-                Icon: PanelTop 
-            },
+            // { 
+            //     name: "Pages", 
+            //     link: "/sikundi-admin/page", 
+            //     Icon: PanelTop 
+            // },
             { 
                 name: "Users", 
                 link: "/sikundi-admin/user", 
@@ -90,11 +90,11 @@ export const menuItems:menuItemType[] = [
             }
         ]
     },
-    {
-        title: "Plugins",
-        items: [
-            { name: "Ads Manager", link: "/sikundi-admin/ad", Icon: GalleryHorizontal },
-            { name: "Logs", link: "/sikundi-admin/log", Icon: ScrollText }
-        ]
-    }
+    // {
+    //     title: "Plugins",
+    //     items: [
+    //         { name: "Ads Manager", link: "/sikundi-admin/ad", Icon: GalleryHorizontal },
+    //         { name: "Logs", link: "/sikundi-admin/log", Icon: ScrollText }
+    //     ]
+    // }
 ]

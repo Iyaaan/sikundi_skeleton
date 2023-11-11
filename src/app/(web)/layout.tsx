@@ -7,6 +7,8 @@ import Footer from '@sikundi/app/(web)/Footer'
 import MenuModal from '@sikundi/app/(web)/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
+import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
+import { prisma } from '@sikundi/lib/server/utils/prisma'
 
 const font = localFont({
     src: [
@@ -115,7 +117,9 @@ interface Props {
     children: React.ReactNode
 }
 
-export default function RootLayout(props: Props) {
+export default async function RootLayout(props: Props) {
+    const { items } = await menu()
+
     return (
         <html lang="dv-Mv" translate="no">
             <body className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`} dir='rtl'>
@@ -135,7 +139,17 @@ export default function RootLayout(props: Props) {
                         zIndex={1600}
                     />
                     <AnalyticsProvider>
-                        <Header />
+                        <div className='grid grid-cols-12'>
+                            <LandScapeAdThin href={"https://bankofmaldives.com.mv"} 
+                                target="_blank"
+                                containerClass="container px-4 mt-4 col-span-12 lg:col-span-8 lg:col-start-3"
+                                data={{
+                                    coverImage: `/sample_media/NzVkNTc1ZmM5MzViZTRiYzMwMDJkYTI2OWIxMjA5OGM=.gif`,
+                                    alt: "Bank Of Maldives"
+                                }}
+                            />
+                        </div>
+                        <Header menuItems={items} />
                         <MenuModal />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
                             {props.children}
@@ -146,4 +160,63 @@ export default function RootLayout(props: Props) {
             </body>
         </html>
     )
+}
+
+async function menu () {
+    const categories = await prisma.category.findMany({
+        select: {
+            id: true,
+            icon: true,
+            name: true,
+            slug: true
+        },
+        where: {
+            posts: {
+                some: {
+                    status: "published"
+                }
+            }
+        }
+    })
+
+    const havePhotos = await prisma.photo.count({
+        where: {
+            status: "published"
+        }
+    })
+    const haveVideos = await prisma.video.count({
+        where: {
+            status: "published"
+        }
+    })
+    const haveGraphics = await prisma.graphic.count({
+        where: {
+            status: "published"
+        }
+    })
+
+    return {
+        items: [
+            ...categories.map((category) => ({
+                name: category.name,
+                url: `/category/${category.slug}`,
+                icon: category.icon
+            })),
+            havePhotos > 0 && {
+                name: "ފޮޓޯ",
+                url: `/gaafu-gallery`,
+                icon: ""
+            },
+            haveVideos > 0 && {
+                name: "ވިޑިއޯ",
+                url: `/videos`,
+                icon: ""
+            },
+            haveGraphics > 0 && {
+                name: "ގްރެފިކްސް",
+                url: `/gaafu_graphics`,
+                icon: ""
+            },
+        ].filter(Boolean)
+    }
 }

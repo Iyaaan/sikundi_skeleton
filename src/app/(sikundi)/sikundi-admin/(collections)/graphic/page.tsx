@@ -101,7 +101,7 @@ const graphics = async (query: Props) => {
         // @ts-ignore
         where: filters,
         orderBy: {
-            id: "asc"
+            createdAt: "desc"
         },
         take: per_page,
         skip: Number(current)-1 < 0 ? 0 : (Number(current)-1)*per_page

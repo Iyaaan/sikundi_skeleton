@@ -10,6 +10,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         href: string
         title: string
         featureImage: string
+        description: string
     }[]
     loadMore?: boolean
 }
@@ -22,16 +23,16 @@ const VarientThree:FC<Props> = ({title, data = defaultProps.data, loadMore = def
                     {title}
                 </h1>}
                 <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>
-                    <PostMediumCard href={"/836487"}
+                    <PostMediumCard href={`${data[0]?.href}`}
                         className="row-span-2 col-span-2 mb-9 lg:mb-0"
                         data={{
-                            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ!`,
-                            description: `މާލީ ބަޔާނުގައި ބަޔާންކޮށްފައިވާ އަދަދުތަކާއި އިދާރާގެ ހިސާބުތަކާ ދިމާނުވާ މައްސަލަ ފާހަގަކޮށް އެ ރިޕޯޓްގައި ބުނެފައި ވަނީ، 2020 ވަނަ އަހަރުގެ މާލީ ބަޔާނުގެ "ފައިސާ ލިބުނުގޮތާއި ހޭދަ ކުރެވުނު ގޮތުގެ....`,
-                            featureImage: `/sample_media/375132_3_72cfc07865b235acfb7e85032271760b10cb82e2_large.jpeg`
+                            title: `${data[0]?.title}`,
+                            description: `${data[0]?.description}`,
+                            featureImage: `${data[0]?.featureImage}`
                         }}
                     /> 
                     <div className='grid grid-cols-2 gap-4 col-span-2 px-4 lg:p-0'>
-                        {data?.map((post, index) => (
+                        {data?.map((post, index) => index !== 0 && (
                             <PostSmallCard href={post.href} key={index}
                                 className='text-white'
                                 data={{
@@ -55,7 +56,8 @@ const defaultProps = {
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
+            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`,
+            description: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`,
         },
         {
             href: `/836487`, 

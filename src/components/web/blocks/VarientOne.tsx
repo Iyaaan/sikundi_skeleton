@@ -11,6 +11,8 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         href: string
         title: string
         featureImage: string
+        description: string
+        crearedAt: string
     }[]
     loadMore?: boolean
 }
@@ -25,13 +27,14 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
                 {title}
             </h1>}
             <div className='grid grid-cols-12 gap-8 mb-4'>
-                <PostCard href={"/836487"}
+                <PostCard href={String(data[0].href)}
                     className="lg:col-span-9 col-span-12"
                     data={{
-                        title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ!`,
-                        description: `މާލީ ބަޔާނުގައި ބަޔާންކޮށްފައިވާ އަދަދުތަކާއި އިދާރާގެ ހިސާބުތަކާ ދިމާނުވާ މައްސަލަ ފާހަގަކޮށް އެ ރިޕޯޓްގައި ބުނެފައި ވަނީ، 2020 ވަނަ އަހަރުގެ މާލީ ބަޔާނުގެ "ފައިސާ ލިބުނުގޮތާއި ހޭދަ ކުރެވުނު ގޮތުގެ....`,
-                        publishedAt: `${new Date().toISOString()}`,
-                        featureImage: `/sample_media/375132_3_72cfc07865b235acfb7e85032271760b10cb82e2_large.jpeg`
+                        title: String(data[0].title),
+                        description: String(data[0].description),
+                        // @ts-ignore
+                        publishedAt: `${new Date(String(data[0].createdAt)).toLocaleString()}`,
+                        featureImage: data[0].featureImage
                     }}
                 />
                 <PortraitAd href={"https://sonee.com.mv"} 
@@ -44,13 +47,13 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
                 />
             </div>
             <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative'>
-                {data?.map((post, index) => (
-                    <PostSmallCard href={post.href} key={index}
+                {data?.map((post, index) => index > 0 && (
+                    <PostSmallCard href={`${post.href}`} key={index}
                         data={{
                             title: post.title,
                             featureImage: post.featureImage
                         }}
-                    />
+                        />
                 ))}
                 {loadMore && <button className='block p-4 shadow-2xl rounded-xl absolute left-1/2 -translate-x-1/2 -bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'>
                     <ArrowDown2 />
@@ -65,6 +68,7 @@ const defaultProps = {
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
+            description: `މާލީ ބަޔާނުގައި ބަޔާންކޮށްފައިވާ އަދަދުތަކާއި އިދާރާގެ ހިސާބުތަކާ ދިމާނުވާ މައްސަލަ ފާހަގަކޮށް އެ ރިޕޯޓްގައި ބުނެފައި ވަނީ، 2020 ވަނަ އަހަރުގެ މާލީ ބަޔާނުގެ "ފައިސާ ލިބުނުގޮތާއި ހޭދަ ކުރެވުނު ގޮތުގެ....`, 
             featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
         },
         {

@@ -9,7 +9,9 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     data?: {
         href: string
         title: string
+        description: string
         featureImage: string
+        createdAt: string
     }[]
     loadMore?: boolean
 }
@@ -22,18 +24,19 @@ const VarientFour:FC<Props> = ({title, data = defaultProps.data, loadMore = defa
             </h1>}
             <div className='lg:bg-web-foreground lg:dark:bg-web-foreground-dark rounded-[20px] relative mb-6'>
                 <div className='lg:px-4 grid grid-cols-12 gap-8 mb-4 lg:mt-36 mt-32'>
-                    <PostBigCard href={"/836487"}
+                    <PostBigCard href={String(data?.[0]?.href)}
                         className="lg:col-span-10 lg:col-start-2 -mt-24 col-span-12"
                         data={{
-                            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ!`,
-                            description: `މާލީ ބަޔާނުގައި ބަޔާންކޮށްފައިވާ އަދަދުތަކާއި އިދާރާގެ ހިސާބުތަކާ ދިމާނުވާ މައްސަލަ ފާހަގަކޮށް އެ ރިޕޯޓްގައި ބުނެފައި ވަނީ، 2020 ވަނަ އަހަރުގެ މާލީ ބަޔާނުގެ "ފައިސާ ލިބުނުގޮތާއި ހޭދަ ކުރެވުނު ގޮތުގެ....`,
-                            publishedAt: `${new Date().toISOString()}`,
-                            featureImage: `/sample_media/375132_3_72cfc07865b235acfb7e85032271760b10cb82e2_large.jpeg`
+                            title: String(data?.[0]?.title),
+                            description: String(data?.[0]?.description),
+                            // publishedAt: `${new Date(String(data?.[0]?.createdAt))}`,
+                            publishedAt: ``,
+                            featureImage: String(data?.[0]?.featureImage)
                         }}
                     />
                 </div>
                 <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px]'>
-                    {data?.map((post, index) => (
+                    {data?.map((post:any, index:any) => index > 0 && (
                         <PostSmallCard href={post.href} key={index}
                             data={{
                                 title: post.title,
@@ -55,27 +58,37 @@ const defaultProps = {
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
+            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`,
+            description: "",
+            createdAt: ""
         },
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
+            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`,
+            description: "",
+            createdAt: ""
         },
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376656_3_626682d7f3d01d30c21445be86f3753251578a6b_large.jpg`
+            featureImage: `/sample_media/376656_3_626682d7f3d01d30c21445be86f3753251578a6b_large.jpg`,
+            description: "",
+            createdAt: ""
         },
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376658_3_7a92e5368c3e329d6678aaf27c35e19a74102e10_large.jpeg`
+            featureImage: `/sample_media/376658_3_7a92e5368c3e329d6678aaf27c35e19a74102e10_large.jpeg`,
+            description: "",
+            createdAt: ""
         },
         {
             href: `/836487`, 
             title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376659_3_8c34e403f5fd57d6dbb486d08410cc464c5a9ddf_large.jpeg`
+            featureImage: `/sample_media/376659_3_8c34e403f5fd57d6dbb486d08410cc464c5a9ddf_large.jpeg`,
+            description: "",
+            createdAt: ""
         },
     ],
     loadMore: false
