@@ -72,7 +72,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                     <SearchNormal1 />
                 </label>
                 <Link href={`/${lang === "en" ? 'dv' : 'en'}`} className={twMerge([
-                    'h-[60px] w-[60px] rounded-xl flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold',
+                    'min-h-[60px] min-w-[60px] rounded-xl flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold',
                     lang === "en" ? "ml-auto lg:ml-0" : 'mr-auto lg:mr-0'
                 ])}>
                     <span className="mt-2">{
