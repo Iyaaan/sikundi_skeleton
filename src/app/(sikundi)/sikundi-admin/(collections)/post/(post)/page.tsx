@@ -31,19 +31,19 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
             <DataTable data={data.posts} />
-            <Paginator
+            {parseInt(data.total) > 1 && <Paginator
                 current={parseInt(data.current)}
                 total={parseInt(data.total)}
                 searchParams={searchParams}
                 url='/sikundi-admin/post'
-            />
+            />}
         </div>
     )
 }
 
 const posts = async (query: Props) => {
     const current = query?.searchParams?.page || 1
-    const per_page = 3
+    const per_page = 12
     const filters = {
         AND: [
             {
