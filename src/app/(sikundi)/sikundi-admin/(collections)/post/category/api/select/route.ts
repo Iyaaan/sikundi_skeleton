@@ -15,12 +15,14 @@ export async function GET(request: NextRequest) {
                 OR: [
                     {
                         name: {
-                            contains: String(request.nextUrl.searchParams.get("query"))
+                            contains: String(request.nextUrl.searchParams.get("query")),
+                            mode: "insensitive"
                         }
                     },
                     {
                         slug: {
-                            contains: String(request.nextUrl.searchParams.get("query"))
+                            contains: String(request.nextUrl.searchParams.get("query")),
+                            mode: "insensitive"
                         }
                     }
                 ]
