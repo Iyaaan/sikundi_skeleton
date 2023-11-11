@@ -24,7 +24,7 @@ const Footer = () => {
                     </Link>
                 ))}
                 <h3 className="col-span-12 lg:col-span-4 px-8 text-center order-2 text-xl font-extralight">
-                    {"© 2022 Gaafu Media House All Rights Reserved"}
+                    {"© 2019 Gaafu Media Group Pvt Ltd. All Rights Reserved"}
                 </h3>
             </div>
         </footer>
