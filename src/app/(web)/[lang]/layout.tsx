@@ -190,17 +190,23 @@ async function menu (lang: string) {
 
     const havePhotos = await prisma.photo.count({
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang.toUpperCase()
         }
     })
     const haveVideos = await prisma.video.count({
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang.toUpperCase()
         }
     })
     const haveGraphics = await prisma.graphic.count({
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang.toUpperCase()
         }
     })
 
@@ -229,18 +235,18 @@ async function menu (lang: string) {
                 icon: category.icon
             })),
             havePhotos > 0 && {
-                name: "ފޮޓޯ",
-                url: `/gaafu-gallery`,
+                name: lang === "dv" ? "ފޮޓޯ" : "photo",
+                url: `/${lang}/gaafu-gallery`,
                 icon: ""
             },
             haveVideos > 0 && {
-                name: "ވިޑިއޯ",
-                url: `/videos`,
+                name: lang === "dv" ? "ވިޑިއޯ" : "video", 
+                url: `/${lang}/videos`,
                 icon: ""
             },
             haveGraphics > 0 && {
-                name: "ގްރެފިކްސް",
-                url: `/gaafu_graphics`,
+                name: lang === "dv" ? "ގްރެފިކްސް" : 'graphics',
+                url: `/${lang}/gaafu_graphics`,
                 icon: ""
             },
         ].filter(Boolean),

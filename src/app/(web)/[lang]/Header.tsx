@@ -56,9 +56,10 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                 <label 
                     htmlFor="search" 
                     className={twMerge([
-                        "py-4 px-6 flex w-full max-w-md bg-web-foreground dark:bg-web-foreground-dark mr-auto items-center rounded-2xl hover:cursor-text",
+                        "py-4 px-6 flex w-full max-w-md bg-web-foreground dark:bg-web-foreground-dark items-center rounded-2xl hover:cursor-text",
                         "focus-within:border-web-primary dark:focus-within:border-web-primary-dark border-2 border-web-background dark:border-web-background-dark",
-                        "hidden lg:flex gap-4"
+                        "hidden lg:flex gap-4",
+                        lang === "en" ? "ml-auto" : 'mr-auto'
                     ])}
                 >
                     <input 
