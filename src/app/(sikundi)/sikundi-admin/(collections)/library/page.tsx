@@ -51,7 +51,29 @@ const medias = async (query: Props) => {
                     contains: query.searchParams?.query,
                     mode: "insensitive"
                 }
-            }
+            },
+            {
+                mediasTags: {
+                    some: {
+                        tag: {
+                            name: {
+                                contains: query.searchParams?.query
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                mediasTags: {
+                    some: {
+                        tag: {
+                            slug: {
+                                contains: query.searchParams?.query
+                            }
+                        }
+                    }
+                }
+            },
         ] : undefined
     }
     const medias = await prisma.media.findMany({
