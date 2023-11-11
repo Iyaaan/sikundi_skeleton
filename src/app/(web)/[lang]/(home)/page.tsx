@@ -94,9 +94,18 @@ async function HomePage (lang?: string) {
         where: {
             postsTags: {
                 some: {
-                    tag: {
-                        slug: "bodu"
-                    }
+                    OR: [
+                        {
+                            tag: {
+                                slug: "bodu"
+                            }
+                        },
+                        {
+                            tag: {
+                                slug: "big"
+                            }
+                        }
+                    ]
                 }
             },
             status: "published",
@@ -116,9 +125,18 @@ async function HomePage (lang?: string) {
         where: {
             postsTags: {
                 some: {
-                    tag: {
-                        slug: "kuda"
-                    }
+                    OR: [
+                        {
+                            tag: {
+                                slug: "kuda"
+                            }
+                        },
+                        {
+                            tag: {
+                                slug: "small"
+                            }
+                        }
+                    ]
                 }
             },
             status: "published",
