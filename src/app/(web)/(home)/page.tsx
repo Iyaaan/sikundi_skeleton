@@ -37,7 +37,7 @@ export default async function Home() {
             <VarientTwo className="mb-12" data={latestPosts} />}
             {(latestPhotos?.length > 0) && 
             // @ts-ignore
-            <VarientThree title="ފޮޓޯ ގެލެރީ" className="mb-12" data={latestPhotos} className="mb-12" />}
+            <VarientThree title="ފޮޓޯ ގެލެރީ" className="mb-12" data={latestPhotos} />}
             
             <LandScapeAd href={"https://bankofmaldives.com.mv"} 
                 target="_blank"
