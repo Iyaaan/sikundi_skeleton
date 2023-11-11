@@ -77,8 +77,8 @@ export default function MediaLibraryModal({onComplete, disableList, ...props}: P
         accept: {
             'image/*': []
         },
-        maxSize: 1024 * 1000,
-        maxFiles: 2,
+        maxSize: 1024 * 4000,
+        maxFiles: 5,
         onDrop
     })
   
@@ -151,7 +151,7 @@ export default function MediaLibraryModal({onComplete, disableList, ...props}: P
                     <TabsContent value="library">
                         {!disableList && photoList.length > 0 ? 
                         <ScrollArea className='h-[500px]'>
-                            <div className='grid grid-cols-3 gap-4'>
+                            <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
                                 {photoList.map((photo, index) => photo.url.length > 0 && (
                                     <button type='button' className='relative aspect-square col-span-1' key={index} onClick={() => {
                                         onComplete?.([

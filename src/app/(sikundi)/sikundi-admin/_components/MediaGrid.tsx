@@ -9,7 +9,7 @@ import { Badge } from '@sikundi/components/ui/badge'
 export default function MediaGrid({data}: { data: {[name:string]: any} }) {
     const [active, setActive] = useState<null | {[name:string]:any}>(null)
     return (
-        <div className='grid grid-cols-4 gap-4'>
+        <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>
             <Dialog>
                 {data?.map((media:any, index:number)=>(
                     <DialogTrigger asChild key={index} className='aspect-video' onClick={() => setActive(media)}>

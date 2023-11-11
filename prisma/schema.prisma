@@ -89,6 +89,9 @@ model User {
   mediasCreated        Media[]    @relation("mediasCreated")
   libraryGroupsCreated Library[]  @relation("libraryCreated")
   postsCreated         Post[]     @relation("postsCreated")
+  photosCreated        Photo[]    @relation("photosCreated")
+  graphicsCreated      Graphic[]  @relation("graphicsCreated")
+  videosCreated        Video[]   @relation("videosCreated")
   categoriesCreated    Category[] @relation("categoriesCreated")
   tagsCreated          Tag[]      @relation("tagsCreated")
 }
@@ -127,6 +130,8 @@ model Media {
   createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   posts      Post[] @relation("postFeatureImage")
+  photos     Photo[] @relation("photoFeatureImage")
+  graphics   Graphic[] @relation("graphics")
   user       User[] @relation("profilePicture")
   mediasTags MediasTags[] @relation("mediasTags")
 
@@ -216,4 +221,58 @@ model MediasTags {
   media   Media? @relation("mediasTags", fields: [mediaId], references: [id], onDelete: Cascade)
   tagId   Int
   tag     Tag?  @relation("tagsMedias", fields: [tagId], references: [id], onDelete: Cascade)
+}
+
+model Photo {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  createdBy   User?    @relation("photosCreated", fields: [createdById], references: [id], onDelete: SetNull)
+
+  featureImageUrl String?
+  featureImage    Media?    @relation("photoFeatureImage", fields: [featureImageUrl], references: [url], onDelete: SetNull)
+
+  title       String
+  longTitle   String?
+  latinTitle  String?
+  description String?
+  lead        String?
+  language    Lang @default(EN)
+  status      Status @default(drafted)
+}
+
+model Graphic {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  createdBy   User?    @relation("graphicsCreated", fields: [createdById], references: [id], onDelete: SetNull)
+
+  graphicsUrl String?
+  graphics    Media?    @relation("graphics", fields: [graphicsUrl], references: [url], onDelete: SetNull)
+
+  title       String
+  longTitle   String?
+  latinTitle  String?
+  description String?
+  language    Lang @default(EN)
+  status      Status @default(drafted)
+}
+
+model Video {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  createdBy   User?    @relation("videosCreated", fields: [createdById], references: [id], onDelete: SetNull)
+
+  YoutubeUrl String?
+
+  title       String
+  longTitle   String?
+  latinTitle  String?
+  description String?
+  language    Lang @default(EN)
+  status      Status @default(drafted)
 }
