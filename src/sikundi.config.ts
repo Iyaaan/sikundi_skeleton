@@ -2,12 +2,12 @@ import { Metadata } from "next"
 import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay, PanelTop, ScrollText, Send, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
-    title: 'Sikundi io',
-    description: 'Hehe Just a project',
+    title: 'gaafu media',
+    description: 'gaafu media',
     openGraph: {
-        title: 'Sikundi io',
-        description: 'The future of jam stack web architecture',
-        siteName: "Sikundi io",
+        title: 'gaafu media',
+        description: 'gaafu media',
+        siteName: "gaafu media",
         url: `${process.env.SITE_NAME}`,
         images: [
             {
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
               height: 600,
             }
         ],
-        locale: 'en_US',
         type: 'website',
     },
     metadataBase: new URL(String(process.env.SITE_NAME || "http://localhost:3000"))

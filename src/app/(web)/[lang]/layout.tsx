@@ -9,6 +9,7 @@ import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
+export { metadata } from '@sikundi/sikundi.config'
 
 const font = localFont({
     src: [
@@ -107,11 +108,6 @@ const font = localFont({
     display: 'swap',
     adjustFontFallback: 'Times New Roman'
 })
-
-export const metadata: Metadata = {
-    title: 'Web',
-    description: 'Web View',
-}
 
 interface Props {
     children: React.ReactNode
