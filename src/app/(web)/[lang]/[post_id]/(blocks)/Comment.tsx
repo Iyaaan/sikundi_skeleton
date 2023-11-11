@@ -31,6 +31,7 @@ const Comment = () => {
                     }}
                     placeholder='ކޮމެންޓް'
                 />
+                <button type="button" className=' bg-web-primary dark:bg-web-primary-dark text-white px-8 py-2 rounded-lg font-bold ms-auto block hover:opacity-75 active:opacity-50'>{"ކޮމެންޓް"}</button>
             </div>
         </div>
     )
