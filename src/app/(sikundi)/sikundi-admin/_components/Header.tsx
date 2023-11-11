@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, ReactNode, useEffect, useState } from 'react'
 import { Separator } from '@sikundi/components/ui/separator'
 import { Button } from '@sikundi/components/ui/button'
 import { CalendarIcon, CopyCheck, PlusIcon, SlidersHorizontal, TrashIcon } from 'lucide-react'
@@ -22,6 +22,9 @@ interface Props {
         url: string;
         name: string;
         slug: string;
+        custom?: {
+            create?: ReactNode
+        };
         filters: {
             type: "select" | "date";
             name: string;
@@ -82,7 +85,9 @@ const Header:FC<Props> = ({ data }) => {
                     {data.name}
                 </h2>
                 <div className='flex gap-2'>
-                    {data?.ui?.create && <Button className='capitalize' asChild>
+                    {data?.custom?.create ?
+                        data?.custom?.create :
+                    data?.ui?.create && <Button className='capitalize' asChild>
                         <Link href={`${data.url}/create`}><PlusIcon className='me-2 h-4 w-4' /> {data.slug}</Link>
                     </Button>}
                     {data?.ui?.trash && <Button variant="outline" size="icon" asChild>

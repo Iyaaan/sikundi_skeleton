@@ -28,9 +28,10 @@ interface Props extends ButtonProps {
         name?: string
         libraryGroupId?: number
     }[]) => void
+    disableList?: boolean
 }
 
-export default function MediaLibraryModal({onComplete, ...props}: Props) {
+export default function MediaLibraryModal({onComplete, disableList, ...props}: Props) {
     const [files, setFiles] = useState([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -44,13 +45,15 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
   
     useEffect(() => {
         (async () => {
-            const { data } = await photos()
-            data && setPhotoList((p) => ([
-                ...p,
-                ...data
-            ]))
+            if (!disableList){
+                const { data } = await photos()
+                data && setPhotoList((p) => ([
+                    ...p,
+                    ...data
+                ]))
+            }
         })()
-    }, [page])
+    }, [page, disableList])
 
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -140,13 +143,13 @@ export default function MediaLibraryModal({onComplete, ...props}: Props) {
                         Add files to media library
                     </DialogDescription>
                 </DialogHeader>
-                <Tabs defaultValue="library">
-                    <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="library">Library</TabsTrigger>
-                        <TabsTrigger value="upload">Upload</TabsTrigger>
-                    </TabsList>
+                <Tabs defaultValue={disableList ? "upload" : "library"}>
+                        {!disableList && <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="library">Library</TabsTrigger>
+                                <TabsTrigger value="upload">Upload</TabsTrigger>  
+                        </TabsList>}
                     <TabsContent value="library">
-                        {photoList.length > 0 ? 
+                        {!disableList && photoList.length > 0 ? 
                         <ScrollArea className='h-[500px]'>
                             <div className='grid grid-cols-3 gap-4'>
                                 {photoList.map((photo, index) => photo.url.length > 0 && (
