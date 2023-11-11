@@ -214,7 +214,9 @@ async function menu (lang: string) {
             createdAt: "asc"
         },
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang.toUpperCase()
         },
         take: 8
     })
