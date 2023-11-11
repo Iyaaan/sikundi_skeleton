@@ -12,6 +12,12 @@ const roles = [
         permissions: {
 
         }
+    },
+    {
+        name: "Author",
+        permissions: {
+
+        }
     }
 ]
 
