@@ -38,7 +38,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
         ])}>
             {/* <ThemeSwitcher /> */}
             <div className="container px-4 flex gap-4 h-[6.4rem] items-center">
-                <Link href={"/"}>
+                <Link href={`/${lang}`}>
                     <Image 
                         src={"/logo.png"} alt="logo" 
                         width={57} height={57} 
