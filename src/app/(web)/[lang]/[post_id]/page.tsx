@@ -63,7 +63,18 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
         // @ts-ignore
         "category": String(data?.category?.name),
         "description": data?.description,
-        "publisher": String(process.env.NEXT_PUBLIC_APP_NAME)
+        "publisher": String(process.env.NEXT_PUBLIC_APP_NAME),
+        "openGraph": {
+            "title": String(data?.latinTitle),
+            "authors": [
+                // @ts-ignore
+                {name: data?.createdBy?.userName, url: `/${params.lang}/author/${data?.createdBy?.userName}`}
+            ],
+            "countryName": "maldives",
+            "description": String(data?.description),
+            "locale": params.lang,
+            "siteName": String(process.env.NEXT_PUBLIC_APP_NAME)
+        }
     }
   }
 
