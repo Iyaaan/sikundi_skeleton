@@ -59,12 +59,17 @@ export const menuItems:menuItemType[] = [
                 Icon: File 
             },
             { 
+                name: "Library", 
+                link: "/sikundi-admin/library", 
+                Icon: LibraryIcon 
+            },
+            { 
                 name: "Graphics", 
                 link: "/sikundi-admin/graphic", 
                 Icon: FileImage 
             },
             { 
-                name: "Photos", 
+                name: "Photo Gallery", 
                 link: "/sikundi-admin/photo", 
                 Icon: ImageIcon
             },
@@ -72,11 +77,6 @@ export const menuItems:menuItemType[] = [
                 name: "Videos", 
                 link: "/sikundi-admin/video", 
                 Icon: MonitorPlay 
-            },
-            { 
-                name: "Library", 
-                link: "/sikundi-admin/library", 
-                Icon: LibraryIcon 
             },
             // { 
             //     name: "Pages", 

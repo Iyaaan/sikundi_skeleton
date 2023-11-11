@@ -9,6 +9,7 @@ declare global {
             REDIS_URL: String            
             CSRF_SECRET: String         
             ACCESS_TOKEN_SECRET: String
+            NEXT_PUBLIC_APP_NAME: String
         }
     }
 }

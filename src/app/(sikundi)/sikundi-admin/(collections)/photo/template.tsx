@@ -12,7 +12,7 @@ const Template = ({ children }: {children: ReactNode}) => {
         <div className='container p-4'>
             <Header data={{
                 url: "/sikundi-admin/photo",
-                name: "photos",
+                name: "photo gallery",
                 slug: "photo",
                 filters: [
                     // {type: "date", name: "createdAt", label: "created at"},

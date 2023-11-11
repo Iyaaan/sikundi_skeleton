@@ -9,15 +9,63 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
 import Tweet from "./(blocks)/Tweet"
 import Youtube from "./(blocks)/Youtube"
 import { Fragment } from "react"
+import type { Metadata, ResolvingMetadata } from 'next'
 
 interface Props { 
     params: { 
-        post_id: number 
+        post_id: string 
         lang: string 
     } 
 }
 
 export const dynamic = "force-dynamic"
+
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+    const data = await prisma.post.findUnique({
+        where: {
+            id: parseInt(params.post_id),
+            // @ts-ignore
+            language: params.lang.toUpperCase()
+        },
+        select: {
+            latinTitle: true,
+            postsTags: {
+                select: {
+                    tag: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            },
+            description: true,
+            category: {
+                select: {
+                    name: true
+                }
+            },
+            createdBy: {
+                select: {
+                    userName: true,
+                    profilePictureUrl: true
+                }
+            },
+            createdAt: true
+        }
+    })
+    return {
+        "title": data?.latinTitle,
+        "authors": [
+            // @ts-ignore
+            {name: data?.createdBy?.userName, url: `/${params.lang}/author/${data?.createdBy?.userName}`}
+        ],
+        "applicationName": String(process.env.NEXT_PUBLIC_APP_NAME),
+        // @ts-ignore
+        "category": String(data?.category?.name),
+        "description": data?.description,
+        "publisher": String(process.env.NEXT_PUBLIC_APP_NAME)
+    }
+  }
 
 export default async function SinglePage(props: Props) {
     // @ts-ignore
