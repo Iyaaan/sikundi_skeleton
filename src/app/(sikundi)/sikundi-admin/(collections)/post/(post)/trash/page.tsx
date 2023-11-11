@@ -35,7 +35,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
                 current={parseInt(data.current)}
                 total={parseInt(data.total)}
                 searchParams={searchParams}
-                url='/sikundi-admin/post'
+                url='/sikundi-admin/post/trash'
             />}
         </div>
     )
