@@ -71,12 +71,15 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                     />
                     <SearchNormal1 />
                 </label>
-                <Link href={`/${lang === "en" ? 'dv' : 'en'}`} className="h-[60px] w-[60px] rounded-xl flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold">
+                <Link href={`/${lang === "en" ? 'dv' : 'en'}`} className={twMerge([
+                    'h-[60px] w-[60px] rounded-xl flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold',
+                    lang === "en" ? "ml-auto lg:ml-0" : 'mr-auto lg:mr-0'
+                ])}>
                     <span className="mt-2">{
                         lang === "en" ? 'DV' : 'EN'
                     }</span>
                 </Link>
-                <ThemeSwitcher className="mr-auto lg:mr-0 min-h-[57px] min-w-[57px] border-2 border-web-background dark:border-transparent" />
+                <ThemeSwitcher className="min-h-[57px] min-w-[57px] border-2 border-web-background dark:border-transparent" />
                 <ToggleBtn className="bg-web-tertiary dark:bg-web-tertiary-dark gap-[4px] min-h-[57px] min-w-[57px]" onClick={() => on()}>
                     {[1,2,3].map((index)=><hr className="w-5 border-white border" key={index} />)}
                 </ToggleBtn>
