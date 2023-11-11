@@ -171,6 +171,8 @@ model Post {
   latinTitle  String?
   description String?
   lead        String?
+  breaking    Boolean?
+  liveblog    Boolean?
   language    Lang @default(EN)
   status      Status @default(drafted)
 

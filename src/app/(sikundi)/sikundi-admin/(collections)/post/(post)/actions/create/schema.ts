@@ -37,6 +37,8 @@ const PostSchema = z.object({
     action: z.string().refine((action) => ['draft', 'delete', 'soft_delete', 'publish', 'pending'].includes(action), {
         message: 'Action is not valid'
     }).optional(),
+    breaking: z.boolean().optional(),
+    liveblog: z.boolean().optional()
 })
 
 export type PostSchemaType = z.infer<typeof PostSchema>

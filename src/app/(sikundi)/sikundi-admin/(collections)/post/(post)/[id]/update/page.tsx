@@ -51,6 +51,8 @@ const post = async (query: Props) => {
                 }
             },
             language: true,
+            breaking: true,
+            liveblog: true,
             category: true,
             postsTags: {
                 include: {

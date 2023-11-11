@@ -30,6 +30,8 @@ import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
+import { Label } from "@sikundi/components/ui/label"
+import P from "@sikundi/components/ui/typography/p"
 
 interface Props {
     user: UserType
@@ -53,6 +55,8 @@ export default function PostForm({ user, data, type }: Props) {
             },
             title: "",
             latinTitle: "",
+            breaking: false,
+            liveblog: false,
             longTitle: "",
             description: "",
             featureImageUrl: "",
@@ -163,7 +167,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Textarea dir="rtl" rows={7} {...field} />
+                                        <Textarea dir="rtl" rows={17} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -286,6 +290,50 @@ export default function PostForm({ user, data, type }: Props) {
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="breaking"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                    <FormLabel className="text-base">
+                                    breaking
+                                    </FormLabel>
+                                    <FormDescription>
+                                    Is this a breaking news
+                                    </FormDescription>
+                                </div>
+                                <FormControl>
+                                    <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    />
+                                </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="liveblog"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                    <FormLabel className="text-base">
+                                    live blog
+                                    </FormLabel>
+                                    <FormDescription>
+                                    Is this a live blog
+                                    </FormDescription>
+                                </div>
+                                <FormControl>
+                                    <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    />
+                                </FormControl>
                                 </FormItem>
                             )}
                         />
