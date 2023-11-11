@@ -118,7 +118,7 @@ interface Props {
 }
 
 export default async function RootLayout(props: Props) {
-    const { items } = await menu()
+    const { items, latestPosts } = await menu()
 
     return (
         <html lang="dv-Mv" translate="no">
@@ -150,7 +150,7 @@ export default async function RootLayout(props: Props) {
                             />
                         </div>
                         <Header menuItems={items} />
-                        <MenuModal />
+                        <MenuModal menuItems={items} latestPosts={latestPosts} />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
                             {props.children}
                         </main>
@@ -176,6 +176,9 @@ async function menu () {
                     status: "published"
                 }
             }
+        },
+        orderBy: {
+            id: "asc"
         }
     })
 
@@ -193,6 +196,21 @@ async function menu () {
         where: {
             status: "published"
         }
+    })
+
+    const posts = await prisma.post.findMany({
+        select: {
+            id: true,
+            title: true,
+            featureImageUrl: true
+        },
+        orderBy: {
+            createdAt: "asc"
+        },
+        where: {
+            status: "published"
+        },
+        take: 8
     })
 
     return {
@@ -217,6 +235,11 @@ async function menu () {
                 url: `/gaafu_graphics`,
                 icon: ""
             },
-        ].filter(Boolean)
+        ].filter(Boolean),
+        latestPosts: posts?.map((post) => ({
+            href: `/${post.id}`,
+            title: post.title,
+            featureImage: post.featureImageUrl
+        }))
     }
 }

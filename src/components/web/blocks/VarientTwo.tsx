@@ -11,15 +11,16 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         featureImage: string
     }[]
     loadMore?: boolean
+    containerClassName?: string
 }
 
-const VarientTwo:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
+const VarientTwo:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, containerClassName, ...props}) => {
     return (
         <div {...props} className={twMerge([
             'container bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] relative px-0',
             props.className
         ])}>
-            <div className='grid lg:grid-cols-5 grid-cols-2 gap-4 p-6 pb-16 mb-6'>
+            <div className={twMerge(['grid lg:grid-cols-5 grid-cols-2 gap-4 p-6 pb-16 mb-6', containerClassName])}>
                 {data?.map((post, index) => (
                     <PostSmallCard href={post.href} key={index}
                         data={{

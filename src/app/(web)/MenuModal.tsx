@@ -5,15 +5,24 @@ import { SearchNormal1 } from 'iconsax-react'
 import React, { Fragment, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import transliterate from '@sikundi/lib/transliterate'
+import VarientTwo from '@sikundi/components/web/blocks/VarientTwo'
+import Link from 'next/link'
+import { usePathname, useParams } from 'next/navigation'
 
-const MenuModal = () => {
+const MenuModal = ({ latestPosts, menuItems }: any) => {
     const { modal, off } = useModalStore()
+    const path = usePathname()
+    const params = useParams()
     const search = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (modal) document.body.style.overflow = 'hidden' 
         else document.body.style.overflow = ''
     }, [modal])
+
+    useEffect(() => {
+        off()
+    }, [path, params])
 
     return (
         <Fragment>
@@ -31,7 +40,7 @@ const MenuModal = () => {
                         className={twMerge([
                             "py-4 px-6 flex col-span-12 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark items-center rounded-2xl hover:cursor-text",
                             "focus-within:border-web-primary dark:focus-within:border-web-primary-dark border-2 border-web-background dark:border-web-background-dark",
-                            "gap-4"
+                            "gap-4 lg:order-1"
                         ])}
                     >
                         <input 
@@ -45,16 +54,24 @@ const MenuModal = () => {
                         <SearchNormal1 />
                     </label>
                     <div className={twMerge([
-                        'col-span-12 lg:col-span-8 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px]',
+                        'col-span-12 lg:col-span-3 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px] lg:order-3',
                         'p-4 border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
-
+                        {
+                            // @ts-ignore
+                            menuItems?.map((menuItem, index)=>(
+                                <Link href={menuItem.url} key={index} className="active:opacity-50 flex items-center text-xl font-bold mb-4 gap-4">
+                                    <span className=' bg-web-tertiary dark:bg-web-tertiary-dark h-10 w-10 rounded-full'></span>
+                                    {menuItem.name}
+                                </Link>
+                            ))
+                        }
                     </div>
                     <div className={twMerge([
-                        'col-span-12 lg:col-span-4 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px]',
+                        'col-span-12 lg:col-span-9 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px] lg:order-2',
                         'p-4 border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
-
+                        <VarientTwo containerClassName="lg:grid-cols-4" className="mb-12" data={latestPosts} />
                     </div>
                 </div>
             </aside>
