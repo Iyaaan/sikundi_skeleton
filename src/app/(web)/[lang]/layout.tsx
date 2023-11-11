@@ -125,8 +125,8 @@ export default async function RootLayout(props: Props) {
     const { items, latestPosts } = await menu(String(props.params.lang))
 
     return (
-        <html lang="dv-Mv" translate="no">
-            <body className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`} dir='rtl'>
+        <html lang={props.params.lang === "dv" ? "dv-Mv" : "en"} translate="no">
+            <body dir={props.params.lang === "dv" ? "rtl" : "ltr"} className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`}>
                 <ThemeProvider>
                     <NextTopLoader
                         color={"#ca2126"}
@@ -153,7 +153,7 @@ export default async function RootLayout(props: Props) {
                                 }}
                             />
                         </div>
-                        <Header menuItems={items} />
+                        <Header menuItems={items} lang={props.params.lang} />
                         <MenuModal menuItems={items} latestPosts={latestPosts} />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
                             {props.children}

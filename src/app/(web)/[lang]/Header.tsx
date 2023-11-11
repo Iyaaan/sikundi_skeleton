@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react"
 import transliterate from '@sikundi/lib/transliterate'
 import { useModalStore } from "@sikundi/stores/modalStore"
 
-const Header = ({ menuItems }: { menuItems: any }) => {
+const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
     const [isScrollTop, setIsScrollTop] = useState(true)
     const search = useRef<HTMLInputElement>(null)
     const { on } = useModalStore()
@@ -71,6 +71,11 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                     />
                     <SearchNormal1 />
                 </label>
+                <Link href={`/${lang === "en" ? 'dv' : 'en'}`} className="h-[60px] w-[60px] rounded-xl flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold">
+                    <span className="mt-2">{
+                        lang === "en" ? 'DV' : 'EN'
+                    }</span>
+                </Link>
                 <ThemeSwitcher className="mr-auto lg:mr-0 min-h-[57px] min-w-[57px] border-2 border-web-background dark:border-transparent" />
                 <ToggleBtn className="bg-web-tertiary dark:bg-web-tertiary-dark gap-[4px] min-h-[57px] min-w-[57px]" onClick={() => on()}>
                     {[1,2,3].map((index)=><hr className="w-5 border-white border" key={index} />)}
