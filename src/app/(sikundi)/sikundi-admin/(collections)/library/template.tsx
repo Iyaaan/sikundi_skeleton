@@ -14,7 +14,7 @@ const Template = ({ children }: {children: ReactNode}) => {
                 url: "/sikundi-admin/library",
                 name: "Medias",
                 custom: {
-                    create: <MediaLibraryModal disableList onComplete={() => router.refresh()}>
+                    create: <MediaLibraryModal disableList onComplete={() => router.push('/sikundi-admin/library')}>
                         {"Add Media"}
                     </MediaLibraryModal>
                 },

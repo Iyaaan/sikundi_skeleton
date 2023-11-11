@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { prisma } from "@sikundi/lib/server/utils/prisma"
 import getUser from "@sikundi/lib/server/utils/getUser"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
+import { revalidatePath } from "next/cache"
  
 export async function uploadToLibrary(formData:FormData) {
     try {
@@ -107,6 +108,7 @@ export async function uploadToLibrary(formData:FormData) {
             }
             output.push(media)
         }))
+        revalidatePath('/sikundi-admin/library')
         return {
             files: output,
             notification: {
