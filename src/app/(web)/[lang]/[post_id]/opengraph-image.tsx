@@ -50,6 +50,7 @@ export default async function Image({ params }: { params: { post_id: string, lan
                     width: "100%",
                     height: "100%",
                     position: "absolute",
+                    objectFit: "cover",
                     inset: 0
                 }} />
             </div>
