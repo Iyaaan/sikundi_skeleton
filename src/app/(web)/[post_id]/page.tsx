@@ -5,6 +5,10 @@ import Comment from "@sikundi/app/(web)/[post_id]/(blocks)/Comment"
 import Paragraph from "./(blocks)/Paragraph"
 import Heading from "./(blocks)/Heading"
 import Quote from "./(blocks)/Quote"
+import { prisma } from "@sikundi/lib/server/utils/prisma" 
+import Tweet from "./(blocks)/Tweet"
+import Youtube from "./(blocks)/Youtube"
+import { Fragment } from "react"
 
 interface Props { 
     params: { 
@@ -12,20 +16,23 @@ interface Props {
     } 
 }
 
-export default function SinglePage(props: Props) {
+export default async function SinglePage(props: Props) {
+    const { relatedPosts, data } = await postData(parseInt(`${props.params.post_id}`))
+
     return (
         <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
             <div className="lg:col-span-9 col-span-12">
                 <Feature className="pb-12" data={{
-                    title: "އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ!",
-                    featureImage: "/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg",
-                    tags: ["ރިޕޯޓު", "މަސްތުވާތަކެތި"],
+                    title: `${data?.longTitle}`,
+                    featureImage: `${data?.featureImageUrl}`,
+                    // @ts-ignore
+                    tags: data?.postsTags?.map((tag) => tag.tag?.name),
                     published: {
                         by: {
-                            name: "ޝަޖާއަތު އަހުމަދު",
-                            photo: ""
+                            name: `${data?.createdBy?.userName}`,
+                            photo: `${data?.createdBy?.profilePictureUrl}`
                         },
-                        date: new Date(),
+                        date: new Date(`${data?.createdAt}`),
                     },
                     social: {
                         facebook: "",
@@ -35,27 +42,53 @@ export default function SinglePage(props: Props) {
                     }
                 }} />
                 <div className="px-6 max-w-3xl mx-auto">
-                    <Paragraph>
-                        {"ފެންނަނީ ގޮތެއް ފޮތެއް ނެތި ސަރުކާރުން ރިޔާސީ އިންތިހާބަށް ނުފޫޒު ފޯރުވާތަން ކަމަށް ރައްޔިތުން މަޖިލީހުގެ ކެންދޫ ދާއިރާގެ މެންބަރު އަލީ ހުސެއިން ވިދާޅުވެއްޖެއެވެ."}
-                    </Paragraph>
-                    <Paragraph>
-                        {"މިއަދު ރައްޔިތުންގެ މަޖިލިސް ޖަލްސާގައި ވާހަކަދައްކަވަމުން އަލީ ހުސެއިން ވިދާޅުވީ ދައުލަތުން އިންތިހާބުތަކަށް ނުފޫޒު ފޯރުވާ ވާހަކައަކީ އާވަހަކައެއް ނޫން ކަމަށާއި ފާއިތުވި 15 އަހަރު ވެސް ދިވެހިން ދައްކަން ޖެހުނު ވާހަކައަކީ އެއީ ކަމަށެވެ."}
-                    </Paragraph>
-                    <Heading>
-                        {"ހާވާސާއި ތިން ބޭފުޅުން"}
-                    </Heading>
-                    <Paragraph>
-                        {"އިންތިހާބުތަކަށް ދައުލަތުން، ސަރުކާރުން ނުފޫޒު ފޯރުވާ ވާހަކަ ދައްކަން ޖެހޭ އެއްސަބަބަކީ 2008 ވަނަ އަހަރުގެ ގާނޫނު އަސާސީގައި ތަސައްވަރު ކޮށްފައިވާ ކަންކަން ވެސް އެކަށީގެންވާ ގޮތެއްގައި ތަންފީޒު ކުރެވިފައެއް ނެތުން ކަމަށް އޭނާ ވިދާޅުވިއެވެ."}
-                    </Paragraph>
-                    <Quote>
-                        {`އަލީ ހުސެއިން ވިދާޅުވީ ސަރުކާރާއި އިދިކޮޅުގައި ތިބޭއިރު ކޮންމެ ބަޔަކު ވެސް އެވާހަކަ ދައްކާ ކަމަށާއި ނަމަވެސް ވެރިކަން ލިބުމުން އަނެއްކާވެސް އޮންނަނީ ކުރިން ކުރި ގޯސް ކަންކަން ތަކުރާރު ކުރުން ކަމަށެވެ. "ކުރަން އައީ ކޮންކަމެއްކަމެއް، ބަދަލު ކުރާން ވައުދުވީ ކޮން ކަމެއްކަމެއް، އިސްލާހު ކުރާނީ ކޮންކަމެއްކަން ހަނދާނެއް ނެތް." އަލީ ހުސެއިން ވިދާޅުވިއެވެ.`}
-                    </Quote>
-                    <Paragraph>
-                        {"އޭނާ ވިދާޅުވީ ގާނޫނު އަސާސީ އައުމުން އެންމެ ބޮޑަށް ދެކެވުނު އެއްވާހަކައަކީ ހިޔާލު ފާޅުކުރުމުގެ "}
-                    </Paragraph>
-                    <Paragraph>
-                        {"މިނިވަންކަމުގެ ވާހަކަ ކަމަށެވެ. ދައުލަތް ވާން ޖެހޭނީ މީޑިއާތައް ރެގިއުލޭޓް ކުރާ ތަނަކަށް ކަމަށާއި ނަމަވެސް ފެންނަނީ ކޮންމެ އިރަކު ވެސް އޭރެއްގެ އޮންނަ ސަރުކާރެއްގެ ޕްރޮޕެގެންޑާ ފަތުރާ މެޝިނަކަށް ދައުލަތުގެ ޓީވީ އާއި ރޭޑިއޯ ވެގެންދާ މަންޒަރު ކަމަށް އަލީ ހުސެއިން ވިދާޅުވިއެވެ. އޭގެ އިތުރުން މިހާރު ފެންނަމުންދާ މަންޒަރަކީ ނޫސްތައް ގަނެގެން ނޫސްތަކުގެ ކޮންޓްރޯލް ސަރުކާރުން ނަގަމުންދާ މަންޒަރު ކަމަށް އަލީ ހުސެއިން ވިދާޅުވިއެވެ."}
-                    </Paragraph>
+                    {JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
+                        if(block?.type === "paragraph") return <Paragraph key={index}>{
+                            block?.children?.map(({text}:any) => {
+                                return <>{text}</>
+                            })    
+                            // JSON.stringify(block?.children)
+                        }</Paragraph>
+                        if(block?.type === "heading") return <Heading key={index}>{
+                            block?.children?.map(({text}:any, index:any) => {
+                                return <Fragment key={index}>{text}</Fragment>
+                            })    
+                            // JSON.stringify(block?.children)
+                        }</Heading>
+                        if(block?.type === "list") return <Paragraph key={index}>{
+                            block?.children?.map(({text}:any, index:any) => {
+                                return <Fragment key={index}>{text}</Fragment>
+                            })    
+                            // JSON.stringify(block?.children)
+                        }</Paragraph>
+                        if(block?.type === "quote") return <Quote key={index}>{
+                            block?.children?.map(({text}:any, index:any) => {
+                                return <Fragment key={index}>{text}</Fragment>
+                            })    
+                            // JSON.stringify(block?.children)
+                        }</Quote>
+                        if(block?.type === "horizontalrule") return <hr key={index} className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
+                        if(block?.type === "layout-container") return <div key={index} className="flex">
+                            {
+                                block?.children?.map((text:any, index:any) => {
+                                    return <Fragment key={index}>{text.children?.map((t:any, index:any) => {
+                                        return <Paragraph key={index} className="border flex-1 p-4">{t?.children?.map(({text}:any, index:any) => {
+                                            return <Fragment key={index}>{text}</Fragment>
+                                        })}</Paragraph>
+                                    })}</Fragment>
+                                })    
+                            }
+                        </div>
+                        // if(block?.type === "collapsible-container") return <Paragraph key={index}>{
+                        //     block?.children?.map(({text}:any) => {
+                        //         return <>{text}asd</>
+                        //     })    
+                        //     // JSON.stringify(block?.children)
+                        // }</Paragraph>
+                        if(block?.type === "tweet") return <Tweet id={block?.id} key={index} />
+                          
+                        if(block?.type === "youtube") return <Youtube id={block?.videoID} key={index} />
+                    })}
                 </div>
             </div>
             <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0">
@@ -81,11 +114,73 @@ export default function SinglePage(props: Props) {
                 </div>
             </div>
             <div className="lg:col-span-9 col-span-12">
-                <RelatedPosts className="mb-12" />
+                {relatedPosts?.length > 0 && <RelatedPosts className="mb-12" data={relatedPosts} />}
             </div>
             <div className="lg:col-span-9 col-span-12">
                 <Comment />
             </div>
         </div>
     )
+}
+
+async function postData(id:number) {
+    const data = await prisma.post.findUnique({
+        where: {
+            id: id
+        },
+        select: {
+            longTitle: true,
+            featureImageUrl: true,
+            postsTags: {
+                select: {
+                    tag: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            },
+            createdBy: {
+                select: {
+                    userName: true,
+                    profilePictureUrl: true
+                }
+            },
+            createdAt: true,
+            lead: true
+        }
+    })
+
+    const relatedPosts = await prisma.post.findMany({
+        take: 4,
+        orderBy: {
+            createdAt: "desc"
+        },
+        select: {
+            id: true,
+            title: true,
+            featureImageUrl: true
+        },
+        where: {
+            postsTags: {
+                some: {
+                    tag: {
+                        name: {
+                            // @ts-ignore
+                            in: data?.postsTags?.map((tag)=>tag.tag?.name)
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    return {
+        data,
+        relatedPosts: relatedPosts?.map((post) => ({
+            href: `/${post.id}`,
+            title: `${post.title}`,
+            featureImage: `${post.featureImageUrl}`
+        }))
+    }
 }

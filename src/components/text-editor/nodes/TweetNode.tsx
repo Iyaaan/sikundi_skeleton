@@ -70,7 +70,6 @@ function TweetComponent({
 
   const createTweet = useCallback(async () => {
     try {
-      // @ts-expect-error Twitter is attached to the window.
       await window.twttr.widgets.createTweet(tweetID, containerRef.current);
 
       setIsTweetLoading(false);
