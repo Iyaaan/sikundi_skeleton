@@ -16,6 +16,8 @@ interface Props {
     } 
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function SinglePage(props: Props) {
     const { relatedPosts, data } = await postData(parseInt(`${props.params.post_id}`))
 

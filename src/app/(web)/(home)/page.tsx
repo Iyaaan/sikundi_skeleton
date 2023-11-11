@@ -7,6 +7,8 @@ import VarientFour from "@sikundi/components/web/blocks/VarientFour";
 import VarientFive from "@sikundi/components/web/blocks/VarientFive";
 import { prisma } from "@sikundi/lib/server/utils/prisma";
 
+export const dynamic = "force-dynamic"
+
 export default async function Home() {
     const {
         bodu,
