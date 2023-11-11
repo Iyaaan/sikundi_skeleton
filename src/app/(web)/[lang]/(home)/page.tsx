@@ -9,7 +9,14 @@ import { prisma } from "@sikundi/lib/server/utils/prisma";
 
 export const dynamic = "force-dynamic"
 
-export default async function Home() {
+interface Props { 
+    params: { 
+        lang: string 
+    } 
+}
+
+
+export default async function Home(props: Props) {
     const {
         bodu,
         kuda,
@@ -19,7 +26,8 @@ export default async function Home() {
         latestGraphics,
         latestSports,
         latestWorld
-    } = await HomePage()
+        // @ts-ignore
+    } = await HomePage(props?.params?.lang)
     
     return (
         <Fragment>
@@ -74,7 +82,7 @@ export default async function Home() {
     )
 }
 
-async function HomePage () {
+async function HomePage (lang?: string) {
     const bodu = await prisma.post.findFirst({
         select: {
             id: true,
@@ -91,7 +99,9 @@ async function HomePage () {
                     }
                 }
             },
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -111,7 +121,9 @@ async function HomePage () {
                     }
                 }
             },
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -125,7 +137,9 @@ async function HomePage () {
             title: true,
         },
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -141,7 +155,9 @@ async function HomePage () {
             description: true
         },
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -159,7 +175,9 @@ async function HomePage () {
             status: "published",
             category: {
                 slug: "report"
-            }
+            },
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -174,7 +192,9 @@ async function HomePage () {
             title: true,
         },
         where: {
-            status: "published"
+            status: "published",
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -192,7 +212,9 @@ async function HomePage () {
             status: "published",
             category: {
                 slug: "sport"
-            }
+            },
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -210,7 +232,9 @@ async function HomePage () {
             status: "published",
             category: {
                 slug: "world"
-            }
+            },
+            // @ts-ignore
+            language: lang?.toUpperCase()
         },
         orderBy: {
             createdAt: "desc"
@@ -220,56 +244,56 @@ async function HomePage () {
 
     return {
         bodu: {
-            href: `/${bodu?.id}`,
+            href: `/${lang}/${bodu?.id}`,
             title: bodu?.title,
             featureImage: bodu?.featureImageUrl,
             description: bodu?.description,
             createdAt: bodu?.createdAt,
         },
         kuda: kuda?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestPosts: latestPosts?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestPhotos: latestPhotos?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestReports: latestReports?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestGraphics: latestGraphics?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.graphicsUrl,
             description: "",
             createdAt: "",
         })),
         latestSports: latestSports?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestWorld: latestWorld?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",

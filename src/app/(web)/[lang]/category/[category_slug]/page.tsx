@@ -4,6 +4,7 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
 interface Props { 
     params: { 
         category_slug: number 
+        lang: string 
     } 
 }
 
@@ -11,14 +12,14 @@ export const dynamic = "force-dynamic"
 
 export default async function CategoryPage(props: Props) {
     // @ts-ignore
-    const { name, posts } = await postsByCategory(String(props.params.category_slug))
+    const { name, posts } = await postsByCategory(String(props.params.category_slug), String(props.params.lang))
     return (
         // @ts-ignore
         <VarientFour title={name} className="mb-12" data={posts} />
     )
 }
 
-async function postsByCategory(slug:string) {
+async function postsByCategory(slug:string, lang:string) {
     const category = await prisma.category.findUnique({
         select: {
             name: true,
@@ -35,7 +36,9 @@ async function postsByCategory(slug:string) {
                     }
                 },
                 where: {
-                    status: "published"
+                    status: "published",
+                    // @ts-ignore
+                    language: lang.toUpperCase()
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -50,8 +53,9 @@ async function postsByCategory(slug:string) {
 
     return {
         name: category?.name,
+        // @ts-ignore
         posts: category?.posts.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             description: post.description,
             createdAt: post.createdAt,

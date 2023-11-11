@@ -1,10 +1,10 @@
-import '../globals.css'
+import '../../globals.css'
 import type { Metadata } from 'next'
 import ThemeProvider from "@sikundi/components/web/Theme"
 import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
-import Header from '@sikundi/app/(web)/Header'
-import Footer from '@sikundi/app/(web)/Footer'
-import MenuModal from '@sikundi/app/(web)/MenuModal'
+import Header from '@sikundi/app/(web)/[lang]/Header'
+import Footer from '@sikundi/app/(web)/[lang]/Footer'
+import MenuModal from '@sikundi/app/(web)/[lang]/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
@@ -13,92 +13,92 @@ import { prisma } from '@sikundi/lib/server/utils/prisma'
 const font = localFont({
     src: [
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Thin.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Thin.woff2',
             weight: '100',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/mvtyper.woff2',
+            path: '../../../../public/fonts/dhivehi/mvtyper.woff2',
             weight: '100',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-ExtraLight.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-ExtraLight.woff2',
             weight: '200',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/mvtyper.woff2',
+            path: '../../../../public/fonts/dhivehi/mvtyper.woff2',
             weight: '200',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Light.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Light.woff2',
             weight: '300',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/mvtyper.woff2',
+            path: '../../../../public/fonts/dhivehi/mvtyper.woff2',
             weight: '300',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Regular.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Regular.woff2',
             weight: '400',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
+            path: '../../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
             weight: '400',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Medium.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Medium.woff2',
             weight: '500',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
+            path: '../../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
             weight: '500',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-SemiBold.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-SemiBold.woff2',
             weight: '600',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
+            path: '../../../../public/fonts/dhivehi/Randhoo_reg_hinted.woff2',
             weight: '600',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Bold.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Bold.woff2',
             weight: '700',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/MVAWaheed.woff2',
+            path: '../../../../public/fonts/dhivehi/MVAWaheed.woff2',
             weight: '700',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-ExtraBold.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-ExtraBold.woff2',
             weight: '800',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/MVAWaheed.woff2',
+            path: '../../../../public/fonts/dhivehi/MVAWaheed.woff2',
             weight: '800',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/metropolis/Metropolis-Black.woff2',
+            path: '../../../../public/fonts/metropolis/Metropolis-Black.woff2',
             weight: '900',
             style: 'normal',
         },
         {
-            path: '../../../public/fonts/dhivehi/MVAWaheed.woff2',
+            path: '../../../../public/fonts/dhivehi/MVAWaheed.woff2',
             weight: '900',
             style: 'normal',
         }
@@ -115,10 +115,14 @@ export const metadata: Metadata = {
 
 interface Props {
     children: React.ReactNode
+    params: { 
+        lang: string 
+    } 
 }
 
 export default async function RootLayout(props: Props) {
-    const { items, latestPosts } = await menu()
+    // @ts-ignore
+    const { items, latestPosts } = await menu(String(props.params.lang))
 
     return (
         <html lang="dv-Mv" translate="no">
@@ -162,7 +166,7 @@ export default async function RootLayout(props: Props) {
     )
 }
 
-async function menu () {
+async function menu (lang: string) {
     const categories = await prisma.category.findMany({
         select: {
             id: true,
@@ -175,7 +179,9 @@ async function menu () {
                 some: {
                     status: "published"
                 }
-            }
+            },
+            // @ts-ignore
+            language: lang.toUpperCase()
         },
         orderBy: {
             id: "asc"
@@ -217,7 +223,7 @@ async function menu () {
         items: [
             ...categories.map((category) => ({
                 name: category.name,
-                url: `/category/${category.slug}`,
+                url: `/${lang}/category/${category.slug}`,
                 icon: category.icon
             })),
             havePhotos > 0 && {

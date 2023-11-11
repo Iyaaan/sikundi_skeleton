@@ -1,7 +1,7 @@
 import PortraitAd from "@sikundi/components/web/ad/PortraitAd"
-import Feature from "@sikundi/app/(web)/[post_id]/(blocks)/Feature"
-import RelatedPosts from "@sikundi/app/(web)/[post_id]/(blocks)/RelatedPosts"
-import Comment from "@sikundi/app/(web)/[post_id]/(blocks)/Comment"
+import Feature from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/Feature"
+import RelatedPosts from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/RelatedPosts"
+import Comment from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/Comment"
 import Paragraph from "./(blocks)/Paragraph"
 import Heading from "./(blocks)/Heading"
 import Quote from "./(blocks)/Quote"
@@ -13,13 +13,15 @@ import { Fragment } from "react"
 interface Props { 
     params: { 
         post_id: number 
+        lang: string 
     } 
 }
 
 export const dynamic = "force-dynamic"
 
 export default async function SinglePage(props: Props) {
-    const { relatedPosts, data } = await postData(parseInt(`${props.params.post_id}`))
+    // @ts-ignore
+    const { relatedPosts, data } = await postData(parseInt(`${props.params.post_id}`), props?.params?.lang)
 
     return (
         <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
@@ -31,7 +33,9 @@ export default async function SinglePage(props: Props) {
                     tags: data?.postsTags?.map((tag) => tag.tag?.name),
                     published: {
                         by: {
+                            // @ts-ignore
                             name: `${data?.createdBy?.userName}`,
+                            // @ts-ignore
                             photo: `${data?.createdBy?.profilePictureUrl}`
                         },
                         date: new Date(`${data?.createdAt}`),
@@ -125,10 +129,12 @@ export default async function SinglePage(props: Props) {
     )
 }
 
-async function postData(id:number) {
+async function postData(id:number, language:string) {
     const data = await prisma.post.findUnique({
         where: {
-            id: id
+            id: id,
+            // @ts-ignore
+            language: language.toUpperCase()
         },
         select: {
             longTitle: true,
@@ -164,6 +170,8 @@ async function postData(id:number) {
             featureImageUrl: true
         },
         where: {
+            // @ts-ignore
+            language: language.toUpperCase(),
             postsTags: {
                 some: {
                     tag: {
@@ -173,14 +181,14 @@ async function postData(id:number) {
                         }
                     }
                 }
-            }
+            },
         }
     })
 
     return {
         data,
         relatedPosts: relatedPosts?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${language}/${post.id}`,
             title: `${post.title}`,
             featureImage: `${post.featureImageUrl}`
         }))
