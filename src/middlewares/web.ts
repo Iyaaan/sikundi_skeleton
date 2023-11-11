@@ -17,6 +17,11 @@ export function webMiddleware(middleware: NextMiddleware) {
             ) {
                 return NextResponse.redirect(new URL('/dv', request.url))
             }
+
+            const regex = /^\/\d+$/;
+            if(regex.test(request.nextUrl.pathname)) {
+                return NextResponse.redirect(new URL(`/dv${request.nextUrl.pathname.match(regex)}`, request.url))
+            }
         }
         return middleware(request, event)
     }
