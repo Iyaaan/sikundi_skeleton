@@ -31,7 +31,7 @@ export default async function Home(props: Props) {
     
     return (
         <Fragment>
-            {(bodu || kuda) && 
+            {(bodu && kuda.length > 0) && 
             // @ts-ignore
             <VarientOne data={[ bodu, ...kuda ]} className="mb-12" />}
             <LandScapeAd href={"https://bankofmaldives.com.mv"} 

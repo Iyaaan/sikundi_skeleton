@@ -243,7 +243,7 @@ async function menu (lang: string) {
             },
         ].filter(Boolean),
         latestPosts: posts?.map((post) => ({
-            href: `/${post.id}`,
+            href: `/${lang}/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl
         }))
