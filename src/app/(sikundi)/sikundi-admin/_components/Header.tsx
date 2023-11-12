@@ -161,7 +161,7 @@ const Header:FC<Props> = ({ data }) => {
                             ))}
                             <Button onClick={() => {
                                 setFilters({})
-                                router.push(data.url)
+                                router.push(data?.filterUrl || data?.url)
                                 
                             }}>
                                 Clear
