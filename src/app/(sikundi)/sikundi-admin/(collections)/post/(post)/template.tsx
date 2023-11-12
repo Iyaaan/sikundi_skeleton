@@ -17,16 +17,16 @@ const Template = ({ children }: {children: ReactNode}) => {
                 slug: "post",
                 filters: [
                     // {type: "date", name: "createdAt", label: "created at"},
+                    {type: "select", name: "language", options: [
+                        {label: "EN", value: "EN",},
+                        {label: "DV", value: "DV"},
+                    ]},
                     {type: "select", name: "status", options: [
                         {label: "drafted", value: "drafted",},
                         {label: "published", value: "published"},
                     ], hidden: ((path === "/sikundi-admin/post/trash") ||
                     (path === "/sikundi-admin/post/copydesk"))},
                     {type: "select", name: "createdBy", label: "created by", url: "/sikundi-admin/user/api/select"},
-                    {type: "select", name: "language", options: [
-                        {label: "EN", value: "EN",},
-                        {label: "DV", value: "DV"},
-                    ]},
                 ],
                 ui: {
                     search: 
