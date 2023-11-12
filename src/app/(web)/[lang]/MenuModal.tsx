@@ -31,8 +31,8 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                 !modal && 'invisible opacity-0'
             ])} onClick={()=>off()}></span>
             <aside className={twMerge([
-                'fixed inset-0 z-50  pointer-events-none overflow-y-auto transition-all top-0 visible duration-300',
-                !modal && '-top-full invisible'
+                'fixed inset-0 z-50  pointer-events-none overflow-y-auto transition-all top-0 visible duration-300 opacity-100',
+                !modal && '-top-full invisible opacity-0'
             ])} dir='ltr'>
                 <div className='container mx-auto p-4 my-20 grid grid-cols-12 gap-4 lg:gap-5' dir='rtl'>
                     <label 
