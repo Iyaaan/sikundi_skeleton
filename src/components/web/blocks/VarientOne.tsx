@@ -26,7 +26,7 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
             {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark mb-10 stroke-text-accent'>
                 {title}
             </h1>}
-            <div className='grid grid-cols-12 gap-8 mb-4'>
+            {data?.[0] && <div className='grid grid-cols-12 gap-8 mb-4'>
                 <PostCard href={String(data[0].href)}
                     className="lg:col-span-9 col-span-12"
                     data={{
@@ -45,7 +45,7 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
                         alt: "Sonnee Hardware"
                     }}
                 />
-            </div>
+            </div>}
             <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative'>
                 {data?.map((post, index) => index > 0 && (
                     <PostSmallCard href={`${post.href}`} key={index}
