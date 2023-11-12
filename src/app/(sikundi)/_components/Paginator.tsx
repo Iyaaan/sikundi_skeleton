@@ -2,10 +2,11 @@ import { Button } from '@sikundi/components/ui/button'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
 
-export default function Paginator({ current, total, searchParams, url }:{current: number, searchParams: {[name:string]: string}, total: number, url: string}) {
+export default function Paginator({ current, total, searchParams, url, className }:{current: number, searchParams: {[name:string]: string}, total: number, url: string, className?: string}) {
     return (
-        <div className="flex items-center space-x-2 lg:justify-end">
+        <div className={twMerge("flex items-center space-x-2 lg:justify-end", className)}>
             <Button
                 variant="outline"
                 className="h-8 w-8 p-0 flex"

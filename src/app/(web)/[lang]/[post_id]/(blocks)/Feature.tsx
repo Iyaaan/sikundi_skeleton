@@ -9,7 +9,7 @@ import Link from 'next/link'
 type Props = AnchorHTMLAttributes<HTMLDivElement> & {
     data: {
         title: string
-        featureImage: string
+        featureImage?: string | null
         tags: string[]
         published: {
             by: {
@@ -35,12 +35,13 @@ const Feature:FC<Props> = ({data, ...props}) => {
         ])}>
             <div className='relative flex items-start flex-col lg:mb-12'>
                 <div className='dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-[704/433]'>
+                    {data?.featureImage && 
                     <Image
                         src={data.featureImage}
                         alt={data.title}
                         fill
                         className='object-cover'
-                    />
+                    />}
                 </div>
                 <div className='lg:absolute relative lg:-bottom-12 rounded-[20px] mx-4 -mt-[25%] lg:mt-0 flex flex-col'>
                     <span className='absolute w-full h-full overflow-hidden'>

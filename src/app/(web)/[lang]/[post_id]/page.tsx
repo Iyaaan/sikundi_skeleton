@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
         where: {
             id: parseInt(params.post_id),
             // @ts-ignore
-            language: params.lang.toUpperCase()
+            language: params.lang.toUpperCase(),
+            status: "published"
         },
         select: {
             latinTitle: true,
@@ -87,7 +88,7 @@ export default async function SinglePage(props: Props) {
             <div className="lg:col-span-9 col-span-12">
                 <Feature className="pb-12" data={{
                     title: `${data?.longTitle}`,
-                    featureImage: `${data?.featureImageUrl}`,
+                    featureImage: data?.featureImageUrl,
                     // @ts-ignore
                     tags: data?.postsTags?.map((tag) => tag.tag?.name),
                     published: {
@@ -193,7 +194,8 @@ async function postData(id:number, language:string) {
         where: {
             id: id,
             // @ts-ignore
-            language: language.toUpperCase()
+            language: language.toUpperCase(),
+            status: "published"
         },
         select: {
             longTitle: true,
@@ -231,6 +233,7 @@ async function postData(id:number, language:string) {
         where: {
             // @ts-ignore
             language: language.toUpperCase(),
+            status: "published",
             postsTags: {
                 some: {
                     tag: {

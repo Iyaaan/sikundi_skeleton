@@ -30,6 +30,13 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
+            {parseInt(data.total) > 1 && <Paginator
+                className='lg:hidden mb-4'
+                current={parseInt(data.current)}
+                total={parseInt(data.total)}
+                searchParams={searchParams}
+                url='/sikundi-admin/post'
+            />}
             <DataTable data={data.posts} />
             {parseInt(data.total) > 1 && <Paginator
                 current={parseInt(data.current)}
@@ -81,6 +88,14 @@ const posts = async (query: Props) => {
                         status: "published"
                     }
                 ]
+            },
+            {
+                // @ts-ignore
+                OR: query.searchParams?.language ? [
+                    {
+                        language: query.searchParams?.language
+                    }
+                ] : undefined
             }
         ]
     }

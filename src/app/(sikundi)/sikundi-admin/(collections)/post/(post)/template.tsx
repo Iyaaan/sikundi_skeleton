@@ -22,6 +22,10 @@ const Template = ({ children }: {children: ReactNode}) => {
                     ], hidden: ((path === "/sikundi-admin/post/trash") ||
                     (path === "/sikundi-admin/post/copydesk"))},
                     {type: "select", name: "createdBy", label: "created by", url: "/sikundi-admin/user/api/select"},
+                    {type: "select", name: "language", options: [
+                        {label: "EN", value: "EN",},
+                        {label: "DV", value: "DV"},
+                    ]},
                 ],
                 ui: {
                     search: 

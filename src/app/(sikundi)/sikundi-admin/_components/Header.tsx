@@ -123,6 +123,7 @@ const Header:FC<Props> = ({ data }) => {
                                 </p>
                             </div>
                             <div className="grid gap-4">
+                                <input type="text" className='h-0 w-0' />
                                 {data.filters.map((filter, index) => !filter.hidden && (
                                     <div className="flex flex-col gap-2" key={index}>
                                         <Label htmlFor={filter.name} className='capitalize'>{filter.label || filter.name}</Label>
