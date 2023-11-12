@@ -163,6 +163,7 @@ export default async function RootLayout(props: Props) {
 }
 
 async function menu (lang: string) {
+    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
     const categories = await prisma.category.findMany({
         select: {
             id: true,
@@ -176,8 +177,7 @@ async function menu (lang: string) {
                     status: "published"
                 }
             },
-            // @ts-ignore
-            language: lang.toUpperCase()
+            language: language
         },
         orderBy: {
             id: "asc"
@@ -187,22 +187,19 @@ async function menu (lang: string) {
     const havePhotos = await prisma.photo.count({
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang.toUpperCase()
+            language: language
         }
     })
     const haveVideos = await prisma.video.count({
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang.toUpperCase()
+            language: language
         }
     })
     const haveGraphics = await prisma.graphic.count({
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang.toUpperCase()
+            language: language
         }
     })
 
@@ -217,8 +214,7 @@ async function menu (lang: string) {
         },
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang.toUpperCase()
+            language: language
         },
         take: 8
     })

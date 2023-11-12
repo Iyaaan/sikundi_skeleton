@@ -82,7 +82,8 @@ export default async function Home(props: Props) {
     )
 }
 
-async function HomePage (lang?: string) {
+async function HomePage (lang: string) {
+    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
     const bodu = await prisma.post.findFirst({
         select: {
             id: true,
@@ -110,7 +111,7 @@ async function HomePage (lang?: string) {
             },
             status: "published",
             // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -140,8 +141,7 @@ async function HomePage (lang?: string) {
                 }
             },
             status: "published",
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -156,8 +156,7 @@ async function HomePage (lang?: string) {
         },
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -174,8 +173,7 @@ async function HomePage (lang?: string) {
         },
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -194,8 +192,7 @@ async function HomePage (lang?: string) {
             category: {
                 slug: "report"
             },
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -211,8 +208,7 @@ async function HomePage (lang?: string) {
         },
         where: {
             status: "published",
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -231,8 +227,7 @@ async function HomePage (lang?: string) {
             category: {
                 slug: "sport"
             },
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"
@@ -251,8 +246,7 @@ async function HomePage (lang?: string) {
             category: {
                 slug: "world"
             },
-            // @ts-ignore
-            language: lang?.toUpperCase()
+            language: language
         },
         orderBy: {
             createdAt: "desc"

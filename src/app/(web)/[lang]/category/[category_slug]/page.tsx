@@ -20,6 +20,7 @@ export default async function CategoryPage(props: Props) {
 }
 
 async function postsByCategory(slug:string, lang:string) {
+    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
     const category = await prisma.category.findUnique({
         select: {
             name: true,
@@ -38,7 +39,7 @@ async function postsByCategory(slug:string, lang:string) {
                 where: {
                     status: "published",
                     // @ts-ignore
-                    language: lang.toUpperCase()
+                    language: language
                 },
                 orderBy: {
                     createdAt: "desc"

@@ -189,12 +189,12 @@ export default async function SinglePage(props: Props) {
     )
 }
 
-async function postData(id:number, language:string) {
+async function postData(id:number, lang:string) {
+    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
     const data = await prisma.post.findUnique({
         where: {
             id: id,
-            // @ts-ignore
-            language: language.toUpperCase(),
+            language: language,
             status: "published"
         },
         select: {
@@ -231,8 +231,7 @@ async function postData(id:number, language:string) {
             featureImageUrl: true
         },
         where: {
-            // @ts-ignore
-            language: language.toUpperCase(),
+            language: language,
             status: "published",
             postsTags: {
                 some: {
