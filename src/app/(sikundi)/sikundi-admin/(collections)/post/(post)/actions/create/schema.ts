@@ -16,6 +16,7 @@ const PostSchema = z.object({
         label: z.string()
     }).optional(),
     featureImageUrl: z.string().optional(),
+    featureImageCaption: z.string().optional(),
     language: z.object({
         value: z.string(),
         label: z.string()

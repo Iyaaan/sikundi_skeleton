@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: PostSchemaType) {
-    return (await ErrorHandler(data, PostSchema, async ({createdBy, category, featureImageUrl, language, tags, push, action, id, ...data}:PostSchemaType) => {
+    return (await ErrorHandler<any, any>(data, PostSchema, async ({createdBy, category, featureImageUrl, language, tags, push, action, id, ...data}:PostSchemaType) => {
         const user = await getUser()
 
         try {
@@ -38,7 +38,8 @@ export default async function POST(data: PostSchemaType) {
             revalidatePath('/sikundi-admin/post')
             return ({ 
                 data: {
-                    post: post
+                    post: post,
+                    action: "delete"
                 },
                 notification: {
                     title: `Post Successfully Deleted`,
@@ -114,6 +115,9 @@ export default async function POST(data: PostSchemaType) {
 
         revalidatePath('/sikundi-admin/post')
         return {
+            data: {
+                action: action
+            },
             notification: {
                 title: `Post Successfully ${action}`,
                 description: `a post have ${action}, under the name ${post.title}`

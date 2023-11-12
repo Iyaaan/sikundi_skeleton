@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@sikundi/components/ui/button"
-import { Card, CardContent } from "@sikundi/components/ui/card"
+import { Card, CardContent, CardFooter } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
@@ -60,6 +60,7 @@ export default function PostForm({ user, data, type }: Props) {
             longTitle: "",
             description: "",
             featureImageUrl: "",
+            featureImageCaption: "",
             tags: [],
             push: {
                 all: false,
@@ -105,7 +106,13 @@ export default function PostForm({ user, data, type }: Props) {
 
     const { isLoading, execute } = useAction(type === "create" ? PostCreateAction : PostUpdateAction, {
         onSuccess: ({ data }) => {
-            router.push('/sikundi-admin/post')
+            if (data.action === "pending") {
+                router.push('/sikundi-admin/post/copydesk')
+            } else if (data.action === "soft_delete") {
+                router.push('/sikundi-admin/post/trash')
+            } else {
+                router.push('/sikundi-admin/post')
+            }
         },
         onError: ({ error }) => console.error(error),
         onValidationError: (data) => form.setError(
@@ -214,6 +221,21 @@ export default function PostForm({ user, data, type }: Props) {
                             </Fragment>
                         }
                     </CardContent>
+                    <CardFooter>
+                        <FormField
+                            control={form.control}
+                            name='featureImageCaption'
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <FormLabel>Feature Image Caption</FormLabel>
+                                    <FormControl>
+                                        <Input dir="rtl" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </CardFooter>
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-3">
                     <CardContent className="grid gap-4">

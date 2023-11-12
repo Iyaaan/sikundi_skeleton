@@ -43,6 +43,7 @@ const post = async (query: Props) => {
             status: true,
             lead: true,
             featureImage: true,
+            featureImageCaption: true,
             createdAt: true,
             createdBy: {
                 select: {

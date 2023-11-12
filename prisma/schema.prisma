@@ -161,10 +161,11 @@ model Post {
   createdById Int?
   createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
-  categoryId      Int?
-  category        Category? @relation("postsCategory", fields: [categoryId], references: [id], onDelete: Cascade)
-  featureImageUrl String?
-  featureImage    Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url], onDelete: SetNull)
+  categoryId          Int?
+  category            Category? @relation("postsCategory", fields: [categoryId], references: [id], onDelete: Cascade)
+  featureImageUrl     String?
+  featureImage        Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url], onDelete: SetNull)
+  featureImageCaption String?
 
   title       String
   longTitle   String?
