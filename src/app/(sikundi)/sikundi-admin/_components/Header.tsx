@@ -20,6 +20,7 @@ import axios from 'axios'
 interface Props {
     data: {
         url: string;
+        filterUrl?: string;
         name: string;
         slug: string;
         custom?: {
@@ -55,7 +56,7 @@ const Header:FC<Props> = ({ data }) => {
 
     useEffect(() => {
         if (Object.entries(debouncedValue).length > 0) {
-            const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data.url}`)
+            const url = new URL(`${process.env.NEXT_PUBLIC_SITE_NAME}${data?.filterUrl || data.url}`)
             Object.keys(debouncedValue).forEach((key) => {
                 const value = JSON.stringify(debouncedValue[key])?.replaceAll('"', '')
                 if (value.length > 0) {

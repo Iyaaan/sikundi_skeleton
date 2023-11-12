@@ -12,6 +12,7 @@ const Template = ({ children }: {children: ReactNode}) => {
         <Fragment>
             <Header data={{
                 url: "/sikundi-admin/post",
+                filterUrl: path,
                 name: "posts",
                 slug: "post",
                 filters: [
