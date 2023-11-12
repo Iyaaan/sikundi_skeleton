@@ -81,6 +81,14 @@ const videos = async (query: Props) => {
                         status: "published"
                     }
                 ]
+            },
+            {
+                // @ts-ignore
+                OR: query.searchParams?.language ? [
+                    {
+                        language: query.searchParams?.language
+                    }
+                ] : undefined
             }
         ]
     }

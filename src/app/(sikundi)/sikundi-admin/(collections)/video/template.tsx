@@ -17,6 +17,10 @@ const Template = ({ children }: {children: ReactNode}) => {
                 slug: "video",
                 filters: [
                     // {type: "date", name: "createdAt", label: "created at"},
+                    {type: "select", name: "language", options: [
+                        {label: "EN", value: "EN",},
+                        {label: "DV", value: "DV"},
+                    ]},
                     {type: "select", name: "status", options: [
                         {label: "drafted", value: "drafted",},
                         {label: "published", value: "published"},

@@ -69,6 +69,14 @@ const graphics = async (query: Props) => {
             },
             {
                 status: "soft_deleted"
+            },
+            {
+                // @ts-ignore
+                OR: query.searchParams?.language ? [
+                    {
+                        language: query.searchParams?.language
+                    }
+                ] : undefined
             }
         ]
     }
