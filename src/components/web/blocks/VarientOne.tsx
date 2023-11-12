@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
-    data?: {
+    data: {
         href: string
         title: string
         featureImage: string
@@ -17,7 +17,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     loadMore?: boolean
 }
 
-const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
+const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
     return (
         <div {...props} className={twMerge([
             'container lg:px-4 px-0 ',
@@ -26,7 +26,7 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
             {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark mb-10 stroke-text-accent'>
                 {title}
             </h1>}
-            {data?.[0] && <div className='grid grid-cols-12 gap-8 mb-4'>
+            {data[0] && <div className='grid grid-cols-12 gap-8 mb-4'>
                 <PostCard href={String(data[0].href)}
                     className="lg:col-span-9 col-span-12"
                     data={{
@@ -61,38 +61,6 @@ const VarientOne:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
             </div>
         </div>
     )
-}
-
-const defaultProps = {
-    data: [
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            description: `މާލީ ބަޔާނުގައި ބަޔާންކޮށްފައިވާ އަދަދުތަކާއި އިދާރާގެ ހިސާބުތަކާ ދިމާނުވާ މައްސަލަ ފާހަގަކޮށް އެ ރިޕޯޓްގައި ބުނެފައި ވަނީ، 2020 ވަނަ އަހަރުގެ މާލީ ބަޔާނުގެ "ފައިސާ ލިބުނުގޮތާއި ހޭދަ ކުރެވުނު ގޮތުގެ....`, 
-            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376656_3_626682d7f3d01d30c21445be86f3753251578a6b_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376658_3_7a92e5368c3e329d6678aaf27c35e19a74102e10_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376659_3_8c34e403f5fd57d6dbb486d08410cc464c5a9ddf_large.jpeg`
-        },
-    ],
-    loadMore: false
 }
 
 export default VarientOne

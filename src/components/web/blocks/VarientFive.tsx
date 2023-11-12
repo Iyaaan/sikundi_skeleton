@@ -14,7 +14,7 @@ import 'swiper/css/pagination'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>  {
     title?: string
-    data?: {
+    data: {
         href: string
         title: string
         featureImage: string
@@ -22,7 +22,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     loadMore?: boolean
 }
 
-const VarientFive:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, ...props}) => {
+const VarientFive:FC<Props> = ({title, data, loadMore, ...props}) => {
     const router = useRouter()
     const swiperRef = useRef<any>(null)
 
@@ -68,37 +68,6 @@ const VarientFive:FC<Props> = ({title, data = defaultProps.data, loadMore = defa
             </div>
         </div>
     )
-}
-
-const defaultProps = {
-    data: [
-        {
-            href: `/836342387`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
-        },
-        {
-            href: `/83644353453587`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
-        },
-        {
-            href: `/83646587`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376656_3_626682d7f3d01d30c21445be86f3753251578a6b_large.jpg`
-        },
-        {
-            href: `/836445645687`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376658_3_7a92e5368c3e329d6678aaf27c35e19a74102e10_large.jpeg`
-        },
-        {
-            href: `/83665767487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376659_3_8c34e403f5fd57d6dbb486d08410cc464c5a9ddf_large.jpeg`
-        }
-    ],
-    loadMore: false
 }
 
 export default VarientFive

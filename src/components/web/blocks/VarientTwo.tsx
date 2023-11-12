@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>  {
     title?: string
-    data?: {
+    data: {
         href: string
         title: string
         featureImage: string
@@ -14,7 +14,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     containerClassName?: string
 }
 
-const VarientTwo:FC<Props> = ({title, data = defaultProps.data, loadMore = defaultProps.loadMore, containerClassName, ...props}) => {
+const VarientTwo:FC<Props> = ({title, data, loadMore, containerClassName, ...props}) => {
     return (
         <div {...props} className={twMerge([
             'container bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] relative px-0',
@@ -35,62 +35,6 @@ const VarientTwo:FC<Props> = ({title, data = defaultProps.data, loadMore = defau
             </button>}
         </div>
     )
-}
-
-const defaultProps = {
-    data: [
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376656_3_626682d7f3d01d30c21445be86f3753251578a6b_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376658_3_7a92e5368c3e329d6678aaf27c35e19a74102e10_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/375572_3_74044c3b4ecfde58cc717cab4eea94b4780de82b_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376682_3_5cd8266a4d035f4d91a4197b27430203d69b0c74_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376675_3_09873146bafc07c1bc5d720d6e8ddfb497d05193_large.jpg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376659_3_8c34e403f5fd57d6dbb486d08410cc464c5a9ddf_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376654_3_69a507d458b512899a16bc66bc8e0f3ac3245262_large.jpeg`
-        },
-        {
-            href: `/836487`, 
-            title: `އިހަވަންދޫ ހަމަނުޖެހުން: އަނިޔާވި ކައުންސިލަރު އިތުރު ފަރުވާއަށް މާލެ ފުރުވާލަނީ`, 
-            featureImage: `/sample_media/376685_3_b1858bed8ba21190a27a81f46af1e996d12dbb32_large.jpeg`
-        },
-    ],
-    loadMore: false
 }
 
 export default VarientTwo
