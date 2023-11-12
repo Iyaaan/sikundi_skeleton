@@ -45,20 +45,32 @@ const categories = async (query: Props) => {
     const current = query?.searchParams?.page || 1
     const per_page = 12
     const filters = {
-        OR: query.searchParams?.query ? [
+        AND: [
             {
-                name: {
-                    contains: query.searchParams?.query,
-                    mode: "insensitive"
-                }
+                OR: query.searchParams?.query ? [
+                    {
+                        name: {
+                            contains: query.searchParams?.query,
+                            mode: "insensitive"
+                        }
+                    },
+                    {
+                        slug: {
+                            contains: query.searchParams?.query,
+                            mode: "insensitive"
+                        }
+                    }
+                ] : undefined
             },
             {
-                slug: {
-                    contains: query.searchParams?.query,
-                    mode: "insensitive"
-                }
+                // @ts-ignore
+                OR: query.searchParams?.language ? [
+                    {
+                        language: query.searchParams?.language
+                    }
+                ] : undefined
             }
-        ] : undefined
+        ]
     }
     const categories = await prisma.category.findMany({
         select: {

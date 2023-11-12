@@ -115,51 +115,49 @@ const Header:FC<Props> = ({ data }) => {
                         <Button variant="outline" className='lg:w-auto'><span className='hidden lg:block me-3'>Filter</span> <SlidersHorizontal className='w-3' /></Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-full" align="end">
-                        <div className="grid gap-4 md:w-[350px] w-[calc(100vw-4rem)]">
+                        <div className="grid md:w-[350px] w-[calc(100vw-4rem)]">
                             <div className="space-y-2">
                                 <h4 className="font-medium leading-none">Filters</h4>
                                 <p className="text-sm text-muted-foreground">
                                     Select Filters From Below
                                 </p>
                             </div>
-                            <div className="grid gap-4">
-                                <input type="text" className='h-0 w-0' />
-                                {data.filters.map((filter, index) => !filter.hidden && (
-                                    <div className="flex flex-col gap-2" key={index}>
-                                        <Label htmlFor={filter.name} className='capitalize'>{filter.label || filter.name}</Label>
-                                        {filter.type === "date" && <DateComponent
-                                            value={filters[filter.name]}
-                                            onChange={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
-                                        />}
-                                        {filter.type === "select" && (
-                                            filter.url ? <Select2Async
-                                                name={filter.name}
-                                                isClearable={false}
-                                                className='col-span-2 justify-start'
-                                                defaultOptions={filter.options || [{
-                                                    // @ts-ignore
-                                                    label: `search for ${filter.label}`, value: `search for ${filter.label}`, isDisabled: true
-                                                }]}
-                                                loadOptions={(inputValue: string) => new Promise(async (resolve) => {
-                                                    resolve((await axios.get(`${filter.url}?query=${inputValue}`))?.data?.data || [])
-                                                })}
-                                                value={filters[filter.name] ? {
-                                                    value: filters[filter.name],
-                                                    label: filters[filter.name]
-                                                } : undefined}
-                                                onChange={(value:any) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
-                                            /> : <Select2
-                                                name={filter.name}
-                                                isClearable={false}
-                                                className='col-span-2 justify-start'
-                                                options={filter.options}
-                                                value={filter.options?.filter(({value})=> value === filters[filter.name])}
-                                                onChange={(value) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
-                                            />
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                            <button type="button" className='w-0 h-0 bg-primary mb-4'></button>
+                            {data.filters.map((filter, index) => !filter.hidden && (
+                                <div className="flex flex-col gap-2 mb-4" key={index}>
+                                    <Label htmlFor={filter.name} className='capitalize'>{filter.label || filter.name}</Label>
+                                    {filter.type === "date" && <DateComponent
+                                        value={filters[filter.name]}
+                                        onChange={(date) => setFilters((v) => ({ ...v, [filter.name]: date }))}
+                                    />}
+                                    {filter.type === "select" && (
+                                        filter.url ? <Select2Async
+                                            name={filter.name}
+                                            isClearable={false}
+                                            className='col-span-2 justify-start'
+                                            defaultOptions={filter.options || [{
+                                                // @ts-ignore
+                                                label: `search for ${filter.label}`, value: `search for ${filter.label}`, isDisabled: true
+                                            }]}
+                                            loadOptions={(inputValue: string) => new Promise(async (resolve) => {
+                                                resolve((await axios.get(`${filter.url}?query=${inputValue}`))?.data?.data || [])
+                                            })}
+                                            value={filters[filter.name] ? {
+                                                value: filters[filter.name],
+                                                label: filters[filter.name]
+                                            } : undefined}
+                                            onChange={(value:any) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
+                                        /> : <Select2
+                                            name={filter.name}
+                                            isClearable={false}
+                                            className='col-span-2 justify-start'
+                                            options={filter.options}
+                                            value={filter.options?.filter(({value})=> value === filters[filter.name])}
+                                            onChange={(value) => setFilters((v) => ({ ...v, [filter.name]: value?.value }))} 
+                                        />
+                                    )}
+                                </div>
+                            ))}
                             <Button onClick={() => {
                                 setFilters({})
                                 router.push(data.url)

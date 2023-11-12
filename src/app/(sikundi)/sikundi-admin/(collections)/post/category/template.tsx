@@ -14,11 +14,10 @@ const Template = ({ children }: {children: ReactNode}) => {
                 name: "categories",
                 slug: "category",
                 filters: [
-                    // {type: "select", name: "status", options: [
-                    //     {label: "draft", value: "draft"},
-                    //     {label: "published", value: "published"}
-                    // ]},
-                    // {type: "date", name: "publishedAt", label: "published at"}
+                    {type: "select", name: "language", options: [
+                        {label: "EN", value: "EN",},
+                        {label: "DV", value: "DV"},
+                    ]}
                 ],
                 ui: {
                     search: (path === "/sikundi-admin/post/category"), 
