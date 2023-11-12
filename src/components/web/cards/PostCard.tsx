@@ -30,7 +30,7 @@ const PostCard:FC<Props> = ({data, ...props}) => {
                     className='object-cover group-hover:scale-110 transition-all'
                 />
             </div>
-            <div className='flex-[4] bg-web-foreground dark:bg-web-foreground-dark relative lg:-mr-5 -mt-10 lg:mt-0 rounded-[20px] mx-4 lg:mx-0 flex flex-col lg:flex-row'>
+            <div className='flex-[4] bg-web-foreground dark:bg-web-foreground-dark relative lg:-ms-5 -mt-10 lg:mt-0 rounded-[20px] mx-4 lg:mx-0 flex flex-col lg:flex-row'>
                 <div className='inline-block -mt-7 lg:-mr-7 bg-web-background-dark p-4 text-web-foreground rounded-full self-center lg:self-start lg:mt-10'>
                     <ReceiptEdit />
                 </div>
