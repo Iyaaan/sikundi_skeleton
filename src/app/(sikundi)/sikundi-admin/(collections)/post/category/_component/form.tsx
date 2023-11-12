@@ -53,6 +53,7 @@ export default function CategoryForm({ user, data, type }: Props) {
     })
     
     const name = form.watch("name") 
+    const lang = form.watch("language") 
     useEffect(() => {
         // @ts-ignore
         if(name !== data?.name) {
@@ -86,7 +87,7 @@ export default function CategoryForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -112,7 +113,7 @@ export default function CategoryForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Textarea dir="rtl" {...field} />
+                                        <Textarea dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

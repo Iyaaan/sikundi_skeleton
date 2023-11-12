@@ -11,6 +11,7 @@ const Template = ({ children }: {children: ReactNode}) => {
     return (
         <div className='container p-4'>
             <Header data={{
+                filterUrl: path,
                 url: "/sikundi-admin/graphic",
                 name: "graphics",
                 slug: "graphic",

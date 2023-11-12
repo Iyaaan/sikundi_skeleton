@@ -75,6 +75,7 @@ export default function PostForm({ user, data, type }: Props) {
     })
     
     const title = form.watch("title") 
+    const lang = form.watch("language")
     useEffect(() => {
         // @ts-ignore
         if(title !== data?.title) {
@@ -135,7 +136,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Title</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -148,7 +149,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Long title</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -174,7 +175,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Textarea dir="rtl" rows={17} {...field} />
+                                        <Textarea dir={lang.value === "DV" ? "rtl" : "ltr"} rows={17} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -229,7 +230,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem className="w-full">
                                     <FormLabel>Feature Image Caption</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
