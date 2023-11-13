@@ -249,7 +249,7 @@ async function postData(id:number, lang:string) {
     return {
         data,
         relatedPosts: relatedPosts?.map((post) => ({
-            href: `/${language}/${post.id}`,
+            href: `/${language.toLowerCase()}/${post.id}`,
             title: `${post.title}`,
             featureImage: `${post.featureImageUrl}`
         }))
