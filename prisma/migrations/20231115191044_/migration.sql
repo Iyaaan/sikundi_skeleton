@@ -15,7 +15,7 @@ CREATE TYPE "Status" AS ENUM ('drafted', 'published', 'soft_deleted', 'pending')
 
 -- CreateTable
 CREATE TABLE "Country" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Country_pkey" PRIMARY KEY ("id")
@@ -23,8 +23,8 @@ CREATE TABLE "Country" (
 
 -- CreateTable
 CREATE TABLE "State" (
-    "id" SERIAL NOT NULL,
-    "countryId" INTEGER,
+    "id" BIGSERIAL NOT NULL,
+    "countryId" BIGINT,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "State_pkey" PRIMARY KEY ("id")
@@ -32,8 +32,8 @@ CREATE TABLE "State" (
 
 -- CreateTable
 CREATE TABLE "City" (
-    "id" SERIAL NOT NULL,
-    "stateId" INTEGER,
+    "id" BIGSERIAL NOT NULL,
+    "stateId" BIGINT,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "City_pkey" PRIMARY KEY ("id")
@@ -41,27 +41,27 @@ CREATE TABLE "City" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
+    "createdById" BIGINT,
     "userName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "status" "UserStatus" NOT NULL,
-    "profilePictureId" INTEGER,
-    "roleId" INTEGER,
+    "status" "UserStatus" NOT NULL DEFAULT 'active',
+    "profilePictureUrl" TEXT,
+    "roleId" BIGINT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Role" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
+    "createdById" BIGINT,
     "name" TEXT NOT NULL,
     "permissions" JSONB NOT NULL,
 
@@ -70,10 +70,10 @@ CREATE TABLE "Role" (
 
 -- CreateTable
 CREATE TABLE "Log" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
+    "createdById" BIGINT,
     "action" "Action" NOT NULL,
     "model" "Model" NOT NULL,
     "previousData" JSONB,
@@ -84,23 +84,23 @@ CREATE TABLE "Log" (
 
 -- CreateTable
 CREATE TABLE "Media" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
+    "createdById" BIGINT,
     "url" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "libraryGroupId" INTEGER,
+    "libraryGroupId" BIGINT,
 
     CONSTRAINT "Media_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Library" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
+    "createdById" BIGINT,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 
@@ -109,11 +109,77 @@ CREATE TABLE "Library" (
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" SERIAL NOT NULL,
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
-    "categoryId" INTEGER,
+    "createdById" BIGINT,
+    "categoryId" BIGINT,
+    "featureImageUrl" TEXT,
+    "featureImageCaption" TEXT,
+    "title" TEXT NOT NULL,
+    "longTitle" TEXT,
+    "latinTitle" TEXT,
+    "description" TEXT,
+    "lead" TEXT,
+    "breaking" BOOLEAN,
+    "liveblog" BOOLEAN,
+    "language" "Lang" NOT NULL DEFAULT 'EN',
+    "status" "Status" NOT NULL DEFAULT 'drafted',
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" BIGSERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdById" BIGINT,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "description" TEXT,
+    "icon" TEXT,
+    "language" "Lang" NOT NULL DEFAULT 'EN',
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Tag" (
+    "id" BIGSERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdById" BIGINT,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+
+    CONSTRAINT "Tag_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PostsTags" (
+    "id" BIGSERIAL NOT NULL,
+    "postId" BIGINT NOT NULL,
+    "tagId" BIGINT NOT NULL,
+
+    CONSTRAINT "PostsTags_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MediasTags" (
+    "id" BIGSERIAL NOT NULL,
+    "mediaId" BIGINT NOT NULL,
+    "tagId" BIGINT NOT NULL,
+
+    CONSTRAINT "MediasTags_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Photo" (
+    "id" BIGSERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdById" BIGINT,
     "featureImageUrl" TEXT,
     "title" TEXT NOT NULL,
     "longTitle" TEXT,
@@ -123,51 +189,41 @@ CREATE TABLE "Post" (
     "language" "Lang" NOT NULL DEFAULT 'EN',
     "status" "Status" NOT NULL DEFAULT 'drafted',
 
-    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Photo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Graphic" (
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
-    "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
+    "createdById" BIGINT,
+    "graphicsUrl" TEXT,
+    "title" TEXT NOT NULL,
+    "longTitle" TEXT,
+    "latinTitle" TEXT,
     "description" TEXT,
     "language" "Lang" NOT NULL DEFAULT 'EN',
+    "status" "Status" NOT NULL DEFAULT 'drafted',
 
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Graphic_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Tag" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Video" (
+    "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" INTEGER,
-    "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
+    "createdById" BIGINT,
+    "YoutubeUrl" TEXT,
+    "title" TEXT NOT NULL,
+    "longTitle" TEXT,
+    "latinTitle" TEXT,
+    "description" TEXT,
+    "language" "Lang" NOT NULL DEFAULT 'EN',
+    "status" "Status" NOT NULL DEFAULT 'drafted',
 
-    CONSTRAINT "Tag_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PostsTags" (
-    "id" SERIAL NOT NULL,
-    "postId" INTEGER NOT NULL,
-    "tagId" INTEGER NOT NULL,
-
-    CONSTRAINT "PostsTags_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "MediasTags" (
-    "id" SERIAL NOT NULL,
-    "mediaId" INTEGER NOT NULL,
-    "tagId" INTEGER NOT NULL,
-
-    CONSTRAINT "MediasTags_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Video_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -207,7 +263,7 @@ ALTER TABLE "City" ADD CONSTRAINT "City_stateId_fkey" FOREIGN KEY ("stateId") RE
 ALTER TABLE "User" ADD CONSTRAINT "User_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "Media"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_profilePictureUrl_fkey" FOREIGN KEY ("profilePictureUrl") REFERENCES "Media"("url") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -253,3 +309,18 @@ ALTER TABLE "MediasTags" ADD CONSTRAINT "MediasTags_mediaId_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "MediasTags" ADD CONSTRAINT "MediasTags_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Photo" ADD CONSTRAINT "Photo_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Photo" ADD CONSTRAINT "Photo_featureImageUrl_fkey" FOREIGN KEY ("featureImageUrl") REFERENCES "Media"("url") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Graphic" ADD CONSTRAINT "Graphic_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Graphic" ADD CONSTRAINT "Graphic_graphicsUrl_fkey" FOREIGN KEY ("graphicsUrl") REFERENCES "Media"("url") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Video" ADD CONSTRAINT "Video_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

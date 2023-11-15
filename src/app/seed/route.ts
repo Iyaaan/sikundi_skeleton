@@ -1,9 +1,22 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import seed from '@sikundi/seeders'
+import { prisma } from '@sikundi/lib/server/utils/prisma'
 
 export async function GET(request: NextRequest) {
     if (process.env.NODE_ENV === "development") {
         await Promise.all([seed()])
+        return new NextResponse("seeded!!", {
+            status: 200
+        })
+    } else {
+        return new NextResponse("Environment should be in development to seed", {
+            status: 500
+        })
+    }
+}
+
+export async function POST(request: NextRequest) {
+    if (process.env.NODE_ENV === "development") {
         return new NextResponse("seeded!!", {
             status: 200
         })

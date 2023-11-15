@@ -108,7 +108,7 @@ export default async function SinglePage(props: Props) {
                     }
                 }} />
                 <div className="px-6 max-w-3xl mx-auto">
-                    {JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
+                    {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
                         if(block?.type === "paragraph") return <Paragraph key={index}>{
                             block?.children?.map(({text}:any) => {
                                 return <>{text}</>
