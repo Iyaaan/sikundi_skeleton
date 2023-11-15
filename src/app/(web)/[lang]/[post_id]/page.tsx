@@ -21,11 +21,11 @@ interface Props {
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+    const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
     const data = await prisma.post.findUnique({
         where: {
             id: parseInt(params.post_id),
-            // @ts-ignore
-            language: params.lang.toUpperCase(),
+            language: language,
             status: "published"
         },
         select: {
@@ -190,7 +190,7 @@ export default async function SinglePage(props: Props) {
 }
 
 async function postData(id:number, lang:string) {
-    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
+    const language = lang?.toUpperCase() === "EN" ? "EN" : "DV"
     const data = await prisma.post.findUnique({
         where: {
             id: id,
@@ -249,7 +249,7 @@ async function postData(id:number, lang:string) {
     return {
         data,
         relatedPosts: relatedPosts?.map((post) => ({
-            href: `/${language}/${post.id}`,
+            href: `/${language.toLowerCase()}/${post.id}`,
             title: `${post.title}`,
             featureImage: `${post.featureImageUrl}`
         }))
