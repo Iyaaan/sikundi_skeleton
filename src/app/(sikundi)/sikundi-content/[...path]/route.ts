@@ -5,7 +5,8 @@ import { promises as fs } from "fs"
 export async function GET(request: NextRequest, { params }: { params: { path: string } }) {
     try {
         const { path:fileName } = params
-        const filePath = path.join('./storage', fileName)
+        // @ts-ignore
+        const filePath = path.join('./storage', [...fileName].join("/"))
         const file = await fs.readFile(filePath)
         return new Response(file)
     } catch (error) {

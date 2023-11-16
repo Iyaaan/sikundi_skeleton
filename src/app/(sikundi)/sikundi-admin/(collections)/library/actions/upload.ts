@@ -2,17 +2,19 @@
 
 import { File } from "buffer"
 import { promises as fs } from "fs"
-import { v4 as uuidv4 } from 'uuid'
 import { prisma } from "@sikundi/lib/server/utils/prisma"
 import getUser from "@sikundi/lib/server/utils/getUser"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import { revalidatePath } from "next/cache"
+import path from "path"
  
 export async function uploadToLibrary(formData:FormData) {
     try {
         const user = await getUser()
         let files:any = {}
-        const folder = formData.get("folder")?.toString() || "photos"
+        const folder = formData.get("folder")?.toString() || "uploads"
+        const directoryPath = `./storage/${folder}/${new Date().getFullYear()}/${new Date().getMonth()+1}`
+
         formData.forEach((value, key) => {
             if (key !== "folder") {
                 if(value instanceof File) {
@@ -66,11 +68,19 @@ export async function uploadToLibrary(formData:FormData) {
             } catch (error) {
                 
             }
+
+            
+            try {
+                await fs.access(directoryPath)
+            } catch (error) {
+                await fs.mkdir(directoryPath, { recursive: true })
+            }
+
             // @ts-ignore
             const fileBuffer = Buffer.from(await file.file.arrayBuffer());
             // @ts-ignore
-            const fileName = `${uuidv4()}_${Date.now()}.${file.file.name.split(".").reverse()[0]}`
-            await fs.writeFile(`./storage/` + fileName, fileBuffer)
+            const fileName = await getUniqueName(file.file.name, directoryPath)
+            await fs.writeFile(String(fileName), fileBuffer)
             const media = await prisma.media.create({
                 data: {
                     createdBy: {
@@ -78,7 +88,7 @@ export async function uploadToLibrary(formData:FormData) {
                             email: user?.payload.email
                         }
                     },
-                    url: `/sikundi-content/${fileName}`,
+                    url: fileName.replace("./storage", "/sikundi-content"),
                     // @ts-ignore
                     name: file.data.name,
                     libraryGroup: {
@@ -117,6 +127,7 @@ export async function uploadToLibrary(formData:FormData) {
             }
         }
     } catch (error) {
+        console.error(error, "error")
         return {
             notification: {
                 title: "Upload failed",
@@ -124,5 +135,33 @@ export async function uploadToLibrary(formData:FormData) {
                 variant: "destructive"
             }
         }
+    }
+}
+
+
+async function getUniqueName(fileName:string, directory:string):Promise<String> {
+    return new Promise(async (resolve, reject) => {
+        let index = 1;
+        let newFileName = fileName;
+      
+        while (await fileExists(`${directory}/${newFileName}`)) {
+            const ext = path.extname(fileName);
+            const baseName = path.basename(fileName, ext);
+        
+            newFileName = `${baseName}(${index})${ext}`;
+            index++;
+        }
+        
+        resolve(`${directory}/${newFileName}`)
+    })
+}
+  
+async function fileExists(fileName:string) {
+    try {
+        await fs.access(fileName);
+        return true;
+    } catch (error) {
+        console.log(error)
+        return false;
     }
 }

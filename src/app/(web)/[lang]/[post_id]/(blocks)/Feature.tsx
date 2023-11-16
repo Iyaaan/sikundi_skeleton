@@ -53,7 +53,7 @@ const Feature:FC<Props> = ({data, ...props}) => {
                         <ReceiptEdit />
                     </div>
                     <div className='py-6 lg:px-14 px-10 pt-4 relative max-w-2xl'>
-                        {data.tags.map((tag, index)=>(
+                        {data?.tags?.map((tag, index)=>(
                             <p key={index} className='text-web-secondary dark:text-white inline-block me-3 mb-3 text-lg'># {tag}</p>
                         ))}
                         <h1 className='text-[32px] font-bold mb-4 leading-snug transition-all line-clamp-3 lg:me-12 text-web-secondary dark:text-white'>

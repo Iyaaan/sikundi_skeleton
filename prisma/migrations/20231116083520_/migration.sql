@@ -15,7 +15,7 @@ CREATE TYPE "Status" AS ENUM ('drafted', 'published', 'soft_deleted', 'pending')
 
 -- CreateTable
 CREATE TABLE "Country" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Country_pkey" PRIMARY KEY ("id")
@@ -23,8 +23,8 @@ CREATE TABLE "Country" (
 
 -- CreateTable
 CREATE TABLE "State" (
-    "id" BIGSERIAL NOT NULL,
-    "countryId" BIGINT,
+    "id" SERIAL NOT NULL,
+    "countryId" INTEGER,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "State_pkey" PRIMARY KEY ("id")
@@ -32,8 +32,8 @@ CREATE TABLE "State" (
 
 -- CreateTable
 CREATE TABLE "City" (
-    "id" BIGSERIAL NOT NULL,
-    "stateId" BIGINT,
+    "id" SERIAL NOT NULL,
+    "stateId" INTEGER,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "City_pkey" PRIMARY KEY ("id")
@@ -41,27 +41,27 @@ CREATE TABLE "City" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "userName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "status" "UserStatus" NOT NULL DEFAULT 'active',
     "profilePictureUrl" TEXT,
-    "roleId" BIGINT,
+    "roleId" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Role" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "name" TEXT NOT NULL,
     "permissions" JSONB NOT NULL,
 
@@ -70,10 +70,10 @@ CREATE TABLE "Role" (
 
 -- CreateTable
 CREATE TABLE "Log" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "action" "Action" NOT NULL,
     "model" "Model" NOT NULL,
     "previousData" JSONB,
@@ -84,23 +84,23 @@ CREATE TABLE "Log" (
 
 -- CreateTable
 CREATE TABLE "Media" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "url" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "libraryGroupId" BIGINT,
+    "libraryGroupId" INTEGER,
 
     CONSTRAINT "Media_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Library" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 
@@ -109,11 +109,11 @@ CREATE TABLE "Library" (
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
-    "categoryId" BIGINT,
+    "createdById" INTEGER,
+    "categoryId" INTEGER,
     "featureImageUrl" TEXT,
     "featureImageCaption" TEXT,
     "title" TEXT NOT NULL,
@@ -131,10 +131,10 @@ CREATE TABLE "Post" (
 
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "description" TEXT,
@@ -146,10 +146,10 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "Tag" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
 
@@ -158,28 +158,28 @@ CREATE TABLE "Tag" (
 
 -- CreateTable
 CREATE TABLE "PostsTags" (
-    "id" BIGSERIAL NOT NULL,
-    "postId" BIGINT NOT NULL,
-    "tagId" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "tagId" INTEGER NOT NULL,
 
     CONSTRAINT "PostsTags_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "MediasTags" (
-    "id" BIGSERIAL NOT NULL,
-    "mediaId" BIGINT NOT NULL,
-    "tagId" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "mediaId" INTEGER NOT NULL,
+    "tagId" INTEGER NOT NULL,
 
     CONSTRAINT "MediasTags_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Photo" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "featureImageUrl" TEXT,
     "title" TEXT NOT NULL,
     "longTitle" TEXT,
@@ -194,10 +194,10 @@ CREATE TABLE "Photo" (
 
 -- CreateTable
 CREATE TABLE "Graphic" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "graphicsUrl" TEXT,
     "title" TEXT NOT NULL,
     "longTitle" TEXT,
@@ -211,10 +211,10 @@ CREATE TABLE "Graphic" (
 
 -- CreateTable
 CREATE TABLE "Video" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdById" BIGINT,
+    "createdById" INTEGER,
     "YoutubeUrl" TEXT,
     "title" TEXT NOT NULL,
     "longTitle" TEXT,

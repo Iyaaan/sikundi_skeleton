@@ -43,15 +43,15 @@ enum Status {
 }
 
 model Country {
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   name   String
   states State[] @relation("country")
 }
 
 model State {
-  id        BigInt      @id @default(autoincrement())
-  countryId BigInt?     @unique
+  id        Int      @id @default(autoincrement())
+  countryId Int?     @unique
   country   Country? @relation("country", fields: [countryId], references: [id], onDelete: Cascade)
 
   name   String
@@ -59,18 +59,18 @@ model State {
 }
 
 model City {
-  id      BigInt    @id @default(autoincrement())
-  stateId BigInt?   @unique
+  id      Int    @id @default(autoincrement())
+  stateId Int?   @unique
   state   State? @relation("state", fields: [stateId], references: [id], onDelete: Cascade)
 
   name String
 }
 
 model User {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   userName          String     @unique
@@ -80,7 +80,7 @@ model User {
   status            UserStatus @default(active)
   profilePictureUrl String?       
   profilePicture    Media?     @relation("profilePicture", fields: [profilePictureUrl], references: [url], onDelete: SetNull)
-  roleId            BigInt?       
+  roleId            Int?       
   role              Role?      @relation("roleUsers", fields: [roleId], references: [id], onDelete: SetNull)
 
   logs                 Log[]      @relation("logs")
@@ -97,10 +97,10 @@ model User {
 }
 
 model Role {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("rolesCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String @unique
@@ -110,10 +110,10 @@ model Role {
 }
 
 model Log {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("logs", fields: [createdById], references: [id], onDelete: SetNull)
 
   action       Action
@@ -123,10 +123,10 @@ model Log {
 }
 
 model Media {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   posts      Post[] @relation("postFeatureImage")
@@ -138,15 +138,15 @@ model Media {
   url         String     @unique
   name        String
 
-  libraryGroupId BigInt?
+  libraryGroupId Int?
   libraryGroup   Library? @relation("libraryGroup", fields: [libraryGroupId], references: [id], onDelete: SetNull)
 }
 
 model Library {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("libraryCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String  @unique
@@ -155,13 +155,13 @@ model Library {
 }
 
 model Post {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("postsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
-  categoryId          BigInt?
+  categoryId          Int?
   category            Category? @relation("postsCategory", fields: [categoryId], references: [id], onDelete: Cascade)
   featureImageUrl     String?
   featureImage        Media?    @relation("postFeatureImage", fields: [featureImageUrl], references: [url], onDelete: SetNull)
@@ -181,10 +181,10 @@ model Post {
 }
 
 model Category {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("categoriesCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String
@@ -197,10 +197,10 @@ model Category {
 }
 
 model Tag {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("tagsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   name        String
@@ -211,26 +211,26 @@ model Tag {
 }
 
 model PostsTags {
-  id     BigInt   @id @default(autoincrement())
-  postId BigInt
+  id     Int   @id @default(autoincrement())
+  postId Int
   post   Post? @relation("postsTags", fields: [postId], references: [id], onDelete: Cascade)
-  tagId  BigInt
+  tagId  Int
   tag    Tag?  @relation("tagsPosts", fields: [tagId], references: [id], onDelete: Cascade)
 }
 
 model MediasTags {
-  id      BigInt   @id @default(autoincrement())
-  mediaId BigInt
+  id      Int   @id @default(autoincrement())
+  mediaId Int
   media   Media? @relation("mediasTags", fields: [mediaId], references: [id], onDelete: Cascade)
-  tagId   BigInt
+  tagId   Int
   tag     Tag?  @relation("tagsMedias", fields: [tagId], references: [id], onDelete: Cascade)
 }
 
 model Photo {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("photosCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   featureImageUrl String?
@@ -246,10 +246,10 @@ model Photo {
 }
 
 model Graphic {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("graphicsCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   graphicsUrl String?
@@ -264,10 +264,10 @@ model Graphic {
 }
 
 model Video {
-  id          BigInt      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById BigInt?
+  createdById Int?
   createdBy   User?    @relation("videosCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
   YoutubeUrl String?

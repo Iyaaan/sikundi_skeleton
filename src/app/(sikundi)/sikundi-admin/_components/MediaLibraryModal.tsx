@@ -29,9 +29,10 @@ interface Props extends ButtonProps {
         libraryGroupId?: number
     }[]) => void
     disableList?: boolean
+    group?: string
 }
 
-export default function MediaLibraryModal({onComplete, disableList, ...props}: Props) {
+export default function MediaLibraryModal({onComplete, disableList, group, ...props}: Props) {
     const [files, setFiles] = useState([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -49,7 +50,7 @@ export default function MediaLibraryModal({onComplete, disableList, ...props}: P
                 const { data } = await photos()
                 data && setPhotoList((p) => ([
                     ...p,
-                    ...data
+                    ...data.medias
                 ]))
             }
         })()
@@ -111,7 +112,7 @@ export default function MediaLibraryModal({onComplete, disableList, ...props}: P
                 // @ts-ignore
                 formData.append(`file_${index}_data`, JSON.stringify(file.custom))
             })
-            formData.append('folder', 'photos')
+            formData.append('folder', group || 'uploads')
 
             const d = await uploadToLibrary(formData)
             if (d.notification) {
@@ -127,6 +128,7 @@ export default function MediaLibraryModal({onComplete, disableList, ...props}: P
                 toast(error.notification)
             }
         } finally {
+            removeAll()
             setLoading(false)
         }
     }
