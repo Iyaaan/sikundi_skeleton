@@ -20,6 +20,7 @@
         "@lexical/code": "^0.12.2",
         "@lexical/file": "^0.12.2",
         "@lexical/hashtag": "^0.12.2",
+        "@lexical/headless": "^0.12.2",
         "@lexical/link": "^0.12.2",
         "@lexical/list": "^0.12.2",
         "@lexical/mark": "^0.12.2",
@@ -70,6 +71,7 @@
         "iconsax-react": "^0.0.8",
         "ioredis": "^5.3.2",
         "jose": "^4.15.4",
+        "jsdom": "^22.1.0",
         "katex": "^0.15.2",
         "lexical": "^0.12.2",
         "lodash-es": "^4.17.21",
@@ -102,6 +104,7 @@
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
+        "@types/jsdom": "^21.1.5",
         "@types/katex": "^0.16.6",
         "@types/lodash-es": "^4.17.11",
         "@types/node": "^20",

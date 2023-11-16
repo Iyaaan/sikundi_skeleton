@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import seed from '@sikundi/seeders'
-import { prisma } from '@sikundi/lib/server/utils/prisma'
 
 export async function GET(request: NextRequest) {
     if (process.env.NODE_ENV === "development") {

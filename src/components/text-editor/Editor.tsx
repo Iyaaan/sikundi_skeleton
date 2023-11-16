@@ -20,7 +20,6 @@ import {CAN_USE_DOM} from './utils/canUseDOM';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
 import TableCellNodes from './nodes/TableCellNodes';
 // import ActionsPlugin from './plugins/ActionsPlugin';
-import AutocompletePlugin from './plugins/AutocompletePlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
@@ -32,8 +31,6 @@ import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
 import EmojisPlugin from './plugins/EmojisPlugin';
-import EquationsPlugin from './plugins/EquationsPlugin';
-import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
@@ -170,8 +167,6 @@ export default function Editor(): JSX.Element {
                 <FigmaPlugin />
                 {!isEditable && <LexicalClickableLinkPlugin />}
                 <HorizontalRulePlugin />
-                <EquationsPlugin />
-                <ExcalidrawPlugin />
                 <TabFocusPlugin />
                 <TabIndentationPlugin />
                 <CollapsiblePlugin />
@@ -195,7 +190,6 @@ export default function Editor(): JSX.Element {
                     charset={'UTF-16' || 'UTF-8'}
                     maxLength={5}
                 /> */}
-                <AutocompletePlugin />
                 <ContextMenuPlugin />
                 {/* <ActionsPlugin isRichText={true} /> */}
             </div>
