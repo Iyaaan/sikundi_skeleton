@@ -3,7 +3,7 @@
 import { Button, ButtonProps } from '@sikundi/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@sikundi/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@sikundi/components/ui/tabs'
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import EmptyPlaceholder from './EmptyPlaceHolder'
 import { ImageIcon, Loader2Icon, XIcon } from 'lucide-react'
 import { useDropzone } from 'react-dropzone'
@@ -17,6 +17,8 @@ import axios from 'axios'
 import { useToast } from '@sikundi/components/ui/use-toast'
 import { uploadToLibrary } from '../(collections)/library/actions/upload'
 import { photos } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/actions/photos'
+import { useDebounce, useIntersectionObserver } from 'usehooks-ts'
+import { Skeleton } from '@sikundi/components/ui/skeleton'
 
 interface Props extends ButtonProps {
     onComplete?: (values: {
@@ -36,25 +38,40 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     const [files, setFiles] = useState([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [imageLoading, setImageLoading] = useState(false)
     const [rejected, setRejected] = useState([])
     const [page, setPage] = useState(1)
+    const [hasPage, setHasPage] = useState(true)
     const [photoList, setPhotoList] = useState<{
         url: string,
         id: number
     }[]>([])
     const { toast } = useToast()
+    const [value, setValue] = useState<string>('')
+    const debouncedValue = useDebounce<string>(value, 500)
   
     useEffect(() => {
         (async () => {
-            if (!disableList){
-                const { data } = await photos()
+            if (!disableList && active) {
+                setImageLoading(true)
+                const { data } = await photos(debouncedValue, page)
                 data && setPhotoList((p) => ([
                     ...p,
                     ...data.medias
                 ]))
+                if (data?.current && data?.total) {
+                    setHasPage(data?.current < data?.total)
+                } else {
+                    setHasPage(false)
+                }
+                setImageLoading(false)
             }
         })()
-    }, [page, disableList])
+    }, [page, disableList, active])
+
+    useEffect(() => {
+        setPage(1)
+    }, [debouncedValue])
 
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -150,12 +167,15 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                 <TabsTrigger value="library">Library</TabsTrigger>
                                 <TabsTrigger value="upload">Upload</TabsTrigger>  
                         </TabsList>}
+                        <Input className='mt-2 mb-4 max-w-lg' placeholder='search...' onChange={(event) => {
+                            setValue(event.target.value)
+                        }} />
                     <TabsContent value="library">
                         {!disableList && photoList.length > 0 ? 
                         <ScrollArea className='h-[500px]'>
                             <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
                                 {photoList.map((photo, index) => photo.url.length > 0 && (
-                                    <button type='button' className='relative aspect-square col-span-1' key={index} onClick={() => {
+                                    <button type='button' className='relative aspect-square col-span-1 rounded-md' key={index} onClick={() => {
                                         onComplete?.([
                                             {url: photo.url, id: photo.id}
                                         ])
@@ -169,7 +189,14 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                         />
                                     </button>
                                 ))}
+                                {imageLoading &&
+                                [1,2,3,4,5,6,7,8].map(() => (
+                                    <Skeleton className="relative aspect-square col-span-1 rounded-md" />
+                                ))}
                             </div>
+                            {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setPage(page+1)}>
+                                {imageLoading ? "loading" : "Load More"}    
+                            </Button>}
                         </ScrollArea> :
                         <EmptyPlaceholder data={{
                             slug: "library",

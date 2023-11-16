@@ -200,7 +200,7 @@ export default function PostForm({ user, data, type }: Props) {
                                     <ImageIcon className="mr-2" /> Add Feature Image
                                 </MediaLibraryModal>
                             </div>
-                            : <Fragment>
+                            : <div className="border rounded-md items-center justify-center flex mt-6 relative">
                                 <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("featureImageUrl", undefined)
@@ -219,7 +219,7 @@ export default function PostForm({ user, data, type }: Props) {
                                         </FormItem>
                                     )}
                                 />
-                            </Fragment>
+                            </div>
                         }
                     </CardContent>
                     <CardFooter>
@@ -228,7 +228,7 @@ export default function PostForm({ user, data, type }: Props) {
                             name='featureImageCaption'
                             render={({ field }) => (
                                 <FormItem className="w-full">
-                                    <FormLabel>Feature Image Caption</FormLabel>
+                                    {/* <FormLabel>Feature Image Caption</FormLabel> */}
                                     <FormControl>
                                         <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>

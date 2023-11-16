@@ -34,6 +34,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             {parseInt(data.total) > 1 && <Paginator
                 current={parseInt(data.current)}
                 total={parseInt(data.total)}
+                className='mt-4'
                 searchParams={searchParams}
                 url='/sikundi-admin/library'
             />}

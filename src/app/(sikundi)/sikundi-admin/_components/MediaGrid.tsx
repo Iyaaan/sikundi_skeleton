@@ -25,10 +25,10 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
             <Dialog open={open} onOpenChange={setOpen}>
                 {data?.map((media:any, index:number)=>(
                     <DialogTrigger asChild key={index} className='aspect-video' onClick={() => setActive(media)}>
-                        <div className='aspect-square relative'>
+                        <div className='aspect-square relative rounded-lg overflow-hidden'>
                             <Image
                                 fill
-                                className=' object-cover'
+                                className='object-cover'
                                 src={media.url}
                                 alt={media.name}
                             />
@@ -52,7 +52,7 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
                     <div className="grid gap-4 py-2">
                         {
                             active?.url && 
-                            <div className='relative aspect-video'>
+                            <div className='relative aspect-video rounded-lg overflow-hidden'>
                                 <Image
                                     src={active?.url}
                                     alt={active?.name}
