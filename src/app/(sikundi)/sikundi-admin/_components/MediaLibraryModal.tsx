@@ -55,6 +55,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             if (!disableList && active) {
                 setImageLoading(true)
                 const { data } = await photos(debouncedValue, page)
+                await new Promise(r => setTimeout(r, 2000))
                 data && setPhotoList((p) => ([
                     ...p,
                     ...data.medias
@@ -70,7 +71,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     }, [page, disableList, active])
 
     useEffect(() => {
-        setPage(1)
+        setPhotoList([])
+        setPage(page === 1 ? 0 : 1)
     }, [debouncedValue])
 
     // @ts-ignore
@@ -167,10 +169,10 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                 <TabsTrigger value="library">Library</TabsTrigger>
                                 <TabsTrigger value="upload">Upload</TabsTrigger>  
                         </TabsList>}
+                    <TabsContent value="library">
                         <Input className='mt-2 mb-4 max-w-lg' placeholder='search...' onChange={(event) => {
                             setValue(event.target.value)
                         }} />
-                    <TabsContent value="library">
                         {!disableList && photoList.length > 0 ? 
                         <ScrollArea className='h-[500px]'>
                             <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
@@ -189,24 +191,29 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                         />
                                     </button>
                                 ))}
-                                {imageLoading &&
-                                [1,2,3,4,5,6,7,8].map(() => (
-                                    <Skeleton className="relative aspect-square col-span-1 rounded-md" />
-                                ))}
                             </div>
                             {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setPage(page+1)}>
                                 {imageLoading ? "loading" : "Load More"}    
                             </Button>}
-                        </ScrollArea> :
-                        <EmptyPlaceholder data={{
-                            slug: "library",
-                            name: "library",
-                            url: '/sikundi-admin/library',
-                            Icon: ImageIcon,
-                            permissions: {
-                                create: false,
-                            }
-                        }} />}
+                        </ScrollArea> :(
+                            imageLoading ?
+                            <ScrollArea className='h-[500px]'>
+                                <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
+                                    {[1,2,3,4,5,6].map(() => (
+                                        <Skeleton className="relative aspect-square col-span-1 rounded-md" />
+                                    ))}
+                                </div>
+                            </ScrollArea> :
+                            <EmptyPlaceholder data={{
+                                slug: "library",
+                                name: "library",
+                                url: '/sikundi-admin/library',
+                                Icon: ImageIcon,
+                                permissions: {
+                                    create: false,
+                                }
+                            }} />
+                        )}
                     </TabsContent>
                     <TabsContent value="upload">
                         {(files?.length > 0 || rejected?.length > 0) ? <div className='space-y-3'>
