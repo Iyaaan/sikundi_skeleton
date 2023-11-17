@@ -199,8 +199,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                             imageLoading ?
                             <ScrollArea className='h-[500px]'>
                                 <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
-                                    {[1,2,3,4,5,6].map(() => (
-                                        <Skeleton className="relative aspect-square col-span-1 rounded-md" />
+                                    {[1,2,3,4,5,6].map((index) => (
+                                        <Skeleton key={index} className="relative aspect-square col-span-1 rounded-md" />
                                     ))}
                                 </div>
                             </ScrollArea> :
