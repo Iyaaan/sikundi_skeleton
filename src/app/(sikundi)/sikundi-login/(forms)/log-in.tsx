@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/log-in/schema"
+import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
 import { Fragment } from "react"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"

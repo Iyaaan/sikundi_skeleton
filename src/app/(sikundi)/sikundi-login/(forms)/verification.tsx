@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/verify/schema"
+import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/schema"
 import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"
 import { useToast } from "@sikundi/components/ui/use-toast"

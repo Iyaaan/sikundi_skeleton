@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { Form } from '@sikundi/components/ui/form'
-import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/api/log-in/schema"
+import { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
 import { Fragment, ReactNode } from "react"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
