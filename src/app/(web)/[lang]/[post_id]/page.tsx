@@ -8,6 +8,7 @@ import Quote from "./(blocks)/Quote"
 import { prisma } from "@sikundi/lib/server/utils/prisma" 
 import Tweet from "./(blocks)/Tweet"
 import Youtube from "./(blocks)/Youtube"
+import Facebook from "./(blocks)/Facebook"
 import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
 
@@ -110,8 +111,8 @@ export default async function SinglePage(props: Props) {
                 <div className="px-6 max-w-3xl mx-auto">
                     {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
                         if(block?.type === "paragraph") return <Paragraph key={index}>{
-                            block?.children?.map(({text}:any) => {
-                                return <>{text}</>
+                            block?.children?.map(({text}:any, index:number) => {
+                                return <Fragment key={index}>{text}</Fragment>
                             })    
                             // JSON.stringify(block?.children)
                         }</Paragraph>
@@ -154,6 +155,8 @@ export default async function SinglePage(props: Props) {
                         if(block?.type === "tweet") return <Tweet id={block?.id} key={index} />
                           
                         if(block?.type === "youtube") return <Youtube id={block?.videoID} key={index} />
+                        if(block?.type === "facebook") return <Facebook id={block.postID} key={index} />
+
                     })}
                 </div>
             </div>

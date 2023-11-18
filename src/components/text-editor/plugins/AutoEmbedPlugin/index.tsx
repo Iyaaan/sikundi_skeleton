@@ -25,10 +25,11 @@ import {Button} from '../../../ui/button';
 import {INSERT_FIGMA_COMMAND} from '../FigmaPlugin';
 import {INSERT_TWEET_COMMAND} from '../TwitterPlugin';
 import {INSERT_YOUTUBE_COMMAND} from '../YouTubePlugin';
-import { TwitterIcon, YoutubeIcon } from 'lucide-react';
+import { FacebookIcon, TwitterIcon, YoutubeIcon } from 'lucide-react';
 import { OperateModal } from '../../context/ModalContext';
 import { DialogContent, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
 import { Input } from '@sikundi/components/ui/input';
+import { INSERT_FACEBOOK_COMMAND } from '../FacebookPlugin';
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -79,6 +80,39 @@ export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
   },
 
   type: 'youtube-video',
+};
+
+export const FaceBookEmbedConfig: PlaygroundEmbedConfig = {
+  contentName: 'Facebook Post',
+
+  exampleUrl: 'https://www.facebook.com/VercelHQ/posts/pfbid0RGKWg7XyGNhDodvMKiCvAFdtxBkMCCppZStjVq15kCtJikyZwqCyJQaNHWYzzbFjl',
+
+  // Icon for display.
+  icon: <FacebookIcon className='w-4 h-4 mr-2' />,
+
+  insertNode: (editor: LexicalEditor, result: EmbedMatchResult) => {
+    editor.dispatchCommand(INSERT_FACEBOOK_COMMAND, result.id);
+  },
+
+  keywords: ['facebook', 'post'],
+
+  // Determine if a given URL is a match and return url data.
+  parseUrl: async (url: string) => {
+    const match = /\/([^\/?]+)(?:\?.*)?$/.exec(url);
+
+    const id = match ? (match?.[1].length > 0 ? match[1] : null) : null;
+
+    if (id != null) {
+      return {
+        id,
+        url,
+      };
+    }
+
+    return null;
+  },
+
+  type: 'facebook-post',
 };
 
 export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
@@ -155,6 +189,7 @@ export const EmbedConfigs = [
   TwitterEmbedConfig,
   YoutubeEmbedConfig,
 //   FigmaEmbedConfig,
+  FaceBookEmbedConfig
 ];
 
 function AutoEmbedMenuItem({

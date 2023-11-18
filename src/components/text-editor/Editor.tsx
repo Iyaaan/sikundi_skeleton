@@ -57,6 +57,7 @@ import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import ContentEditable from './ui/ContentEditable';
 import Placeholder from './ui/Placeholder';
 import { ScrollArea } from '../ui/scroll-area';
+import FaceBookPlugin from './plugins/FacebookPlugin';
 
 export default function Editor(): JSX.Element {
     const {historyState} = useSharedHistoryContext();
@@ -163,6 +164,7 @@ export default function Editor(): JSX.Element {
                 <LinkPlugin />
                 <PollPlugin />
                 <TwitterPlugin />
+                <FaceBookPlugin />
                 <YouTubePlugin />
                 <FigmaPlugin />
                 {!isEditable && <LexicalClickableLinkPlugin />}
