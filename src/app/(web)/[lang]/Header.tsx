@@ -48,7 +48,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                 <nav className="bg-web-foreground dark:bg-web-foreground-dark py-4 px-10 rounded-2xl gap-9 font-bold text-xl border-2 border-web-background dark:border-web-background-dark hidden lg:flex">
                     {
                         // @ts-ignore
-                        menuItems?.map((menuItem, index)=>(
+                        menuItems?.map((menuItem, index)=> index < 11 && (
                             <Link href={menuItem.url} key={index} className="hover:text-web-primary active:opacity-50">{menuItem.name}</Link>
                         ))
                     }
