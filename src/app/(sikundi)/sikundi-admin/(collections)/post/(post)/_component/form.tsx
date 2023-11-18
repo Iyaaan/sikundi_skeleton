@@ -75,6 +75,7 @@ export default function PostForm({ user, data, type }: Props) {
     })
     
     const title = form.watch("title") 
+    const id = form.watch("id") 
     const lang = form.watch("language")
     useEffect(() => {
         // @ts-ignore
@@ -105,7 +106,7 @@ export default function PostForm({ user, data, type }: Props) {
     }, [push_all, form])
 
 
-    const { isLoading, execute } = useAction(type === "create" ? PostCreateAction : PostUpdateAction, {
+    const { isLoading, execute } = useAction((type === "create" && !id) ? PostCreateAction : PostUpdateAction, {
         onSuccess: ({ data }) => {
             if (data.action === "pending") {
                 router.push('/sikundi-admin/post/copydesk')
@@ -126,7 +127,7 @@ export default function PostForm({ user, data, type }: Props) {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(data => execute({ ...data, id: type === "update" ? parseInt(`${params.id}`) : undefined }), (e) => console.error(e))} className="grid lg:grid-cols-12 gap-4">
+            <form onSubmit={form.handleSubmit(data => execute(data), (e) => console.error(e))} className="grid lg:grid-cols-12 gap-4">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">
                         <FormField
@@ -136,7 +137,12 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>Title</FormLabel>
                                     <FormControl>
-                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
+                                        <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} onBlur={async () => {
+                                            if(!id && title && type === "create") {
+                                                const data = await PostCreateAction(form.getValues())
+                                                form.setValue("id", data.data?.post.id)
+                                            }
+                                        }} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

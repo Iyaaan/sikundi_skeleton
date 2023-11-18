@@ -4,6 +4,7 @@ import DataTable from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTabl
 import {prisma} from '@sikundi/lib/server/utils/prisma'
 import NotFound from './not-found'
 import Paginator from '@sikundi/app/(sikundi)/_components/Paginator'
+import { Badge } from '@sikundi/components/ui/badge'
 
 export const dynamic = "force-dynamic"
 
@@ -30,6 +31,14 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
+            <div className='rounded-md grid grid-cols-4 mb-4 overflow-hidden border'>
+                {data?.stats?.map((stat:any, index:number)=>(
+                    <div key={index} className='border p-2 col-span-2 flex items-center gap-2 lg:gap-4 lg:col-span-1'>
+                        {stat?.status}
+                        <Badge variant={"secondary"}>{stat?._count}</Badge>
+                    </div>
+                ))}
+            </div>
             {parseInt(data.total) > 1 && <Paginator
                 className='lg:hidden mb-4'
                 current={parseInt(data.current)}
@@ -128,6 +137,11 @@ const posts = async (query: Props) => {
         where: filters
     })
 
+    const stats = await prisma.post.groupBy({
+        by: ['status'],
+        _count: true
+    })
+
     // if (posts.length === 0) return notFound()
     
 
@@ -142,6 +156,7 @@ const posts = async (query: Props) => {
             href: `/sikundi-admin/post/${post.id}/update`
         })) || [],
         total: Math.ceil((Number(totalPosts._count)/per_page)),
-        current: current
+        current: current,
+        stats: stats
     }
 }
