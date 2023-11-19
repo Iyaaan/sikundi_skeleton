@@ -45,7 +45,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                         className="rounded-xl min-h-[55px] min-w-[55px] hover:scale-95 active:scale-105 transition-all" 
                     />
                 </Link>
-                <nav className="bg-web-foreground dark:bg-web-foreground-dark lg:h-[55px] py-4 px-10 rounded-2xl gap-9 font-bold text-lg border-2 border-web-background dark:border-web-background-dark hidden lg:flex">
+                <nav className="bg-web-foreground dark:bg-web-foreground-dark lg:h-[55px] py-3 px-8 rounded-2xl gap-9 font-bold text-lg border-2 border-web-background dark:border-web-background-dark hidden lg:flex">
                     {
                         // @ts-ignore
                         menuItems?.map((menuItem, index)=> index < 10 && (
