@@ -39,7 +39,7 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
                     <DialogHeader>
                         <DialogTitle>{active?.name}</DialogTitle>
                     <DialogDescription className='pb-2'>
-                        {`Created by: ${active?.['created by']}`}
+                        {active?.caption}
                     </DialogDescription>
                     <div className='flex flex-wrap gap-2'>
                         {active?.tags?.map((tag:any, key:any) => (
@@ -48,8 +48,9 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
                             </Badge>
                         ))}
                     </div>
+                    <DialogDescription className=' text-end'>{`Created by: ${active?.['created by']}`}</DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-2">
+                    <div className="grid py-2">
                         {
                             active?.url && 
                             <div className='relative aspect-video rounded-lg overflow-hidden'>

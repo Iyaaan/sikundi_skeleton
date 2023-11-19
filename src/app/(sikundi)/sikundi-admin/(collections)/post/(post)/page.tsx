@@ -120,7 +120,8 @@ const posts = async (query: Props) => {
                 select: {
                     userName: true
                 }
-            }
+            },
+            views: true
         },
         // @ts-ignore
         where: filters,
@@ -149,11 +150,12 @@ const posts = async (query: Props) => {
         posts: posts.map((post)=>({
             title: post.title,
             status: post.status,
+            views: post?.views,
             language: post.language === "DV" ? 'Dhivehi' : "English",
             "created at": new Date(post.createdAt).toLocaleString(),
             // @ts-ignore
             "created by": `${post.createdBy?.userName}`,
-            href: `/sikundi-admin/post/${post.id}/update`
+            href: `/sikundi-admin/post/${post.id}/update`,
         })) || [],
         total: Math.ceil((Number(totalPosts._count)/per_page)),
         current: current,

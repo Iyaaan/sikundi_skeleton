@@ -17,8 +17,9 @@ import axios from 'axios'
 import { useToast } from '@sikundi/components/ui/use-toast'
 import { uploadToLibrary } from '../(collections)/library/actions/upload'
 import { photos } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/actions/photos'
-import { useDebounce, useIntersectionObserver } from 'usehooks-ts'
+import { useDebounce } from 'usehooks-ts'
 import { Skeleton } from '@sikundi/components/ui/skeleton'
+import exifr from 'exifr'
 
 interface Props extends ButtonProps {
     onComplete?: (values: {
@@ -77,27 +78,37 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
 
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-        if (acceptedFiles?.length) {
-            // @ts-ignore
-            setFiles((previousFiles) => [
-                ...acceptedFiles.map((file:any) => Object.assign(file, { preview: URL.createObjectURL(file), custom: {
-                    name: file.name,
-                    tags: []
-                }})
-            )])
-        }
+        (async () => {
+            if (acceptedFiles?.length) {
+                let validatedFiles:any[] = []
     
-        if (rejectedFiles?.length) {
-            // @ts-ignore
-            setRejected(previousFiles => [...previousFiles, ...rejectedFiles])
-        }
+                await Promise.all(acceptedFiles.map(async (file:any) => {
+                    const data = await exifr.parse(file)
+                    validatedFiles.push(Object.assign(file, { preview: URL.createObjectURL(file), custom: {
+                        name: file.name,
+                        tags: [],
+                        caption: data?.ImageDescription || data?.description
+                    }}))
+                }))
+    
+                // @ts-ignore
+                setFiles((previousFiles) => [
+                    ...validatedFiles
+                ])
+            }
+        
+            if (rejectedFiles?.length) {
+                // @ts-ignore
+                setRejected(previousFiles => [...previousFiles, ...rejectedFiles])
+            }
+        })()
     }, [])
   
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: {
             'image/*': []
         },
-        maxSize: 1024 * 4000,
+        // maxSize: 1024 * 4000,
         maxFiles: 5,
         onDrop
     })
@@ -242,11 +253,19 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                                 <XIcon className='h-5 w-5 fill-white transition-colors hover:fill-primary' />
                                             </button>
                                             <div className='col-span-2 mt-5'>
-                                                <Input value={file.custom.name} placeholder='name' className='mb-3' onChange={(e) => {
+                                                <Input value={file.custom.name} placeholder='title' className='mb-3' onChange={(e) => {
                                                     setFiles((f) => {
                                                         let ff = [...f]
                                                         // @ts-ignore
                                                         ff[index].custom.name = e.target.value
+                                                        return ff
+                                                    })
+                                                }} />
+                                                <Input value={file.custom.caption} placeholder='caption' className='mb-3' onChange={(e) => {
+                                                    setFiles((f) => {
+                                                        let ff = [...f]
+                                                        // @ts-ignore
+                                                        ff[index].custom.caption = e.target.value
                                                         return ff
                                                     })
                                                 }} />

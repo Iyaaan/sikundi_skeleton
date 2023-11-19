@@ -2,6 +2,7 @@ import * as z from 'zod'
 const UserSchema = z.object({
     id: z.number().optional(),
     userName: z.string(),
+    userNameEn: z.string(),
     email: z.string().email(),
     password: z.string().optional(),
     description: z.string().optional(),

@@ -73,15 +73,16 @@ model User {
   createdById Int?
   createdBy   User?    @relation("usersCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
-  userName          String     @unique
-  email             String     @unique
-  password          String
-  description       String
-  status            UserStatus @default(active)
-  profilePictureUrl String?       
-  profilePicture    Media?     @relation("profilePicture", fields: [profilePictureUrl], references: [url], onDelete: SetNull)
-  roleId            Int?       
-  role              Role?      @relation("roleUsers", fields: [roleId], references: [id], onDelete: SetNull)
+  userName             String     @unique
+  userNameEn           String?    @unique
+  email                String     @unique
+  password             String
+  description          String
+  status               UserStatus @default(active)
+  profilePictureUrl    String?       
+  profilePicture       Media?     @relation("profilePicture", fields: [profilePictureUrl], references: [url], onDelete: SetNull)
+  roleId               Int?       
+  role                 Role?      @relation("roleUsers", fields: [roleId], references: [id], onDelete: SetNull)
 
   logs                 Log[]      @relation("logs")
   usersCreated         User[]     @relation("usersCreated")
@@ -137,6 +138,7 @@ model Media {
 
   url         String     @unique
   name        String
+  caption     String?
 
   libraryGroupId Int?
   libraryGroup   Library? @relation("libraryGroup", fields: [libraryGroupId], references: [id], onDelete: SetNull)
@@ -174,8 +176,9 @@ model Post {
   lead        String?
   breaking    Boolean?
   liveblog    Boolean?
-  language    Lang @default(EN)
+  language    Lang   @default(EN)
   status      Status @default(drafted)
+  views       Int    @default(0)
 
   postsTags PostsTags[] @relation("postsTags")
 }

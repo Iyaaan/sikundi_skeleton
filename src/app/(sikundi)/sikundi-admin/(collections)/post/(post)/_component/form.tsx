@@ -588,7 +588,7 @@ export default function PostForm({ user, data, type }: Props) {
                                             : "delete"}
                                         </Button> 
                                         <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
-                                            <Link href={`/${data?.id}`}>Preview</Link>
+                                            <Link href={`/${data?.id}${data?.status === "published" ? "" : "/preview"}`}>{data?.status === "published" ? "Perma Link" : "Preview"}</Link>
                                         </Button>
                                     </Fragment>
                                 )

@@ -80,7 +80,6 @@ export async function uploadToLibrary(formData:FormData) {
             const fileBuffer = Buffer.from(await file.file.arrayBuffer());
             // @ts-ignore
             const fileName = await getUniqueName(file.file.name, directoryPath)
-            console.log(fileName)
             await fs.writeFile(String(fileName), fileBuffer)
             const media = await prisma.media.create({
                 data: {
@@ -92,6 +91,8 @@ export async function uploadToLibrary(formData:FormData) {
                     url: fileName.replace("./storage", "/sikundi-content"),
                     // @ts-ignore
                     name: file.data.name,
+                    // @ts-ignore
+                    caption: file.data.caption,
                     libraryGroup: {
                         connectOrCreate: {
                             create: {

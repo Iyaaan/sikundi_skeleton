@@ -82,6 +82,7 @@ const medias = async (query: Props) => {
             id: true,
             name: true,
             createdAt: true,
+            caption: true,
             url: true,
             createdBy: {
                 select: {
@@ -119,6 +120,7 @@ const medias = async (query: Props) => {
     return {
         medias: medias.map((media)=>({
             name: media.name,
+            caption: media.caption,
             url: media.url,
             "created at": new Date(media.createdAt).toLocaleString(),
             // @ts-ignore

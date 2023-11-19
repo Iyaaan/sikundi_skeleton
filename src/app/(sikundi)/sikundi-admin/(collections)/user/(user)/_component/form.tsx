@@ -4,7 +4,7 @@ import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import UserSchema, { UserSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
@@ -16,20 +16,16 @@ import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
-import { Switch } from "@sikundi/components/ui/switch"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
 import { Fragment, useEffect, useState } from "react"
-import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
-import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from "next/image"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/create"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
-import Link from "next/link"
 
 interface Props {
     user: UserType
@@ -49,6 +45,7 @@ export default function PostForm({ user, data, type }: Props) {
             createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
             createdAt: new Date(),
             userName: "",
+            userNameEn: "",
             email: "",
             description: "",
             profilePictureUrl: "",
@@ -121,6 +118,19 @@ export default function PostForm({ user, data, type }: Props) {
                                     <FormLabel>User Name</FormLabel>
                                     <FormControl>
                                         <Input dir="rtl" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="userNameEn"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>English User Name</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
