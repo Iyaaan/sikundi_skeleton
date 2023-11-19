@@ -19,7 +19,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 const VarientFour:FC<Props> = ({title, data, loadMore, ...props}) => {
     return (
         <div {...props} className={twMerge(['container px-0', props.className])}>
-            {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark lg:mb-10 mb-0 stroke-text-accent'>
+            {title && <h1 className='col-span-4 text-center font-black text-4xl lg:text-6xl text-web-background dark:text-web-background-dark lg:mb-10 mb-0 stroke-text-accent'>
                 {title}
             </h1>}
             <div className='lg:bg-web-foreground lg:dark:bg-web-foreground-dark rounded-[20px] relative mb-6'>

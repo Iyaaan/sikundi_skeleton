@@ -28,7 +28,7 @@ const PostSmallCard:FC<Props> = ({data, ...props}) => {
                     className='object-cover group-hover:scale-110 transition-all'
                 />}
             </div>
-            <h3 className='text-xl font-bold leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
+            <h3 className='text-lg font-bold leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
                 {data.title}
             </h3>
         </Link>

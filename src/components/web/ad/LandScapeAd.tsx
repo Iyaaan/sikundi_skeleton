@@ -17,7 +17,7 @@ const LandScapeAd:FC<Props> = ({data, containerClass, ...props}) => {
     return (
         <div className={twMerge([containerClass])}>
             <Link {...props} className={twMerge([
-                'aspect-[1262/248] block w-full relative overflow-hidden rounded-lg lg:rounded-2xl dark:bg-web-accent-wall bg-web-accent-wall-dark',
+                'aspect-[1262/248] block w-full relative overflow-hidden rounded-lg lg:rounded-xl dark:bg-web-accent-wall bg-web-accent-wall-dark',
                 props.className
             ])}>
                 <Image

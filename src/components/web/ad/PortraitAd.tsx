@@ -15,7 +15,7 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
 const PortraitAd:FC<Props> = (props) => {
     return (
         <Link {...{...props, data: undefined}} className={twMerge([
-            'aspect-[282/394] relative overflow-hidden rounded-lg lg:rounded-2xl dark:bg-web-accent-wall bg-web-accent-wall-dark',
+            'aspect-[282/394] relative overflow-hidden rounded-lg lg:rounded-xl dark:bg-web-accent-wall bg-web-accent-wall-dark',
             props.className
         ])}>
             <Image

@@ -16,14 +16,14 @@ const Footer = () => {
             <div className="container px-4 py-10 grid grid-cols-12 gap-4 items-center">
                 {menuItems?.map((item, index)=>(
                     <Link key={index} href={item.link} className={twMerge([
-                        "col-span-2 text-lg font-normal text-center hidden lg:block",
+                        "col-span-2 text-base font-normal text-center hidden lg:block",
                         "hover:text-web-primary hover:dark:text-web-primary-dark focus:opacity-75",
                         item.className
                     ])}>
                         {item.label}
                     </Link>
                 ))}
-                <h3 className="col-span-12 lg:col-span-4 px-8 text-center order-2 text-xl font-extralight">
+                <h3 className="col-span-12 lg:col-span-4 px-8 text-center order-2 text-base font-extralight">
                     {"© 2019 Gaafu Media Group Pvt Ltd. All Rights Reserved"}
                 </h3>
             </div>

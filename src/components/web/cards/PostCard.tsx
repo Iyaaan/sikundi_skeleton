@@ -35,7 +35,7 @@ const PostCard:FC<Props> = ({data, ...props}) => {
                     <ReceiptEdit />
                 </div>
                 <div className='p-10 lg:pr-4 pt-4 lg:pt-10'>
-                    <h1 className='text-[32px] font-bold mb-4 leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
+                    <h1 className='text-3xl font-bold mb-4 leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
                         {data.title}
                     </h1>
                     <p className='mb-4 text-base font-normal text-web-accent-sub dark:text-web-accent-sub-dark line-clamp-4'>

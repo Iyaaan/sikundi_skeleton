@@ -19,7 +19,7 @@ const VarientThree:FC<Props> = ({title, data, loadMore, ...props}) => {
     return (
         <div {...props} className={twMerge(['relative container px-0', props.className])}>
             <div className='mb-6 lg:rounded-[20px] bg-web-secondary dark:bg-web-secondary-dark pb-20 pt-14 px-0 lg:px-8'>
-                {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-secondary dark:text-web-secondary-dark stroke-text-white stroke-text-white mb-16'>
+                {title && <h1 className='col-span-4 text-center font-black text-4xl lg:text-6xl text-web-secondary dark:text-web-secondary-dark stroke-text-white stroke-text-white mb-16'>
                     {title}
                 </h1>}
                 {data?.length > 0 && <div className='grid lg:grid-cols-4 grid-cols-2 gap-4'>

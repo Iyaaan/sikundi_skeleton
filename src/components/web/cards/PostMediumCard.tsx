@@ -39,7 +39,7 @@ const PostMediumCard:FC<Props> = ({data, ...props}) => {
                     <ReceiptEdit />
                 </div>
                 <div className='p-6 pt-4 text-center text-white relative'>
-                    <h1 className='text-[32px] font-bold mb-4 leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
+                    <h1 className='text-3xl font-bold mb-4 leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
                         {data.title}
                     </h1>
                     <p className='mb-4 text-base font-normal line-clamp-4 opacity-50'>

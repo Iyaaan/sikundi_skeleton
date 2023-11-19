@@ -23,7 +23,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
             'container lg:px-4 px-0 ',
             props.className
         ])}>
-            {title && <h1 className='col-span-4 text-center font-black text-5xl lg:text-8xl text-web-background dark:text-web-background-dark mb-10 stroke-text-accent'>
+            {title && <h1 className='col-span-4 text-center font-black text-4xl lg:text-6xl text-web-background dark:text-web-background-dark mb-10 stroke-text-accent'>
                 {title}
             </h1>}
             {data[0] && <div className='grid grid-cols-12 gap-8 mb-4'>
