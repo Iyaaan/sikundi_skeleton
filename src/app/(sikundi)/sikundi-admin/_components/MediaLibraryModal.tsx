@@ -73,7 +73,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     useEffect(() => {
         setPhotoList([])
         setPage(page === 1 ? 0 : 1)
-    }, [debouncedValue])
+    }, [debouncedValue, setPage])
 
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {

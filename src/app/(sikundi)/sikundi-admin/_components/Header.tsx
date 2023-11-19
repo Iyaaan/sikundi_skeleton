@@ -65,7 +65,7 @@ const Header:FC<Props> = ({ data }) => {
             })
             router.push(url.toString())
         }
-    }, [debouncedValue, router, data.url])
+    }, [debouncedValue, router, data.url, data.filterUrl])
 
     useEffect(() => {
         const p:any = {}

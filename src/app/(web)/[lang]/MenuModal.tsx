@@ -22,7 +22,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
 
     useEffect(() => {
         off()
-    }, [path, params])
+    }, [path, params, off])
 
     return (
         <Fragment>
