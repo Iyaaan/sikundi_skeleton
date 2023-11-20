@@ -26,9 +26,7 @@ import {
     HeadingTagType,
 } from '@lexical/rich-text';
 import {
-    $getSelectionStyleValueForProperty,
     $isParentElementRTL,
-    $patchStyleText,
     $setBlocksType,
 } from '@lexical/selection';
 import {$isTableNode} from '@lexical/table';
@@ -56,6 +54,7 @@ import {
     FORMAT_ELEMENT_COMMAND,
     FORMAT_TEXT_COMMAND,
     INDENT_CONTENT_COMMAND,
+    INSERT_PARAGRAPH_COMMAND,
     KEY_MODIFIER_COMMAND,
     LexicalEditor,
     NodeKey,
@@ -76,7 +75,7 @@ import {getSelectedNode} from '../../utils/getSelectedNode';
 import {sanitizeUrl} from '../../utils/url';
 import {EmbedConfigs} from '../AutoEmbedPlugin';
 import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
-import {INSERT_IMAGE_COMMAND, InsertImageDialog} from '../ImagesPlugin';
+import {INSERT_IMAGE_COMMAND} from '../ImagesPlugin';
 import {InsertInlineImageDialog} from '../InlineImagePlugin';
 import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import {INSERT_PAGE_BREAK} from '../PageBreakPlugin';
@@ -87,6 +86,7 @@ import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldI
 import { Separator } from '@sikundi/components/ui/separator';
 import { cn } from "@sikundi/lib/client/utils"
 import { Button } from "@sikundi/components/ui/button"
+import {$generateNodesFromDOM} from '@lexical/html';
 
 import MediaLibraryModal from '@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal';
 // import { ImageIcon } from 'lucide-react';
@@ -897,10 +897,13 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                     </Popover>
                     <MediaLibraryModal variant={"outline"} onComplete={(values) => {
                         // form.setValue("featureImageUrl", values[0].url)
-                        activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                            altText: String(values[0].name), 
-                            src: values[0].url
-                        });
+                        values.map((value) => {
+                            activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                                altText: String(value.name), 
+                                src: value.url
+                            })
+                            // activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])
+                        })
                     }}>
                         <ImageIcon className="mr-2" /> <span className='hidden md:block'>Image</span>
                     </MediaLibraryModal>
@@ -938,26 +941,6 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     }}>
                                         <ScissorsIcon className='w-4 h-4' />
                                         <span className='ml-2'>{"Page Break"}</span>
-                                    </CommandItem>
-                                    <CommandItem value={"Image"} title="Image" onSelect={() => {
-                                        OpenModal(
-                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Add a Photo</DialogTitle>
-                                                    <DialogDescription>
-                                                        Choose a option
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <InsertImageDialog
-                                                    activeEditor={activeEditor}
-                                                    onClose={() => CloseModal()}
-                                                />
-                                            </DialogContent>
-                                        )
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <ImageIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Image"}</span>
                                     </CommandItem>
                                     {/* <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
                                         activeEditor.dispatchCommand(

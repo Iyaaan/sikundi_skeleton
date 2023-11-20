@@ -20,6 +20,7 @@ import { photos } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/libra
 import { useDebounce } from 'usehooks-ts'
 import { Skeleton } from '@sikundi/components/ui/skeleton'
 import exifr from 'exifr'
+import { twMerge } from 'tailwind-merge'
 
 interface Props extends ButtonProps {
     onComplete?: (values: {
@@ -37,6 +38,7 @@ interface Props extends ButtonProps {
 
 export default function MediaLibraryModal({onComplete, disableList, group, ...props}: Props) {
     const [files, setFiles] = useState([])
+    const [selected, setSelected] = useState<{id: number, url: string}[]>([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
     const [imageLoading, setImageLoading] = useState(false)
@@ -185,28 +187,43 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                             setValue(event.target.value)
                         }} />
                         {!disableList && photoList.length > 0 ? 
-                        <ScrollArea className='h-[500px]'>
-                            <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
-                                {photoList.map((photo, index) => photo.url.length > 0 && (
-                                    <button type='button' className='relative aspect-square col-span-1 rounded-md' key={index} onClick={() => {
-                                        onComplete?.([
-                                            {url: photo.url, id: photo.id}
-                                        ])
-                                        setActive(false)
-                                    }}>
-                                        <Image
-                                            src={photo.url}
-                                            alt={photo.url}
-                                            fill
-                                            className='h-full w-full rounded-lg object-cover'
-                                        />
-                                    </button>
-                                ))}
-                            </div>
-                            {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setPage(page+1)}>
-                                {imageLoading ? "loading" : "Load More"}    
-                            </Button>}
-                        </ScrollArea> :(
+                        <Fragment>
+                            <ScrollArea className='h-[500px]'>
+                                <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
+                                    {photoList.map((photo, index) => photo.url.length > 0 && (
+                                        <button type='button' className={twMerge([
+                                            'relative aspect-square col-span-1 rounded-md',
+                                            selected.includes(photo) && " border-2 border-primary"
+                                        ])} key={index} onClick={() => {
+                                            setSelected((s)=>{
+                                                if (s.includes(photo)) {
+                                                    return [...s.filter((a)=>a!==photo)]
+                                                }
+                                                return [...s, photo]
+                                            })
+                                        }}>
+                                            <Image
+                                                src={photo.url}
+                                                alt={photo.url}
+                                                fill
+                                                className='h-full w-full rounded-md object-cover'
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+                                {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setPage(page+1)}>
+                                    {imageLoading ? "loading" : "Load More"}    
+                                </Button>}
+                            </ScrollArea>
+                            {selected.length > 0 && <Button variant={"secondary"} size={"lg"} className='w-full' onClick={() => {
+                                onComplete?.(selected.map((item)=>({
+                                    url: item?.url, 
+                                    id: item?.id
+                                })))
+                                setSelected([])
+                                setActive(false)
+                            }}>Add</Button>}
+                        </Fragment> :(
                             imageLoading ?
                             <ScrollArea className='h-[500px]'>
                                 <div className='grid lg:grid-cols-3 grid-cols-2 gap-4'>
