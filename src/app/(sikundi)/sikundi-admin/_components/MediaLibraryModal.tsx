@@ -30,6 +30,7 @@ interface Props extends ButtonProps {
         createdById?: number
         url: string
         name?: string
+        caption?: string | null
         libraryGroupId?: number
     }[]) => void
     disableList?: boolean
@@ -38,7 +39,7 @@ interface Props extends ButtonProps {
 
 export default function MediaLibraryModal({onComplete, disableList, group, ...props}: Props) {
     const [files, setFiles] = useState([])
-    const [selected, setSelected] = useState<{id: number, url: string}[]>([])
+    const [selected, setSelected] = useState<{id: number, url: string, caption?: string | null}[]>([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
     const [imageLoading, setImageLoading] = useState(false)
@@ -47,7 +48,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     const [hasPage, setHasPage] = useState(true)
     const [photoList, setPhotoList] = useState<{
         url: string,
-        id: number
+        id: number,
+        caption?: string | null
     }[]>([])
     const { toast } = useToast()
     const [value, setValue] = useState<string>('')
@@ -58,7 +60,6 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             if (!disableList && active) {
                 setImageLoading(true)
                 const { data } = await photos(debouncedValue, page)
-                await new Promise(r => setTimeout(r, 2000))
                 data && setPhotoList((p) => ([
                     ...p,
                     ...data.medias
@@ -216,10 +217,13 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                 </Button>}
                             </ScrollArea>
                             {selected.length > 0 && <Button variant={"secondary"} size={"lg"} className='w-full' onClick={() => {
-                                onComplete?.(selected.map((item)=>({
-                                    url: item?.url, 
-                                    id: item?.id
-                                })))
+                                onComplete?.(selected.map((item)=>{
+                                    return ({
+                                        url: item?.url, 
+                                        id: item?.id,
+                                        caption: item?.caption || null
+                                    })
+                                }))
                                 setSelected([])
                                 setActive(false)
                             }}>Add</Button>}

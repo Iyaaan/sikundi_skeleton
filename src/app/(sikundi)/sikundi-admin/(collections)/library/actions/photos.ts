@@ -42,7 +42,9 @@ export async function photos(search:string, page:number) {
         const medias = await prisma.media.findMany({
             select: {
                 id: true,
-                url: true
+                url: true,
+                name: true,
+                caption: true
             },
             // @ts-ignore
             where: filters,
@@ -63,7 +65,8 @@ export async function photos(search:string, page:number) {
             data: {
                 medias: medias.map((media)=>({
                     id: media.id,
-                    url: media.url
+                    url: media.url,
+                    caption: media.caption
                 })) || [],
                 total: Math.ceil((Number(totalMedias._count)/per_page)),
                 current: current

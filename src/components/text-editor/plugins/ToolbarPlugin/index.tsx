@@ -63,6 +63,7 @@ import {
     SELECTION_CHANGE_COMMAND,
     UNDO_COMMAND,
 } from 'lexical';
+import {createHeadlessEditor} from '@lexical/headless';
 import {Dispatch, useCallback, useEffect, useState} from 'react';
 import * as React from 'react';
 import {IS_APPLE} from '../../utils/environment';
@@ -103,6 +104,7 @@ import {
   PopoverTrigger,
 } from "@sikundi/components/ui/popover"
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
+import PlaygroundNodes from '../../nodes/PlaygroundNodes';
 
 const blockTypeToBlockName = {
     bullet: 'Bulleted List',
@@ -897,12 +899,13 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                     </Popover>
                     <MediaLibraryModal variant={"outline"} onComplete={(values) => {
                         // form.setValue("featureImageUrl", values[0].url)
-                        values.map((value) => {
+                        values.map(async (value) => {
                             activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                                 altText: String(value.name), 
-                                src: value.url
+                                src: value.url,
+                                captionsEnabled: true
                             })
-                            // activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])
+                            activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])
                         })
                     }}>
                         <ImageIcon className="mr-2" /> <span className='hidden md:block'>Image</span>
