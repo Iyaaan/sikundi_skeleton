@@ -5,12 +5,16 @@ const nextConfig = {
             allowedOrigins: [
                 "localhost:3000",
                 "gaafu.media",
-                "www.gaafu.media"
+                "www.gaafu.media",
+                "sikundi.io",
+                "www.sikundi.io"
             ],
             allowedForwardedHosts: [
                 "localhost",
                 "gaafu.media",
-                "www.gaafu.media"
+                "www.gaafu.media",
+                "sikundi.io",
+                "www.sikundi.io"
             ]
         }
     }
