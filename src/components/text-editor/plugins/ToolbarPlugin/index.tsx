@@ -26,7 +26,9 @@ import {
     HeadingTagType,
 } from '@lexical/rich-text';
 import {
+    $getSelectionStyleValueForProperty,
     $isParentElementRTL,
+    $patchStyleText,
     $setBlocksType,
 } from '@lexical/selection';
 import {$isTableNode} from '@lexical/table';
@@ -62,8 +64,8 @@ import {
     REDO_COMMAND,
     SELECTION_CHANGE_COMMAND,
     UNDO_COMMAND,
+    createEditor,
 } from 'lexical';
-import {createHeadlessEditor} from '@lexical/headless';
 import {Dispatch, useCallback, useEffect, useState} from 'react';
 import * as React from 'react';
 import {IS_APPLE} from '../../utils/environment';
@@ -87,7 +89,6 @@ import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldI
 import { Separator } from '@sikundi/components/ui/separator';
 import { cn } from "@sikundi/lib/client/utils"
 import { Button } from "@sikundi/components/ui/button"
-import {$generateNodesFromDOM} from '@lexical/html';
 
 import MediaLibraryModal from '@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal';
 // import { ImageIcon } from 'lucide-react';
@@ -104,7 +105,6 @@ import {
   PopoverTrigger,
 } from "@sikundi/components/ui/popover"
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@sikundi/components/ui/dialog';
-import PlaygroundNodes from '../../nodes/PlaygroundNodes';
 
 const blockTypeToBlockName = {
     bullet: 'Bulleted List',
@@ -897,176 +897,216 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                             </Command>
                         </PopoverContent>
                     </Popover>
-                    <MediaLibraryModal variant={"outline"} onComplete={(values) => {
-                        // form.setValue("featureImageUrl", values[0].url)
-                        values.map(async (value) => {
-                            activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                                altText: String(value.name), 
-                                src: value.url,
-                                captionsEnabled: true
-                            })
-                            activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])
-                        })
-                    }}>
-                        <ImageIcon className="mr-2" /> <span className='hidden md:block'>Image</span>
-                    </MediaLibraryModal>
-                    <Popover open={blockMenu} onOpenChange={setBlocksMenu}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                disabled={!isEditable}
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={blockMenu}
-                                className="justify-between gap-2"
-                                aria-label="Insert specialized editor node"
-                            >
-                                {/* <span className='hidden md:inline mr-2'>{"Insert"}</span> */}
-                                <PlusIcon className="h-4 w-4" />
-                                <ChevronDownIcon className="ml-1 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="p-0 max-w-[175px]" align='end'>
-                            <Command>
-                                <CommandGroup>
-                                    <CommandItem value={"Horizontal Rule"} title="Horizontal Rule" onSelect={() => {
-                                        activeEditor.dispatchCommand(
-                                            INSERT_HORIZONTAL_RULE_COMMAND,
-                                            undefined,
-                                        );
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <RulerIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Horizontal Rule"}</span>
-                                    </CommandItem>
-                                    <CommandItem value={"Page Break"} title="Page Break" onSelect={() => {
-                                        activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <ScissorsIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Page Break"}</span>
-                                    </CommandItem>
-                                    {/* <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
-                                        activeEditor.dispatchCommand(
-                                            INSERT_EXCALIDRAW_COMMAND,
-                                            undefined,
-                                        );
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <PencilIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Excalidraw"}</span>
-                                    </CommandItem> */}
-                                    {/* <CommandItem value={"Table"} title="Table" onSelect={() => {
-                                        OpenModal(
-                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Insert Table</DialogTitle>
-                                                    <DialogDescription>
-                                                        Customize Your Table
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <InsertTableDialog
-                                                    activeEditor={activeEditor}
-                                                    onClose={() => CloseModal()}
-                                                />
-                                            </DialogContent>
-                                        )
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <TableIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Table"}</span>
-                                    </CommandItem> */}
-                                    {/* <CommandItem value={"Poll"} title="Poll" onSelect={() => {
-                                        OpenModal(
-                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Insert Poll</DialogTitle>
-                                                    <DialogDescription>
-                                                        Customize Your Poll
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <InsertPollDialog
-                                                    activeEditor={activeEditor}
-                                                    onClose={() => CloseModal()}
-                                                />
-                                            </DialogContent>
-                                        )
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <VoteIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Poll"}</span>
-                                    </CommandItem> */}
-                                    <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
-                                        OpenModal(
-                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Insert Columns Layout</DialogTitle>
-                                                    <DialogDescription>
-                                                        Customize Your Layout
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <InsertLayoutDialog
-                                                    activeEditor={activeEditor}
-                                                    onClose={() => CloseModal()}
-                                                />
-                                            </DialogContent>
-                                        )
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <LayoutIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Columns Layout"}</span>
-                                    </CommandItem>
-                                    {/* <CommandItem value={"Equation"} title="Equation" onSelect={() => {
-                                        OpenModal(
-                                            <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Insert Equation</DialogTitle>
-                                                    <DialogDescription>
-                                                        Customize Your Equation
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <InsertEquationDialog
-                                                    activeEditor={activeEditor}
-                                                    onClose={() => CloseModal()}
-                                                />
-                                            </DialogContent>
-                                        )
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <SigmaIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Equation"}</span>
-                                    </CommandItem> */}
-                                    <CommandItem value={"Collapsible container"} title="Collapsible container" onSelect={() => {
-                                        editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
-                                        setBlocksMenu(false)
-                                    }}>
-                                        <ContainerIcon className='w-4 h-4' />
-                                        <span className='ml-2'>{"Collapsible"}</span>
-                                    </CommandItem>
-                                    {EmbedConfigs.map((embedConfig) => (
-                                        <CommandItem key={embedConfig.type} value={embedConfig.contentName} title={embedConfig.contentName} onSelect={() => {
-                                            activeEditor.dispatchCommand(
-                                                INSERT_EMBED_COMMAND,
-                                                embedConfig.type,
-                                            );
-                                            setBlocksMenu(false)
-                                        }}>
-                                            {embedConfig.icon}
-                                            {embedConfig.contentName}
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
+                    {blockType in blockTypeToBlockName && activeEditor === editor && (
+                        <React.Fragment>
+                            <MediaLibraryModal variant={"outline"} onComplete={(values) => {
+                                // form.setValue("featureImageUrl", values[0].url)
+                                values.map((value) => {
+                                    const nestedEditor = createEditor();
+                                    const editorState = nestedEditor.parseEditorState(JSON.stringify({
+                                        "root":{
+                                            "children":[
+                                               {
+                                                  "children":[
+                                                     {
+                                                        "detail":0,
+                                                        "format":0,
+                                                        "mode":"normal",
+                                                        "style":"",
+                                                        "text": String(value.caption || ""),
+                                                        "type":"text",
+                                                        "version":1
+                                                     }
+                                                  ],
+                                                  "direction":"ltr",
+                                                  "format":"",
+                                                  "indent":0,
+                                                  "type":"paragraph",
+                                                  "version":1
+                                               }
+                                            ],
+                                            "direction":"ltr",
+                                            "format":"",
+                                            "indent":0,
+                                            "type":"root",
+                                            "version":1
+                                         }
+                                    }));
+                                    if (!editorState.isEmpty()) {
+                                        nestedEditor.setEditorState(editorState);
+                                    }
+                                    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                                        altText: String(value.name), 
+                                        src: value.url,
+                                        showCaption: true,
+                                        caption: nestedEditor
+                                    })
+                                    activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])
+                                })
+                            }}>
+                                <ImageIcon className="mr-2" /> <span className='hidden md:block'>Image</span>
+                            </MediaLibraryModal>
+                            <Popover open={blockMenu} onOpenChange={setBlocksMenu}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        disabled={!isEditable}
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={blockMenu}
+                                        className="justify-between gap-2"
+                                        aria-label="Insert specialized editor node"
+                                    >
+                                        {/* <span className='hidden md:inline mr-2'>{"Insert"}</span> */}
+                                        <PlusIcon className="h-4 w-4" />
+                                        <ChevronDownIcon className="ml-1 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="p-0 max-w-[175px]" align='end'>
+                                    <Command>
+                                        <CommandGroup>
+                                            <CommandItem value={"Horizontal Rule"} title="Horizontal Rule" onSelect={() => {
+                                                activeEditor.dispatchCommand(
+                                                    INSERT_HORIZONTAL_RULE_COMMAND,
+                                                    undefined,
+                                                );
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <RulerIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Horizontal Rule"}</span>
+                                            </CommandItem>
+                                            <CommandItem value={"Page Break"} title="Page Break" onSelect={() => {
+                                                activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <ScissorsIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Page Break"}</span>
+                                            </CommandItem>
+                                            {/* <CommandItem value={"Excalidraw"} title="Excalidraw" onSelect={() => {
+                                                activeEditor.dispatchCommand(
+                                                    INSERT_EXCALIDRAW_COMMAND,
+                                                    undefined,
+                                                );
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <PencilIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Excalidraw"}</span>
+                                            </CommandItem> */}
+                                            {/* <CommandItem value={"Table"} title="Table" onSelect={() => {
+                                                OpenModal(
+                                                    <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Insert Table</DialogTitle>
+                                                            <DialogDescription>
+                                                                Customize Your Table
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <InsertTableDialog
+                                                            activeEditor={activeEditor}
+                                                            onClose={() => CloseModal()}
+                                                        />
+                                                    </DialogContent>
+                                                )
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <TableIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Table"}</span>
+                                            </CommandItem> */}
+                                            {/* <CommandItem value={"Poll"} title="Poll" onSelect={() => {
+                                                OpenModal(
+                                                    <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Insert Poll</DialogTitle>
+                                                            <DialogDescription>
+                                                                Customize Your Poll
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <InsertPollDialog
+                                                            activeEditor={activeEditor}
+                                                            onClose={() => CloseModal()}
+                                                        />
+                                                    </DialogContent>
+                                                )
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <VoteIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Poll"}</span>
+                                            </CommandItem> */}
+                                            <CommandItem value={"Columns Layout"} title="Columns Layout" onSelect={() => {
+                                                OpenModal(
+                                                    <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Insert Columns Layout</DialogTitle>
+                                                            <DialogDescription>
+                                                                Customize Your Layout
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <InsertLayoutDialog
+                                                            activeEditor={activeEditor}
+                                                            onClose={() => CloseModal()}
+                                                        />
+                                                    </DialogContent>
+                                                )
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <LayoutIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Columns Layout"}</span>
+                                            </CommandItem>
+                                            {/* <CommandItem value={"Equation"} title="Equation" onSelect={() => {
+                                                OpenModal(
+                                                    <DialogContent className="max-w-[425px] w-[calc(100vw-16px)]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Insert Equation</DialogTitle>
+                                                            <DialogDescription>
+                                                                Customize Your Equation
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <InsertEquationDialog
+                                                            activeEditor={activeEditor}
+                                                            onClose={() => CloseModal()}
+                                                        />
+                                                    </DialogContent>
+                                                )
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <SigmaIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Equation"}</span>
+                                            </CommandItem> */}
+                                            <CommandItem value={"Collapsible container"} title="Collapsible container" onSelect={() => {
+                                                editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
+                                                setBlocksMenu(false)
+                                            }}>
+                                                <ContainerIcon className='w-4 h-4' />
+                                                <span className='ml-2'>{"Collapsible"}</span>
+                                            </CommandItem>
+                                            {EmbedConfigs.map((embedConfig) => (
+                                                <CommandItem key={embedConfig.type} value={embedConfig.contentName} title={embedConfig.contentName} onSelect={() => {
+                                                    activeEditor.dispatchCommand(
+                                                        INSERT_EMBED_COMMAND,
+                                                        embedConfig.type,
+                                                    );
+                                                    setBlocksMenu(false)
+                                                }}>
+                                                    {embedConfig.icon}
+                                                    {embedConfig.contentName}
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </React.Fragment>
+                    )}
+                    
                 </React.Fragment>
             )}
             
+            {blockType in blockTypeToBlockName && activeEditor === editor &&
             <ElementFormatDropdown
                 disabled={!isEditable}
                 value={elementFormat}
                 editor={editor}
                 isRTL={isRTL}
-            />
+            />}
 
             {modal}
         </div>

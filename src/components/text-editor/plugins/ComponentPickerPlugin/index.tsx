@@ -39,7 +39,6 @@ import useModal from '../../hooks/useModal';
 import catTypingGif from '../../images/cat-typing.gif';
 import {EmbedConfigs} from '../AutoEmbedPlugin';
 import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
-import {INSERT_IMAGE_COMMAND, InsertImageDialog} from '../ImagesPlugin';
 import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import {INSERT_PAGE_BREAK} from '../PageBreakPlugin';
 import {InsertPollDialog} from '../PollPlugin';
@@ -262,24 +261,6 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
             editor.dispatchCommand(INSERT_EMBED_COMMAND, embedConfig.type),
         }),
     ),
-    new ComponentPickerOption('GIF', {
-      icon: <i className="icon gif" />,
-      keywords: ['gif', 'animate', 'image', 'file'],
-      onSelect: () =>
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-          altText: 'Cat typing on a laptop',
-          // @ts-ignore
-          src: catTypingGif,
-        }),
-    }),
-    new ComponentPickerOption('Image', {
-      icon: <i className="icon image" />,
-      keywords: ['image', 'photo', 'picture', 'file'],
-      onSelect: () =>
-        showModal('Insert Image', (onClose) => (
-          <InsertImageDialog activeEditor={editor} onClose={onClose} />
-        )),
-    }),
     new ComponentPickerOption('Collapsible', {
       icon: <i className="icon caret-right" />,
       keywords: ['collapse', 'collapsible', 'toggle'],

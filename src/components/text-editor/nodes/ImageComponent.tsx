@@ -387,21 +387,13 @@ export default function ImageComponent({
         {showCaption && (
           <div className="image-caption-container">
             <LexicalNestedComposer initialEditor={caption}>
-              <AutoFocusPlugin />
-              <MentionsPlugin />
+              {/* <AutoFocusPlugin /> */}
+              {/* <MentionsPlugin /> */}
               <LinkPlugin />
-              <EmojisPlugin />
-              <HashtagPlugin />
-              <KeywordsPlugin />
-              {isCollabActive ? (
-                <CollaborationPlugin
-                  id={caption.getKey()}
-                  providerFactory={createWebsocketProvider}
-                  shouldBootstrap={true}
-                />
-              ) : (
-                <HistoryPlugin externalHistoryState={historyState} />
-              )}
+              {/* <EmojisPlugin /> */}
+              {/* <HashtagPlugin /> */}
+              {/* <KeywordsPlugin /> */}
+              <HistoryPlugin externalHistoryState={historyState} />
               <RichTextPlugin
                 contentEditable={
                   <ContentEditable className="ImageNode__contentEditable" />

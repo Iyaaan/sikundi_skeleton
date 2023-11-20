@@ -34,9 +34,6 @@ import {
   ImageNode,
   ImagePayload,
 } from '../../nodes/ImageNode';
-import {Button} from '../..../../../../ui/button';
-import FileInput from '../../ui/FileInput';
-import { Input } from '../..../../../../ui/input';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
@@ -45,140 +42,6 @@ const getDOMSelection = (targetWindow: Window | null): Selection | null =>
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND');
-
-export function InsertImageUriDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void;
-}) {
-  const [src, setSrc] = useState('');
-  const [altText, setAltText] = useState('');
-
-  const isDisabled = src === '';
-
-  return (
-    <>
-    <Input
-        placeholder="i.e. https://source.unsplash.com/random"
-        onChange={(text)=>setSrc(text.target.value)}
-        value={src}
-        data-test-id="image-modal-url-input"
-    />
-    <Input
-        placeholder="Random unsplash image"
-        onChange={(text)=>setAltText(text.target.value)}
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-    />
-    <Button
-        variant={"secondary"}
-        data-test-id="image-modal-confirm-btn"
-        disabled={isDisabled}
-        onClick={() => onClick({altText, src})}>
-        Confirm
-    </Button>
-    </>
-  );
-}
-
-export function InsertImageUploadedDialogBody({
-  onClick,
-}: {
-  onClick: (payload: InsertImagePayload) => void;
-}) {
-  const [src, setSrc] = useState('');
-  const [altText, setAltText] = useState('');
-
-  const isDisabled = src === '';
-
-  const loadImage = (files: FileList | null) => {
-    const reader = new FileReader();
-    reader.onload = function () {
-      if (typeof reader.result === 'string') {
-        setSrc(reader.result);
-      }
-      return '';
-    };
-    if (files !== null) {
-      reader.readAsDataURL(files[0]);
-    }
-  };
-
-  return (
-    <>
-      <FileInput
-        label="Image Upload"
-        onChange={loadImage}
-        accept="image/*"
-        data-test-id="image-modal-file-upload"
-      />
-      <Input
-        placeholder="Descriptive alternative text"
-        onChange={(e) => setAltText(e.target.value)}
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-      />
-      <Button
-        variant={"outline"}
-        data-test-id="image-modal-file-upload-btn"
-        disabled={isDisabled}
-        onClick={() => onClick({altText, src})}>
-        Confirm
-      </Button>
-    </>
-  );
-}
-
-export function InsertImageDialog({
-  activeEditor,
-  onClose,
-}: {
-  activeEditor: LexicalEditor;
-  onClose: () => void;
-}): JSX.Element {
-  const [mode, setMode] = useState<null | 'url' | 'file'>(null);
-  const hasModifier = useRef(false);
-
-  useEffect(() => {
-    hasModifier.current = false;
-    const handler = (e: KeyboardEvent) => {
-      hasModifier.current = e.altKey;
-    };
-    document.addEventListener('keydown', handler);
-    return () => {
-      document.removeEventListener('keydown', handler);
-    };
-  }, [activeEditor]);
-
-  const onClick = (payload: InsertImagePayload) => {
-    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
-    onClose();
-  };
-
-  return (
-    <>
-      {!mode && (
-        <>
-        
-            <Button
-            variant={"secondary"}
-            data-test-id="image-modal-option-url"
-            onClick={() => setMode('url')}>
-            URL
-          </Button>
-          <Button
-           variant={"secondary"}
-            data-test-id="image-modal-option-file"
-            onClick={() => setMode('file')}>
-            File
-          </Button>
-        </>
-      )}
-      {mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
-      {mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}
-    </>
-  );
-}
 
 export default function ImagesPlugin({
   captionsEnabled,
@@ -232,11 +95,6 @@ export default function ImagesPlugin({
 
   return null;
 }
-
-// const TRANSPARENT_IMAGE =
-//   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-// const img = document.createElement('img');
-// img.src = TRANSPARENT_IMAGE;
 
 function onDragStart(event: DragEvent): boolean {
   const node = getImageNodeInSelection();
