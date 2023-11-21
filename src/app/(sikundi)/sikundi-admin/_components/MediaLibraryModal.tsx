@@ -92,11 +92,13 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                 let validatedFiles:any[] = []
     
                 await Promise.all(acceptedFiles.map(async (file:any) => {
-                    const data = await exifr.parse(file)
+                    const data = await exifr.parse(file, {
+                        xmp: true
+                    })
                     validatedFiles.push(Object.assign(file, { preview: URL.createObjectURL(file), custom: {
                         name: file.name,
                         tags: [],
-                        caption: data?.ImageDescription || data?.description
+                        caption: data?.ImageDescription?.value || data?.description?.value || data?.description || data?.ImageDescription
                     }}))
                 }))
     
