@@ -98,7 +98,7 @@ export const FaceBookEmbedConfig: PlaygroundEmbedConfig = {
 
   // Determine if a given URL is a match and return url data.
   parseUrl: async (url: string) => {
-    const match = /\/([^\/?]+)(?:\?.*)?$/.exec(url);
+    const match = /^https?:\/\/(?:www\.)?facebook\.com\/[^\/]+\/posts\/([^\/?]+)(?:\?.*)?$/.exec(url);
 
     const id = match ? (match?.[1].length > 0 ? match[1] : null) : null;
 

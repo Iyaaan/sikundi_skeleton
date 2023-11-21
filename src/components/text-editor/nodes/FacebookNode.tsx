@@ -62,7 +62,7 @@ export type SerializedFaceBookNode = Spread<
   SerializedDecoratorBlockNode
 >;
 
-function convertYoutubeElement(
+function convertFacebookElement(
   domNode: HTMLElement,
 ): null | DOMConversionOutput {
   const postID = domNode.getAttribute('data-lexical-facebook');
@@ -130,7 +130,7 @@ export class FaceBookNode extends DecoratorBlockNode {
           return null;
         }
         return {
-          conversion: convertYoutubeElement,
+          conversion: convertFacebookElement,
           priority: 1,
         };
       },
