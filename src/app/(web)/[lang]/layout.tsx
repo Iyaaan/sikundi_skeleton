@@ -124,7 +124,7 @@ export default async function RootLayout(props: Props) {
         <html lang={props.params.lang === "dv" ? "dv-Mv" : "en"} translate="no">
             <body dir={props.params.lang === "dv" ? "rtl" : "ltr"} className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`}>
                 <ThemeProvider>
-                    <NextTopLoader
+                    {/* <NextTopLoader
                         color={"#ca2126"}
                         initialPosition={0.08}
                         crawlSpeed={200}
@@ -137,7 +137,7 @@ export default async function RootLayout(props: Props) {
                         template='<div class="bar" role="bar"><div class="peg"></div></div> 
                         <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
                         zIndex={1600}
-                    />
+                    /> */}
                     <AnalyticsProvider>
                         <div className='grid grid-cols-12'>
                             <LandScapeAdThin href={"https://bankofmaldives.com.mv"} 
