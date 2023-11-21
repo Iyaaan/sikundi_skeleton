@@ -24,7 +24,6 @@ import {CollapsibleTitleNode} from '../plugins/CollapsiblePlugin/CollapsibleTitl
 import {EmojiNode} from './EmojiNode';
 import {FigmaNode} from './FigmaNode';
 import {ImageNode} from './ImageNode';
-import {InlineImageNode} from './InlineImageNode';
 import {KeywordNode} from './KeywordNode';
 import {LayoutContainerNode} from './LayoutContainerNode';
 import {LayoutItemNode} from './LayoutItemNode';
@@ -55,7 +54,6 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   PollNode,
   StickyNode,
   ImageNode,
-  InlineImageNode,
   MentionNode,
   EmojiNode,
   KeywordNode,

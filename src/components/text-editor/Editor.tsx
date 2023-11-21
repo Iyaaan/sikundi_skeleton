@@ -34,7 +34,6 @@ import EmojisPlugin from './plugins/EmojisPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
-import InlineImagePlugin from './plugins/InlineImagePlugin';
 import KeywordsPlugin from './plugins/KeywordsPlugin';
 import {LayoutPlugin} from './plugins/LayoutPlugin/LayoutPlugin';
 import LinkPlugin from './plugins/LinkPlugin';
@@ -62,7 +61,7 @@ import FaceBookPlugin from './plugins/FacebookPlugin';
 export default function Editor(): JSX.Element {
     const {historyState} = useSharedHistoryContext();
     const isEditable = useLexicalEditable();
-    const text = 'Enter some rich text...';
+    const text = "Type '/' for commands";
     const placeholder = <Placeholder>{text}</Placeholder>;
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
     const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
@@ -145,28 +144,27 @@ export default function Editor(): JSX.Element {
                 />
                 <TableCellResizer />
                 <NewTablePlugin cellEditorConfig={cellEditorConfig}>
-                <AutoFocusPlugin />
-                <RichTextPlugin
-                    contentEditable={
-                    <ContentEditable className="TableNode__contentEditable" />
-                    }
-                    placeholder={null}
-                    ErrorBoundary={LexicalErrorBoundary}
-                />
-                <MentionsPlugin />
-                <HistoryPlugin />
-                <ImagesPlugin captionsEnabled={false} />
-                <LinkPlugin />
-                <LexicalClickableLinkPlugin />
+                    {/* <AutoFocusPlugin /> */}
+                    <RichTextPlugin
+                        contentEditable={
+                        <ContentEditable className="TableNode__contentEditable" />
+                        }
+                        placeholder={null}
+                        ErrorBoundary={LexicalErrorBoundary}
+                    />
+                    {/* <MentionsPlugin /> */}
+                    <HistoryPlugin />
+                    <ImagesPlugin captionsEnabled={false} />
+                    <LinkPlugin />
+                    <LexicalClickableLinkPlugin />
                 </NewTablePlugin>
                 <ImagesPlugin />
-                <InlineImagePlugin />
                 <LinkPlugin />
-                <PollPlugin />
+                {/* <PollPlugin /> */}
                 <TwitterPlugin />
                 <FaceBookPlugin />
                 <YouTubePlugin />
-                <FigmaPlugin />
+                {/* <FigmaPlugin /> */}
                 {!isEditable && <LexicalClickableLinkPlugin />}
                 <HorizontalRulePlugin />
                 <TabFocusPlugin />
@@ -174,14 +172,17 @@ export default function Editor(): JSX.Element {
                 <CollapsiblePlugin />
                 <PageBreakPlugin />
                 <LayoutPlugin />
+                {
+                    floatingAnchorElem &&
+                    <FloatingLinkEditorPlugin
+                    anchorElem={floatingAnchorElem}
+                    isLinkEditMode={isLinkEditMode}
+                    setIsLinkEditMode={setIsLinkEditMode}
+                    />
+                }
                 {floatingAnchorElem && !isSmallWidthViewport && (
                     <React.Fragment>
                         <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-                        <FloatingLinkEditorPlugin
-                            anchorElem={floatingAnchorElem}
-                            isLinkEditMode={isLinkEditMode}
-                            setIsLinkEditMode={setIsLinkEditMode}
-                        />
                         <TableCellActionMenuPlugin
                             anchorElem={floatingAnchorElem}
                             cellMerge={true}
@@ -192,7 +193,7 @@ export default function Editor(): JSX.Element {
                     charset={'UTF-16' || 'UTF-8'}
                     maxLength={5}
                 /> */}
-                <ContextMenuPlugin />
+                {/* <ContextMenuPlugin /> */}
                 {/* <ActionsPlugin isRichText={true} /> */}
             </div>
             {/* <TreeViewPlugin /> */}

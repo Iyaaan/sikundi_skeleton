@@ -22,6 +22,7 @@ import type {
 import {$applyNodeReplacement, createEditor, DecoratorNode} from 'lexical';
 import * as React from 'react';
 import {Suspense} from 'react';
+import Placeholder from '../ui/Placeholder';
 
 const ImageComponent = React.lazy(
   // @ts-ignore
@@ -204,7 +205,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
 
   decorate(): JSX.Element {
     return (
-      <Suspense fallback={null}>
+      <Suspense fallback={<Placeholder className='bg-accent text-accent-foreground p-4 font-bold'>Image Loading</Placeholder>}>
         <ImageComponent
           src={this.__src}
           altText={this.__altText}

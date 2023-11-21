@@ -79,7 +79,6 @@ import {sanitizeUrl} from '../../utils/url';
 import {EmbedConfigs} from '../AutoEmbedPlugin';
 import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
 import {INSERT_IMAGE_COMMAND} from '../ImagesPlugin';
-import {InsertInlineImageDialog} from '../InlineImagePlugin';
 import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import {INSERT_PAGE_BREAK} from '../PageBreakPlugin';
 import {InsertPollDialog} from '../PollPlugin';
@@ -938,7 +937,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                                     activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                                         altText: String(value.name), 
                                         src: value.url,
-                                        showCaption: true,
+                                        showCaption: value.caption ? true : false,
                                         caption: nestedEditor
                                     })
                                     activeEditor.dispatchCommand(INSERT_PARAGRAPH_COMMAND, void[])

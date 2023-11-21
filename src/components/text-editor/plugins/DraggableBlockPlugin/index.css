@@ -21,12 +21,12 @@
 }
 
 .draggable-block-menu:hover {
-  background-color: #efefef;
+  background-color: hsl(var(--muted));
 }
 
 .draggable-block-target-line {
   pointer-events: none;
-  background: deepskyblue;
+  background: hsl(var(--primary));
   height: 4px;
   position: absolute;
   left: 0;
