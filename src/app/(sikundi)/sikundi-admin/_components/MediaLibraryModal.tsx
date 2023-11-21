@@ -98,7 +98,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                     validatedFiles.push(Object.assign(file, { preview: URL.createObjectURL(file), custom: {
                         name: file.name,
                         tags: [],
-                        caption: data?.ImageDescription?.value || data?.description?.value || data?.description || data?.ImageDescription
+                        caption: data?.ImageDescription?.value || data?.description?.value || data?.Headline || data?.description || data?.ImageDescription
                     }}))
                 }))
     
