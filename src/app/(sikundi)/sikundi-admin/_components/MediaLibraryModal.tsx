@@ -57,7 +57,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
   
     useEffect(() => {
         (async () => {
-            if (!disableList && active) {
+            if (!disableList) {
                 setImageLoading(true)
                 const { data } = await photos(debouncedValue, page)
                 data && setPhotoList((p) => ([
@@ -72,12 +72,18 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                 setImageLoading(false)
             }
         })()
-    }, [page, disableList, active])
+    }, [page, disableList])
 
     useEffect(() => {
         setPhotoList([])
-        setPage(page === 1 ? 0 : 1)
-    }, [debouncedValue, setPage])
+        setPage((p)=>p === 1 ? 0 : 1)
+    }, [debouncedValue, setPage, setPhotoList])
+
+    useEffect(() => {
+        if (active) {
+            setPage(1)
+        }
+    }, [active])
 
     // @ts-ignore
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
