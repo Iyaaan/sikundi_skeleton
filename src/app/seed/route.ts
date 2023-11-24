@@ -5,16 +5,20 @@ import filestream, { promises as fs } from "fs"
 import axios from 'axios'
 
 export async function GET(request: NextRequest) {
-    if (process.env.NODE_ENV === "development") {
-        await Promise.all([seed()])
-        return new NextResponse("seeded!!", {
-            status: 200
-        })
-    } else {
-        return new NextResponse("Environment should be in development to seed", {
-            status: 500
-        })
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //     await Promise.all([seed()])
+    //     return new NextResponse("seeded!!", {
+    //         status: 200
+    //     })
+    // } else {
+    //     return new NextResponse("Environment should be in development to seed", {
+    //         status: 500
+    //     })
+    // }
+    await Promise.all([seed()])
+    return new NextResponse("seeded!!", {
+        status: 200
+    })
 }
 
 export async function POST(request: NextRequest) {
