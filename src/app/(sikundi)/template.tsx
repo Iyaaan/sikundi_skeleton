@@ -2,15 +2,16 @@
 
 import React, { Fragment, ReactNode, useEffect } from 'react'
 import * as NProgress from 'nprogress'
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 export default function Template({children}: {children:ReactNode}) {
     const pathname = usePathname()
     const router = useRouter()
+    const params = useParams()
 
     useEffect(() => {
         NProgress.done();
-    }, [pathname, router]);
+    }, [pathname, router, params]);
 
     return (
         <Fragment>
