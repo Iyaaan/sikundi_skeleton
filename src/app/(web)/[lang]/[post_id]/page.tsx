@@ -26,9 +26,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
     const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
+    const post_id = parseInt(params.post_id)
     const data = await prisma.post.findUnique({
         where: {
-            id: parseInt(params.post_id),
+            id: post_id,
             language: language,
             status: "published"
         },
@@ -84,8 +85,9 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function SinglePage(props: Props) {
+    const post_id = parseInt(props.params.post_id)
     // @ts-ignore
-    const { relatedPosts, data } = await postData(parseInt(`${props.params.post_id}`), props?.params?.lang)
+    const { relatedPosts, data } = await postData(post_id, props?.params?.lang)
 
     return (
         <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
