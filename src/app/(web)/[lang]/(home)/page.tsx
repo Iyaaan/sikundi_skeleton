@@ -4,7 +4,7 @@ import VarientOne from "@sikundi/components/web/blocks/VarientOne";
 import VarientThree from "@sikundi/components/web/blocks/VarientThree";
 import VarientTwo from "@sikundi/components/web/blocks/VarientTwo";
 import VarientFour from "@sikundi/components/web/blocks/VarientFour";
-import VarientFive from "@sikundi/components/web/blocks/VarientFive";
+import dynamicImport from 'next/dynamic'
 import { prisma } from "@sikundi/lib/server/utils/prisma";
 
 export const runtime = 'nodejs'
@@ -31,6 +31,15 @@ export default async function Home(props: Props) {
         latestWorld
         // @ts-ignore
     } = await HomePage(props?.params?.lang)
+    const VarientFive  = dynamicImport(() => import("@sikundi/components/web/blocks/VarientFive"), {
+        loading: () => {
+            return (
+                <div className="lg:rounded-lg bg-web-secondary dark:bg-web-secondary-dark w-full aspect-video">
+
+                </div>
+            )
+        }
+    })
     
     return (
         <Fragment>
