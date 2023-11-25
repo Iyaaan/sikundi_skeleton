@@ -15,3 +15,8 @@ export async function GET(request: NextRequest, { params }: { params: { path: st
         })
     }
 }
+
+export const dynamic = 'force-static'
+export const dynamicParams = true
+export const revalidate = 'force-cache'
+export const runtime = 'nodejs'
