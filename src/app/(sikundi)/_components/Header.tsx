@@ -10,6 +10,7 @@ import H1 from '@sikundi/components/ui/typography/h1'
 import { SheetTrigger } from '@sikundi/components/ui/sheet'
 import { MoreVertical } from 'lucide-react'
 import Search from './Search'
+import Link from 'next/link'
 
 export default async function Header () {
     const user = await getUser()
@@ -45,8 +46,8 @@ export default async function Header () {
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
-                                        Profile
+                                    <DropdownMenuItem asChild>
+                                        <Link href={"/sikundi-admin/profile"}>Profile</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
                                         Report

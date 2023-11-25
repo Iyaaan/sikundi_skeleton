@@ -6,11 +6,6 @@ import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import { revalidatePath } from 'next/cache'
 
-const statusFromActions = {
-    active: "active",
-    blocked: "blocked",
-}
-
 export default async function POST(data: UserSchemaType) {
     return (await ErrorHandler(data, UserSchema, async ({createdBy, profilePictureUrl, action, id, role, ...data}:UserSchemaType) => {
         const usr = await getUser()
@@ -18,16 +13,6 @@ export default async function POST(data: UserSchemaType) {
         const user = await prisma.user.update({
             data: {
                 ...data,
-                createdBy: {
-                    connect: {
-                        userName: createdBy?.value || usr?.payload.userName
-                    }
-                },
-                role: {
-                    connect: {
-                        name: role?.value
-                    }
-                },
                 profilePicture: profilePictureUrl ? {
                     connect: {
                         url: profilePictureUrl
@@ -36,18 +21,19 @@ export default async function POST(data: UserSchemaType) {
                     disconnect: true
                 },
                 // @ts-ignore
-                status: action ? statusFromActions[action] : "active"
+                status: "active"
             },
             where: {    
-                id: id
+                email: usr?.payload.email
             }
         })
+        console.log(user)
 
-        revalidatePath('/sikundi-admin/user')
+        revalidatePath('/sikundi-admin/profile')
         return {
             notification: {
-                title: `User Successfully ${action}`,
-                description: `a user have ${action}, under the name ${user.userName}`
+                title: `Profile Successfully ${action}`,
+                description: `Your user profile have been ${action}.`
             }
         }
     }))

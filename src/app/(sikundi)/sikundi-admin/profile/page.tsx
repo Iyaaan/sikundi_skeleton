@@ -1,7 +1,7 @@
 import React from 'react'
 import dynamicImport from 'next/dynamic'
 import Loading from './loading'
-import getUser from '@sikundi/lib/server/utils/getUser'
+import getUser, { UserType } from '@sikundi/lib/server/utils/getUser'
 import { notFound } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
 
@@ -16,15 +16,18 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
-    const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_component/form'), { 
+    const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/profile/_component/form'), { 
         ssr: false,
         loading: () => <Loading />
     })
     const usr = await getUser()
-    const data = await user({params, searchParams})
+    // @ts-ignore
+    const data = await user(usr)
 
     return (
-        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(usr))} type='update' />
+        <div className='container p-4'>
+            <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(usr))} />
+        </div>
     )
 }
 
@@ -32,7 +35,7 @@ export const dynamic = "force-dynamic"
 
 
 
-const user = async (query: Props) => {
+const user = async (user: UserType) => {
     const userSingle = await prisma.user.findUnique({
         select: {
             id: true,
@@ -53,7 +56,8 @@ const user = async (query: Props) => {
             },
         },
         where: {
-            id: parseInt(query.params.id)
+            // @ts-ignore
+            email: String(user.payload.email)
         }
     })
 
