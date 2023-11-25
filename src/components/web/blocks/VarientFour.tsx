@@ -1,11 +1,16 @@
-import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+"use client"
+
+import React, { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
 import PostSmallCard from '../cards/PostSmallCard'
 import PostBigCard from '../cards/PostBigCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
+import { RefreshCcw } from 'lucide-react'
+import { useParams } from 'next/navigation'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>  {
     title?: string
+    nextPage: number | null
     data: {
         href: string
         title: string
@@ -13,10 +18,25 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         featureImage: string
         createdAt: string
     }[]
-    loadMore?: boolean
+    loadMore?: (slug:string, lang:string, page?: number) => Promise<{
+        name: string | undefined;
+        posts: {
+            href: string;
+            title: string;
+            description: string | null;
+            createdAt: Date;
+            featureImage: string | undefined;
+        }[] | undefined;
+        nextPage: number | null;
+    }>
 }
 
-const VarientFour:FC<Props> = ({title, data, loadMore, ...props}) => {
+const VarientFour:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) => {
+    const [data, setData] = useState(d || [])
+    const [loading, setLoading] = useState(false)
+    const [nextPage, setNextPage] = useState<number | null>(n)
+    const params = useParams()
+
     return (
         <div {...props} className={twMerge(['container px-0', props.className])}>
             {title && <h1 className='col-span-4 text-center font-black text-4xl lg:text-6xl text-web-background dark:text-web-background-dark lg:mb-10 mb-0 stroke-text-accent'>
@@ -45,8 +65,22 @@ const VarientFour:FC<Props> = ({title, data, loadMore, ...props}) => {
                         />
                     ))}
                 </div>
-                {loadMore && <button className='block p-4 shadow-2xl rounded-xl absolute left-1/2 -translate-x-1/2 -bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'>
-                    <ArrowDown2 />
+                {(loadMore && nextPage) && <button disabled={loading} className={twMerge([
+                    'block p-4 shadow-2xl rounded-xl absolute left-1/2 -translate-x-1/2',
+                    '-bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'
+                ])} onClick={async () => {
+                    setLoading(true)
+                    const { posts, nextPage:page } = await loadMore(String(params.category_slug), String(params.lang), nextPage)
+                    setNextPage(page)
+                    // @ts-ignore
+                    setData((d)=>[...d, ...posts])
+                    setLoading(false)
+                }}>
+                    {
+                        loading ? <RefreshCcw className='animate-spin' /> :
+                        <ArrowDown2 />
+                    }
+                    
                 </button>}
             </div>
         </div>
