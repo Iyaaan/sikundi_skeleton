@@ -3,6 +3,9 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
  
 // Route segment config
 export const runtime = 'nodejs'
+export const dynamic = 'force-static'
+export const dynamicParams = true
+export const revalidate = 'force-cache'
  
 // Image metadata
 export const alt = 'About Acme'

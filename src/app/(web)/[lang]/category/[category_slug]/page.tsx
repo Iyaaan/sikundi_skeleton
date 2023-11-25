@@ -1,14 +1,17 @@
 import VarientFour from "@sikundi/components/web/blocks/VarientFour"
 import { prisma } from "@sikundi/lib/server/utils/prisma"
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-static'
+export const dynamicParams = true
+export const revalidate = 1000
+
 interface Props { 
     params: { 
         category_slug: number 
         lang: string 
     } 
 }
-
-export const dynamic = "force-dynamic"
 
 export default async function CategoryPage(props: Props) {
     // @ts-ignore

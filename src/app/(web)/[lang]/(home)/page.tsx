@@ -7,7 +7,10 @@ import VarientFour from "@sikundi/components/web/blocks/VarientFour";
 import VarientFive from "@sikundi/components/web/blocks/VarientFive";
 import { prisma } from "@sikundi/lib/server/utils/prisma";
 
-export const dynamic = "force-dynamic"
+export const runtime = 'nodejs'
+export const dynamic = 'force-static'
+export const dynamicParams = true
+export const revalidate = 1000
 
 interface Props { 
     params: { 

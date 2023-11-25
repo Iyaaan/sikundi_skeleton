@@ -12,14 +12,17 @@ import Facebook from "./(blocks)/Facebook"
 import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-static'
+export const dynamicParams = true
+export const revalidate = 1000
+
 interface Props { 
     params: { 
         post_id: string 
         lang: string 
     } 
 }
-
-export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
     const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
