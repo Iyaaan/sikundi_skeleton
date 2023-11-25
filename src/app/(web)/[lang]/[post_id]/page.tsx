@@ -11,6 +11,7 @@ import Youtube from "./(blocks)/Youtube"
 import Facebook from "./(blocks)/Facebook"
 import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
+import { notFound } from "next/navigation"
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-static'
@@ -27,6 +28,9 @@ interface Props {
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
     const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
     const post_id = parseInt(params.post_id)
+    if(!post_id) {
+        return notFound()
+    }
     const data = await prisma.post.findUnique({
         where: {
             id: post_id,
@@ -86,6 +90,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function SinglePage(props: Props) {
     const post_id = parseInt(props.params.post_id)
+    if(!post_id) {
+        return notFound()
+    }
+
     // @ts-ignore
     const { relatedPosts, data } = await postData(post_id, props?.params?.lang)
 
