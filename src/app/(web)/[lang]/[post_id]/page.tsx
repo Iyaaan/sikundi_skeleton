@@ -81,7 +81,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
             "siteName": String(process.env.NEXT_PUBLIC_APP_NAME)
         }
     }
-  }
+}
 
 export default async function SinglePage(props: Props) {
     // @ts-ignore
@@ -195,69 +195,71 @@ export default async function SinglePage(props: Props) {
     )
 }
 
-async function postData(id:number, lang:string) {
-    const language = lang?.toUpperCase() === "EN" ? "EN" : "DV"
-    const data = await prisma.post.findUnique({
-        where: {
-            id: id,
-            language: language,
-            status: "published"
-        },
-        select: {
-            longTitle: true,
-            featureImageUrl: true,
-            postsTags: {
-                select: {
-                    tag: {
-                        select: {
-                            name: true
+function postData(id:number, lang:string) {
+    return new Promise(async (resolve, reject) => {
+        const language = lang?.toUpperCase() === "EN" ? "EN" : "DV"
+        const data = await prisma.post.findUnique({
+            where: {
+                id: id,
+                language: language,
+                status: "published"
+            },
+            select: {
+                longTitle: true,
+                featureImageUrl: true,
+                postsTags: {
+                    select: {
+                        tag: {
+                            select: {
+                                name: true
+                            }
                         }
                     }
-                }
-            },
-            createdBy: {
-                select: {
-                    userName: true,
-                    profilePictureUrl: true
-                }
-            },
-            createdAt: true,
-            lead: true
-        }
-    })
+                },
+                createdBy: {
+                    select: {
+                        userName: true,
+                        profilePictureUrl: true
+                    }
+                },
+                createdAt: true,
+                lead: true
+            }
+        })
 
-    const relatedPosts = await prisma.post.findMany({
-        take: 4,
-        orderBy: {
-            createdAt: "desc"
-        },
-        select: {
-            id: true,
-            title: true,
-            featureImageUrl: true
-        },
-        where: {
-            language: language,
-            status: "published",
-            postsTags: {
-                some: {
-                    tag: {
-                        name: {
-                            // @ts-ignore
-                            in: data?.postsTags?.map((tag)=>tag.tag?.name)
+        const relatedPosts = await prisma.post.findMany({
+            take: 4,
+            orderBy: {
+                createdAt: "desc"
+            },
+            select: {
+                id: true,
+                title: true,
+                featureImageUrl: true
+            },
+            where: {
+                language: language,
+                status: "published",
+                postsTags: {
+                    some: {
+                        tag: {
+                            name: {
+                                // @ts-ignore
+                                in: data?.postsTags?.map((tag)=>tag.tag?.name)
+                            }
                         }
                     }
-                }
-            },
-        }
-    })
+                },
+            }
+        })
 
-    return {
-        data,
-        relatedPosts: relatedPosts?.map((post) => ({
-            href: `/${language.toLowerCase()}/${post.id}`,
-            title: `${post.title}`,
-            featureImage: `${post.featureImageUrl}`
-        }))
-    }
+        resolve ({
+            data,
+            relatedPosts: relatedPosts?.map((post) => ({
+                href: `/${language.toLowerCase()}/${post.id}`,
+                title: `${post.title}`,
+                featureImage: `${post.featureImageUrl}`
+            }))
+        })
+    })    
 }
