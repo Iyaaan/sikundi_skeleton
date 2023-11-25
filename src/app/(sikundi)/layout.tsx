@@ -113,7 +113,7 @@ export default function RootLayout(props: Props) {
     return (
         <html lang="en" className={`${inter.variable}`}>
             <body className='sikundi'>
-                {/* <NextTopLoader
+                <NextTopLoader
                     color={"#ca2126"}
                     initialPosition={0.08}
                     crawlSpeed={200}
@@ -126,7 +126,7 @@ export default function RootLayout(props: Props) {
                     template='<div class="bar" role="bar"><div class="peg"></div></div> 
                     <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
                     zIndex={1600}
-                /> */}
+                />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

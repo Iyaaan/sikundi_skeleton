@@ -39,6 +39,8 @@ interface Props extends ButtonProps {
 
 export default function MediaLibraryModal({onComplete, disableList, group, ...props}: Props) {
     const [files, setFiles] = useState([])
+    const [caption, setCaption] = useState("")
+    const [tags, setTags] = useState([])
     const [selected, setSelected] = useState<{id: number, url: string, caption?: string | null}[]>([])
     const [active, setActive] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -137,6 +139,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     const removeAll = () => {
         setFiles([])
         setRejected([])
+        setTags([])
+        setCaption("")
     }
   
     const removeRejected = (name:any) => {
@@ -150,8 +154,14 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             const formData = new FormData()
             files.map((file, index) => {
                 formData.append(`file_${index}`, file)
-                // @ts-ignore
-                formData.append(`file_${index}_data`, JSON.stringify(file.custom))
+                formData.append(`file_${index}_data`, JSON.stringify({
+                    // @ts-ignore
+                    ...file?.custom,
+                    // @ts-ignore
+                    caption: file?.custom?.caption?.length > 0 ? file?.custom?.caption : caption,
+                    // @ts-ignore
+                    tags: file?.custom?.tags?.length > 0 ? file?.custom?.tags : tags
+                }))
             })
             formData.append('folder', group || 'uploads')
 
@@ -170,6 +180,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             }
         } finally {
             removeAll()
+            setTags([])
+            setCaption("")
             setLoading(false)
         }
     }
@@ -259,6 +271,40 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                         {(files?.length > 0 || rejected?.length > 0) ? <div className='space-y-3'>
                             {files?.length > 0 && <Fragment>
                                 <H4>Accepted Files</H4>
+                                <div className='grid lg:grid-cols-2 gap-3'>
+                                    <Input value={caption} placeholder='caption' onChange={(e) => {
+                                        setCaption(e.target.value)
+                                    }} />
+                                    <Select2Async
+                                        isClearable={false}
+                                        createAble
+                                        isMulti
+                                        onChange={(v) => {
+                                            // @ts-ignore
+                                            setTags(v)
+                                        }}
+                                        defaultOptions={[{
+                                            // @ts-ignore
+                                            label: `search for tags`, value: `search for tags`, isDisabled: true
+                                        }]}
+                                        loadOptions={(inputValue: string) => new Promise(async (resolve) => {
+                                            axios.get('/sikundi-admin/post/tag/api/select', {
+                                                params: {
+                                                    query: inputValue
+                                                }
+                                            }).then(({ data }) => {
+                                                resolve(data.data)
+                                            }).catch((error) => {
+                                                toast({
+                                                    title: error?.data?.notification?.title || error?.data?.error?.name,
+                                                    description: error?.data?.notification?.description || JSON.stringify(error?.data?.error?.details),
+                                                    variant: "destructive"
+                                                })
+                                                resolve([])
+                                            })
+                                        })}
+                                    />
+                                </div>
                                 <ScrollArea className='border px-8 py-4 rounded-lg my-4 list-decimal h-[300px]'>
                                     {files.map((file:any, index) => (
                                         <div key={file.name} className='relative rounded-md border grid lg:grid-cols-3 grid-cols-1 gap-3 mb-4 p-2'>
@@ -290,7 +336,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                                         return ff
                                                     })
                                                 }} />
-                                                <Input value={file.custom.caption} placeholder='caption' className='mb-3' onChange={(e) => {
+                                                <Input value={file.custom.caption?.length > 0 ? file.custom.caption : caption} placeholder='caption' className='mb-3' onChange={(e) => {
                                                     setFiles((f) => {
                                                         let ff = [...f]
                                                         // @ts-ignore
@@ -310,6 +356,8 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                                             return ff
                                                         })
                                                     }}
+                                                    // @ts-ignore
+                                                    value={files?.[index]?.custom?.tags?.length > 0 ? files?.[index]?.custom?.tags : tags}
                                                     defaultOptions={[{
                                                         // @ts-ignore
                                                         label: `search for tags`, value: `search for tags`, isDisabled: true
@@ -362,17 +410,19 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                     ))}
                                 </ScrollArea>    
                             </Fragment>}
-                            <Button onClick={() => action()} className='w-full' size={"lg"} disabled={loading}>
-                                {loading ? 
-                                    <Fragment>
-                                        <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-                                        {"Loading"}
-                                    </Fragment> 
-                                : "Upload"}
-                            </Button>
-                            <Button className='w-full' onClick={removeAll} size={"lg"} variant={"secondary"} disabled={loading}>
-                                clear
-                            </Button>
+                            <div className='flex gap-2 flex-col lg:flex-row'>
+                                <Button onClick={() => action()} className='w-full' size={"lg"} disabled={loading}>
+                                    {loading ? 
+                                        <Fragment>
+                                            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                                            {"Loading"}
+                                        </Fragment> 
+                                    : "Upload"}
+                                </Button>
+                                <Button className='w-full' onClick={removeAll} size={"lg"} variant={"secondary"} disabled={loading}>
+                                    clear
+                                </Button>
+                            </div>
                         </div> :
                         <div {...getRootProps()} className='aspect-video bg-secondary grid items-center justify-center rounded-lg border border-dashed cursor-pointer'>
                             <input {...getInputProps()} />

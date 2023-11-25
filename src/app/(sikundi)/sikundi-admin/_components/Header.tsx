@@ -11,7 +11,7 @@ import { Calendar } from '@sikundi/components/ui/calendar'
 import { cn } from '@sikundi/lib/client/utils'
 import { format } from "date-fns"
 import { useDebounce } from 'usehooks-ts'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Select2 from '@sikundi/components/ui/Select2'
 import { Select2Async } from '@sikundi/components/ui/Select2Async'
@@ -49,6 +49,7 @@ interface Props {
 
 const Header:FC<Props> = ({ data }) => {
     const router = useRouter()
+    const path = usePathname()
     const params = useSearchParams()
     const [filters, setFilters] = useState<{[key: string]: any}>({})
     const [open, setOpen] = useState(false)
@@ -82,9 +83,14 @@ const Header:FC<Props> = ({ data }) => {
     return (
         <Fragment>
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold tracking-tight capitalize break-all">
-                    {data.name}
-                </h2>
+                <div className=''>
+                    <h2 className="text-2xl font-semibold tracking-tight capitalize break-all">
+                        {data.name}
+                    </h2>
+                    {path.includes("trash") && <h6 className='text-xs text-accent-foreground'>Deleted {data.name}</h6>}
+                    {path.includes("copydesk") && <h6 className='text-xs text-accent-foreground'>CopyDesk</h6>}
+                    
+                </div>
                 <div className='flex gap-2'>
                     {data?.custom?.create ?
                         data?.custom?.create :
