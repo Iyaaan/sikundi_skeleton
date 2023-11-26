@@ -1,13 +1,10 @@
 import '../../globals.css'
 import ThemeProvider from "@sikundi/components/web/Theme"
 import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
-import Header from '@sikundi/app/(web)/dv/Header'
-import Footer from '@sikundi/app/(web)/dv/Footer'
-import MenuModal from '@sikundi/app/(web)/dv/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
-import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
-import { prisma } from '@sikundi/lib/server/utils/prisma'
+import Header from '@sikundi/app/(web)/en/_components/Header'
+import Footer from '@sikundi/app/(web)/en/_components/Footer'
 export { metadata } from '@sikundi/sikundi.config'
 
 export const runtime = 'nodejs'
@@ -120,12 +117,10 @@ interface Props {
 }
 
 export default async function RootLayout(props: Props) {
-    // @ts-ignore
-    const { items, latestPosts } = await menu()
 
     return (
-        <html lang={"dv-Mv"} translate="no">
-            <body dir={"rtl"} className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`}>
+        <html lang={"en-Us"} translate="no">
+            <body dir={"ltr"} className={`${font.className} bg-web-en-background dark:bg-web-en-background-dark`}>
                 <ThemeProvider>
                     <NextTopLoader
                         color={"#ca2126"}
@@ -142,112 +137,27 @@ export default async function RootLayout(props: Props) {
                         zIndex={1600}
                     />
                     <AnalyticsProvider>
-                        <div className='grid grid-cols-12'>
-                            <LandScapeAdThin href={"https://bankofmaldives.com.mv"} 
-                                target="_blank"
-                                containerClass="container px-4 mt-4 col-span-12 lg:col-span-8 lg:col-start-3"
-                                data={{
-                                    coverImage: `/sample_media/NzVkNTc1ZmM5MzViZTRiYzMwMDJkYTI2OWIxMjA5OGM=.gif`,
-                                    alt: "Bank Of Maldives"
-                                }}
-                            />
-                        </div>
-                        <Header menuItems={items} />
-                        <MenuModal menuItems={items} latestPosts={latestPosts} />
-                        <main className='w-full min-h-[calc(100vh-6.4rem)]'>
+                        <Header items={[
+                            {name: "News", url: "/category/news"},
+                            {name: "Sports", url: "/category/sports"},
+                            {name: "Earth", url: "/category/earth"},
+                            {name: "Reel", url: "/category/reel"},
+                            {name: "Worklife", url: "/category/work-life"},
+                            {name: "Travel", url: "/category/travel"},
+                            {name: "Culture", url: "/category/culture"}
+                        ]} />
+                        <main className='w-full min-h-[calc(100vh-64px)]'>
                             {props.children}
                         </main>
-                        <Footer />
+                        <Footer items={[
+                            { name: "About us", url: "/pages/about-us" },
+                            { name: "Privacy Policy", url: "/pages/privacy-policy" },
+                            { name: "Terms of Service", url: "/pages/terms-of-service" },
+                            { name: "Privacy Policy", url: "/pages/privacy-policy" }
+                        ]} />
                     </AnalyticsProvider>
                 </ThemeProvider>
             </body>
         </html>
     )
-}
-
-async function menu () {
-    const categories = await prisma.category.findMany({
-        select: {
-            id: true,
-            icon: true,
-            name: true,
-            slug: true
-        },
-        where: {
-            posts: {
-                some: {
-                    status: "published"
-                }
-            },
-            language: "DV"
-        },
-        orderBy: {
-            id: "asc"
-        }
-    })
-
-    const havePhotos = await prisma.photo.count({
-        where: {
-            status: "published",
-            language: "DV"
-        }
-    })
-    const haveVideos = await prisma.video.count({
-        where: {
-            status: "published",
-            language: "DV"
-        }
-    })
-    const haveGraphics = await prisma.graphic.count({
-        where: {
-            status: "published",
-            language: "DV"
-        }
-    })
-
-    const posts = await prisma.post.findMany({
-        select: {
-            id: true,
-            title: true,
-            featureImageUrl: true
-        },
-        orderBy: {
-            createdAt: "asc"
-        },
-        where: {
-            status: "published",
-            language: "DV"
-        },
-        take: 8
-    })
-
-    return {
-        items: [
-            ...categories.map((category) => ({
-                name: category.name,
-                url: `/dv/category/${category.slug}`,
-                icon: category.icon
-            })),
-            havePhotos > 0 && {
-                name: "ފޮޓޯ",
-                url: `/dv/gaafu-gallery`,
-                icon: ""
-            },
-            haveVideos > 0 && {
-                name: "ވިޑިއޯ", 
-                url: `/dv/videos`,
-                icon: ""
-            },
-            haveGraphics > 0 && {
-                name: "ގްރެފިކްސް",
-                url: `/dv/gaafu_graphics`,
-                icon: ""
-            },
-        ].filter(Boolean),
-        latestPosts: posts?.map((post) => ({
-            href: `/dv/${post.id}`,
-            title: post.title,
-            featureImage: post.featureImageUrl
-        }))
-    }
 }

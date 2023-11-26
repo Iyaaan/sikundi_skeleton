@@ -72,7 +72,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                     />
                     <SearchNormal1 className="h-5 w-5" />
                 </label>
-                <Link href={`/dv`} className={twMerge([
+                <Link href={`/en`} className={twMerge([
                     'min-h-[55px] h-[55px] w-[55px] min-w-[55px] rounded-xl border border-web-background dark:border-transparent flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold',
                     'mr-auto lg:mr-0'
                 ])}>
