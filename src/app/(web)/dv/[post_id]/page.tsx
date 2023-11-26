@@ -1,7 +1,7 @@
 import PortraitAd from "@sikundi/components/web/ad/PortraitAd"
-import Feature from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/Feature"
-import RelatedPosts from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/RelatedPosts"
-import Comment from "@sikundi/app/(web)/[lang]/[post_id]/(blocks)/Comment"
+import Feature from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Feature"
+import RelatedPosts from "@sikundi/app/(web)/dv/[post_id]/(blocks)/RelatedPosts"
+import Comment from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Comment"
 import Paragraph from "./(blocks)/Paragraph"
 import Heading from "./(blocks)/Heading"
 import Quote from "./(blocks)/Quote"
@@ -21,12 +21,10 @@ export const revalidate = 1000
 interface Props { 
     params: { 
         post_id: string 
-        lang: string 
     } 
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-    const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
     const post_id = parseInt(params.post_id)
     if(!post_id) {
         return notFound()
@@ -34,7 +32,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     const data = await prisma.post.findUnique({
         where: {
             id: post_id,
-            language: language,
+            language: "DV",
             status: "published"
         },
         select: {
@@ -67,7 +65,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
         "title": data?.latinTitle,
         "authors": [
             // @ts-ignore
-            {name: data?.createdBy?.userName, url: `/${params.lang}/author/${data?.createdBy?.userName}`}
+            {name: data?.createdBy?.userName, url: `/dv/author/${data?.createdBy?.userName}`}
         ],
         "applicationName": String(process.env.NEXT_PUBLIC_APP_NAME),
         // @ts-ignore
@@ -78,11 +76,11 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
             "title": String(data?.latinTitle),
             "authors": [
                 // @ts-ignore
-                {name: data?.createdBy?.userName, url: `/${params.lang}/author/${data?.createdBy?.userName}`}
+                {name: data?.createdBy?.userName, url: `/dv/author/${data?.createdBy?.userName}`}
             ],
             "countryName": "maldives",
             "description": String(data?.description),
-            "locale": params.lang,
+            "locale": "dv",
             "siteName": String(process.env.NEXT_PUBLIC_APP_NAME)
         }
     }
@@ -95,7 +93,7 @@ export default async function SinglePage(props: Props) {
     }
 
     // @ts-ignore
-    const { relatedPosts, data } = await postData(post_id, props?.params?.lang)
+    const { relatedPosts, data } = await postData(post_id)
 
     return (
         <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
@@ -205,13 +203,12 @@ export default async function SinglePage(props: Props) {
     )
 }
 
-function postData(id:number, lang:string) {
+function postData(id:number) {
     return new Promise(async (resolve, reject) => {
-        const language = lang?.toUpperCase() === "EN" ? "EN" : "DV"
         const data = await prisma.post.findUnique({
             where: {
                 id: id,
-                language: language,
+                language: "DV",
                 status: "published"
             },
             select: {
@@ -248,7 +245,7 @@ function postData(id:number, lang:string) {
                 featureImageUrl: true
             },
             where: {
-                language: language,
+                language: "DV",
                 status: "published",
                 postsTags: {
                     some: {
@@ -266,7 +263,7 @@ function postData(id:number, lang:string) {
         resolve ({
             data,
             relatedPosts: relatedPosts?.map((post) => ({
-                href: `/${language.toLowerCase()}/${post.id}`,
+                href: `/dv/${post.id}`,
                 title: `${post.title}`,
                 featureImage: `${post.featureImageUrl}`
             }))

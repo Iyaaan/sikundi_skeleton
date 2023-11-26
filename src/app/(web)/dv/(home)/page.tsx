@@ -14,7 +14,7 @@ export const revalidate = 1000
 
 interface Props { 
     params: { 
-        lang: string 
+
     } 
 }
 
@@ -30,7 +30,7 @@ export default async function Home(props: Props) {
         latestSports,
         latestWorld
         // @ts-ignore
-    } = await HomePage(props?.params?.lang)
+    } = await HomePage()
     const VarientFive  = dynamicImport(() => import("@sikundi/components/web/blocks/VarientFive"), {
         loading: () => {
             return (
@@ -94,8 +94,7 @@ export default async function Home(props: Props) {
     )
 }
 
-async function HomePage (lang: string) {
-    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
+async function HomePage () {
     const bodu = await prisma.post.findFirst({
         select: {
             id: true,
@@ -122,8 +121,7 @@ async function HomePage (lang: string) {
                 }
             },
             status: "published",
-            // @ts-ignore
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -153,7 +151,7 @@ async function HomePage (lang: string) {
                 }
             },
             status: "published",
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -168,7 +166,7 @@ async function HomePage (lang: string) {
         },
         where: {
             status: "published",
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -185,7 +183,7 @@ async function HomePage (lang: string) {
         },
         where: {
             status: "published",
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -204,7 +202,7 @@ async function HomePage (lang: string) {
             category: {
                 slug: "report"
             },
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -220,7 +218,7 @@ async function HomePage (lang: string) {
         },
         where: {
             status: "published",
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -239,7 +237,7 @@ async function HomePage (lang: string) {
             category: {
                 slug: "sport"
             },
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -258,7 +256,7 @@ async function HomePage (lang: string) {
             category: {
                 slug: "world"
             },
-            language: language
+            language: "DV"
         },
         orderBy: {
             createdAt: "desc"
@@ -268,56 +266,56 @@ async function HomePage (lang: string) {
 
     return {
         bodu: {
-            href: `/${lang}/${bodu?.id}`,
+            href: `/dv/${bodu?.id}`,
             title: bodu?.title,
             featureImage: bodu?.featureImageUrl,
             description: bodu?.description,
             createdAt: bodu?.createdAt,
         },
         kuda: kuda?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestPosts: latestPosts?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestPhotos: latestPhotos?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestReports: latestReports?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestGraphics: latestGraphics?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.graphicsUrl,
             description: "",
             createdAt: "",
         })),
         latestSports: latestSports?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
             createdAt: "",
         })),
         latestWorld: latestWorld?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",

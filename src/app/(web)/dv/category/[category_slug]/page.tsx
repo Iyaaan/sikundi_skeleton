@@ -9,25 +9,23 @@ export const revalidate = 1000
 interface Props { 
     params: { 
         category_slug: number 
-        lang: string 
     } 
 }
 
 export default async function CategoryPage(props: Props) {
-    // @ts-ignore
-    const { name, posts, nextPage } = await postsByCategory(String(props.params.category_slug), String(props.params.lang))
+    
+    const { name, posts, nextPage } = await postsByCategory(String(props.params.category_slug))
     return (
         // @ts-ignore
         <VarientFour title={name} className="mb-12" data={posts} loadMore={postsByCategory} nextPage={nextPage} />
     )
 }
 
-async function postsByCategory(slug:string, lang:string, page?: number) {
+async function postsByCategory(slug:string, page?: number) {
     "use server"
 
     const current = page || 1
     const per_page = 11
-    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
     const category = await prisma.category.findUnique({
         select: {
             name: true,
@@ -45,8 +43,7 @@ async function postsByCategory(slug:string, lang:string, page?: number) {
                 },
                 where: {
                     status: "published",
-                    // @ts-ignore
-                    language: language
+                    language: "DV"
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -73,7 +70,7 @@ async function postsByCategory(slug:string, lang:string, page?: number) {
         name: category?.name,
         // @ts-ignore
         posts: category?.posts.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             description: post.description,
             createdAt: post.createdAt,

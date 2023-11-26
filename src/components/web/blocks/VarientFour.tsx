@@ -18,7 +18,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         featureImage: string
         createdAt: string
     }[]
-    loadMore?: (slug:string, lang:string, page?: number) => Promise<{
+    loadMore?: (slug:string, page?: number) => Promise<{
         name: string | undefined;
         posts: {
             href: string;
@@ -70,7 +70,7 @@ const VarientFour:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) 
                     '-bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'
                 ])} onClick={async () => {
                     setLoading(true)
-                    const { posts, nextPage:page } = await loadMore(String(params.category_slug), String(params.lang), nextPage)
+                    const { posts, nextPage:page } = await loadMore(String(params.category_slug), nextPage)
                     setNextPage(page)
                     // @ts-ignore
                     setData((d)=>[...d, ...posts])

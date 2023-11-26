@@ -146,6 +146,22 @@ export const shadcnPlugin = plugin(
                                 }
                             }
                         },
+                        en: {
+                            primary: "#DD1212",
+                            secondary: "#0D3167",
+                            tertiary: {
+                                DEFAULT: "#000000",
+                                dark: "#343940"
+                            },
+                            background: {
+                                DEFAULT: "#FFFFFF",
+                                dark: "#292D32"
+                            },
+                            accent: {
+                                DEFAULT: "#000000",
+                                dark: "#FFFFFF"
+                            }
+                        }
                     }
                 },
                 borderRadius: {

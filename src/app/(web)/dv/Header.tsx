@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react"
 import transliterate from '@sikundi/lib/transliterate'
 import { useModalStore } from "@sikundi/stores/modalStore"
 
-const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
+const Header = ({ menuItems }: { menuItems: any }) => {
     const [isScrollTop, setIsScrollTop] = useState(true)
     const search = useRef<HTMLInputElement>(null)
     const { on } = useModalStore()
@@ -38,7 +38,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
         ])}>
             {/* <ThemeSwitcher /> */}
             <div className="container px-4 flex gap-4 h-[6.4rem] items-center">
-                <Link href={`/${lang}`}>
+                <Link href={`/dv`}>
                     <Image 
                         src={"/logo.png"} alt="logo" 
                         width={50} height={50} 
@@ -59,7 +59,7 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                         "py-[10px] px-4 flex w-full max-w-md bg-web-foreground dark:bg-web-foreground-dark items-center rounded-2xl hover:cursor-text",
                         "focus-within:border-web-primary dark:focus-within:border-web-primary-dark border-2 border-web-background dark:border-web-background-dark",
                         "hidden lg:flex gap-4",
-                        lang === "en" ? "ml-auto" : 'mr-auto'
+                        'mr-auto'
                     ])}
                 >
                     <input 
@@ -72,13 +72,11 @@ const Header = ({ menuItems, lang }: { menuItems: any, lang: string }) => {
                     />
                     <SearchNormal1 className="h-5 w-5" />
                 </label>
-                <Link href={`/${lang === "en" ? 'dv' : 'en'}`} className={twMerge([
+                <Link href={`/dv`} className={twMerge([
                     'min-h-[55px] h-[55px] w-[55px] min-w-[55px] rounded-xl border border-web-background dark:border-transparent flex flex-col items-center justify-center hover:scale-95 active:scale-105 transition-all bg-white dark:bg-web-tertiary text-xl font-bold',
-                    lang === "en" ? "ml-auto lg:ml-0" : 'mr-auto lg:mr-0'
+                    'mr-auto lg:mr-0'
                 ])}>
-                    <span className="mt-2">{
-                        lang === "en" ? 'DV' : 'EN'
-                    }</span>
+                    <span className="mt-2">EN</span>
                 </Link>
                 <ThemeSwitcher className="min-h-[55px] h-[55px] w-[55px] min-w-[55px] border-2 border-web-background dark:border-transparent" />
                 <ToggleBtn className="bg-web-tertiary dark:bg-web-tertiary-dark gap-[4px] min-h-[55px] h-[55px] w-[55px] min-w-[55px] " onClick={() => on()}>

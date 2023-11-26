@@ -2,9 +2,9 @@ import '../../globals.css'
 import type { Metadata } from 'next'
 import ThemeProvider from "@sikundi/components/web/Theme"
 import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
-import Header from '@sikundi/app/(web)/[lang]/Header'
-import Footer from '@sikundi/app/(web)/[lang]/Footer'
-import MenuModal from '@sikundi/app/(web)/[lang]/MenuModal'
+import Header from '@sikundi/app/(web)/dv/Header'
+import Footer from '@sikundi/app/(web)/dv/Footer'
+import MenuModal from '@sikundi/app/(web)/dv/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
@@ -117,17 +117,17 @@ const font = localFont({
 interface Props {
     children: React.ReactNode
     params: { 
-        lang: string 
+
     } 
 }
 
 export default async function RootLayout(props: Props) {
     // @ts-ignore
-    const { items, latestPosts } = await menu(String(props.params.lang))
+    const { items, latestPosts } = await menu()
 
     return (
-        <html lang={props.params.lang === "dv" ? "dv-Mv" : "en"} translate="no">
-            <body dir={props.params.lang === "dv" ? "rtl" : "ltr"} className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`}>
+        <html lang={"dv-Mv"} translate="no">
+            <body dir={"rtl"} className={`${font.className} bg-web-background dark:bg-web-background-dark text-web-accent dark:text-web-accent-dark selection:bg-web-primary dark:selection:bg-web-primary selection:text-white dark:selection:text-white`}>
                 <ThemeProvider>
                     <NextTopLoader
                         color={"#ca2126"}
@@ -154,7 +154,7 @@ export default async function RootLayout(props: Props) {
                                 }}
                             />
                         </div>
-                        <Header menuItems={items} lang={props.params.lang} />
+                        <Header menuItems={items} />
                         <MenuModal menuItems={items} latestPosts={latestPosts} />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
                             {props.children}
@@ -167,8 +167,7 @@ export default async function RootLayout(props: Props) {
     )
 }
 
-async function menu (lang: string) {
-    const language = lang.toUpperCase() === "EN" ? "EN" : "DV"
+async function menu () {
     const categories = await prisma.category.findMany({
         select: {
             id: true,
@@ -182,7 +181,7 @@ async function menu (lang: string) {
                     status: "published"
                 }
             },
-            language: language
+            language: "DV"
         },
         orderBy: {
             id: "asc"
@@ -192,19 +191,19 @@ async function menu (lang: string) {
     const havePhotos = await prisma.photo.count({
         where: {
             status: "published",
-            language: language
+            language: "DV"
         }
     })
     const haveVideos = await prisma.video.count({
         where: {
             status: "published",
-            language: language
+            language: "DV"
         }
     })
     const haveGraphics = await prisma.graphic.count({
         where: {
             status: "published",
-            language: language
+            language: "DV"
         }
     })
 
@@ -219,7 +218,7 @@ async function menu (lang: string) {
         },
         where: {
             status: "published",
-            language: language
+            language: "DV"
         },
         take: 8
     })
@@ -228,27 +227,27 @@ async function menu (lang: string) {
         items: [
             ...categories.map((category) => ({
                 name: category.name,
-                url: `/${lang}/category/${category.slug}`,
+                url: `/dv/category/${category.slug}`,
                 icon: category.icon
             })),
             havePhotos > 0 && {
-                name: lang === "dv" ? "ފޮޓޯ" : "photo",
-                url: `/${lang}/gaafu-gallery`,
+                name: "ފޮޓޯ",
+                url: `/dv/gaafu-gallery`,
                 icon: ""
             },
             haveVideos > 0 && {
-                name: lang === "dv" ? "ވިޑިއޯ" : "video", 
-                url: `/${lang}/videos`,
+                name: "ވިޑިއޯ", 
+                url: `/dv/videos`,
                 icon: ""
             },
             haveGraphics > 0 && {
-                name: lang === "dv" ? "ގްރެފިކްސް" : 'graphics',
-                url: `/${lang}/gaafu_graphics`,
+                name: "ގްރެފިކްސް",
+                url: `/dv/gaafu_graphics`,
                 icon: ""
             },
         ].filter(Boolean),
         latestPosts: posts?.map((post) => ({
-            href: `/${lang}/${post.id}`,
+            href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl
         }))

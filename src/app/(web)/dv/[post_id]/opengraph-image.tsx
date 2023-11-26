@@ -17,13 +17,11 @@ export const size = {
 export const contentType = 'image/png'
  
 // Image generation
-export default async function Image({ params }: { params: { post_id: string, lang: string } }) {
-    const language = params?.lang?.toUpperCase() === "EN" ? "EN" : "DV"
+export default async function Image({ params }: { params: { post_id: string } }) {
     const data = await prisma.post.findUnique({
         where: {
             id: parseInt(params.post_id),
-            // @ts-ignore
-            language: language
+            language: "DV"
         },
         select: {
             featureImageUrl: true
