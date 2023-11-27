@@ -13,10 +13,8 @@ import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
 
-export const runtime = 'nodejs'
-export const dynamic = 'force-static'
 export const dynamicParams = true
-export const revalidate = 1000
+export const revalidate = 3600
 
 interface Props { 
     params: { 
