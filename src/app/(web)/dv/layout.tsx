@@ -212,7 +212,7 @@ async function menu () {
             featureImageUrl: true
         },
         orderBy: {
-            createdAt: "asc"
+            createdAt: "desc"
         },
         where: {
             status: "published",
