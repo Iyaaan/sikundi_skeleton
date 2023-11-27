@@ -32,8 +32,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                     data={{
                         title: String(data[0].title),
                         description: String(data[0].description),
-                        // @ts-ignore
-                        publishedAt: `${new Date(String(data[0].createdAt)).toLocaleString()}`,
+                        publishedAt: data[0]?.crearedAt,
                         featureImage: data[0].featureImage
                     }}
                 />

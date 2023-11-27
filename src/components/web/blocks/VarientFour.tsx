@@ -50,7 +50,7 @@ const VarientFour:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) 
                             title: String(data?.[0]?.title),
                             description: String(data?.[0]?.description),
                             // publishedAt: `${new Date(String(data?.[0]?.createdAt))}`,
-                            publishedAt: ``,
+                            publishedAt: data?.[0]?.createdAt,
                             featureImage: String(data?.[0]?.featureImage)
                         }}
                     />
