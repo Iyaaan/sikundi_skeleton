@@ -17,9 +17,6 @@ const nextConfig = {
                 "www.sikundi.io"
             ]
         }
-    },
-    images: {
-        unoptimized: true
     }
 }
 
