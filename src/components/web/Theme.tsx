@@ -64,26 +64,27 @@ export const ThemeSwitcherEN = (props: buttonProps) => {
     }, []);
 
     if (!mounted) return (
-        <ToggleBtn {...props} className={twMerge(["bg-web-en-tertiary dark:bg-web-en-tertiary-dark gap-[4px]", props.className])}>
-            <LampOn 
-                className=""
-            />
-        </ToggleBtn>
+        <button {...props} className={twMerge([
+            "bg-web-en-tertiary dark:bg-web-en-tertiary-dark text-white", 
+            "min-h-[45px] min-w-[45px] flex items-center justify-center rounded-lg hover:opacity-75 active:opacity-50",
+        ])}>
+            <LampOn className="h-5 w-5" />
+        </button>
     )
 
     return (
         <button {...props} className={twMerge([
             "bg-web-en-tertiary dark:bg-web-en-tertiary-dark text-white", 
-            "min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg hover:opacity-75 active:opacity-50",
+            "min-h-[45px] min-w-[45px] flex items-center justify-center rounded-lg hover:opacity-75 active:opacity-50",
             props.className
         ])} onClick={()=>{
             if (theme === "system") setTheme("light")
             if (theme === "dark") setTheme("light")
             if (theme === "light") setTheme("dark")
         }}>
-            {theme === "system" && <Monitor className="h-4 w-4" />}
-            {theme === "dark" && <Moon className="h-4 w-4" />}
-            {theme === "light" && <LampOn className="h-4 w-4" />}
+            {theme === "system" && <Monitor className="h-5 w-5" />}
+            {theme === "dark" && <Moon className="h-5 w-5" />}
+            {theme === "light" && <LampOn className="h-5 w-5" />}
         </button>
     )
 }

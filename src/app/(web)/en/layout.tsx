@@ -14,18 +14,13 @@ export const revalidate = 1000
 const font = localFont({
     src: [
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Thin.woff2',
-            weight: '100',
-            style: 'normal',
-        },
-        {
             path: '../../../../public/fonts/dhivehi/mvtyper.woff2',
             weight: '100',
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-ExtraLight.woff2',
-            weight: '200',
+            path: '../../../../public/fonts/lora/Lora-Regular.woff2',
+            weight: '100',
             style: 'normal',
         },
         {
@@ -34,8 +29,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Light.woff2',
-            weight: '300',
+            path: '../../../../public/fonts/lora/Lora-Regular.woff2',
+            weight: '200',
             style: 'normal',
         },
         {
@@ -44,8 +39,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Regular.woff2',
-            weight: '400',
+            path: '../../../../public/fonts/lora/Lora-Regular.woff2',
+            weight: '300',
             style: 'normal',
         },
         {
@@ -54,8 +49,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Medium.woff2',
-            weight: '500',
+            path: '../../../../public/fonts/lora/Lora-Regular.woff2',
+            weight: '400',
             style: 'normal',
         },
         {
@@ -64,8 +59,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-SemiBold.woff2',
-            weight: '600',
+            path: '../../../../public/fonts/lora/Lora-Regular.woff2',
+            weight: '500',
             style: 'normal',
         },
         {
@@ -74,8 +69,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Bold.woff2',
-            weight: '700',
+            path: '../../../../public/fonts/lora/Lora-SemiBold.woff2',
+            weight: '600',
             style: 'normal',
         },
         {
@@ -84,8 +79,8 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-ExtraBold.woff2',
-            weight: '800',
+            path: '../../../../public/fonts/lora/Lora-Bold.woff2',
+            weight: '700',
             style: 'normal',
         },
         {
@@ -94,12 +89,17 @@ const font = localFont({
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/metropolis/Metropolis-Black.woff2',
+            path: '../../../../public/fonts/lora/Lora-Bold.woff2',
+            weight: '800',
+            style: 'normal',
+        },
+        {
+            path: '../../../../public/fonts/dhivehi/MVAWaheed.woff2',
             weight: '900',
             style: 'normal',
         },
         {
-            path: '../../../../public/fonts/dhivehi/MVAWaheed.woff2',
+            path: '../../../../public/fonts/lora/Lora-Bold.woff2',
             weight: '900',
             style: 'normal',
         }
