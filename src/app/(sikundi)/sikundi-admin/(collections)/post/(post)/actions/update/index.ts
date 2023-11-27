@@ -137,7 +137,7 @@ export default async function POST(data: PostSchemaType) {
             },
             notification: {
                 title: `Post Successfully ${action}`,
-                description: `a post have ${action}, under the name ${post.title}. this url ralso revaliated. "/${post.language.toLowerCase()}/${post.id}"`
+                description: `a post have ${action}, under the name ${post.title}.`
             }
         }
     }))
