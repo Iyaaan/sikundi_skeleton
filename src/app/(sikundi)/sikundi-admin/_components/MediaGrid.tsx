@@ -25,7 +25,7 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
             <Dialog open={open} onOpenChange={setOpen}>
                 {data?.map((media:any, index:number)=>(
                     <DialogTrigger asChild key={index} className='aspect-video' onClick={() => setActive(media)}>
-                        <div className='aspect-square relative rounded-lg overflow-hidden'>
+                        <div className='aspect-square relative rounded-lg overflow-hidden bg-accent'>
                             <Image
                                 fill
                                 className='object-cover'

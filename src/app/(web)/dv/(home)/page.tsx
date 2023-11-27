@@ -131,6 +131,7 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             postsTags: {
@@ -162,6 +163,7 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             status: "published",
@@ -178,7 +180,8 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
-            description: true
+            description: true,
+            createdAt: true
         },
         where: {
             status: "published",
@@ -195,6 +198,7 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             status: "published",
@@ -214,6 +218,7 @@ async function HomePage () {
             id: true,
             graphicsUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             status: "published",
@@ -230,6 +235,7 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             status: "published",
@@ -249,6 +255,7 @@ async function HomePage () {
             id: true,
             featureImageUrl: true,
             title: true,
+            createdAt: true,
         },
         where: {
             status: "published",
@@ -276,49 +283,49 @@ async function HomePage () {
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestPosts: latestPosts?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestPhotos: latestPhotos?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestReports: latestReports?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestGraphics: latestGraphics?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.graphicsUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestSports: latestSports?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
         latestWorld: latestWorld?.map((post) => ({
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
-            createdAt: "",
+            createdAt: post.createdAt,
         })),
     }
 }

@@ -32,7 +32,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                     data={{
                         title: String(data[0].title),
                         description: String(data[0].description),
-                        publishedAt: data[0]?.crearedAt,
+                        publishedAt: String(data[0]?.crearedAt),
                         featureImage: data[0].featureImage
                     }}
                 />
