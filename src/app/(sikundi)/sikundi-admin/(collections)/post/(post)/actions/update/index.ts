@@ -124,12 +124,12 @@ export default async function POST(data: PostSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/post')
-        revalidatePath(`/${post.language}/${post.id}`)
-        revalidatePath(`/${post.language}`)
+        revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
+        revalidatePath(`/${post.language.toLowerCase()}`)
         // @ts-ignore
         if (post?.category?.slug) {
             // @ts-ignore
-            revalidatePath(`/${post.language}/${post.category.slug}`)
+            revalidatePath(`/${post.language.toLowerCase()}/${post.category.slug}`)
         }
         return {
             data: {
@@ -137,7 +137,7 @@ export default async function POST(data: PostSchemaType) {
             },
             notification: {
                 title: `Post Successfully ${action}`,
-                description: `a post have ${action}, under the name ${post.title}. this url ralso revaliated. "/${post.language}/${post.id}"`
+                description: `a post have ${action}, under the name ${post.title}. this url ralso revaliated. "/${post.language.toLowerCase()}/${post.id}"`
             }
         }
     }))
