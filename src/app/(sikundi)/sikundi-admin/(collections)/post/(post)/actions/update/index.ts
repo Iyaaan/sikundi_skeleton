@@ -81,6 +81,16 @@ export default async function POST(data: PostSchemaType) {
         }
 
         const post = await prisma.post.update({
+            select: {
+                id: true,
+                title: true,
+                language: true,
+                category: {
+                    select: {
+                        slug: true
+                    }
+                }
+            },
             data: {
                 ...data,
                 createdBy: {
@@ -114,6 +124,13 @@ export default async function POST(data: PostSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/post')
+        revalidatePath(`/${post.language}/${post.id}`)
+        revalidatePath(`/${post.language}`)
+        // @ts-ignore
+        if (post?.category?.slug) {
+            // @ts-ignore
+            revalidatePath(`/${post.language}/${post.category.slug}`)
+        }
         return {
             data: {
                 action: action

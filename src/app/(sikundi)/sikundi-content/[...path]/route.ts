@@ -8,11 +8,7 @@ export async function GET(request: NextRequest, { params }: { params: { path: st
         // @ts-ignore
         const filePath = path.join('./storage', [...fileName].join("/"))
         const file = await fs.readFile(filePath)
-        return new Response(file, {
-            headers: {
-                "Cache-Control": "public, max-age=9999999999, must-revalidate"
-            }
-        })
+        return new Response(file)
     } catch (error) {
         return new Response("file not found", {
             status: 404
