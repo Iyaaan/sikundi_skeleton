@@ -151,16 +151,16 @@ const ELEMENT_FORMAT_OPTIONS: {
         iconRTL: 'right-align',
         name: 'Center Align',
     },
-    // end: {
-    //     icon: 'right-align',
-    //     iconRTL: 'left-align',
-    //     name: 'End Align',
-    // },
-    // justify: {
-    //     icon: 'justify-align',
-    //     iconRTL: 'justify-align',
-    //     name: 'Justify Align',
-    // },
+    end: {
+        icon: 'right-align',
+        iconRTL: 'left-align',
+        name: 'End Align',
+    },
+    justify: {
+        icon: 'justify-align',
+        iconRTL: 'justify-align',
+        name: 'Justify Align',
+    },
     left: {
         icon: 'left-align',
         iconRTL: 'left-align',
@@ -171,11 +171,11 @@ const ELEMENT_FORMAT_OPTIONS: {
         iconRTL: 'left-align',
         name: 'Right Align',
     },
-    // start: {
-    //     icon: 'left-align',
-    //     iconRTL: 'right-align',
-    //     name: 'Start Align',
-    // },
+    start: {
+        icon: 'left-align',
+        iconRTL: 'right-align',
+        name: 'Start Align',
+    },
 };
 
 function dropDownActiveClass(active: boolean) {
@@ -437,7 +437,7 @@ function ElementFormatDropdown({ editor, value, isRTL, disabled = false }: Eleme
                         }}>
                             <AlignRightIcon className='h-4 w-4 mr-2' />{"Right Align"}
                         </CommandItem>
-                        {/* <CommandItem value={"Justify Align"} onSelect={() => {
+                        <CommandItem value={"Justify Align"} onSelect={() => {
                             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
                             setOpen(false)
                         }}>
@@ -460,7 +460,7 @@ function ElementFormatDropdown({ editor, value, isRTL, disabled = false }: Eleme
                                 isRTL ? <AlignLeftIcon className='h-4 w-4 mr-2' /> : 
                                 <AlignRightIcon className='h-4 w-4 mr-2' />
                             }{"End Align"}
-                        </CommandItem> */}
+                        </CommandItem>
                         <Separator />
                         <CommandItem value={"outdent"} onSelect={() => {
                             editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined)
