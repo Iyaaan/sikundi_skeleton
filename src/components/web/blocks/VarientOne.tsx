@@ -53,7 +53,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                             featureImage: post.featureImage
                         }}
                         className={twMerge([
-                            index >= 5 && "hidden"
+                            (index >= 5 && !loadMore) && "hidden lg:block"
                         ])}
                     />
                 ))}

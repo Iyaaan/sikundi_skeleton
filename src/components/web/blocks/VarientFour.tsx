@@ -59,7 +59,7 @@ const VarientFour:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) 
                     {data?.map((post:any, index:any) => index > 0 && (
                         <PostSmallCard href={post.href} key={index}
                             className={twMerge([
-                                index >= 8 && "hidden"
+                                (index >= 8 && !loadMore) && "hidden lg:block"
                             ])}
                             data={{
                                 title: post.title,
