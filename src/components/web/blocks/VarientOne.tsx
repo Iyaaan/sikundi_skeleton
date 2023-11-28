@@ -12,7 +12,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         title: string
         featureImage: string
         description: string
-        crearedAt: string
+        createdAt: string
     }[]
     loadMore?: boolean
 }
@@ -32,7 +32,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                     data={{
                         title: String(data[0].title),
                         description: String(data[0].description),
-                        publishedAt: String(data[0]?.crearedAt),
+                        publishedAt: String(data[0]?.createdAt),
                         featureImage: data[0].featureImage
                     }}
                 />
@@ -45,7 +45,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                     }}
                 />
             </div>}
-            <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative'>
+            {data?.length > 1 && <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative'>
                 {data?.map((post, index) => index > 0 && (
                     <PostSmallCard href={`${post.href}`} key={index}
                         data={{
@@ -60,7 +60,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                 {loadMore && <button className='block p-4 shadow-2xl rounded-xl absolute left-1/2 -translate-x-1/2 -bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'>
                     <ArrowDown2 />
                 </button>}
-            </div>
+            </div>}
         </div>
     )
 }
