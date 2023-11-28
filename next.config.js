@@ -17,6 +17,16 @@ const nextConfig = {
                 "www.sikundi.io"
             ]
         }
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.gaafu.media',
+                // port: '',
+                pathname: '/**', 
+            }
+        ]
     }
 }
 
