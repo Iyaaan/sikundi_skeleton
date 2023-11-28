@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: { params: { path: st
             return redirect(`${process.env.NEXT_PUBLIC_CDN_URL}${[...fileName].join("/")}`)
         }
         // @ts-ignore
-        const filePath = path.join('./storage', [...fileName].join("/"))
+        const filePath = path.join('./storage', fileName?.join("/"))
         const file = await fs.readFile(filePath)
         return new Response(file)
     } catch (error) {
