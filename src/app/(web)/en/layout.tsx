@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader'
 import Header from '@sikundi/app/(web)/en/_components/Header'
 import Footer from '@sikundi/app/(web)/en/_components/Footer'
 export { metadata } from '@sikundi/sikundi.config'
+import { prisma } from '@sikundi/lib/server/utils/prisma'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-static'
@@ -117,6 +118,8 @@ interface Props {
 }
 
 export default async function RootLayout(props: Props) {
+    // @ts-ignore
+    const { items } = await menu()
 
     return (
         <html lang={"en-Us"} translate="no">
@@ -137,15 +140,7 @@ export default async function RootLayout(props: Props) {
                         zIndex={1600}
                     />
                     <AnalyticsProvider>
-                        <Header items={[
-                            {name: "News", url: "/category/news"},
-                            {name: "Sports", url: "/category/sports"},
-                            {name: "Earth", url: "/category/earth"},
-                            {name: "Reel", url: "/category/reel"},
-                            {name: "Worklife", url: "/category/work-life"},
-                            {name: "Travel", url: "/category/travel"},
-                            {name: "Culture", url: "/category/culture"}
-                        ]} />
+                        <Header menuItems={items} />
                         <main className='w-full min-h-[calc(100vh-64px)]'>
                             {props.children}
                         </main>
@@ -160,4 +155,66 @@ export default async function RootLayout(props: Props) {
             </body>
         </html>
     )
+}
+
+async function menu () {
+    const categories = await prisma.category.findMany({
+        select: {
+            id: true,
+            icon: true,
+            name: true,
+            slug: true
+        },
+        where: {
+            posts: {
+                some: {
+                    status: "published"
+                }
+            },
+            language: "EN"
+        },
+        orderBy: {
+            id: "asc"
+        }
+    })
+
+    const havePhotos = await prisma.photo.count({
+        where: {
+            status: "published",
+            language: "EN"
+        }
+    })
+    const haveVideos = await prisma.video.count({
+        where: {
+            status: "published",
+            language: "EN"
+        }
+    })
+    const haveGraphics = await prisma.graphic.count({
+        where: {
+            status: "published",
+            language: "EN"
+        }
+    })
+
+    return {
+        items: [
+            ...categories.map((category) => ({
+                name: category.name,
+                url: `/en/category/${category.slug}`
+            })),
+            havePhotos > 0 && {
+                name: "ފޮޓޯ",
+                url: `/en/gaafu-gallery`,
+            },
+            haveVideos > 0 && {
+                name: "ވިޑިއޯ", 
+                url: `/en/videos`,
+            },
+            haveGraphics > 0 && {
+                name: "ގްރެފިކްސް",
+                url: `/en/gaafu_graphics`,
+            },
+        ].filter(Boolean)
+    }
 }

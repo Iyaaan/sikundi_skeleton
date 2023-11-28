@@ -12,6 +12,9 @@ import Facebook from "./(blocks)/Facebook"
 import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
+import Collapsible from "./(blocks)/Collapsible"
+import RichText from "./(blocks)/RichText"
+import List from "./(blocks)/List"
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -119,31 +122,28 @@ export default async function SinglePage(props: Props) {
                 }} />
                 <div className="px-6 max-w-3xl mx-auto">
                     {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
-                        if(block?.type === "paragraph") return <Paragraph key={index}>{
-                            block?.children?.map(({text}:any, index:number) => {
-                                return <Fragment key={index}>{text}</Fragment>
-                            })    
-                            // JSON.stringify(block?.children)
-                        }</Paragraph>
-                        if(block?.type === "heading") return <Heading key={index}>{
-                            block?.children?.map(({text}:any, index:any) => {
-                                return <Fragment key={index}>{text}</Fragment>
-                            })    
-                            // JSON.stringify(block?.children)
-                        }</Heading>
-                        if(block?.type === "list") return <Paragraph key={index}>{
-                            block?.children?.map(({text}:any, index:any) => {
-                                return <Fragment key={index}>{text}</Fragment>
-                            })    
-                            // JSON.stringify(block?.children)
-                        }</Paragraph>
+                        if(block?.type === "paragraph") return <Paragraph style={{
+                            paddingRight: block?.direction === "ltr" ? (block?.indent*16) : "",
+                            paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
+                            textAlign: block?.format
+                        }} key={index}>
+                            <RichText>{block?.children}</RichText>
+                        </Paragraph>
+                        // @ts-ignore
+                        if(block?.type === "heading") return <Heading level={parseInt(block?.tag?.replace("h", ""))} key={index} style={{
+                            paddingRight: block?.direction === "ltr" ? (block?.indent*16) : "",
+                            paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
+                            textAlign: block?.format
+                        }}>
+                            <RichText>{block?.children}</RichText>  
+                        </Heading>
+                        if(block?.type === "list") return <List key={index} type={block?.listType}>
+                            {block?.children}
+                        </List>
                         if(block?.type === "quote") return <Quote key={index}>{
-                            block?.children?.map(({text}:any, index:any) => {
-                                return <Fragment key={index}>{text}</Fragment>
-                            })    
-                            // JSON.stringify(block?.children)
+                            <RichText>{block?.children}</RichText> 
                         }</Quote>
-                        if(block?.type === "horizontalrule") return <hr key={index} className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
+                        if(block?.type === "horizontalrule" || block?.type === "page-break") return <hr key={index} className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
                         if(block?.type === "layout-container") return <div key={index} className="flex">
                             {
                                 block?.children?.map((text:any, index:any) => {
@@ -155,17 +155,14 @@ export default async function SinglePage(props: Props) {
                                 })    
                             }
                         </div>
-                        // if(block?.type === "collapsible-container") return <Paragraph key={index}>{
-                        //     block?.children?.map(({text}:any) => {
-                        //         return <>{text}asd</>
-                        //     })    
-                        //     // JSON.stringify(block?.children)
-                        // }</Paragraph>
                         if(block?.type === "tweet") return <Tweet id={block?.id} key={index} />
                           
                         if(block?.type === "youtube") return <Youtube id={block?.videoID} key={index} />
                         if(block?.type === "facebook") return <Facebook id={block.postID} key={index} />
-
+                        if(block?.type === "collapsible-container") return <Collapsible key={index} name={block?.children?.[0]} open={false}>
+                            {block?.children?.[1]}
+                        </Collapsible>
+                        // return <p>{JSON.stringify(block)}</p>
                     })}
                 </div>
             </div>

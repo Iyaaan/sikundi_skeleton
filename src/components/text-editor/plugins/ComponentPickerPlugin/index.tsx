@@ -289,7 +289,7 @@ function getBaseOptions(editor: LexicalEditor, OpenModal: any, CloseModal: any) 
 			</DialogContent>
 		)
     }),
-    ...(['left', 'center', 'right', 'justify'] as const).map(
+    ...(['left', 'center', 'right'] as const).map(
       (alignment) =>
         new ComponentPickerOption(`Align ${alignment}`, {
           icon: alignment === "left" ? <AlignLeftIcon className='h-5 w-5 me-2' /> : alignment === "right" ? <AlignRightIcon className='h-5 w-5 me-2' /> : alignment === "center" ? <AlignCenterIcon className='h-5 w-5 me-2' /> : <AlignJustifyIcon className='h-5 w-5 me-2' />,

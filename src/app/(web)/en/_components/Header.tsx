@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge'
 import { MenuIcon, SearchIcon } from 'lucide-react'
 import { ThemeSwitcherEN } from '@sikundi/components/web/Theme'
 
-export default function Header({ items }:{items: {name: string; url:string;}[]}) {
+export default function Header({ menuItems }: any) {
     const [menu, setMenu] = useState(false)
     const [search, setSearch] = useState(false)
     const [searchActive, setSearchActive] = useState(false)
@@ -26,7 +26,7 @@ export default function Header({ items }:{items: {name: string; url:string;}[]})
                     'border-b border-[#0000000F] border-t lg:py-0 lg:border-0 transition-all lg:h-16 w-full lg:w-[unset]',
                     !menu ? 'h-0' : 'h-[calc(100vh-64px)] py-4'
                 ])}>
-                    {items?.map((item, index)=>(
+                    {menuItems?.map((item:any, index:any)=>(
                         <Link key={index} href={item.url} className={twMerge([
                             'text-lg text-web-en-accent dark:text-web-en-accent-dark hover:text-web-en-primary'
                         ])}>
