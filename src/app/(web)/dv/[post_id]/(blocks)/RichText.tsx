@@ -77,7 +77,7 @@ export default function RichText({children}: {children:{
                     )
                 }
                 
-                return <Fragment key={index}>{block.type}</Fragment>
+                return <Fragment key={index}>{block.text}</Fragment>
             })}
         </Fragment>
     )
