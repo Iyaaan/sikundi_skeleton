@@ -69,7 +69,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                     </div>
                     <div className={twMerge([
                         'col-span-12 lg:col-span-9 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark lg:order-2',
-                        'p-4 border-2 border-web-background dark:border-web-background-dark rounded-2xl'
+                        'border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
                         <VarientTwo containerClassName="lg:grid-cols-4 pb-0" data={latestPosts} />
                     </div>
