@@ -58,6 +58,9 @@ const VarientFour:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) 
                 <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px]'>
                     {data?.map((post:any, index:any) => index > 0 && (
                         <PostSmallCard href={post.href} key={index}
+                            className={twMerge([
+                                index >= 8 && "hidden"
+                            ])}
                             data={{
                                 title: post.title,
                                 featureImage: post.featureImage

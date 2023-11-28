@@ -52,7 +52,10 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                             title: post.title,
                             featureImage: post.featureImage
                         }}
-                        />
+                        className={twMerge([
+                            index >= 5 && "hidden"
+                        ])}
+                    />
                 ))}
                 {loadMore && <button className='block p-4 shadow-2xl rounded-xl absolute left-1/2 -translate-x-1/2 -bottom-5 bg-web-foreground dark:bg-web-foreground-dark border border-gray-100 dark:border-gray-800 hover:scale-105 active:scale-95 transition-all'>
                     <ArrowDown2 />
