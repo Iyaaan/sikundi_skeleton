@@ -1,12 +1,11 @@
 "use client"
 
-import React, { Fragment, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 const Template = ({ children }: {children: ReactNode}) => {
     const path = usePathname()
-    const searchParams = useSearchParams()
 
     return (
         <div className='container p-4'>

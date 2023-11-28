@@ -24,14 +24,12 @@ import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from "next/image"
+import Image from '@sikundi/app/_component/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/create"
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
-import { Label } from "@sikundi/components/ui/label"
-import P from "@sikundi/components/ui/typography/p"
 
 interface Props {
     user: UserType
@@ -207,7 +205,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <div className="border rounded-md items-center justify-center flex mt-6 relative">
-                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("featureImageUrl", undefined)
                                 }}>

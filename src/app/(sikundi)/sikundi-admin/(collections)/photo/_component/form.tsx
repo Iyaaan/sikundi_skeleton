@@ -24,7 +24,7 @@ import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from "next/image"
+import Image from '@sikundi/app/_component/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import PhotoCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/create"
 import PhotoUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/update"
@@ -189,7 +189,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("featureImageUrl", undefined)
                                 }}>

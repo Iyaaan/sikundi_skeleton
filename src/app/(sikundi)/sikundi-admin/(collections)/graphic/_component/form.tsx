@@ -22,9 +22,8 @@ import { Fragment, useEffect, useState } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
-import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from "next/image"
+import Image from '@sikundi/app/_component/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import GraphicCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/create"
 import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/update"
@@ -178,7 +177,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("graphicsUrl", undefined)
                                 }}>

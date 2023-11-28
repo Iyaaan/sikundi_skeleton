@@ -1,6 +1,6 @@
 "use client"
 
-import Image from 'next/image';
+import Image from "@sikundi/app/_component/Image"
 import Link, { LinkProps } from 'next/link'
 import React, { AnchorHTMLAttributes, FC } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -24,6 +24,7 @@ const PostCard:FC<Props> = ({data, ...props}) => {
         ])}>
             <div className='flex-[6] dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-auto'>
                 <Image
+                    cdn={true}
                     src={data.featureImage}
                     alt={data.title}
                     fill

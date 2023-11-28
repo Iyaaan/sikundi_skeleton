@@ -21,7 +21,7 @@ import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from "next/image"
+import Image from '@sikundi/app/_component/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/create"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/update"
@@ -86,7 +86,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("profilePictureUrl", undefined)
                                 }}>
