@@ -34,7 +34,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                 'fixed inset-0 z-50  pointer-events-none overflow-y-auto transition-all top-0 visible duration-300 opacity-100',
                 !modal && '-top-full invisible opacity-0'
             ])} dir='ltr'>
-                <div className='container mx-auto p-4 my-20 grid grid-cols-12 gap-4 lg:gap-5' dir='rtl'>
+                <div className='container mx-auto p-4 lg:my-20 my-14 grid grid-cols-12 gap-4 lg:gap-5 items-start' dir='rtl'>
                     <label 
                         htmlFor="search_modal" 
                         className={twMerge([
@@ -54,7 +54,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                         <SearchNormal1 />
                     </label>
                     <div className={twMerge([
-                        'col-span-12 lg:col-span-3 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px] lg:order-3',
+                        'col-span-12 lg:col-span-3 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark lg:order-3',
                         'p-4 border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
                         {
@@ -68,10 +68,10 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                         }
                     </div>
                     <div className={twMerge([
-                        'col-span-12 lg:col-span-9 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark min-h-[300px] lg:order-2',
+                        'col-span-12 lg:col-span-9 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark lg:order-2',
                         'p-4 border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
-                        <VarientTwo containerClassName="lg:grid-cols-4" className="mb-12" data={latestPosts} />
+                        <VarientTwo containerClassName="lg:grid-cols-4 pb-0" data={latestPosts} />
                     </div>
                 </div>
             </aside>
