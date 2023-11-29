@@ -62,10 +62,16 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             if (!disableList) {
                 setImageLoading(true)
                 const { data } = await photos(debouncedValue, page)
-                data && setPhotoList((p) => ([
-                    ...p,
-                    ...data.medias
-                ]))
+                if(page !== 1) {
+                    data && setPhotoList((p) => ([
+                        ...p,
+                        ...data.medias
+                    ]))
+                } else {
+                    data && setPhotoList((p) => ([
+                        ...data.medias
+                    ]))
+                }
                 if (data?.current && data?.total) {
                     setHasPage(data?.current < data?.total)
                 } else {
