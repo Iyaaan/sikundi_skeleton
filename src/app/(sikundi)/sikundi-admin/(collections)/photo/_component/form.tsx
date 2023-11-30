@@ -24,7 +24,7 @@ import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import PhotoCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/create"
 import PhotoUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/update"

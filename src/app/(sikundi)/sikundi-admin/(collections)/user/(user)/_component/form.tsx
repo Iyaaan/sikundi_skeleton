@@ -21,7 +21,7 @@ import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/create"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/update"

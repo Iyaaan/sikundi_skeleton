@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowDown2, ArrowLeft2, ArrowRight2 } from 'iconsax-react'
-import Image from "@sikundi/app/_component/Image"
+import Image from "@sikundi/components/Image"
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, FC, HTMLAttributes, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Swiper, SwiperSlide } from 'swiper/react'

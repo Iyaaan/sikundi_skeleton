@@ -2,7 +2,7 @@
 
 import Link, { LinkProps } from 'next/link'
 import React, { AnchorHTMLAttributes, FC } from 'react'
-import Image from "@sikundi/app/_component/Image"
+import Image from "@sikundi/components/Image"
 import { twMerge } from 'tailwind-merge'
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@sikundi/components/ui/dialog'
 import { Button } from '@sikundi/components/ui/button'
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import { Badge } from '@sikundi/components/ui/badge'
 import useAction from '@sikundi/lib/client/hooks/useAction'
 import { deleteLibrary } from '../(collections)/library/actions/delete'

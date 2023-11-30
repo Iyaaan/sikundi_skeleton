@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "@sikundi/app/_component/Image"
+import Image from "@sikundi/components/Image"
 import React, { AnchorHTMLAttributes, FC } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Clock, ReceiptEdit, Facebook, Instagram, Youtube, Whatsapp } from 'iconsax-react'

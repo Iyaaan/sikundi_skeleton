@@ -5,7 +5,7 @@ import { SearchNormal1 } from 'iconsax-react'
 import React, { Fragment, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import transliterate from '@sikundi/lib/transliterate'
-import VarientTwo from '@sikundi/components/web/blocks/VarientTwo'
+import VarientTwo from '@sikundi/app/(web)/dv/_components/blocks/VarientTwo'
 import Link from 'next/link'
 import { usePathname, useParams } from 'next/navigation'
 

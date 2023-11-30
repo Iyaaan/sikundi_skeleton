@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import LandScapeAd from "@sikundi/components/web/ad/LandScapeAd";
-import VarientOne from "@sikundi/components/web/blocks/VarientOne";
-import VarientThree from "@sikundi/components/web/blocks/VarientThree";
-import VarientTwo from "@sikundi/components/web/blocks/VarientTwo";
-import VarientFour from "@sikundi/components/web/blocks/VarientFour";
+import VarientOne from "@sikundi/app/(web)/dv/_components/blocks/VarientOne";
+import VarientThree from "@sikundi/app/(web)/dv/_components/blocks/VarientThree";
+import VarientTwo from "@sikundi/app/(web)/dv/_components/blocks/VarientTwo";
+import VarientFour from "@sikundi/app/(web)/dv/_components/blocks/VarientFour";
 import dynamicImport from 'next/dynamic'
 import { prisma } from "@sikundi/lib/server/utils/prisma";
 
@@ -30,7 +30,7 @@ export default async function Home(props: Props) {
         latestWorld
         // @ts-ignore
     } = await HomePage()
-    const VarientFive  = dynamicImport(() => import("@sikundi/components/web/blocks/VarientFive"), {
+    const VarientFive  = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientFive"), {
         loading: () => {
             return (
                 <div className="lg:rounded-lg bg-web-secondary dark:bg-web-secondary-dark w-full aspect-video">

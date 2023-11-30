@@ -23,7 +23,7 @@ import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import GraphicCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/create"
 import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/update"

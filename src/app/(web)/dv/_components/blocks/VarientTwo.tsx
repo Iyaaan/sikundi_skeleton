@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import PostSmallCard from '../cards/PostSmallCard'
+import PostSmallCard from '../../../../../components/web/cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
 

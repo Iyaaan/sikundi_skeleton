@@ -1,9 +1,9 @@
 import '../../globals.css'
 import ThemeProvider from "@sikundi/components/web/Theme"
 import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
-import Header from '@sikundi/app/(web)/dv/Header'
-import Footer from '@sikundi/app/(web)/dv/Footer'
-import MenuModal from '@sikundi/app/(web)/dv/MenuModal'
+import Header from '@sikundi/app/(web)/dv/_components/Header'
+import Footer from '@sikundi/app/(web)/dv/_components/Footer'
+import MenuModal from '@sikundi/app/(web)/dv/_components/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'

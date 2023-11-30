@@ -4,7 +4,7 @@ import ThemeSwitcher from "@sikundi/components/ui/theme-switcher"
 import { Avatar, AvatarFallback, AvatarImage } from "@sikundi/components/ui/avatar"
 import { Button } from "@sikundi/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@sikundi/components/ui/dropdown-menu"
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import getUser from "@sikundi/lib/server/utils/getUser"
 import H1 from '@sikundi/components/ui/typography/h1'
 import { SheetTrigger } from '@sikundi/components/ui/sheet'

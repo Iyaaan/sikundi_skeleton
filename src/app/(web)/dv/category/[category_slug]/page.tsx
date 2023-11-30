@@ -1,4 +1,4 @@
-import VarientFour from "@sikundi/components/web/blocks/VarientFour"
+import VarientFour from "@sikundi/app/(web)/dv/_components/blocks/VarientFour"
 import { prisma } from "@sikundi/lib/server/utils/prisma"
 
 export const runtime = 'nodejs'

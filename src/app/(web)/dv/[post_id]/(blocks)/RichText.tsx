@@ -1,4 +1,4 @@
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 import Paragraph from './Paragraph'

@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import PostCard from '@sikundi/components/web/cards/PostCard'
 import PortraitAd from '@sikundi/components/web/ad/PortraitAd'
-import PostSmallCard from '../cards/PostSmallCard'
+import PostSmallCard from '../../../../../components/web/cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
 

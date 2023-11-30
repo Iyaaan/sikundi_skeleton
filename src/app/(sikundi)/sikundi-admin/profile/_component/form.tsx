@@ -20,7 +20,7 @@ import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/app/_component/Image'
+import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/profile/actions/update/index"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
