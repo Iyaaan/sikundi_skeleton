@@ -4,38 +4,49 @@ import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
 import Image from "@sikundi/components/Image"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LogInSchema, { LogInSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/log-in/schema"
+import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/_actions/verify/schema"
+import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"
+import { useToast } from "@sikundi/components/ui/use-toast"
+import { ToastAction } from "@sikundi/components/ui/toast"
 import { Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import useAction from "@sikundi/lib/client/hooks/useAction"
-import LogInAction from "../actions/log-in"
+import { PostHandler } from "@sikundi/lib/client/fetcher"
+import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 
-export default function LogIn() {
+export default function Verification() {
+    const { toast } = useToast()
     const router = useRouter()
-    const form = useForm<LogInSchemaType>({
-        resolver: zodResolver(LogInSchema),
-        defaultValues: {
-            email: '',
-            password: ''
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/verify', PostHandler<verificationSchemaType>, {
+        onSuccess: (data) => {
+            toast({
+                title: "successfully submitted",
+                description: JSON.stringify(data.data)
+            })
+        },
+        onError: ({ response }) => {
+            zodErrorGenerator(response.data.error, (data) => form.setError(
+                // @ts-ignore
+                data.field,
+                { message: data.message },
+                { shouldFocus: true }
+            ))
+            toast({
+                title: response.data.notification.title || response.data.error.name,
+                description: response.data.notification.description || JSON.stringify(response.data.error.details),
+                variant: "destructive",
+                action: <ToastAction altText="Try again" onClick={form.handleSubmit(data => trigger(data))}>Try again</ToastAction>
+            })
         }
     })
-
-    const { isLoading, execute } = useAction(LogInAction, {
-        onSuccess: ({ data }) => {
-            router.refresh()
-        },
-        onError: ({ error }) => console.error(error),
-        onValidationError: (data) => form.setError(
-            // @ts-ignore
-            data.field,
-            { message: data.message },
-            { shouldFocus: true }
-        )
+    const form = useForm<verificationSchemaType>({
+        resolver: zodResolver(verificationSchema),
+        defaultValues: {
+            otp: ''
+        }
     })
 
     return (
@@ -46,50 +57,38 @@ export default function LogIn() {
                     <CardTitle className="text-3xl text-center font-bold">Sikundi io</CardTitle>
                 </div>
                 <CardDescription className="text-center">
-                    Enter your email below to login
+                    Enter otp sent to your email below to reset
                 </CardDescription>
             </CardHeader>
 
+
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(data => execute(data))}>
+                <form onSubmit={form.handleSubmit(data => trigger(data))}>
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name='email'
+                            name='otp'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>Otp</FormLabel>
                                     <FormControl>
-                                        <Input placeholder='coffeedev@sikundi.io' {...field} />
+                                    <Input
+                                        type='password'
+                                        placeholder='****'
+                                        {...field}
+                                    />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name='password'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type='password'
-                                            placeholder='******'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button className="w-full mb-4" type="submit" disabled={isLoading} aria-disabled={isLoading}>
-                            {isLoading ? 
+                        <Button className="w-full mb-4" type={"submit"}>
+                            {isMutating ? 
                             <Fragment>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Please wait
                             </Fragment>
-                            : "Log In"}
+                            : "Verify"}
                         </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
@@ -105,13 +104,10 @@ export default function LogIn() {
                 </form>
             </Form>
 
+
             <CardFooter>
-                <Button className="w-full" variant={"outline"} asChild>
-                    <Link href={{pathname: "/sikundi-login", query: {
-                        "action": "lostpassword"
-                    }}}>
-                        Forgot password?
-                    </Link>
+                <Button className="w-full" variant={"outline"} onClick={() => router.back()}>
+                    Back
                 </Button>
             </CardFooter>
         </Card>

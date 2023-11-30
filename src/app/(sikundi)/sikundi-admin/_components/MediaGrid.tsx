@@ -6,7 +6,7 @@ import { Button } from '@sikundi/components/ui/button'
 import Image from '@sikundi/components/Image'
 import { Badge } from '@sikundi/components/ui/badge'
 import useAction from '@sikundi/lib/client/hooks/useAction'
-import { deleteLibrary } from '../(collections)/library/actions/delete'
+import { deleteLibrary } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/_actions/delete'
 
 export default function MediaGrid({data}: { data: {[name:string]: any} }) {
     const [active, setActive] = useState<null | {[name:string]:any}>(null)

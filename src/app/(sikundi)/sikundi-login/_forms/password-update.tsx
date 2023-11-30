@@ -7,7 +7,7 @@ import Image from "@sikundi/components/Image"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import updatePasswordSchema, { updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/update-password/schema"
+import updatePasswordSchema, { updatePasswordSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/_actions/update-password/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import useSWRMutation from 'swr/mutation'
 import { Fragment } from "react"

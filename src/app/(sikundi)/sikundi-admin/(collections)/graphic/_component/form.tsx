@@ -6,7 +6,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GraphicSchema, { GraphicSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/create/schema"
+import GraphicSchema, { GraphicSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/_actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
 import { cn } from "@sikundi/lib/client/utils"
@@ -25,8 +25,8 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
-import GraphicCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/create"
-import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/actions/update"
+import GraphicCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/_actions/create"
+import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
 

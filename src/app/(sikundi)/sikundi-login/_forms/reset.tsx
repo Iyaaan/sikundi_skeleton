@@ -8,19 +8,19 @@ import { useRouter } from "next/navigation"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import verificationSchema, { verificationSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/actions/verify/schema"
-import useSWRMutation from 'swr/mutation'
-import { Fragment } from "react"
+import resetSchema, { resetSchemaType } from "@sikundi/app/(sikundi)/sikundi-login/_actions/reset/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { ToastAction } from "@sikundi/components/ui/toast"
+import useSWRMutation from 'swr/mutation'
+import { Fragment } from "react"
 import { Loader2 } from "lucide-react"
 import { PostHandler } from "@sikundi/lib/client/fetcher"
 import { zodErrorGenerator } from "@sikundi/lib/client/utils"
 
-export default function Verification() {
+export default function Reset() {
     const { toast } = useToast()
     const router = useRouter()
-    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/verify', PostHandler<verificationSchemaType>, {
+    const { trigger, isMutating } = useSWRMutation('/sikundi-login/api/reset', PostHandler<resetSchemaType>, {
         onSuccess: (data) => {
             toast({
                 title: "successfully submitted",
@@ -42,10 +42,10 @@ export default function Verification() {
             })
         }
     })
-    const form = useForm<verificationSchemaType>({
-        resolver: zodResolver(verificationSchema),
+    const form = useForm<resetSchemaType>({
+        resolver: zodResolver(resetSchema),
         defaultValues: {
-            otp: ''
+            email: ''
         }
     })
 
@@ -57,7 +57,7 @@ export default function Verification() {
                     <CardTitle className="text-3xl text-center font-bold">Sikundi io</CardTitle>
                 </div>
                 <CardDescription className="text-center">
-                    Enter otp sent to your email below to reset
+                    Enter your email below to reset
                 </CardDescription>
             </CardHeader>
 
@@ -67,28 +67,25 @@ export default function Verification() {
                     <CardContent className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name='otp'
+                            name='email'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Otp</FormLabel>
+                                    <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                    <Input
-                                        type='password'
-                                        placeholder='****'
-                                        {...field}
-                                    />
+                                    <Input placeholder='coffeedev@sikundi.io' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                        
                         <Button className="w-full mb-4" type={"submit"}>
                             {isMutating ? 
                             <Fragment>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 Please wait
                             </Fragment>
-                            : "Verify"}
+                            : "Reset"}
                         </Button>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">

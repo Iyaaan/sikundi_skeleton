@@ -1,7 +1,7 @@
-import LogIn from '@sikundi/app/(sikundi)/sikundi-login/(forms)/log-in'
-import Reset from '@sikundi/app/(sikundi)/sikundi-login/(forms)/reset'
-import Verification from '@sikundi/app/(sikundi)/sikundi-login/(forms)/verification'
-import PasswordUpdate from '@sikundi/app/(sikundi)/sikundi-login/(forms)/password-update'
+import LogIn from '@sikundi/app/(sikundi)/sikundi-login/_forms/log-in'
+import Reset from '@sikundi/app/(sikundi)/sikundi-login/_forms/reset'
+import Verification from '@sikundi/app/(sikundi)/sikundi-login/_forms/verification'
+import PasswordUpdate from '@sikundi/app/(sikundi)/sikundi-login/_forms/password-update'
 
 interface Props {
     params: {}

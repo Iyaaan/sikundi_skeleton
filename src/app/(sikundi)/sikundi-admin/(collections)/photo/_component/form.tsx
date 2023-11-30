@@ -6,7 +6,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import PhotoSchema, { PhotoSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/create/schema"
+import PhotoSchema, { PhotoSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/_actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
 import { cn } from "@sikundi/lib/client/utils"
@@ -26,8 +26,8 @@ import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
-import PhotoCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/create"
-import PhotoUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/actions/update"
+import PhotoCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/_actions/create"
+import PhotoUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
 

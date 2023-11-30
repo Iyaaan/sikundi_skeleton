@@ -6,7 +6,7 @@ import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import UserSchema, { UserSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/actions/create/schema"
+import UserSchema, { UserSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
 import { cn } from "@sikundi/lib/client/utils"
@@ -22,7 +22,7 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
-import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/profile/actions/update/index"
+import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/profile/_actions/update/index"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import H3 from "@sikundi/components/ui/typography/h3"
 

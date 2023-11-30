@@ -15,14 +15,14 @@ import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
-import TagSchema, { TagSchemaType } from "../actions/create/schema"
+import TagSchema, { TagSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_actions/create/schema"
 import { Fragment, useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import useAction from "@sikundi/lib/client/hooks/useAction"
-import TagCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/actions/create"
-import TagUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/actions/update"
+import TagCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_actions/create"
+import TagUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_actions/update"
 
 interface Props {
     user: UserType
