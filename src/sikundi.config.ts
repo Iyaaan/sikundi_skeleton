@@ -97,3 +97,63 @@ export const menuItems:menuItemType[] = [
     //     ]
     // }
 ]
+
+export const permission = [
+    {name: "post", actions: [
+        "view",
+        "draft",
+        "delete",
+        "soft_delete",
+        "publish",
+        "pending"
+    ]},
+    {name: "category", actions: [
+        "delete",
+        "create",
+        "update"
+    ]},
+    {name: "tag", actions: [
+        "delete",
+        "create",
+        "update"
+    ]},
+    {name: "library", actions: [
+        "view",
+        "delete",
+        "publish",
+    ]},
+    {name: "graphic", actions: [
+        "view",
+        "draft",
+        "delete",
+        "soft_delete",
+        "publish",
+        "pending"
+    ]},
+    {name: "photo", actions: [
+        "view",
+        "draft",
+        "delete",
+        "soft_delete",
+        "publish",
+        "pending"
+    ]},
+    {name: "video", actions: [
+        "view",
+        "draft",
+        "delete",
+        "soft_delete",
+        "publish",
+        "pending"
+    ]},
+    {name: "user", actions: [
+        "block",
+        "create",
+        "update"
+    ]},
+    {name: "role", actions: [
+        "delete",
+        "create",
+        "update"
+    ]},
+]

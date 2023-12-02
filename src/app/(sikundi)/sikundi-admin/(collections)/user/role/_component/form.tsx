@@ -6,26 +6,24 @@ import { Input } from "@sikundi/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import RoleSchema, { RoleSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/actions/create/schema"
+import RoleSchema, { RoleSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/_actions/create/schema"
 import { useToast } from "@sikundi/components/ui/use-toast"
-import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { cn } from "@sikundi/lib/client/utils"
 import { useParams, useRouter } from "next/navigation"
-import { Textarea } from "@sikundi/components/ui/textarea"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
-import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment } from "react"
 import axios from "axios"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
-import RoleCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/actions/create"
-import RoleUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/actions/update"
+import RoleCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/_actions/create"
+import RoleUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
+import { permission } from "@sikundi/sikundi.config"
 
 interface Props {
     user: UserType
@@ -43,7 +41,7 @@ export default function PostForm({ user, data, type }: Props) {
             createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
             createdAt: new Date(),
             name: "",
-            Permissions: [],
+            permissions: {},
             ...data
         }
     })
@@ -127,7 +125,7 @@ export default function PostForm({ user, data, type }: Props) {
                             control={form.control}
                             name='createdBy'
                             render={({ field }) => (
-                                <FormItem className="hidden">
+                                <FormItem>
                                     <FormControl>
                                         <Select2Async
                                             isClearable={false}
@@ -163,8 +161,8 @@ export default function PostForm({ user, data, type }: Props) {
                         <div className="grid grid-cols-2 items-center gap-2">
                             {
                                 type === "create" ?
-                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
-                                    {(isLoading && form.getValues("action") === "active") ? 
+                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
+                                    {(isLoading && form.getValues("action") === "create") ? 
                                     <Fragment>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Loading
@@ -172,27 +170,60 @@ export default function PostForm({ user, data, type }: Props) {
                                     : "create"}
                                 </Button> :
                                 <Fragment>
-                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
-                                        {(isLoading && form.getValues("action") === "active") ? 
+                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
+                                        {(isLoading && form.getValues("action") === "update") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
                                         : "Update"}
                                     </Button>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "blocked")}>
-                                        {(isLoading && form.getValues("action") === "blocked") ? 
+                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "delete")}>
+                                        {(isLoading && form.getValues("action") === "update") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        : "blocked"}
+                                        : "delete"}
                                     </Button>
                                 </Fragment>
                             }
                         </div>
                     </CardContent>
                 </Card>
+                <div className="lg:col-span-8 lg:row-span-2 grid grid-cols-2 gap-4">
+                    {permission.map(({ name, actions }, index) => (
+                        <Card className="pt-6" key={index}>
+                            <CardContent className="grid gap-4">
+                                <FormField
+                                    control={form.control}
+                                    // @ts-ignore
+                                    name={`permissions.${name}`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>{name}</FormLabel>
+                                            <FormControl>
+                                                <Select2
+                                                    isClearable={false}
+                                                    className='col-span-2 justify-start'
+                                                    placeholder="permissions"
+                                                    // @ts-ignore
+                                                    options={actions.map((action) => (
+                                                        // @ts-ignore
+                                                        {label: action, value: action}
+                                                    ))}
+                                                    isMulti
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
             </form>
         </Form>
     )
