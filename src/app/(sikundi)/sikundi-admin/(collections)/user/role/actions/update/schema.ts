@@ -1,5 +1,5 @@
-import  UserSchema, { UserSchemaType as Type } from '../create/schema'
+import  RoleSchema, { RoleSchemaType as Type } from '../create/schema'
 
-export type UserSchemaType = Type
+export type RoleSchemaType = Type
 
-export default UserSchema
+export default RoleSchema
