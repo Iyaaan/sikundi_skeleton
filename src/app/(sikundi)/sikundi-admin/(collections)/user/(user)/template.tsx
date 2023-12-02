@@ -8,7 +8,7 @@ const Template = ({ children }: {children: ReactNode}) => {
     const path = usePathname()
 
     return (
-        <div className='container p-4'>
+        <Fragment>
             <Header data={{
                 url: "/sikundi-admin/user",
                 name: "users",
@@ -39,7 +39,7 @@ const Template = ({ children }: {children: ReactNode}) => {
                 }
             }} />
             {children}
-        </div>
+        </Fragment>
     )
 }
 

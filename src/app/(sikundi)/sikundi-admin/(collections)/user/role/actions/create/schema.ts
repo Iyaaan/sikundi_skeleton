@@ -6,10 +6,9 @@ const RoleSchema = z.object({
         value: z.string(),
         label: z.string()
     }).optional(),
-    Permissions: z.array(z.object({
-        table: z.string(),
-        actions: z.array(z.string())
-    })),
+    Permissions: z.object({
+        
+    }),
     createdAt: z.date().optional().or(z.string().optional()),
     action: z.string().refine((action) => ['active', 'blocked'].includes(action), {
         message: 'Action is not valid'

@@ -74,7 +74,7 @@ export default function PostForm({ user, data, type }: Props) {
                                 <FormItem>
                                     <FormLabel>name</FormLabel>
                                     <FormControl>
-                                        <Input dir="rtl" {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

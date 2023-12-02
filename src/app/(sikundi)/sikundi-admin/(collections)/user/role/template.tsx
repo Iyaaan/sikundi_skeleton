@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ReactNode } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import Header from '@sikundi/app/(sikundi)/sikundi-admin/_components/Header'
 import { usePathname } from 'next/navigation'
 
@@ -8,7 +8,7 @@ const Template = ({ children }: {children: ReactNode}) => {
     const path = usePathname()
 
     return (
-        <div className='container p-4'>
+        <Fragment>
             <Header data={{
                 url: "/sikundi-admin/user/role",
                 name: "roles",
@@ -27,7 +27,7 @@ const Template = ({ children }: {children: ReactNode}) => {
                 }
             }} />
             {children}
-        </div>
+        </Fragment>
     )
 }
 
