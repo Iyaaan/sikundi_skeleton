@@ -11,8 +11,8 @@ export default async function getPermission(request:PermissionStructure) {
         const jwtUsr = await getUser()
         const user = await getUserById(jwtUsr?.payload.id)
         if(!user) throw(false)
-        const role = await getRoleById(user.id)
-        if(!role.id) throw(false)
+        const role = await getRoleById(user?.roleId)
+        if(!role?.id) throw(false)
 
         // @ts-ignore
         const allowed:{[name:string]: { label: string; value: string }[]} = role.permissions
@@ -52,11 +52,13 @@ async function getUserById(id?:number):Promise<User | null> {
         }
     })
 
-    await redis.set(`user:${user?.id}`, JSON.stringify(user))
+    await redis.setex(`user:${user?.id}`, 3600, JSON.stringify(user))
     return user
 }
 
-async function getRoleById(id?:number):Promise<Role> {
+async function getRoleById(id?:number | null):Promise<Role | null> {
+    if(!id) return null
+
     const cachedRole = await redis.get(`role:${id}`)
     if (cachedRole) {
       return JSON.parse(cachedRole)
