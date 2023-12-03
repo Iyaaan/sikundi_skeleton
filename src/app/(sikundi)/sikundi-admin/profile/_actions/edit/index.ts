@@ -1,8 +1,8 @@
-import { UserType } from '@sikundi/lib/server/utils/getUser'
 import { notFound } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import { User } from '@prisma/client'
 
-export default async function (user: UserType) {
+export default async function Edit (user: User) {
     const userSingle = await prisma.user.findUnique({
         select: {
             id: true,
@@ -23,8 +23,7 @@ export default async function (user: UserType) {
             },
         },
         where: {
-            // @ts-ignore
-            email: String(user.payload.email)
+            email: String(user.email)
         }
     })
 

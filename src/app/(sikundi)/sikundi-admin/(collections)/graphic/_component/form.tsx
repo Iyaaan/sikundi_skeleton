@@ -21,7 +21,6 @@ import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/
 import { Fragment, useEffect, useState } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
-import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
@@ -29,9 +28,10 @@ import GraphicCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collectio
 import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
+import { User } from "@prisma/client"
 
 interface Props {
-    user: UserType
+    user: User
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -44,7 +44,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<GraphicSchemaType>({
         resolver: zodResolver(GraphicSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
+            createdBy: { label: `${user.userName}`, value: `${user.userName}` },
             createdAt: new Date(),
             language: {
                 label: "Dhivehi", value: "DV"

@@ -15,7 +15,7 @@ export default async function getPermission(request:PermissionStructure) {
             where: {
                 users: {
                     some: {
-                        id: user?.payload.id
+                        id: user?.id
                     }
                 }
             }

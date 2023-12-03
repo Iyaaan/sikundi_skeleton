@@ -19,16 +19,16 @@ import { Calendar } from "@sikundi/components/ui/calendar"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
 import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
-import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/create"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
+import { User } from "@prisma/client"
 
 interface Props {
-    user: UserType
+    user: User
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -42,7 +42,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<UserSchemaType>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
+            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
             createdAt: new Date(),
             userName: "",
             userNameEn: "",

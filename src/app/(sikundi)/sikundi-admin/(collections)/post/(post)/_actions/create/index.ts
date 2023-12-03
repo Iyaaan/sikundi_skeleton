@@ -21,7 +21,7 @@ export default async function POST(data: PostSchemaType) {
                             slug: ThaanaLatin(tag.label),
                             createdBy: {
                                 connect: {
-                                    email: user?.payload.email
+                                    email: user?.email
                                 }
                             }
                         },
@@ -30,7 +30,7 @@ export default async function POST(data: PostSchemaType) {
                             slug: ThaanaLatin(tag.label),
                             createdBy: {
                                 connect: {
-                                    email: user?.payload.email
+                                    email: user?.email
                                 }
                             }
                         },
@@ -50,7 +50,7 @@ export default async function POST(data: PostSchemaType) {
                 lead: data.lead,
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.payload.userName
+                        userName: data.createdBy.value || user?.userName
                     }
                 },
                 // @ts-ignore

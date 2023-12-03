@@ -22,7 +22,7 @@ export default async function UpdateTag(data:TagSchemaType) {
                 ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.payload.email
+                        userName: data.createdBy.value || user?.email
                     }
                 },
             },

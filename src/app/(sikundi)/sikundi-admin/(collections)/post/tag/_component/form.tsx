@@ -19,13 +19,13 @@ import TagSchema, { TagSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin/(
 import { Fragment, useEffect } from "react"
 import { ThaanaLatin } from "@sikundi/lib/transliterate"
 import axios from "axios"
-import { UserType } from "@sikundi/lib/server/utils/getUser"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import TagCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_actions/create"
 import TagUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/tag/_actions/update"
+import { User } from "@prisma/client"
 
 interface Props {
-    user: UserType
+    user: User
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -37,7 +37,7 @@ export default function TagForm({ user, data, type }: Props) {
     const form = useForm<TagSchemaType>({
         resolver: zodResolver(TagSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
+            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
             createdAt: new Date(),
             name: "",
             slug: "",

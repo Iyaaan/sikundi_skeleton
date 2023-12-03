@@ -1,16 +1,18 @@
 import { User } from '@prisma/client'
 import * as jose from 'jose'
 import { cookies } from "next/headers"
+import { prisma } from "@sikundi/lib/server/utils/prisma"
 import { redis } from "@sikundi/lib/server/utils/redis"
 
 interface payloadType extends jose.JWTPayload, Omit<User, 'password'> {
 
 }
+
 export interface UserType extends jose.JWTVerifyResult {
     payload: payloadType
 }
 
-export default async function getUser():Promise<UserType | null> {
+export default async function getUser():Promise<Omit<User, 'password'> | null> {
     try {
         const token = cookies().get('token')
         // @ts-ignore
@@ -20,8 +22,22 @@ export default async function getUser():Promise<UserType | null> {
             algorithms: ["HS256"],
         })
 
+        // @ts-ignore
+        return (await prisma.user.findUnique({
+            select: {
+                id: true,
+                userName: true,
+                userNameEn: true,
+                email: true,
+                status: true,
+                roleId: true
+            },
+            where: {
+                id: user?.payload.id,
+                status: "active"
+            }
+        }))
 
-        return user
     } catch (error) {
         return null
     }

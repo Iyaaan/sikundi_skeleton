@@ -15,7 +15,7 @@ export default async function POST(data: GraphicSchemaType) {
                 ...{...data, action: undefined, id: undefined, push: undefined, tags: undefined, graphicsUrl: undefined},
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.payload.userName
+                        userName: data.createdBy.value || user?.userName
                     }
                 },
                 // @ts-ignore

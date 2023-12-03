@@ -17,16 +17,16 @@ import { format } from "date-fns"
 import { Calendar } from "@sikundi/components/ui/calendar"
 import { Fragment } from "react"
 import axios from "axios"
-import { UserType } from "@sikundi/lib/server/utils/getUser"
 import Select2 from "@sikundi/components/ui/Select2"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import RoleCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/_actions/create"
 import RoleUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/role/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import { permission } from "@sikundi/sikundi.config"
+import { User } from "@prisma/client"
 
 interface Props {
-    user: UserType
+    user: User
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -38,7 +38,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<RoleSchemaType>({
         resolver: zodResolver(RoleSchema),
         defaultValues: {
-            createdBy: { label: `${user.payload.userName}`, value: `${user.payload.userName}` },
+            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
             createdAt: new Date(),
             name: "",
             permissions: {},

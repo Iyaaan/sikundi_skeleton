@@ -42,7 +42,7 @@ export default async function POST(data: GraphicSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        userName: createdBy.value || user?.payload.email
+                        userName: createdBy.value || user?.email
                     }
                 },
                 graphics: graphicsUrl ? {

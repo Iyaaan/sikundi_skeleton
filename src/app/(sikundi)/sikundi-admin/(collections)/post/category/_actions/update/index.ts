@@ -22,7 +22,7 @@ export default async function POST(data: CategorySchemaType) {
                 ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.payload.userName
+                        userName: data.createdBy.value || user?.userName
                     }
                 },
                 // @ts-ignore
