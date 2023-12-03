@@ -16,6 +16,7 @@ import Link from 'next/link'
 import Select2 from '@sikundi/components/ui/Select2'
 import { Select2Async } from '@sikundi/components/ui/Select2Async'
 import axios from 'axios'
+import * as NProgress from 'nprogress'
 
 interface Props {
     data: {
@@ -65,6 +66,7 @@ const Header:FC<Props> = ({ data }) => {
                 }
             })
             router.push(url.toString())
+            NProgress.start()
         }
     }, [debouncedValue, router, data.url, data.filterUrl])
 
