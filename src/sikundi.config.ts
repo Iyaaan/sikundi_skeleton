@@ -29,6 +29,7 @@ interface menuItemType {
     title: string
     items: {
         name: string
+        collection?: string
         link: string
         Icon: LucideIcon
     }[]
@@ -55,26 +56,31 @@ export const menuItems:menuItemType[] = [
             {
                 name: "Posts", 
                 link: "/sikundi-admin/post", 
+                collection: 'post',
                 Icon: File 
             },
             { 
                 name: "Library", 
                 link: "/sikundi-admin/library", 
+                collection: 'library',
                 Icon: LibraryIcon 
             },
             { 
                 name: "Graphics", 
                 link: "/sikundi-admin/graphic", 
+                collection: 'graphic',
                 Icon: FileImage 
             },
             { 
                 name: "Photo Gallery", 
                 link: "/sikundi-admin/photo", 
+                collection: 'photo',
                 Icon: ImageIcon
             },
             { 
                 name: "Videos", 
                 link: "/sikundi-admin/video", 
+                collection: 'video',
                 Icon: MonitorPlay 
             },
             // { 
@@ -85,6 +91,7 @@ export const menuItems:menuItemType[] = [
             { 
                 name: "Users", 
                 link: "/sikundi-admin/user", 
+                collection: 'user',
                 Icon: UserIcon
             }
         ]
@@ -108,11 +115,13 @@ export const permission = [
         "pending"
     ]},
     {name: "category", actions: [
+        "view",
         "delete",
         "create",
         "update"
     ]},
     {name: "tag", actions: [
+        "view",
         "delete",
         "create",
         "update"
@@ -147,11 +156,13 @@ export const permission = [
         "pending"
     ]},
     {name: "user", actions: [
+        "view",
         "block",
         "create",
         "update"
     ]},
     {name: "role", actions: [
+        "view",
         "delete",
         "create",
         "update"

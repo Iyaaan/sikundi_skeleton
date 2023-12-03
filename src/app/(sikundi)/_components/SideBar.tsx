@@ -13,7 +13,11 @@ import { usePathname } from 'next/navigation'
 import { useUpdateEffect } from 'usehooks-ts'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-
+    permission: {
+        [name:string]: {
+            [name:string]: boolean
+        }
+    }
 }
 
 export default function SideBarContainer(props:SidebarProps) {
@@ -53,7 +57,7 @@ export function SideBar(props:SidebarProps) {
                             {item.title}
                         </h2>
                         <div className="space-y-1">
-                            {item.items.map((child, key) => (
+                            {item.items.map((child, key) => (props?.permission?.[String(child.collection)]?.view || !child.collection) && (
                                 <Button asChild key={key} variant={
                                     (path === "/sikundi-admin" && child.link === "/sikundi-admin") ? "secondary" :
                                     (child.link !== "/sikundi-admin" && path.startsWith(child.link)) ? "secondary" :"ghost"

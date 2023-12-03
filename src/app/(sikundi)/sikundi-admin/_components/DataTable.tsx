@@ -14,7 +14,7 @@ import { ChevronDown } from "lucide-react"
 import { Button } from "@sikundi/components/ui/button"
 import { twMerge } from "tailwind-merge"
 
-export default function DataTable({data}: {data: {[name:string]: string}[]}) {
+export default function DataTable({data, edit}: {data: {[name:string]: string}[], edit: boolean}) {
     return (
         <div className="rounded-md border mb-4">
             <Table>
@@ -30,7 +30,7 @@ export default function DataTable({data}: {data: {[name:string]: string}[]}) {
                 <TableBody>
                     {data.map((row, index) => (
                         <TableRow key={index} className="border">
-                            <Cell row={row} />
+                            <Cell row={row} edit={edit} />
                         </TableRow>
                     ))}
                 </TableBody>
@@ -39,17 +39,23 @@ export default function DataTable({data}: {data: {[name:string]: string}[]}) {
     )
 }
 
-function Cell({row}:{row:any}) {
+function Cell({row, edit}:{row:any, edit: boolean}) {
     const [active, setActive] = React.useState(false)
     return (
         <React.Fragment>
             {Object.entries(row).map(([key, value], subIndex) => key !== "href" && (
                 <TableCell key={subIndex} className="p-0 block md:table-cell" data-cell={key}>
                     <div className={twMerge(["flex md:block items-center", subIndex !== 0 && "mr-10"])}>
-                        <Link href={row?.href || ""} className={twMerge(["md:p-4 grid grid-cols-5 gap-4 flex-1 md:flex-none", (subIndex !== 0 && !active) && "hidden md:block"])}>
-                            <span className="font-bold md:hidden col-span-2 bg-secondary p-4 text-muted-foreground">{key}</span>
-                            <span className="col-span-3 p-4 md:p-0">{String(value)}</span>
-                        </Link>
+                        {edit ?
+                            <Link href={row?.href || ""} className={twMerge(["md:p-4 grid grid-cols-5 gap-4 flex-1 md:flex-none", (subIndex !== 0 && !active) && "hidden md:block"])}>
+                                <span className="font-bold md:hidden col-span-2 bg-secondary p-4 text-muted-foreground">{key}</span>
+                                <span className="col-span-3 p-4 md:p-0">{String(value)}</span>
+                            </Link> :
+                            <div className={twMerge(["md:p-4 grid grid-cols-5 gap-4 flex-1 md:flex-none", (subIndex !== 0 && !active) && "hidden md:block"])}>
+                                <span className="font-bold md:hidden col-span-2 bg-secondary p-4 text-muted-foreground">{key}</span>
+                                <span className="col-span-3 p-4 md:p-0">{String(value)}</span>
+                            </div> 
+                        }
                         {subIndex === 0 && <Button
                             onClick={()=>setActive((r)=>!r)}
                             variant="outline"

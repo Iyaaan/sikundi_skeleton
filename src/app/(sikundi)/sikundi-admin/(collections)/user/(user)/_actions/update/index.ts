@@ -4,6 +4,7 @@ import getUser from '@sikundi/lib/server/utils/getUser'
 import UserSchema, { UserSchemaType } from './schema'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
+import { redis } from '@sikundi/lib/server/utils/redis'
 import { revalidatePath } from 'next/cache'
 
 const statusFromActions = {
@@ -43,6 +44,7 @@ export default async function POST(data: UserSchemaType) {
             }
         })
 
+        await redis.del(`user:${user.id}`)
         revalidatePath('/sikundi-admin/user')
         return {
             notification: {

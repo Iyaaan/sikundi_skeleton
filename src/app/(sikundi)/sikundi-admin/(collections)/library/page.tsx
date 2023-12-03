@@ -4,6 +4,8 @@ import {prisma} from '@sikundi/lib/server/utils/prisma'
 import NotFound from './not-found'
 import Paginator from '@sikundi/app/(sikundi)/_components/Paginator'
 import MediaGrid from '../../_components/MediaGrid'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
+import { redirect } from 'next/navigation'
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +25,17 @@ export default async function page({params, searchParams}: Props) {
 }
 
 async function List({getData, searchParams}: {getData: Promise<{ [name:string]: any }>, searchParams: {[name:string]: string}}) {
+    const permission = await getPermission({
+        library: [
+            "view",
+            "delete",
+            "publish"
+        ]
+    })
+    if(!permission.library.view) {
+        return redirect('/sikundi-admin')
+    }
+
     const data = await getData
     if(data?.medias.length === 0 || data?.medias === null) {
         return <NotFound />

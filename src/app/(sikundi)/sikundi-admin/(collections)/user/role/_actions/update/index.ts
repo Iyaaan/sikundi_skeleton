@@ -4,6 +4,7 @@ import getUser from '@sikundi/lib/server/utils/getUser'
 import RoleSchema, { RoleSchemaType } from './schema'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
+import { redis } from '@sikundi/lib/server/utils/redis'
 import { revalidatePath } from 'next/cache'
 
 export default async function POST(data: RoleSchemaType) {
@@ -31,6 +32,7 @@ export default async function POST(data: RoleSchemaType) {
             }
         })) : (await prisma.role.delete({
             select: {
+                id: true,
                 name: true
             },
             where: {
@@ -38,6 +40,7 @@ export default async function POST(data: RoleSchemaType) {
             }
         }))
 
+        await redis.del(`role:${role.id}`)
         revalidatePath('/sikundi-admin/user/role')
         return ({ 
             data: {

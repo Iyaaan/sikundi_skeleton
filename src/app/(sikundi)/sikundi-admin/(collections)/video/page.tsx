@@ -4,6 +4,8 @@ import DataTable from '@sikundi/app/(sikundi)/sikundi-admin/_components/DataTabl
 import {prisma} from '@sikundi/lib/server/utils/prisma'
 import NotFound from './not-found'
 import Paginator from '@sikundi/app/(sikundi)/_components/Paginator'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
+import { redirect } from 'next/navigation'
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +25,20 @@ export default async function page({params, searchParams}: Props) {
 }
 
 async function List({getData, searchParams}: {getData: Promise<{ [name:string]: any }>, searchParams: {  [name:string]: any  }}) {
+    const permission = await getPermission({
+        video: [
+            "view",
+            "draft",
+            "delete",
+            "soft_delete",
+            "publish",
+            "pending"
+        ]
+    })
+    if(!permission.video.view) {
+        return redirect('/sikundi-admin')
+    }
+
     const data = await getData
     if(data.videos.length === 0 || data.videos === null) {
         return <NotFound />
@@ -30,7 +46,13 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
-            <DataTable data={data.videos} />
+            <DataTable data={data.videos} edit={
+                permission?.video?.draft || 
+                permission?.video?.delete || 
+                permission?.video?.soft_delete || 
+                permission?.video?.publish || 
+                permission?.video?.pending
+            } />
             {parseInt(data.total) > 1 && <Paginator
                 current={parseInt(data.current)}
                 total={parseInt(data.total)}

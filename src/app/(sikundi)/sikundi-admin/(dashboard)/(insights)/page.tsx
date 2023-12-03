@@ -6,6 +6,7 @@ import { Textarea } from "@sikundi/components/ui/textarea"
 
 export default async function Dashboard() {
     const analytics = await getAnalytics()
+
     return (
         <div className="grid gap-4 md:grid-cols-12">
             {analytics.summery.map((metric, index) => (

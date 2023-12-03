@@ -13,6 +13,7 @@ interface Props {
             slug: string;
             permissions: {
                 create: boolean
+                view: boolean
             };
         }[]
     }
@@ -25,7 +26,7 @@ const Menu:FC<Props> = ({ menu }) => {
         <Tabs defaultValue={path?.replaceAll("/trash", "")?.replaceAll("/copydesk", "")?.replaceAll("/create", "")?.replaceAll(/\/(\w+)\/update/g, "")} className="h-full space-y-6 mb-4">
             <div className="space-between flex items-center">
                 <TabsList>
-                    {menu.items.map((item, index) => (
+                    {menu.items.map((item, index) => item.permissions.view && (
                         <TabsTrigger asChild value={item.url} key={index} className="relative capitalize">
                             <Link href={item.url}>{item.name}</Link>
                         </TabsTrigger>

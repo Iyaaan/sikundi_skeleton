@@ -180,7 +180,7 @@ export default function PostForm({ user, data, type }: Props) {
                                         : "Update"}
                                     </Button>
                                     <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "delete")}>
-                                        {(isLoading && form.getValues("action") === "update") ? 
+                                        {(isLoading && form.getValues("action") === "delete") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
