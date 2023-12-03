@@ -173,17 +173,30 @@ export default function PostForm({ user, data, type }: Props) {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Select2
+                                        <Select2Async
                                             isClearable={false}
                                             className='col-span-2 justify-start'
-                                            options={[
+                                            placeholder="select"
+                                            defaultOptions={[{
                                                 // @ts-ignore
-                                                {label: "Admin", value: "Admin"},
-                                                // @ts-ignore
-                                                {label: "Editor", value: "Editor"},
-                                                // @ts-ignore
-                                                {label: "Author", value: "Author"}
-                                            ]}
+                                                label: `search for roles`, value: `search for roles`, isDisabled: true
+                                            }]}
+                                            loadOptions={(inputValue: string) => new Promise(async (resolve) => {
+                                                axios.get('/sikundi-admin/user/role/api/select', {
+                                                    params: {
+                                                        query: inputValue
+                                                    }
+                                                }).then(({ data }) => {
+                                                    resolve(data.data)
+                                                }).catch((error) => {
+                                                    toast({
+                                                        title: error.data.notification.title || error.data.error.name,
+                                                        description: error.data.notification.description || JSON.stringify(error.data.error.details),
+                                                        variant: "destructive"
+                                                    })
+                                                    resolve([])
+                                                })
+                                            })}
                                             {...field}
                                         />
                                     </FormControl>
