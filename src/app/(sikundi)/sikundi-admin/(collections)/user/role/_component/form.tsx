@@ -24,9 +24,10 @@ import RoleUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import { permission } from "@sikundi/sikundi.config"
 import { User } from "@prisma/client"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
 interface Props {
-    user: User
+    user: UserType
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -38,7 +39,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<RoleSchemaType>({
         resolver: zodResolver(RoleSchema),
         defaultValues: {
-            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
+            createdBy: { label: `${user?.payload?.userName}`, value: `${user?.payload?.userName}` },
             createdAt: new Date(),
             name: "",
             permissions: {},

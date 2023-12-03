@@ -20,7 +20,7 @@ export default async function POST(data: UserSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        userName: createdBy?.value || usr?.userName
+                        userName: createdBy?.value || usr?.payload?.userName
                     }
                 },
                 role: {

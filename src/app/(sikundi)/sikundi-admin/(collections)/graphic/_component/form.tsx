@@ -29,9 +29,10 @@ import GraphicUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collectio
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
 import { User } from "@prisma/client"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
 interface Props {
-    user: User
+    user: UserType
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -44,7 +45,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<GraphicSchemaType>({
         resolver: zodResolver(GraphicSchema),
         defaultValues: {
-            createdBy: { label: `${user.userName}`, value: `${user.userName}` },
+            createdBy: { label: `${user?.payload?.userName}`, value: `${user?.payload?.userName}` },
             createdAt: new Date(),
             language: {
                 label: "Dhivehi", value: "DV"

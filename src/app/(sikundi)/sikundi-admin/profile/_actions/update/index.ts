@@ -24,7 +24,7 @@ export default async function index(data: UserSchemaType) {
                 status: "active"
             },
             where: {    
-                email: usr?.email
+                email: usr?.payload?.email
             }
         })
         console.log(user)

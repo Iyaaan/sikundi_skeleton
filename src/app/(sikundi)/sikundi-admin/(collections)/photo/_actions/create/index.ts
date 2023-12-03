@@ -16,7 +16,7 @@ export default async function POST(data: PhotoSchemaType) {
                 lead: data.lead,
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.userName
+                        userName: data.createdBy.value || user?.payload?.userName
                     }
                 },
                 // @ts-ignore

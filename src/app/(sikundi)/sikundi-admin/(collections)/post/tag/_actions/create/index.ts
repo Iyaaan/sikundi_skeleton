@@ -15,7 +15,7 @@ export default async function TagCreate(data:TagSchemaType) {
                 ...{...data, action: undefined, id: undefined},
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.userName
+                        userName: data.createdBy.value || user?.payload?.userName
                     }
                 },
                 

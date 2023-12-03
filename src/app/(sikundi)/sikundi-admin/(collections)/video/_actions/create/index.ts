@@ -15,7 +15,7 @@ export default async function POST(data: VideoSchemaType) {
                 ...{...data, action: undefined, id: undefined, push: undefined, tags: undefined, featureImageUrl: undefined},
                 createdBy: {
                     connect: {
-                        userName: data.createdBy.value || user?.userName
+                        userName: data.createdBy.value || user?.payload?.userName
                     }
                 },
                 // @ts-ignore

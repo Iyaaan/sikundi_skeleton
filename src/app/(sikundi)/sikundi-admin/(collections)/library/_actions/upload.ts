@@ -46,7 +46,7 @@ export async function uploadToLibrary(formData:FormData) {
                                 slug: ThaanaLatin(name),
                                 createdBy: {
                                     connect: {
-                                        email: user?.email
+                                        email: user?.payload?.email
                                     }
                                 }
                             },
@@ -55,7 +55,7 @@ export async function uploadToLibrary(formData:FormData) {
                                 slug: ThaanaLatin(name),
                                 createdBy: {
                                     connect: {
-                                        email: user?.email
+                                        email: user?.payload?.email
                                     }
                                 }
                             },
@@ -85,7 +85,7 @@ export async function uploadToLibrary(formData:FormData) {
                 data: {
                     createdBy: {
                         connect: {
-                            email: user?.email
+                            email: user?.payload?.email
                         }
                     },
                     url: fileName.replace("./storage", "/sikundi-content"),

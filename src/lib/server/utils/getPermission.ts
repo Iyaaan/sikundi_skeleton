@@ -8,14 +8,14 @@ export default async function getPermission(request:PermissionStructure) {
     try {
         const user = await getUser()
 
-        if (!user?.roleId) throw(false)
+        if (!user?.payload?.roleId) throw(false)
 
         const roles = await prisma.role.findFirst({
             select: {
                 permissions: true
             },
             where: {
-                id: user?.roleId
+                id: user?.payload?.roleId
             }
         })
 

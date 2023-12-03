@@ -61,7 +61,7 @@ export default async function POST(data: PostSchemaType) {
                     slug: ThaanaLatin(tag.label),
                     createdBy: {
                         connect: {
-                            email: user?.email
+                            email: user?.payload?.email
                         }
                     }
                 },
@@ -70,7 +70,7 @@ export default async function POST(data: PostSchemaType) {
                     slug: ThaanaLatin(tag.label),
                     createdBy: {
                         connect: {
-                            email: user?.email
+                            email: user?.payload?.email
                         }
                     }
                 },
@@ -95,7 +95,7 @@ export default async function POST(data: PostSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        userName: createdBy.value || user?.email
+                        userName: createdBy.value || user?.payload?.email
                     }
                 },
                 category: category?.value ? {

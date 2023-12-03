@@ -16,7 +16,7 @@ export default async function POST(data: UserSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        userName: createdBy?.value || usr?.email
+                        userName: createdBy?.value || usr?.payload?.email
                     }
                 },
                 role: {

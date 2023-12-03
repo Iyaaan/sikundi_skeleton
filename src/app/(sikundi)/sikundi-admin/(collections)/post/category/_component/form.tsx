@@ -25,9 +25,10 @@ import CategoryCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collecti
 import CategoryUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/category/_actions/update"
 import Select2 from "@sikundi/components/ui/Select2"
 import { User } from "@prisma/client"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
 interface Props {
-    user: User
+    user: UserType
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -39,7 +40,7 @@ export default function CategoryForm({ user, data, type }: Props) {
     const form = useForm<CategorySchemaType>({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
-            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
+            createdBy: { label: `${user?.payload?.userName}`, value: `${user?.payload?.userName}` },
             createdAt: new Date(),
             name: "",
             slug: "",

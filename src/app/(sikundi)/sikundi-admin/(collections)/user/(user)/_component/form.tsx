@@ -26,9 +26,10 @@ import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import { User } from "@prisma/client"
+import { UserType } from "@sikundi/lib/server/utils/getUser"
 
 interface Props {
-    user: User
+    user: UserType
     data?: {[name:string]: unknown}
     type: "create" | "update"
 }
@@ -42,7 +43,7 @@ export default function PostForm({ user, data, type }: Props) {
     const form = useForm<UserSchemaType>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
-            createdBy: { label: `${user?.userName}`, value: `${user?.userName}` },
+            createdBy: { label: `${user?.payload?.userName}`, value: `${user?.payload?.userName}` },
             createdAt: new Date(),
             userName: "",
             userNameEn: "",

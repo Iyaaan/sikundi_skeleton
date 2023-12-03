@@ -42,7 +42,7 @@ export default async function POST(data: VideoSchemaType) {
                 ...data,
                 createdBy: {
                     connect: {
-                        userName: createdBy.value || user?.email
+                        userName: createdBy.value || user?.payload?.email
                     }
                 },
                 // @ts-ignore
