@@ -35,7 +35,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             "pending"
         ]
     })
-    if(!permission.post.view) {
+    if(!permission?.post?.view) {
         return redirect('/sikundi-admin')
     }
     const data = await getData

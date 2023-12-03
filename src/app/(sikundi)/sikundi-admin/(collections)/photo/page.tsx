@@ -35,7 +35,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             "pending"
         ]
     })
-    if(!permission.photo.view) {
+    if(!permission?.photo?.view) {
         return redirect('/sikundi-admin')
     }
     

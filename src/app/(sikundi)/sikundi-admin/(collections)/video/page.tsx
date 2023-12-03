@@ -35,7 +35,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             "pending"
         ]
     })
-    if(!permission.video.view) {
+    if(!permission?.video?.view) {
         return redirect('/sikundi-admin')
     }
 

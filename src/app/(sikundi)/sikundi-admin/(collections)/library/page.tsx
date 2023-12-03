@@ -32,7 +32,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             "publish"
         ]
     })
-    if(!permission.library.view) {
+    if(!permission?.library?.view) {
         return redirect('/sikundi-admin')
     }
 

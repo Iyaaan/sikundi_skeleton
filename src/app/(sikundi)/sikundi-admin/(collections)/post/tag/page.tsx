@@ -33,7 +33,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
             "update"
         ]
     })
-    if(!permission.tag.view) {
+    if(!permission?.tag?.view) {
         return redirect('/sikundi-admin')
     }
 
