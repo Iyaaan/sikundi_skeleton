@@ -6,16 +6,43 @@ import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import { ThaanaLatin } from '@sikundi/lib/transliterate'
 import { revalidatePath } from 'next/cache'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
+
+const statusFromActions = {
+    draft: "drafted",
+    soft_delete: "soft_deleted",
+    publish: "published",
+    pending: "pending"
+}
 
 export default async function POST(data: PostSchemaType) {
-    return (await ErrorHandler(data, PostSchema, async (data:PostSchemaType) => {
+    return (await ErrorHandler(data, PostSchema, async ({action, id, push, tags, featureImageUrl, ...data}:PostSchemaType) => {
         const user = await getUser()
-        let tags:any = []
+        let tagss:any = []
+        const permission = await getPermission({
+            post: [
+                "draft",
+                "delete",
+                "soft_delete",
+                "publish",
+                "pending"
+            ]
+        })
+
+        if(!permission?.post?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} posts.`,
+                    variant: "destructive"
+                }
+            })
+        }
 
         try {
-            if (data.tags) {
-                await Promise.all(data.tags?.map(async (tag) => {
-                    tags.push(await prisma.tag.upsert({
+            if (tags) {
+                await Promise.all(tags?.map(async (tag) => {
+                    tagss.push(await prisma.tag.upsert({
                         update: {
                             name: tag.label,
                             slug: ThaanaLatin(tag.label),
@@ -46,7 +73,7 @@ export default async function POST(data: PostSchemaType) {
 
         const post = await prisma.post.create({
             data: {
-                ...{...data, action: undefined, id: undefined, push: undefined, tags: undefined, featureImageUrl: undefined},
+                ...data,
                 lead: data.lead,
                 createdBy: {
                     connect: {
@@ -60,18 +87,20 @@ export default async function POST(data: PostSchemaType) {
                         slug: data.category?.value
                     }
                 } : undefined,
-                featureImage: data?.featureImageUrl ? {
+                featureImage: featureImageUrl ? {
                     connect: {
-                        url: data?.featureImageUrl
+                        url: featureImageUrl
                     }
                 } : undefined,
+                // @ts-ignore
+                status: action ? statusFromActions[action] : "drafted"
             }
         })
 
         try {
-            if(tags.length > 0) {
+            if(tagss.length > 0) {
                 await prisma.postsTags.createMany({
-                    data: tags.map((tag:any) => ({
+                    data: tagss.map((tag:any) => ({
                         postId: post.id,
                         tagId: tag.id
                     }))

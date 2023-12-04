@@ -6,6 +6,7 @@ import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import { ThaanaLatin } from '@sikundi/lib/transliterate'
 import { revalidatePath } from 'next/cache'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 const statusFromActions = {
     draft: "drafted",
@@ -17,6 +18,25 @@ const statusFromActions = {
 export default async function POST(data: PostSchemaType) {
     return (await ErrorHandler<any, any>(data, PostSchema, async ({createdBy, category, featureImageUrl, language, tags, push, action, id, ...data}:PostSchemaType) => {
         const user = await getUser()
+        const permission = await getPermission({
+            post: [
+                "draft",
+                "delete",
+                "soft_delete",
+                "publish",
+                "pending"
+            ]
+        })
+
+        if(!permission?.post?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} posts.`,
+                    variant: "destructive"
+                }
+            })
+        }
 
         try {
             await prisma.postsTags.deleteMany({
