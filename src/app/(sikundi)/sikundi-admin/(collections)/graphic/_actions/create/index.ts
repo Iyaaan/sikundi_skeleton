@@ -5,14 +5,41 @@ import GraphicSchema, { GraphicSchemaType } from './schema'
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import { revalidatePath } from 'next/cache'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
+
+const statusFromActions = {
+    draft: "drafted",
+    soft_delete: "soft_deleted",
+    publish: "published",
+    pending: "pending"
+}
 
 export default async function POST(data: GraphicSchemaType) {
-    return (await ErrorHandler(data, GraphicSchema, async (data:GraphicSchemaType) => {
+    return (await ErrorHandler(data, GraphicSchema, async ({action, id, push, graphicsUrl, ...data}:GraphicSchemaType) => {
         const user = await getUser()
+        const permission = await getPermission({
+            graphic: [
+                "draft",
+                "delete",
+                "soft_delete",
+                "publish",
+                "pending"
+            ]
+        })
+
+        if(!permission?.graphic?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} graphics.`,
+                    variant: "destructive"
+                }
+            })
+        }
 
         const graphic = await prisma.graphic.create({
             data: {
-                ...{...data, action: undefined, id: undefined, push: undefined, tags: undefined, graphicsUrl: undefined},
+                ...data,
                 createdBy: {
                     connect: {
                         userName: data.createdBy.value || user?.payload?.userName
@@ -20,9 +47,11 @@ export default async function POST(data: GraphicSchemaType) {
                 },
                 // @ts-ignore
                 language: data.language.value,
-                graphics: data?.graphicsUrl ? {
+                // @ts-ignore
+                status: action ? statusFromActions[action] : "drafted",
+                graphics: graphicsUrl ? {
                     connect: {
-                        url: data?.graphicsUrl
+                        url: graphicsUrl
                     }
                 } : undefined,
             }

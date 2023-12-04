@@ -2,8 +2,9 @@ import React from 'react'
 import dynamicImport from 'next/dynamic'
 import Loading from './loading'
 import getUser from '@sikundi/lib/server/utils/getUser'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 interface Props {
     params: {
@@ -16,6 +17,24 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
+    const permission = await getPermission({
+        photo: [
+            "draft",
+            "delete",
+            "soft_delete",
+            "publish",
+            "pending"
+        ]
+    })
+    if(!(permission?.photo?.draft || 
+        permission?.photo?.delete || 
+        permission?.photo?.soft_delete || 
+        permission?.photo?.publish || 
+        permission?.photo?.pending
+    )) {
+        return redirect('/sikundi-admin')
+    }
+
     const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/_component/form'), { 
         ssr: false,
         loading: () => <Loading />
@@ -24,7 +43,13 @@ export default async function page({params, searchParams}: Props) {
     const data = await photo({params, searchParams})
 
     return (
-        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' />
+        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' permission={{
+            draft: permission?.photo?.draft,
+            delete: permission?.photo?.delete, 
+            soft_delete: permission?.photo?.soft_delete, 
+            publish: permission?.photo?.publish,
+            pending: permission?.photo?.pending
+        }} />
     )
 }
 

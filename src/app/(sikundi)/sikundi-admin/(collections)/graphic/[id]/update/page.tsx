@@ -2,8 +2,9 @@ import React from 'react'
 import dynamicImport from 'next/dynamic'
 import Loading from './loading'
 import getUser from '@sikundi/lib/server/utils/getUser'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 interface Props {
     params: {
@@ -16,6 +17,24 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
+    const permission = await getPermission({
+        graphic: [
+            "draft",
+            "delete",
+            "soft_delete",
+            "publish",
+            "pending"
+        ]
+    })
+    if(!(permission?.graphic?.draft || 
+        permission?.graphic?.delete || 
+        permission?.graphic?.soft_delete || 
+        permission?.graphic?.publish || 
+        permission?.graphic?.pending
+    )) {
+        return redirect('/sikundi-admin')
+    }
+
     const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/graphic/_component/form'), { 
         ssr: false,
         loading: () => <Loading />
@@ -24,7 +43,13 @@ export default async function page({params, searchParams}: Props) {
     const data = await graphic({params, searchParams})
 
     return (
-        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' />
+        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' permission={{
+            draft: permission?.graphic?.draft,
+            delete: permission?.graphic?.delete, 
+            soft_delete: permission?.graphic?.soft_delete, 
+            publish: permission?.graphic?.publish,
+            pending: permission?.graphic?.pending
+        }} />
     )
 }
 
@@ -63,7 +88,7 @@ const graphic = async (query: Props) => {
             value: graphicSingle?.createdBy?.userName,
             label: graphicSingle?.createdBy?.userName
         },
-        graphics: graphicSingle.graphics?.url,
+        graphicsUrl: graphicSingle.graphics?.url,
         language: {
             value: graphicSingle?.language,
             label: graphicSingle?.language === "EN" ? "English" : "Dhivehi"
