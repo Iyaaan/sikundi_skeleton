@@ -2,8 +2,9 @@ import React from 'react'
 import dynamicImport from 'next/dynamic'
 import Loading from './loading'
 import getUser from '@sikundi/lib/server/utils/getUser'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 interface Props {
     params: {
@@ -16,6 +17,20 @@ interface Props {
 }
 
 export default async function page({params, searchParams}: Props) {
+    const permission = await getPermission({
+        user: [
+            "create",
+            "block",
+            "update"
+        ]
+    })
+    if(!(
+        permission?.user?.block || 
+        permission?.user?.update
+    )) {
+        return redirect('/sikundi-admin')
+    }
+
     const Form = dynamicImport(() => import('@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_component/form'), { 
         ssr: false,
         loading: () => <Loading />
@@ -24,7 +39,11 @@ export default async function page({params, searchParams}: Props) {
     const data = await user({params, searchParams})
 
     return (
-        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(usr))} type='update' />
+        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(usr))} type='update' permission={{
+            block: permission?.user?.block,
+            update: permission?.user?.update,
+            create: permission?.user?.create
+        }} />
     )
 }
 

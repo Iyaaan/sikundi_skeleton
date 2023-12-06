@@ -31,10 +31,11 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 interface Props {
     user: UserType
     data?: {[name:string]: unknown}
+    permission?: {[name:string]: boolean}
     type: "create" | "update"
 }
 
-export default function PostForm({ user, data, type }: Props) {
+export default function PostForm({ user, data, type, permission }: Props) {
     const { toast } = useToast()
     const [image, setImage] = useState<string | undefined>(undefined)
     const [lead, setLead] = useState<{[name:string]: any}>(data?.lead ? JSON?.parse(String(data?.lead)) : {})
@@ -282,16 +283,19 @@ export default function PostForm({ user, data, type }: Props) {
                         />
                         <div className="grid grid-cols-2 items-center gap-2">
                             {
-                                type === "create" ?
-                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
-                                    {(isLoading && form.getValues("action") === "active") ? 
-                                    <Fragment>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Loading
-                                    </Fragment>
-                                    : "create"}
-                                </Button> :
+                                type === "create" ? <Fragment>
+                                    {permission?.create && 
+                                    <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
+                                        {(isLoading && form.getValues("action") === "active") ? 
+                                        <Fragment>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Loading
+                                        </Fragment>
+                                        : "create"}
+                                    </Button>}
+                                </Fragment> :
                                 <Fragment>
+                                    {permission?.update && 
                                     <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
                                         {(isLoading && form.getValues("action") === "active") ? 
                                         <Fragment>
@@ -299,7 +303,8 @@ export default function PostForm({ user, data, type }: Props) {
                                             Loading
                                         </Fragment>
                                         : "Update"}
-                                    </Button>
+                                    </Button>}
+                                    {permission?.block &&
                                     <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "blocked")}>
                                         {(isLoading && form.getValues("action") === "blocked") ? 
                                         <Fragment>
@@ -307,7 +312,7 @@ export default function PostForm({ user, data, type }: Props) {
                                             Loading
                                         </Fragment>
                                         : "blocked"}
-                                    </Button>
+                                    </Button>}
                                 </Fragment>
                             }
                         </div>

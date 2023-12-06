@@ -129,7 +129,7 @@ export const permission = [
     {name: "library", actions: [
         "view",
         "delete",
-        "publish",
+        "create",
     ]},
     {name: "graphic", actions: [
         "view",

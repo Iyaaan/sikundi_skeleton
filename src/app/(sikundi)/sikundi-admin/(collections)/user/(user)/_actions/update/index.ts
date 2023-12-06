@@ -6,6 +6,7 @@ import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import { redis } from '@sikundi/lib/server/utils/redis'
 import { revalidatePath } from 'next/cache'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 const statusFromActions = {
     active: "active",
@@ -15,6 +16,23 @@ const statusFromActions = {
 export default async function POST(data: UserSchemaType) {
     return (await ErrorHandler(data, UserSchema, async ({createdBy, profilePictureUrl, action, id, role, ...data}:UserSchemaType) => {
         const usr = await getUser()
+        const permission = await getPermission({
+            user: [
+                "create",
+                "block",
+                "update"
+            ]
+        })
+
+        if(!permission?.user?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} users.`,
+                    variant: "destructive"
+                }
+            })
+        }
 
         const user = await prisma.user.update({
             data: {

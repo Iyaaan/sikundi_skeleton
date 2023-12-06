@@ -5,14 +5,33 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { revalidatePath } from 'next/cache'
 import getUser from '@sikundi/lib/server/utils/getUser'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 export default async function POST(data: CategorySchemaType) {
-    return (await ErrorHandler(data, CategorySchema, async (data:CategorySchemaType) => {
+    return (await ErrorHandler(data, CategorySchema, async ({action, id, ...data}:CategorySchemaType) => {
         const user = await getUser()
+        const permission = await getPermission({
+            category: [
+                "view",
+                "delete",
+                "create",
+                "update"
+            ]
+        })
+
+        if(!permission?.category?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} posts.`,
+                    variant: "destructive"
+                }
+            })
+        }
 
         const category = await prisma.category.create({
             data: {
-                ...{...data, action: undefined, id: undefined},
+                ...data,
                 createdBy: {
                     connect: {
                         userName: data.createdBy.value || user?.payload?.userName

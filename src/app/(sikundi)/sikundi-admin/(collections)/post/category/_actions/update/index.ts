@@ -5,10 +5,11 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { revalidatePath } from 'next/cache'
 import getUser from '@sikundi/lib/server/utils/getUser'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 export default async function POST(data: CategorySchemaType) {
-    return (await ErrorHandler(data, CategorySchema, async (data:CategorySchemaType) => {
-        if (!data.id) throw({
+    return (await ErrorHandler(data, CategorySchema, async ({action, id, ...data}:CategorySchemaType) => {
+        if (!id) throw({
             notification: {
                 title: "Category doesn't exist",
                 description: `Please try again with a category that exists`
@@ -16,10 +17,28 @@ export default async function POST(data: CategorySchemaType) {
         })
 
         const user = await getUser()
+        const permission = await getPermission({
+            category: [
+                "view",
+                "delete",
+                "create",
+                "update"
+            ]
+        })
 
-        const category = data.action === "update" ? (await prisma.category.update({
+        if(!permission?.category?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} posts.`,
+                    variant: "destructive"
+                }
+            })
+        }
+
+        const category = action === "update" ? (await prisma.category.update({
             data: {
-                ...{...data, action: undefined, id: undefined},
+                ...data,
                 createdBy: {
                     connect: {
                         userName: data.createdBy.value || user?.payload?.userName
@@ -29,14 +48,14 @@ export default async function POST(data: CategorySchemaType) {
                 language: data.language.value
             },
             where: {
-                id: data.id
+                id: id
             }
         })) : (await prisma.category.delete({
             select: {
                 name: true
             },
             where: {
-                id: data.id
+                id: id
             }
         }))
 
@@ -46,7 +65,7 @@ export default async function POST(data: CategorySchemaType) {
                 category: category
             },
             notification: {
-                title: `Category Successfully ${data.action === "update" ? "updated" : "deleted"}`,
+                title: `Category Successfully ${action === "update" ? "updated" : "deleted"}`,
                 description: `a category have created under the name ${category.name}`
             }
         })

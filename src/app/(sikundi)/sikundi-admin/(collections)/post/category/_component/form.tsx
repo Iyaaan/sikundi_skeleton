@@ -30,10 +30,11 @@ import { UserType } from "@sikundi/lib/server/utils/getUser"
 interface Props {
     user: UserType
     data?: {[name:string]: unknown}
+    permission?: {[name:string]: boolean}
     type: "create" | "update"
 }
 
-export default function CategoryForm({ user, data, type }: Props) {
+export default function CategoryForm({ user, data, type, permission }: Props) {
     const { toast } = useToast()
     const router = useRouter()
     const params = useParams()
@@ -238,35 +239,34 @@ export default function CategoryForm({ user, data, type }: Props) {
                             )}
                         />
                         <div className="grid grid-cols-2 items-center gap-2">
-                            {
-                                type === "create" ?
-                                <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
+                            {type === "create" ? <Fragment>
+                                {permission?.create && <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
                                     {(isLoading && form.getValues("action") === "create") ? 
                                     <Fragment>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Loading
                                     </Fragment>
                                     : "create"}
-                                </Button> :
-                                <Fragment>
-                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
-                                        {(isLoading && form.getValues("action") === "update") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "update"}
-                                    </Button> 
-                                    <Button disabled={isLoading} aria-disabled={isLoading} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
-                                        {(isLoading && form.getValues("action") === "delete") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "delete"}
-                                    </Button> 
-                                </Fragment>
-                            }
+                                </Button>}
+                            </Fragment> :
+                            <Fragment>
+                                {permission?.update && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
+                                    {(isLoading && form.getValues("action") === "update") ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "update"}
+                                </Button> }
+                                {permission?.delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"secondary"} onClick={()=>form.setValue("action", "delete")}>
+                                    {(isLoading && form.getValues("action") === "delete") ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "delete"}
+                                </Button> }
+                            </Fragment>}
                         </div>
                     </CardContent>
                 </Card>

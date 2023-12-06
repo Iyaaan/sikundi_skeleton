@@ -5,10 +5,11 @@ import { prisma } from "@sikundi/lib/server/utils/prisma"
 import ErrorHandler from '@sikundi/lib/server/utils/ErrorHandler'
 import { revalidatePath } from 'next/cache'
 import getUser from '@sikundi/lib/server/utils/getUser'
+import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 export default async function UpdateTag(data:TagSchemaType) {
-    return (await ErrorHandler<TagSchemaType, { tag: any }>(data, TagSchema, async (data:TagSchemaType) => {
-        if (!data.id) throw({
+    return (await ErrorHandler<TagSchemaType, { tag: any }>(data, TagSchema, async ({action, id, ...data}:TagSchemaType) => {
+        if (!id) throw({
             notification: {
                 title: "Tag doesn't exist",
                 description: `Please try again with a tag that exists`
@@ -16,10 +17,28 @@ export default async function UpdateTag(data:TagSchemaType) {
         })
 
         const user = await getUser()
+        const permission = await getPermission({
+            tag: [
+                "view",
+                "delete",
+                "create",
+                "update"
+            ]
+        })
 
-        const tag = data.action === "update" ? (await prisma.tag.update({
+        if(!permission?.tag?.[String(action)]) {
+            throw({
+                notification: {
+                    title: 'Authorization Error',
+                    description: `You are not allowed to ${action} tags.`,
+                    variant: "destructive"
+                }
+            })
+        }
+
+        const tag = action === "update" ? (await prisma.tag.update({
             data: {
-                ...{...data, action: undefined, id: undefined},
+                ...data,
                 createdBy: {
                     connect: {
                         userName: data.createdBy.value || user?.payload?.email
@@ -27,14 +46,14 @@ export default async function UpdateTag(data:TagSchemaType) {
                 },
             },
             where: {
-                id: data.id
+                id: id
             }
         })) : (await prisma.tag.delete({
             select: {
                 name: true
             },
             where: {
-                id: data.id
+                id: id
             }
         }))
 
@@ -44,7 +63,7 @@ export default async function UpdateTag(data:TagSchemaType) {
                 tag: tag
             },
             notification: {
-                title: `Tag Successfully ${data.action === "update" ? "updated" : "deleted"}`,
+                title: `Tag Successfully ${action === "update" ? "updated" : "deleted"}`,
                 description: `a tag have created under the name ${tag.name}`
             }
         })
