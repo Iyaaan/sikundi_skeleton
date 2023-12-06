@@ -8,7 +8,7 @@ import { Badge } from '@sikundi/components/ui/badge'
 import useAction from '@sikundi/lib/client/hooks/useAction'
 import { deleteLibrary } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/_actions/delete'
 
-export default function MediaGrid({data}: { data: {[name:string]: any} }) {
+export default function MediaGrid({data, permission}: { data: {[name:string]: any}, permission: {[name:string]: boolean} }) {
     const [active, setActive] = useState<null | {[name:string]:any}>(null)
     const [open, setOpen] = useState(false)
 
@@ -38,7 +38,7 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
                 ))}
                 <DialogContent className="sm:max-w-[750px] w-[calc(100vw-16px)]">
                     <DialogHeader>
-                        <DialogTitle>{active?.name}</DialogTitle>
+                        <DialogTitle className='break-all'>{active?.name}</DialogTitle>
                     <DialogDescription className='pb-2'>
                         {active?.caption}
                     </DialogDescription>
@@ -66,9 +66,10 @@ export default function MediaGrid({data}: { data: {[name:string]: any} }) {
                         }
                     </div>
                     <DialogFooter>
+                        {permission?.delete &&
                         <Button type="button" onClick={()=>execute([active?.url])}>
                             {isLoading ? "loading" : "delete"}
-                        </Button>
+                        </Button>}
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

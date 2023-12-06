@@ -38,6 +38,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
     if(!permission?.graphic?.view) {
         return redirect('/sikundi-admin')
     }
+    
     const data = await getData
     if(data.graphics.length === 0 || data.graphics === null) {
         return <NotFound />

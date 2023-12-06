@@ -29,7 +29,7 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
         library: [
             "view",
             "delete",
-            "publish"
+            "create"
         ]
     })
     if(!permission?.library?.view) {
@@ -43,7 +43,9 @@ async function List({getData, searchParams}: {getData: Promise<{ [name:string]: 
 
     return (
         <div className='relative overflow-x-auto max-w-[calc(100vw-16px-16px)]'>
-            <MediaGrid data={data?.medias || []} />
+            <MediaGrid data={data?.medias || []} permission={{
+                delete: permission?.library?.delete
+            }} />
             {parseInt(data.total) > 1 && <Paginator
                 current={parseInt(data.current)}
                 total={parseInt(data.total)}
