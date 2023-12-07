@@ -10,7 +10,7 @@ import PostSchema, { PostSchemaType } from "@sikundi/app/(sikundi)/sikundi-admin
 import { useToast } from "@sikundi/components/ui/use-toast"
 import { CalendarIcon, ImageIcon, Loader2 } from "lucide-react"
 import { cn } from "@sikundi/lib/client/utils"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Textarea } from "@sikundi/components/ui/textarea"
 import { Select2Async } from "@sikundi/components/ui/Select2Async"
 import { Popover, PopoverContent, PopoverTrigger } from "@sikundi/components/ui/popover"
@@ -25,26 +25,28 @@ import TextEditor from "@sikundi/components/text-editor"
 import Select2 from "@sikundi/components/ui/Select2"
 import Image from '@sikundi/components/Image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
+import useRealTime from "@sikundi/lib/client/hooks/useRealTime"
 import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/create"
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
-import { User } from "@prisma/client"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
+import Ping from "../_actions/ping"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@sikundi/components/ui/dialog"
 
 interface Props {
     user: UserType
     data?: {[name:string]: unknown}
     permission?: {[name:string]: boolean}
     type: "create" | "update"
+    editingUser?: any
 }
 
-export default function PostForm({ user, data, type, permission }: Props) {
+export default function PostForm({ user, data, type, permission, editingUser }: Props) {
     const { toast } = useToast()
     const [image, setImage] = useState<string | undefined>(undefined)
     const [lead, setLead] = useState<{[name:string]: any}>(data?.lead ? JSON?.parse(String(data?.lead)) : {})
     const router = useRouter()
-    const params = useParams()
     const form = useForm<PostSchemaType>({
         resolver: zodResolver(PostSchema),
         defaultValues: {
@@ -125,8 +127,23 @@ export default function PostForm({ user, data, type, permission }: Props) {
         )
     })
 
+    useRealTime(Ping, id, editingUser ? (editingUser?.email === user?.payload?.email) : true)
+
     return (
         <Form {...form}>
+            {(editingUser?.email !== user?.payload?.email) && <Dialog open>
+                <DialogContent className="sm:max-w-[425px] min-w-[90vw] md:min-w-[unset]">
+                    <DialogHeader>
+                        <DialogTitle>{editingUser?.userName} is currently editing</DialogTitle>
+                        <DialogDescription>
+                            You can either wait until to the user is done with their revisions or you can kick them out.
+                        </DialogDescription>
+                        </DialogHeader>
+                    <DialogFooter>
+                        <Button type="button">Kick them out</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>}
             <form onSubmit={form.handleSubmit(data => execute(data), (e) => console.error(e))} className="grid lg:grid-cols-12 gap-4">
                 <Card className="pt-6 lg:col-span-8 lg:row-span-2 lg:order-1">
                     <CardContent className="grid gap-4">

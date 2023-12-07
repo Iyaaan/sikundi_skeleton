@@ -271,7 +271,7 @@ async function HomePage () {
     })
 
     return {
-        bodu: {
+        bodu: bodu && {
             href: `/dv/${bodu?.id}`,
             title: bodu?.title,
             featureImage: bodu?.featureImageUrl,

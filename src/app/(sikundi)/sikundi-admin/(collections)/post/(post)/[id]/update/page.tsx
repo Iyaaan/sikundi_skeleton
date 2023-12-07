@@ -5,6 +5,7 @@ import getUser from '@sikundi/lib/server/utils/getUser'
 import { notFound, redirect } from 'next/navigation'
 import {prisma} from '@sikundi/lib/server/utils/prisma'
 import getPermission from '@sikundi/lib/server/utils/getPermission'
+import { redis } from '@sikundi/lib/server/utils/redis'
 
 interface Props {
     params: {
@@ -40,10 +41,11 @@ export default async function page({params, searchParams}: Props) {
         loading: () => <Loading />
     })
     const user = await getUser()
+    const editingUser = JSON.parse(String(await redis.get(`post:${params.id}:editing`)))
     const data = await post({params, searchParams})
 
     return (
-        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' permission={{
+        <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' editingUser={editingUser} permission={{
             draft: permission?.post?.draft,
             delete: permission?.post?.delete, 
             soft_delete: permission?.post?.soft_delete, 

@@ -6,6 +6,7 @@ export { metadata } from '@sikundi/sikundi.config'
 import { Toaster } from "@sikundi/components/ui/toaster"
 import CsrfProvider from '@sikundi/components/csrf-provider'
 import NextTopLoader from 'nextjs-toploader'
+import { TooltipProvider } from '@sikundi/components/ui/tooltip'
 
 const inter = localFont({
     src: [
@@ -134,7 +135,9 @@ export default function RootLayout(props: Props) {
                     disableTransitionOnChange
                 >
                     <CsrfProvider token={String(process.env.CSRF_SECRET)}>
-                        {props.children}
+                        <TooltipProvider>
+                            {props.children}
+                        </TooltipProvider>
                     </CsrfProvider>
                 </ThemeProvider>
                 <Toaster />

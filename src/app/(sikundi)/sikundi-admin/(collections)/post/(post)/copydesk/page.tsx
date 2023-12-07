@@ -6,6 +6,7 @@ import NotFound from '../not-found'
 import Paginator from '@sikundi/app/(sikundi)/_components/Paginator'
 import { redirect } from 'next/navigation'
 import getPermission from '@sikundi/lib/server/utils/getPermission'
+import { redis } from '@sikundi/lib/server/utils/redis'
 
 export const dynamic = "force-dynamic"
 
@@ -133,15 +134,17 @@ const posts = async (query: Props) => {
     
 
     return {
-        posts: posts.map((post)=>({
+        posts: await Promise?.all(posts.map(async (post)=>({
             title: post.title,
             status: post.status,
+            views: post?.views,
             language: post.language === "DV" ? 'Dhivehi' : "English",
             "created at": new Date(post.createdAt).toLocaleString(),
             // @ts-ignore
             "created by": `${post.createdBy?.userName}`,
-            href: `/sikundi-admin/post/${post.id}/update`
-        })) || [],
+            href: `/sikundi-admin/post/${post.id}/update`,
+            _editing: JSON.parse(String(await redis.get(`post:${post.id}:editing`)))?.userName
+        }))) || [],
         total: Math.ceil((Number(totalPosts._count)/per_page)),
         current: current
     }
