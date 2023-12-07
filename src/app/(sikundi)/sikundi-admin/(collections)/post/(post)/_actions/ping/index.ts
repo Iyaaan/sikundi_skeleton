@@ -49,7 +49,7 @@ export default async function Ping(data:{id: number}) {
             })
         }
 
-        await redis.setex(`post:${data?.id}:editing`, 1.3, JSON.stringify(user?.payload))
+        await redis.psetex(`post:${data?.id}:editing`, 1300, JSON.stringify(user?.payload))
         
         return ({ 
             data: {
