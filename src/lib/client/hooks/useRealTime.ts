@@ -9,7 +9,7 @@ export default function useRealTime(ping: (data: { id: number }) => Promise<cust
 
     useEffect(() => {
         if(model_key && run && !error) {
-            const id = setInterval(async () => {
+            const fetchData = async () => {
                 try {
                     const data = await ping({
                         id: model_key
@@ -25,8 +25,10 @@ export default function useRealTime(ping: (data: { id: number }) => Promise<cust
                 } catch (error) {
                     console.log(error)
                 }
-            }, 1000)
+            }
+            const id = setInterval(fetchData, 1000)
+            fetchData()
             return () => clearTimeout(id)
         }
-    }, [model_key, run, error])
+    }, [model_key, run, error, ping, router])
 }

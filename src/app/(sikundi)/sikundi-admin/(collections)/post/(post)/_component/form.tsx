@@ -28,10 +28,11 @@ import useAction from "@sikundi/lib/client/hooks/useAction"
 import useRealTime from "@sikundi/lib/client/hooks/useRealTime"
 import PostCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/create"
 import PostUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/update"
+import Ping from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/ping"
+import kickOut from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/post/(post)/_actions/kickout"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
-import Ping from "../_actions/ping"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@sikundi/components/ui/dialog"
 
 interface Props {
@@ -140,7 +141,20 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                         </DialogDescription>
                         </DialogHeader>
                     <DialogFooter>
-                        <Button type="button">Kick them out</Button>
+                        <Button type="button" onClick={async () => {
+                            if(id) {
+                                const res = await kickOut({
+                                    id: id
+                                })
+                                res?.notification && toast({
+                                    ...res.notification,
+                                    duration: 2000
+                                })
+                                res.data?.ok && router.refresh()
+                            }
+                        }}>
+                            Kick them out
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>}
