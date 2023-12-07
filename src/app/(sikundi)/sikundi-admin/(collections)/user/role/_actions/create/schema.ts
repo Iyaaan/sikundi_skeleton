@@ -27,6 +27,10 @@ const RoleSchema = z.object({
             value: z.string(),
             label: z.string()
         })).optional(),
+        adBanner: z.array(z.object({
+            value: z.string(),
+            label: z.string()
+        })).optional(),
         photo: z.array(z.object({
             value: z.string(),
             label: z.string()

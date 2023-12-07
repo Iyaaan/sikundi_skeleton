@@ -19,7 +19,8 @@ export default async function SikundiAdminLayout(props: Props) {
         photo: ['view'],
         video: ['view'],
         user: ['view'],
-        role: ['view']
+        role: ['view'],
+        adBanner: ['view']
     })
 
     return (

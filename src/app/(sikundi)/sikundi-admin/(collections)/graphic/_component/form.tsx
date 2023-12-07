@@ -381,7 +381,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 </Fragment>}
                             </Fragment> : null}
                             {data?.id ? <Fragment>
-                                {data?.status === "published" ? <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
+                                {data?.status !== "published" ? <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
                                     <Link href={`/${data?.id}/preview`}>Preview</Link>
                                 </Button> : <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
                                     <Link href={`/${data?.id}`}>Perma Link</Link>

@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay, PanelTop, ScrollText, Send, UserIcon } from 'lucide-react'
+import { Bell, File, FileImage, GalleryHorizontal, ImageIcon, LayoutDashboard, LibraryIcon, LucideIcon, MonitorPlay, PanelTop, ScrollText, Send, Table2Icon, UserIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
     title: 'gaafu media',
@@ -83,6 +83,12 @@ export const menuItems:menuItemType[] = [
                 collection: 'video',
                 Icon: MonitorPlay 
             },
+            { 
+                name: "Ad Manager", 
+                link: "/sikundi-admin/ad-banner", 
+                collection: 'adBanner',
+                Icon: Table2Icon
+            },
             // { 
             //     name: "Pages", 
             //     link: "/sikundi-admin/page", 
@@ -132,6 +138,14 @@ export const permission = [
         "create",
     ]},
     {name: "graphic", actions: [
+        "view",
+        "draft",
+        "delete",
+        "soft_delete",
+        "publish",
+        "pending"
+    ]},
+    {name: "adBanner", actions: [
         "view",
         "draft",
         "delete",

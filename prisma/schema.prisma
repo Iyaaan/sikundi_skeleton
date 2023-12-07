@@ -42,6 +42,17 @@ enum Status {
   pending
 }
 
+enum AdTypes {
+  t_banner
+  ss_banner
+  ess_banner
+  ls_banner
+  ml_banner
+  msl_banner
+  ia_banner
+  ae_banner
+}
+
 model Country {
   id Int @id @default(autoincrement())
 
@@ -92,7 +103,8 @@ model User {
   postsCreated         Post[]     @relation("postsCreated")
   photosCreated        Photo[]    @relation("photosCreated")
   graphicsCreated      Graphic[]  @relation("graphicsCreated")
-  videosCreated        Video[]   @relation("videosCreated")
+  adBannersCreated     AdBanner[] @relation("adBannersCreated")
+  videosCreated        Video[]    @relation("videosCreated")
   categoriesCreated    Category[] @relation("categoriesCreated")
   tagsCreated          Tag[]      @relation("tagsCreated")
 }
@@ -130,10 +142,11 @@ model Media {
   createdById Int?
   createdBy   User?    @relation("mediasCreated", fields: [createdById], references: [id], onDelete: SetNull)
 
-  posts      Post[] @relation("postFeatureImage")
-  photos     Photo[] @relation("photoFeatureImage")
-  graphics   Graphic[] @relation("graphics")
-  user       User[] @relation("profilePicture")
+  posts      Post[]       @relation("postFeatureImage")
+  photos     Photo[]      @relation("photoFeatureImage")
+  graphics   Graphic[]    @relation("graphics")
+  adBanner   AdBanner[]   @relation("adBanner")
+  user       User[]       @relation("profilePicture")
   mediasTags MediasTags[] @relation("mediasTags")
 
   url         String     @unique
@@ -262,6 +275,23 @@ model Graphic {
   longTitle   String?
   latinTitle  String?
   description String?
+  language    Lang @default(EN)
+  status      Status @default(drafted)
+}
+
+model AdBanner {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  createdBy   User?    @relation("adBannersCreated", fields: [createdById], references: [id], onDelete: SetNull)
+
+  adBannerUrl String?
+  adBanner    Media?    @relation("adBanner", fields: [adBannerUrl], references: [url], onDelete: SetNull)
+  adType      AdTypes
+
+  altTxt      String
+  url         String?
   language    Lang @default(EN)
   status      Status @default(drafted)
 }
