@@ -127,11 +127,11 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
         )
     })
 
-    useRealTime(Ping, id, editingUser ? (editingUser?.email === user?.payload?.email) : true)
+    useRealTime(Ping, id, editingUser?.email ? (editingUser?.email === user?.payload?.email) : true)
 
     return (
         <Form {...form}>
-            {(editingUser?.email !== user?.payload?.email) && <Dialog open>
+            {(editingUser?.email && (editingUser?.email !== user?.payload?.email)) && <Dialog open>
                 <DialogContent className="sm:max-w-[425px] min-w-[90vw] md:min-w-[unset]">
                     <DialogHeader>
                         <DialogTitle>{editingUser?.userName} is currently editing</DialogTitle>
