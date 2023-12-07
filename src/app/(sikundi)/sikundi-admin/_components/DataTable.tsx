@@ -88,7 +88,7 @@ function Cell({row, edit}:{row:any, edit: boolean}) {
                 </TableCell>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <span className="absolute top-1/2 -translate-y-1/2 right-4 h-3 w-3 hidden lg:flex">
+                        <span className="absolute top-1/2 -translate-y-1/2 right-4 h-3 w-3 hidden md:flex">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
                         </span>
