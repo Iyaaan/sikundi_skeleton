@@ -286,7 +286,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 type === "create" ? <Fragment>
                                     {permission?.create && 
                                     <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
-                                        {(isLoading && form.getValues("action") === "active") ? 
+                                        {(isLoading && form.getValues("action") === "create") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
@@ -297,7 +297,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 <Fragment>
                                     {permission?.update && 
                                     <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
-                                        {(isLoading && form.getValues("action") === "active") ? 
+                                        {(isLoading && form.getValues("action") === "update") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
@@ -305,8 +305,8 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                         : "Update"}
                                     </Button>}
                                     {permission?.block &&
-                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "blocked")}>
-                                        {(isLoading && form.getValues("action") === "blocked") ? 
+                                    <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "block")}>
+                                        {(isLoading && form.getValues("action") === "block") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading

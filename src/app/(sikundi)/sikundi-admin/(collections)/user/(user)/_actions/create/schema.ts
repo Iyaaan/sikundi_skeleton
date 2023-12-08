@@ -16,7 +16,7 @@ const UserSchema = z.object({
     }).optional(),
     createdAt: z.date().optional().or(z.string().optional()),
     profilePictureUrl: z.string().optional(),
-    action: z.string().refine((action) => ['update', 'blocked', 'create'].includes(action), {
+    action: z.string().refine((action) => ['update', 'block', 'create'].includes(action), {
         message: 'Action is not valid'
     }).optional(),
 })
