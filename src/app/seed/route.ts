@@ -3,6 +3,8 @@ import seed from '@sikundi/seeders'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
 import filestream, { promises as fs } from "fs"
 import axios from 'axios'
+import bcrypt from 'bcrypt'
+import { ThaanaLatin } from '@sikundi/lib/transliterate'
 
 export async function GET(request: NextRequest) {
     // if (process.env.NODE_ENV === "development") {
@@ -47,6 +49,20 @@ export async function POST(request: NextRequest) {
     const post = await prisma.post.create({
         data: {
             ...data,
+            createdBy: data?.createdBy ? {
+                ...data?.createdBy,
+                connectOrCreate: {
+                    ...data?.createdBy?.connectOrCreate,
+                    create: {
+                        ...data?.createdBy?.connectOrCreate?.create,
+                        password: String(await bcrypt.hash(data?.createdBy?.connectOrCreate?.create.password, 10)),
+                        userNameEn: ThaanaLatin(data?.createdBy?.connectOrCreate?.create?.userName)?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))?.join(' ')
+                    },
+                    where: {
+                        ...data?.createdBy?.connectOrCreate?.where
+                    }
+                }
+            } : undefined,
             postsTags: {
                 createMany: {
                     data: tags?.map((tag:any) => ({
