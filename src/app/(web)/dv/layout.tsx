@@ -6,8 +6,8 @@ import Footer from '@sikundi/app/(web)/dv/_components/Footer'
 import MenuModal from '@sikundi/app/(web)/dv/_components/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
-import LandScapeAdThin from '@sikundi/components/web/ad/LandScapeAdThin'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
+import TBanner from '@sikundi/components/web/adBanner/TBanner'
 export { metadata } from '@sikundi/sikundi.config'
 
 export const runtime = 'nodejs'
@@ -120,8 +120,8 @@ interface Props {
 }
 
 export default async function RootLayout(props: Props) {
-    // @ts-ignore
     const { items, latestPosts } = await menu()
+    const { t_banner } = await Ads()
 
     return (
         <html lang={"dv-Mv"} translate="no">
@@ -142,16 +142,7 @@ export default async function RootLayout(props: Props) {
                         zIndex={1600}
                     />
                     <AnalyticsProvider>
-                        <div className='grid grid-cols-12'>
-                            <LandScapeAdThin href={"https://bankofmaldives.com.mv"} 
-                                target="_blank"
-                                containerClass="container px-4 mt-4 col-span-12 lg:col-span-8 lg:col-start-3"
-                                data={{
-                                    coverImage: `/sample_media/NzVkNTc1ZmM5MzViZTRiYzMwMDJkYTI2OWIxMjA5OGM=.gif`,
-                                    alt: "Bank Of Maldives"
-                                }}
-                            />
-                        </div>
+                        <TBanner slides={t_banner} className='max-w-4xl mx-auto mt-4' />
                         <Header menuItems={items} />
                         <MenuModal menuItems={items} latestPosts={latestPosts} />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
@@ -248,6 +239,33 @@ async function menu () {
             href: `/dv/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl
+        }))
+    }
+}
+
+async function Ads() {
+    const t_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "t_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+
+    return {
+        t_banner: t_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
         }))
     }
 }

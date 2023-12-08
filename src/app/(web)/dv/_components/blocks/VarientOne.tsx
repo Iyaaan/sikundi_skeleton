@@ -1,9 +1,9 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import PostCard from '@sikundi/components/web/cards/PostCard'
-import PortraitAd from '@sikundi/components/web/ad/PortraitAd'
 import PostSmallCard from '../../../../../components/web/cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
+import SSBanner from '@sikundi/components/web/adBanner/SSBanner'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
@@ -15,9 +15,14 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
         createdAt: string
     }[]
     loadMore?: boolean
+    ads: {
+        src: string | null;
+        altText: string;
+        href: string | null;
+    }[]
 }
 
-const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
+const VarientOne:FC<Props> = ({title, data, loadMore, ads, ...props}) => {
     return (
         <div {...props} className={twMerge([
             'container lg:px-4 px-0 ',
@@ -36,14 +41,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ...props}) => {
                         featureImage: data[0].featureImage
                     }}
                 />
-                <PortraitAd href={"https://sonee.com.mv"} 
-                    target="_blank"
-                    className="col-span-3 hidden lg:block"
-                    data={{
-                        coverImage: `/sample_media/OGQ2OWE4MDJkOGY5Y2Q4NzAzYzI2NGRkMTQ3YTFjZmE=.jpg`,
-                        alt: "Sonnee Hardware"
-                    }}
-                />
+                <SSBanner slides={ads} className='lg:col-span-3 hidden lg:block' />
             </div>}
             {data?.length > 1 && <div className='p-6 pb-12 grid lg:grid-cols-5 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative'>
                 {data?.map((post, index) => index > 0 && (

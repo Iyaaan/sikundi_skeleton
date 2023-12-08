@@ -22,7 +22,7 @@ const PostCard:FC<Props> = ({data, ...props}) => {
             'relative flex items-center lg:flex-row flex-col group',
             props.className
         ])}>
-            <div className='flex-[6] dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-auto'>
+            <div className='flex-[6] dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-auto lg:min-h-[400px]'>
                 <Image
                     cdn={true}
                     src={data.featureImage}

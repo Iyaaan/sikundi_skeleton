@@ -100,9 +100,15 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                 let validatedFiles:any[] = []
     
                 await Promise.all(acceptedFiles.map(async (file:any) => {
-                    const data = await exifr.parse(file, {
-                        xmp: true
-                    })
+                    const data = await (async () => {
+                        try {
+                            return await exifr.parse(file, {
+                                xmp: true
+                            })
+                        } catch (error) {
+                            console.error(error)
+                        }
+                    })()
                     validatedFiles.push(Object.assign(file, { preview: URL.createObjectURL(file), custom: {
                         name: file.name,
                         tags: [],
@@ -442,6 +448,6 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                     </TabsContent>
                 </Tabs>
             </DialogContent>
-            </Dialog>
+        </Dialog>
     )
 }

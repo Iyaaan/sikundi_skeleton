@@ -1,11 +1,12 @@
 import { Fragment } from "react";
-import LandScapeAd from "@sikundi/components/web/ad/LandScapeAd";
 import VarientOne from "@sikundi/app/(web)/dv/_components/blocks/VarientOne";
 import VarientThree from "@sikundi/app/(web)/dv/_components/blocks/VarientThree";
 import VarientTwo from "@sikundi/app/(web)/dv/_components/blocks/VarientTwo";
 import VarientFour from "@sikundi/app/(web)/dv/_components/blocks/VarientFour";
 import dynamicImport from 'next/dynamic'
 import { prisma } from "@sikundi/lib/server/utils/prisma";
+import MLBanner from "@sikundi/components/web/adBanner/MLBanner";
+import MSLBanner from "@sikundi/components/web/adBanner/MSLBanner";
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-static'
@@ -30,6 +31,11 @@ export default async function Home(props: Props) {
         latestWorld
         // @ts-ignore
     } = await HomePage()
+    const {
+        ss_banner,
+        ml_banner,
+        msl_banner
+    } = await ads()
     const VarientFive  = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientFive"), {
         loading: () => {
             return (
@@ -44,47 +50,25 @@ export default async function Home(props: Props) {
         <Fragment>
             {(bodu || kuda.length > 0) && 
             // @ts-ignore
-            <VarientOne data={[ bodu, ...kuda ]} className="mb-12" />}
-            <LandScapeAd href={"https://bankofmaldives.com.mv"} 
-                target="_blank"
-                containerClass="container px-4 mb-10"
-                data={{
-                    coverImage: `/sample_media/ZWMyZTExMjNlNTBhZTVlYWQ1NWVkMGFiYTAyNGYzNzY=.png`,
-                    alt: "Bank Of Maldives"
-                }}
-            />
+            <VarientOne data={[ bodu, ...kuda ]} ads={ss_banner} className="mb-8" />}
+            <MLBanner slides={ml_banner} className="mb-8" />
             {(latestPosts?.length > 0) && 
             // @ts-ignore
             <VarientTwo className="mb-12" data={latestPosts} />}
+            <MSLBanner slides={msl_banner} className="mb-8 max-w-[940px] mx-auto" />
             {(latestPhotos?.length > 0) && 
             // @ts-ignore
             <VarientThree title="ފޮޓޯ ގެލެރީ" className="mb-12" data={latestPhotos} />}
-            
-            <LandScapeAd href={"https://bankofmaldives.com.mv"} 
-                target="_blank"
-                containerClass="container px-4 mb-10"
-                data={{
-                    coverImage: `/sample_media/NzVkNTc1ZmM5MzViZTRiYzMwMDJkYTI2OWIxMjA5OGM=.gif`,
-                    alt: "Bank Of Maldives"
-                }}
-            />
             {(latestReports?.length > 0) && 
             // @ts-ignore
             <VarientFour title="ރިޕޯޓް" className="mb-12" data={latestReports} />}
+            <MSLBanner slides={[...msl_banner]?.reverse()} className="mb-8 max-w-[940px] mx-auto" />
             {(latestGraphics?.length > 0) && 
             // @ts-ignore
             <VarientFive title="ގްރެފިކްސް" className="mb-12" data={latestGraphics} />}
             {(latestSports?.length > 0) && 
             // @ts-ignore
-            <VarientOne title="ކުޅިވަރު" className="mb-12" data={latestSports} />}
-            <LandScapeAd href={"https://bankofmaldives.com.mv"} 
-                target="_blank"
-                containerClass="container px-4 mb-10"
-                data={{
-                    coverImage: `/sample_media/ZWMyZTExMjNlNTBhZTVlYWQ1NWVkMGFiYTAyNGYzNzY=.png`,
-                    alt: "Bank Of Maldives"
-                }}
-            />
+            <VarientOne title="ކުޅިވަރު" className="mb-12" data={latestSports} ads={[...ss_banner]?.reverse()} />}
             {(latestWorld?.length > 0) && 
             // @ts-ignore
             <VarientFour title="ދުނިޔެ" className="mb-12" data={latestWorld} />}
@@ -327,5 +311,74 @@ async function HomePage () {
             description: "",
             createdAt: post.createdAt,
         })),
+    }
+}
+
+async function ads() {
+    const ss_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ss_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+    const ml_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ml_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+    const msl_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "msl_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+
+    return {
+        ss_banner: ss_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        })),
+        ml_banner: ml_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        })),
+        msl_banner: msl_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        }))
     }
 }

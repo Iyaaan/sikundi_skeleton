@@ -1,20 +1,15 @@
-import PortraitAd from "@sikundi/components/web/ad/PortraitAd"
 import Feature from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Feature"
 import RelatedPosts from "@sikundi/app/(web)/dv/[post_id]/(blocks)/RelatedPosts"
 import Comment from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Comment"
-import Paragraph from "./(blocks)/Paragraph"
-import Heading from "./(blocks)/Heading"
-import Quote from "./(blocks)/Quote"
 import { prisma } from "@sikundi/lib/server/utils/prisma" 
-import Tweet from "./(blocks)/Tweet"
-import Youtube from "./(blocks)/Youtube"
-import Facebook from "./(blocks)/Facebook"
-import { Fragment } from "react"
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
-import Collapsible from "./(blocks)/Collapsible"
-import RichText from "./(blocks)/RichText"
-import List from "./(blocks)/List"
+import LSBanner from "@sikundi/components/web/adBanner/LSBanner"
+import ESSBanner from "@sikundi/components/web/adBanner/ESSBanner"
+import AEBanner from "@sikundi/components/web/adBanner/AEBanner"
+import Block from "@sikundi/app/(web)/dv/[post_id]/(blocks)"
+import { Fragment } from "react"
+import IABanner from "@sikundi/components/web/adBanner/IABanner"
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -95,6 +90,12 @@ export default async function SinglePage(props: Props) {
 
     // @ts-ignore
     const { relatedPosts, data } = await postData(post_id)
+    const { 
+        ls_banner,
+        ess_banner,
+        ia_banner,
+        ae_banner
+    } = await ads()
 
     return (
         <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
@@ -121,75 +122,25 @@ export default async function SinglePage(props: Props) {
                     }
                 }} />
                 <div className="px-6 max-w-3xl mx-auto">
-                    {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => {
-                        if(block?.type === "paragraph") return <Paragraph style={{
-                            paddingRight: block?.direction === "ltr" ? (block?.indent*16) : "",
-                            paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
-                            textAlign: block?.format
-                        }} key={index}>
-                            <RichText>{block?.children}</RichText>
-                        </Paragraph>
-                        // @ts-ignore
-                        if(block?.type === "heading") return <Heading level={parseInt(block?.tag?.replace("h", ""))} key={index} style={{
-                            paddingRight: block?.direction === "ltr" ? (block?.indent*16) : "",
-                            paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
-                            textAlign: block?.format
-                        }}>
-                            <RichText>{block?.children}</RichText>  
-                        </Heading>
-                        if(block?.type === "list") return <List key={index} type={block?.listType}>
-                            {block?.children}
-                        </List>
-                        if(block?.type === "quote") return <Quote key={index}>{
-                            <RichText>{block?.children}</RichText> 
-                        }</Quote>
-                        if(block?.type === "horizontalrule" || block?.type === "page-break") return <hr key={index} className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
-                        if(block?.type === "layout-container") return <div key={index} className="flex">
-                            {
-                                block?.children?.map((text:any, index:any) => {
-                                    return <Fragment key={index}>{text.children?.map((t:any, index:any) => {
-                                        return <Paragraph key={index} className="border flex-1 p-4">{t?.children?.map(({text}:any, index:any) => {
-                                            return <Fragment key={index}>{text}</Fragment>
-                                        })}</Paragraph>
-                                    })}</Fragment>
-                                })    
-                            }
-                        </div>
-                        if(block?.type === "tweet") return <Tweet id={block?.id} key={index} />
-                          
-                        if(block?.type === "youtube") return <Youtube id={block?.videoID} key={index} />
-                        if(block?.type === "facebook") return <Facebook id={block.postID} key={index} />
-                        if(block?.type === "collapsible-container") return <Collapsible key={index} name={block?.children?.[0]} open={false}>
-                            {block?.children?.[1]}
-                        </Collapsible>
-                        // return <p>{JSON.stringify(block)}</p>
-                    })}
+                    {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => (
+                        <Fragment key={index}>
+                            <Block block={block} />
+                            {index === 1 && <IABanner slides={ia_banner} className="lg:float-left lg:max-w-[304px] lg:mr-4 mb-6 lg:mb-0" />}
+                        </Fragment>
+                    ))}
                 </div>
             </div>
             <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0">
-                <div className="sticky top-28 pb-8">
-                    <p dir="ltr">{"Advertisement"}</p>
-                    <PortraitAd href={"https://sonee.com.mv"} 
-                        target="_blank"
-                        className="block mb-4"
-                        data={{
-                            coverImage: `/sample_media/OGQ2OWE4MDJkOGY5Y2Q4NzAzYzI2NGRkMTQ3YTFjZmE=.jpg`,
-                            alt: "Sonnee Hardware"
-                        }}
-                    />
-                    <p dir="ltr">{"Advertisement"}</p>
-                    <PortraitAd href={"https://sonee.com.mv"} 
-                        target="_blank"
-                        className="block"
-                        data={{
-                            coverImage: `/sample_media/OGQ2OWE4MDJkOGY5Y2Q4NzAzYzI2NGRkMTQ3YTFjZmE=.jpg`,
-                            alt: "Sonnee Hardware"
-                        }}
-                    />
+                <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
+                    <LSBanner slides={ls_banner} />
+                    <ESSBanner slides={ess_banner} />
                 </div>
             </div>
             <div className="lg:col-span-9 col-span-12">
-                {relatedPosts?.length > 0 && <RelatedPosts className="mb-12" data={relatedPosts} />}
+                {relatedPosts?.length > 0 && <RelatedPosts className="mb-8" data={relatedPosts} />}
+                <div className="max-w-3xl mx-auto px-6 mb-8">
+                    <AEBanner slides={ae_banner} className="" />
+                </div>
             </div>
             <div className="lg:col-span-9 col-span-12">
                 <Comment />
@@ -264,4 +215,95 @@ function postData(id:number) {
             }))
         })
     })    
+}
+
+
+async function ads() {
+    const ls_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ls_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+    const ess_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ess_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+    const ia_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ia_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+    const ae_banner = await prisma.adBanner.findMany({
+        select: {
+            id: true,
+            altTxt: true,
+            adBannerUrl: true,
+            url: true
+        },
+        where: {
+            status: "published",
+            language: "DV",
+            adType: "ae_banner"
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+
+    return {
+        ls_banner: ls_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        })),
+        ess_banner: ess_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        })),
+        ia_banner: ia_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        })),
+        ae_banner: ae_banner.map((ad)=>({
+            src: ad.adBannerUrl,
+            altText: ad.altTxt,
+            href: ad.url
+        }))
+    }
 }

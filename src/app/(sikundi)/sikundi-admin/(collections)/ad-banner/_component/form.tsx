@@ -140,7 +140,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-contain" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("adsUrl", undefined)
                                 }}>

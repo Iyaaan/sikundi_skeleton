@@ -114,6 +114,7 @@ async function AdBanners(query: Props)  {
             id: true,
             altTxt: true,
             createdAt: true,
+            adType: true,
             status: true,
             language: true,
             createdBy: {
@@ -144,6 +145,7 @@ async function AdBanners(query: Props)  {
         adBanner: adBanner.map((ad)=>({
             'alt text': ad.altTxt,
             status: ad.status,
+            type: ad.adType,
             language: ad.language === "DV" ? 'Dhivehi' : "English",
             "created at": new Date(ad.createdAt).toLocaleString(),
             // @ts-ignore

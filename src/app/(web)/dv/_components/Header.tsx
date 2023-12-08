@@ -40,9 +40,9 @@ const Header = ({ menuItems }: { menuItems: any }) => {
             <div className="container px-4 flex gap-4 h-[6.4rem] items-center">
                 <Link href={`/dv`}>
                     <Image 
-                        src={"/logo.png"} alt="logo" 
+                        src={"/gaafu.svg"} alt="logo" 
                         width={50} height={50} 
-                        className="rounded-xl min-h-[55px] min-w-[55px] hover:scale-95 active:scale-105 transition-all" 
+                        className="rounded-xl min-h-[55px] min-w-[55px] hover:scale-95 active:scale-105 transition-all object-contain" 
                     />
                 </Link>
                 <nav className="bg-web-foreground dark:bg-web-foreground-dark lg:h-[55px] py-3 px-8 rounded-2xl gap-9 font-bold text-lg border-2 border-web-background dark:border-web-background-dark hidden lg:flex">
