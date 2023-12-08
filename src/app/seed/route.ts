@@ -69,40 +69,44 @@ export async function POST(request: NextRequest) {
         }
     }
 
-    await Promise?.all(JSON.parse(data?.lead)?.root?.children?.map(async (tag:any) => {
-        if(tag?.type === "paragraph") {
-            await Promise?.all(tag?.children?.map(async (sub:any)=>{
-                if(sub?.src) {
-                    await prisma.media.create({
-                        data: {
-                            name: sub?.src,
-                            url: sub?.src,
-                            libraryGroup: {
-                                connectOrCreate: {
-                                    create: {
-                                        name: "upload",
-                                        description: "upload"
-                                    },
-                                    where: {
-                                        name: "upload"
+    try {
+        await Promise?.all(JSON.parse(data?.lead)?.root?.children?.map(async (tag:any) => {
+            if(tag?.type === "paragraph") {
+                await Promise?.all(tag?.children?.map(async (sub:any)=>{
+                    if(sub?.src) {
+                        await prisma.media.create({
+                            data: {
+                                name: sub?.src,
+                                url: sub?.src,
+                                libraryGroup: {
+                                    connectOrCreate: {
+                                        create: {
+                                            name: "upload",
+                                            description: "upload"
+                                        },
+                                        where: {
+                                            name: "upload"
+                                        }
                                     }
                                 }
                             }
+                        })
+                        const directoryPath = sub?.src?.split("/")?.slice(0, 5)?.join("/")?.replace("/sikundi-content/", "./storage/")
+                        const url = sub?.src?.replace("/sikundi-content/", "https://gaafu.mv/wp-content/")
+                        try {
+                            await fs.access(directoryPath)
+                        } catch (error) {
+                            await fs.mkdir(directoryPath, { recursive: true })
+                        } finally {
+                            await downloadImage(url, directoryPath)
                         }
-                    })
-                    const directoryPath = sub?.src?.split("/")?.slice(0, 5)?.join("/")?.replace("/sikundi-content/", "./storage/")
-                    const url = sub?.src?.replace("/sikundi-content/", "https://gaafu.mv/wp-content/")
-                    try {
-                        await fs.access(directoryPath)
-                    } catch (error) {
-                        await fs.mkdir(directoryPath, { recursive: true })
-                    } finally {
-                        await downloadImage(url, directoryPath)
                     }
-                }
-            }))
-        }
-    }))
+                }))
+            }
+        }))
+    } catch (error) {
+        
+    }
 
     console.log(post)
     return NextResponse.json({seed: true}, {
