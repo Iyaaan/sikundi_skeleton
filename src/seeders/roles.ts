@@ -64,7 +64,15 @@ const roles = [
                 { label: "delete", value: "delete" },
                 { label: "create", value: "create" },
                 { label: "update", value: "update" }
-            ]
+            ],
+            adBanner: [
+                { label: "view", value: "view" },
+                { label: "draft", value: "draft" },
+                { label: "delete", value: "delete" },
+                { label: "soft_delete", value: "soft_delete" },
+                { label: "publish", value: "publish" },
+                { label: "pending", value: "pending" }
+            ],
         }
     },
     {

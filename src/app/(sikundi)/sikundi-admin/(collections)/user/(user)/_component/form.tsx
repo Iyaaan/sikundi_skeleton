@@ -285,7 +285,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                             {
                                 type === "create" ? <Fragment>
                                     {permission?.create && 
-                                    <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
+                                    <Button className="col-span-2" disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "create")}>
                                         {(isLoading && form.getValues("action") === "active") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -296,7 +296,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 </Fragment> :
                                 <Fragment>
                                     {permission?.update && 
-                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "active")}>
+                                    <Button variant={"secondary"} disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "update")}>
                                         {(isLoading && form.getValues("action") === "active") ? 
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -311,7 +311,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        : "blocked"}
+                                        : "block"}
                                     </Button>}
                                 </Fragment>
                             }

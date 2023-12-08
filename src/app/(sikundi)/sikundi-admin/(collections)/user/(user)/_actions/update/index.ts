@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache'
 import getPermission from '@sikundi/lib/server/utils/getPermission'
 
 const statusFromActions = {
-    active: "active",
+    update: "active",
     blocked: "blocked",
 }
 

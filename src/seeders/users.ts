@@ -37,7 +37,7 @@ const users = [
         status: "active",
         role: {
             connect: {
-                name: "Editor"
+                name: "Admin"
             }
         }
     },
@@ -63,7 +63,7 @@ const users = [
         status: "active",
         role: {
             connect: {
-                name: "Editor"
+                name: "Admin"
             }
         }
     },
