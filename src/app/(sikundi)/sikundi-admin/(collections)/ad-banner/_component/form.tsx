@@ -93,6 +93,19 @@ export default function PostForm({ user, data, type, permission }: Props) {
                         />
                         <FormField
                             control={form.control}
+                            name='url'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Url</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name='adType'
                             render={({ field }) => (
                                 <FormItem>

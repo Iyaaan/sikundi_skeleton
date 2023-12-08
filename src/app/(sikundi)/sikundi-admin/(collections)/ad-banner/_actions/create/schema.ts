@@ -3,6 +3,14 @@ import * as z from 'zod'
 const AdSchema = z.object({
     id: z.number().optional(),
     altTxt: z.string().min(1, 'Alt Text is required'),
+    url: z.string().refine((url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }, { message: 'Invalid URL format' }).optional(),
     createdBy: z.object({
         value: z.string(),
         label: z.string()
