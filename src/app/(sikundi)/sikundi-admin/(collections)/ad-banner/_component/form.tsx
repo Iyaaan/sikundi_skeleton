@@ -47,6 +47,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                 label: "Dhivehi", value: "DV"
             },
             altTxt: "",
+            url: "",
             adsUrl: "",
             ...data
         }

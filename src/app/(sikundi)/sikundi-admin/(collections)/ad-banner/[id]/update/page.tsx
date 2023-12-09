@@ -63,6 +63,7 @@ const adBanner = async (query: Props) => {
             id: true,
             altTxt: true,
             adType: true,
+            url: true,
             status: true,
             adBanner: true,
             createdAt: true,
@@ -82,6 +83,7 @@ const adBanner = async (query: Props) => {
     if (adBannerSingle === null) return notFound()
     return {
         ...adBannerSingle,
+        url: adBannerSingle.url,
         createdBy: {
             value: adBannerSingle?.createdBy?.userName,
             label: adBannerSingle?.createdBy?.userName
