@@ -1,6 +1,7 @@
 "use client"
 
 import { useModalStore } from '@sikundi/stores/modalStore'
+import { useLatestPostStore } from '@sikundi/stores/latestPosts'
 import { SearchNormal1 } from 'iconsax-react'
 import React, { Fragment, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -11,6 +12,7 @@ import { usePathname, useParams } from 'next/navigation'
 
 const MenuModal = ({ latestPosts, menuItems }: any) => {
     const { modal, off } = useModalStore()
+    const { setPosts } = useLatestPostStore()
     const path = usePathname()
     const params = useParams()
     const search = useRef<HTMLInputElement>(null)
@@ -23,6 +25,10 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
     useEffect(() => {
         off()
     }, [path, params, off])
+
+    useEffect(() => {
+        setPosts(latestPosts)
+    }, [latestPosts, setPosts])
 
     return (
         <Fragment>

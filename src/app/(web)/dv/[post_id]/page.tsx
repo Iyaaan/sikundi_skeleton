@@ -10,6 +10,7 @@ import AEBanner from "@sikundi/components/web/adBanner/AEBanner"
 import Block from "@sikundi/app/(web)/dv/[post_id]/(blocks)"
 import { Fragment } from "react"
 import IABanner from "@sikundi/components/web/adBanner/IABanner"
+import LatestPosts from "./(blocks)/LatestPosts"
 
 export const dynamicParams = true
 export const revalidate = 3600
@@ -98,7 +99,7 @@ export default async function SinglePage(props: Props) {
     } = await ads()
 
     return (
-        <div className="container grid grid-cols-12 lg:gap-x-14 lg:gap-y-4 lg:px-4 px-0">
+        <div className="container grid grid-cols-12 lg:gap-x-8 lg:gap-y-4 lg:px-4 px-0">
             <div className="lg:col-span-9 col-span-12">
                 <Feature className="pb-12" data={{
                     title: `${data?.longTitle}`,
@@ -133,6 +134,7 @@ export default async function SinglePage(props: Props) {
             <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0">
                 <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
                     <LSBanner slides={ls_banner} />
+                    <LatestPosts />
                     <ESSBanner slides={ess_banner} />
                 </div>
             </div>
