@@ -35,7 +35,7 @@ export const ThemeSwitcher = (props: buttonProps) => {
     }, []);
 
     if (!mounted) return (
-        <ToggleBtn {...props} className={twMerge(["bg-white dark:bg-[#451790] gap-[4px] aspect-square", props.className])}>
+        <ToggleBtn {...props} aria-label="theme" title="theme" className={twMerge(["bg-white dark:bg-[#451790] gap-[4px] aspect-square", props.className])}>
             <LampOn 
                 className=""
             />
@@ -43,7 +43,7 @@ export const ThemeSwitcher = (props: buttonProps) => {
     )
 
     return (
-        <ToggleBtn {...props} className={twMerge(["bg-white dark:bg-[#451790] gap-[4px] aspect-square", props.className])} onClick={()=>{
+        <ToggleBtn {...props} aria-label="theme" title="theme" className={twMerge(["bg-white dark:bg-[#451790] gap-[4px] aspect-square", props.className])} onClick={()=>{
             if (theme === "system") setTheme("light")
             if (theme === "dark") setTheme("light")
             if (theme === "light") setTheme("dark")
