@@ -5,6 +5,7 @@ import filestream, { promises as fs } from "fs"
 import axios from 'axios'
 import bcrypt from 'bcrypt'
 import { ThaanaLatin } from '@sikundi/lib/transliterate'
+import { revalidatePath } from 'next/cache'
 
 export async function GET(request: NextRequest) {
     // if (process.env.NODE_ENV === "development") {
@@ -125,6 +126,9 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(post)
+    revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
+    revalidatePath(`/${post.language.toLowerCase()}`)
+
     return NextResponse.json({seed: true}, {
         status: 200
     })
