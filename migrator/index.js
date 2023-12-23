@@ -4,38 +4,8 @@ import cheerio from 'cheerio'
 
 export async function GET() {
     const prisma = new PrismaClient()
-    // let id = 1522
-    // const max = 136743
-
-    // while (id < max) {
-    //     try {
-    //         console.log("=====================================================================================")
-    //         const data = await post(id, prisma)
-
-    //         if(data?.status === "published") {
-    //             const res = await axios.patch(wan, {
-    //                 id: id,
-    //                 ...data
-    //             }, {
-    //                 headers: {
-    //                     "X-CSRF-Token": "jbPDVFW6egu93zZj7Z"
-    //                 }
-    //             })
-    //             console.log(`[post = ${id}] = published`)
-    //         } else {
-    //             console.log(`[post = ${id}] = skipped`)
-    //         }
-    //     } catch (error) {
-    //         console.error(JSON.stringify(error))
-    //         console.log(id)
-    //         id = max
-    //     } finally {
-    //         id++
-    //     }
-    // }
 
     const lan = "http://localhost:3000/seed"
-    const wan = "https://gaafu.media/seed"
 
     const posts = await prisma.wp_posts.findMany({
         select: {
@@ -71,7 +41,7 @@ export async function GET() {
             id: id,
             ...post
         }, prisma)
-        const res = await axios.patch(wan, {
+        const res = await axios.patch(lan, {
             id: id,
             ...data
         }, {
