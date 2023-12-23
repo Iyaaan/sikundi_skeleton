@@ -25,12 +25,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    for (let index = 0; index <= Array(139055).length; index++) {
+    for (let index = 1; index <= Array(139055).length; index++) {
         await prisma.post.create({
             data: {
                 title: "deleted_post"
             }
         })
+        console.log(index)
     }
 }
 
