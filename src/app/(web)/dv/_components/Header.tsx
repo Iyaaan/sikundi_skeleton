@@ -54,7 +54,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                     }
                 </nav>
                 <label 
-                    htmlFor="search" 
+                    htmlFor="searchContainer" 
                     className={twMerge([
                         "py-[10px] px-4 flex w-full max-w-md bg-web-foreground dark:bg-web-foreground-dark items-center rounded-2xl hover:cursor-text",
                         "focus-within:border-web-primary dark:focus-within:border-web-primary-dark border-2 border-web-background dark:border-web-background-dark",
@@ -62,6 +62,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                         'mr-auto'
                     ])}
                 >
+                    <label htmlFor="search" className="hidden"></label>
                     <input 
                         ref={search}
                         type="text" name="search" id="search"
@@ -79,7 +80,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                     <span className="mt-2">EN</span>
                 </Link>
                 <ThemeSwitcher className="min-h-[55px] h-[55px] w-[55px] min-w-[55px] border-2 border-web-background dark:border-transparent" />
-                <ToggleBtn className="bg-web-tertiary dark:bg-web-tertiary-dark gap-[4px] min-h-[55px] h-[55px] w-[55px] min-w-[55px] " onClick={() => on()}>
+                <ToggleBtn aria-label="menu" title="menu" className="bg-web-tertiary dark:bg-web-tertiary-dark gap-[4px] min-h-[55px] h-[55px] w-[55px] min-w-[55px] " onClick={() => on()}>
                     {[1,2,3].map((index)=><hr className="w-4 border-white border" key={index} />)}
                 </ToggleBtn>
             </div>

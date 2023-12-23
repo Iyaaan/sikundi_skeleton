@@ -64,7 +64,7 @@ export const ThemeSwitcherEN = (props: buttonProps) => {
     }, []);
 
     if (!mounted) return (
-        <button {...props} className={twMerge([
+        <button {...props} aria-label="theme" title="theme" className={twMerge([
             "bg-web-en-tertiary dark:bg-web-en-tertiary-dark text-white", 
             "min-h-[45px] min-w-[45px] flex items-center justify-center rounded-lg hover:opacity-75 active:opacity-50",
         ])}>
@@ -73,7 +73,7 @@ export const ThemeSwitcherEN = (props: buttonProps) => {
     )
 
     return (
-        <button {...props} className={twMerge([
+        <button {...props} aria-label="theme" title="theme" className={twMerge([
             "bg-web-en-tertiary dark:bg-web-en-tertiary-dark text-white", 
             "min-h-[45px] min-w-[45px] flex items-center justify-center rounded-lg hover:opacity-75 active:opacity-50",
             props.className
