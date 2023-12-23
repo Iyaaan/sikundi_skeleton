@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
     for (let index = 1; index <= Array(139055).length; index++) {
         await prisma.post.create({
             data: {
-                title: "deleted_post"
+                title: "deleted_post",
+                status: "soft_deleted"
             }
         })
         console.log(index)
