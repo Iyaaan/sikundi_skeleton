@@ -65,7 +65,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                     ])}>
                         {
                             // @ts-ignore
-                            menuItems?.map((menuItem, index)=>(
+                            modal && menuItems?.map((menuItem, index)=>(
                                 <Link href={menuItem.url} key={index} className="active:opacity-50 flex items-center text-xl font-bold mb-4 gap-4">
                                     <span className=' bg-web-tertiary dark:bg-web-tertiary-dark h-10 w-10 rounded-full'></span>
                                     {menuItem.name}
@@ -77,7 +77,7 @@ const MenuModal = ({ latestPosts, menuItems }: any) => {
                         'col-span-12 lg:col-span-9 pointer-events-auto bg-web-foreground dark:bg-web-foreground-dark lg:order-2',
                         'border-2 border-web-background dark:border-web-background-dark rounded-2xl'
                     ])}>
-                        <VarientTwo containerClassName="lg:grid-cols-4 pb-0" data={latestPosts} />
+                        {modal && <VarientTwo containerClassName="lg:grid-cols-4 pb-0" data={latestPosts} />}
                     </div>
                 </div>
             </aside>
