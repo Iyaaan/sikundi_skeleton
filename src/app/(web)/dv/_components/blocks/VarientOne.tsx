@@ -7,6 +7,7 @@ import SSBanner from '@sikundi/components/web/adBanner/SSBanner'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
+    priority?: boolean
     data: {
         href: string
         title: string
@@ -22,7 +23,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     }[]
 }
 
-const VarientOne:FC<Props> = ({title, data, loadMore, ads, ...props}) => {
+const VarientOne:FC<Props> = ({title, data, loadMore, ads, priority, ...props}) => {
     return (
         <div {...props} className={twMerge([
             'container lg:px-4 px-0 ',
@@ -32,7 +33,7 @@ const VarientOne:FC<Props> = ({title, data, loadMore, ads, ...props}) => {
                 {title}
             </h1>}
             {data[0] && <div className='grid grid-cols-12 gap-8 mb-4'>
-                <PostCard href={String(data[0].href)}
+                <PostCard href={String(data[0].href)} priority={priority}
                     className="lg:col-span-9 col-span-12"
                     data={{
                         title: String(data[0].title),

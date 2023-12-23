@@ -50,7 +50,7 @@ export default async function Home(props: Props) {
         <Fragment>
             {(bodu || kuda.length > 0) && 
             // @ts-ignore
-            <VarientOne data={[ bodu, ...kuda ]} ads={ss_banner} className="mb-8" />}
+            <VarientOne priority data={[ bodu, ...kuda ]} ads={ss_banner} className="mb-8" />}
             <MLBanner slides={ml_banner} className="mb-8" />
             {(latestPosts?.length > 0) && 
             // @ts-ignore

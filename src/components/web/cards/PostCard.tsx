@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge'
 import { Clock, ReceiptEdit } from 'iconsax-react'
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
+    priority?: boolean
     data: {
         title: string
         description: string
@@ -15,7 +16,7 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     }
 };
 
-const PostCard:FC<Props> = ({data, ...props}) => {
+const PostCard:FC<Props> = ({data, priority = false, ...props}) => {
 
     return (
         <Link {...props} className={twMerge([
@@ -27,6 +28,7 @@ const PostCard:FC<Props> = ({data, ...props}) => {
                     cdn={true}
                     src={data.featureImage}
                     alt={data.title}
+                    priority={priority}
                     fill
                     className='object-cover group-hover:scale-110 transition-all'
                 />
