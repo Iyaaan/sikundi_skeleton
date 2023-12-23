@@ -12,7 +12,7 @@ export default function AnalyticsProvider(props: Props) {
     const domain = 'https://www.googletagmanager.com'
     const reportDomain = 'https://www.google-analytics.com'
 
-    if (process.env.NODE_ENV === "production") return (
+    if (process.env.NODE_ENV === "production" && process.env.GA_MEASUREMENT_ID) return (
         <Fragment>
             {props.children}
             <Script

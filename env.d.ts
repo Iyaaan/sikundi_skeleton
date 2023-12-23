@@ -11,6 +11,7 @@ declare global {
             ACCESS_TOKEN_SECRET: String
             NEXT_PUBLIC_APP_NAME: String
             NEXT_PUBLIC_CDN_URL: String
+            GA_MEASUREMENT_ID: String
         }
     }
 }

@@ -46,6 +46,7 @@ export default async function POST(data: AdSchemaType) {
             })
 
             revalidatePath('/sikundi-admin/adBanner')
+            revalidatePath('/', 'layout')
             return ({ 
                 data: {
                     adBanner: adBanner
@@ -84,6 +85,7 @@ export default async function POST(data: AdSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/ad-banner')
+        revalidatePath('/', 'layout')
         return {
             notification: {
                 title: `Ad Banner Successfully ${action}`,
