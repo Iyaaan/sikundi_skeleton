@@ -6,6 +6,7 @@ export async function GET() {
     const prisma = new PrismaClient()
 
     const lan = "http://localhost:3000/seed"
+    const wan = "https://gaafu.media/seed"
 
     const posts = await prisma.wp_posts.findMany({
         select: {
@@ -41,7 +42,7 @@ export async function GET() {
             id: id,
             ...post
         }, prisma)
-        const res = await axios.patch(lan, {
+        const res = await axios.patch(wan, {
             id: id,
             ...data
         }, {
