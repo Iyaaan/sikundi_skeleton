@@ -11,13 +11,13 @@ import Collapsible from "@sikundi/components/web/blocks/Collapsible"
 import RichText from "@sikundi/components/web/blocks/RichText"
 import List from "@sikundi/components/web/blocks/List"
 
-export default function index({ block }: { block: any }) {
+export default function index({ block, className }: { block: any, className?: string }) {
     if(block?.type === "paragraph") return <Paragraph style={{
         paddingRight: block?.direction === "ltr" ? (block?.indent*16) : "",
         paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
         textAlign: block?.format
     }}>
-        <RichText>{block?.children}</RichText>
+        <RichText className={className}>{block?.children}</RichText>
     </Paragraph>
     
     // @ts-ignore
@@ -26,13 +26,13 @@ export default function index({ block }: { block: any }) {
         paddingLeft: block?.direction === "rtl" ? (block?.indent*16) : "",
         textAlign: block?.format
     }}>
-        <RichText>{block?.children}</RichText>  
+        <RichText className={className}>{block?.children}</RichText>  
     </Heading>
     if(block?.type === "list") return <List type={block?.listType}>
         {block?.children}
     </List>
     if(block?.type === "quote") return <Quote>{
-        <RichText>{block?.children}</RichText> 
+        <RichText className={className}>{block?.children}</RichText> 
     }</Quote>
     if(block?.type === "horizontalrule" || block?.type === "page-break") return <hr className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
     if(block?.type === "layout-container") return <div className="flex">

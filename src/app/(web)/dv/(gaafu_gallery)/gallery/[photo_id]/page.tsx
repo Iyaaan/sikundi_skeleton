@@ -73,7 +73,7 @@ export default async function SinglePage(props: Props) {
     return (
         <div className="bg-web-secondary dark:bg-web-secondary-dark w-full min-h-screen">
             <div className="container grid grid-cols-12 lg:gap-x-8 lg:gap-y-4 lg:px-4 px-0">
-                <div className="lg:col-span-10 col-span-12 lg:col-start-2 py-6 lg:py-8">
+                <div className="lg:col-span-10 col-span-12 lg:col-start-2 lg:pt-8">
                     <PhotoFeature className="pb-12" data={{
                         title: `${data?.longTitle}`,
                         featureImage: data?.featureImageUrl,
@@ -91,7 +91,7 @@ export default async function SinglePage(props: Props) {
                     <div className="px-6 max-w-3xl mx-auto">
                         {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => (
                             <Fragment key={index}>
-                                <Block block={block} />
+                                <Block block={block} className={"text-white"} />
                             </Fragment>
                         ))}
                     </div>

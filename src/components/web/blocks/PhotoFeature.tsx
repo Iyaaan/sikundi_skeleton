@@ -23,7 +23,7 @@ type Props = AnchorHTMLAttributes<HTMLDivElement> & {
 const PhotoFeature:FC<Props> = ({data, ...props}) => {
     return (
         <div {...props} className={twMerge([
-            'relative flex items-center flex-col group',
+            'relative flex items-center flex-col',
             props.className
         ])}>
             <div className='dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-[704/433]'>
@@ -32,7 +32,7 @@ const PhotoFeature:FC<Props> = ({data, ...props}) => {
                     src={data.featureImage}
                     alt={data.title}
                     fill
-                    className='object-cover group-hover:scale-110 transition-all'
+                    className='object-cover transition-all'
                 />
             </div>
             <div className='relative -mt-24 rounded-[20px] mx-4 flex flex-col'>
@@ -45,7 +45,7 @@ const PhotoFeature:FC<Props> = ({data, ...props}) => {
                     <ReceiptEdit />
                 </div>
                 <div className='p-6 pt-4 text-center text-white relative'>
-                    <h1 className='text-3xl font-bold mb-4 leading-snug group-hover:text-web-primary transition-all line-clamp-3'>
+                    <h1 className='text-3xl font-bold mb-4 leading-snug transition-all line-clamp-3'>
                         {data.title}
                     </h1>
                     <p className='mb-4 text-base font-normal line-clamp-4 opacity-50'>
