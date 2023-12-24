@@ -62,7 +62,8 @@ async function postsByCategory(slug:string, page?: number) {
         where: {
             category: {
                 slug: slug
-            }
+            },
+            status: "published"
         }
     })
 
