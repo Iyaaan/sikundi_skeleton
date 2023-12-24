@@ -45,27 +45,27 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
     const { id, ...data } = await request.json()
 
-    let tags:any = []
+    // let tags:any = []
 
-    if (data?.postsTags) {
-        await Promise.all(data?.postsTags?.map(async (tag:any) => {
-            tags.push(await prisma.tag.upsert({
-                create: {
-                    name: tag.name,
-                    slug: tag.slug
-                },
-                update: {
-                    name: tag.name,
-                    slug: tag.slug
-                },
-                where: {
-                    slug: tag.slug
-                }
-            }))
-        }))
-    }
+    // if (data?.postsTags) {
+    //     await Promise.all(data?.postsTags?.map(async (tag:any) => {
+    //         tags.push(await prisma.tag.upsert({
+    //             create: {
+    //                 name: tag.name,
+    //                 slug: tag.slug
+    //             },
+    //             update: {
+    //                 name: tag.name,
+    //                 slug: tag.slug
+    //             },
+    //             where: {
+    //                 slug: tag.slug
+    //             }
+    //         }))
+    //     }))
+    // }
 
-    const post = await prisma.post.update({
+    const photo = await prisma.photo.update({
         data: {
             ...data,
             createdBy: data?.createdBy ? {
@@ -82,13 +82,13 @@ export async function PATCH(request: NextRequest) {
                     }
                 }
             } : undefined,
-            postsTags: {
-                createMany: {
-                    data: tags?.map((tag:any) => ({
-                        tagId: tag.id
-                    }))
-                }
-            }
+            // postsTags: {
+            //     createMany: {
+            //         data: tags?.map((tag:any) => ({
+            //             tagId: tag.id
+            //         }))
+            //     }
+            // }
         },
         where: {
             id: id
@@ -146,9 +146,9 @@ export async function PATCH(request: NextRequest) {
         
     }
 
-    console.log(post)
-    revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
-    revalidatePath(`/${post.language.toLowerCase()}`)
+    console.log(photo)
+    revalidatePath(`/${photo.language.toLowerCase()}/gaafu-gallery/${photo.id}`)
+    revalidatePath(`/${photo.language.toLowerCase()}`)
 
     return NextResponse.json({seed: true}, {
         status: 200
