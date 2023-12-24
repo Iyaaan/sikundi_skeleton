@@ -25,7 +25,7 @@ export async function GET() {
                     post_status: "publish",
                 },
                 {
-                    post_type: "post"
+                    post_type: "gallery"
                 }
             ]
         },
