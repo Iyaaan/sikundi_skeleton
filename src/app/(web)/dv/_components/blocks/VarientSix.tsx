@@ -18,7 +18,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     }[]
     loadMore?: (page?: number) => Promise<{
         name: string | undefined;
-        posts: {
+        photos: {
             href: string;
             title: string;
             description: string | null;
@@ -65,10 +65,10 @@ const VarientSix:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) =
                 'bg-web-secondary dark:bg-web-secondary-dark border border-gray-800 dark:border-gray-900 hover:scale-105 active:scale-95 transition-all'
             ])} onClick={async () => {
                 setLoading(true)
-                const { posts, nextPage:page } = await loadMore(nextPage)
+                const { photos, nextPage:page } = await loadMore(nextPage)
                 setNextPage(page)
                 // @ts-ignore
-                setData((d)=>[...d, ...posts])
+                setData((d)=>[...d, ...photos])
                 setLoading(false)
             }}>
                 {
