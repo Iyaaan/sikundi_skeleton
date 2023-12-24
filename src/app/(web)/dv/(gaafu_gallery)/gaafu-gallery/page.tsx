@@ -39,7 +39,8 @@ async function photosList(page?: number) {
         orderBy: {
             createdAt: "desc"
         },
-        take: 5
+        take: per_page,
+        skip: Number(current)-1 < 0 ? 0 : (Number(current)-1)*per_page
     })
 
     const totalPhotos = await prisma.photo.aggregate({
