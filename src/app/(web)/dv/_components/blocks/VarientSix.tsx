@@ -49,17 +49,15 @@ const VarientSix:FC<Props> = ({title, loadMore, data:d, nextPage:n, ...props}) =
                             featureImage: `${data[0]?.featureImage}`
                         }}
                     /> 
-                    <div className='grid grid-cols-2 gap-4 col-span-2 px-4 lg:p-0'>
-                        {data?.map((post, index) => index !== 0 && (
-                            <PostSmallCard href={post.href} key={index}
-                                className='text-white'
-                                data={{
-                                    title: post.title,
-                                    featureImage: post.featureImage
-                                }}
-                            />
-                        ))}
-                    </div>
+                    {data?.map((post, index) => index !== 0 && (
+                        <PostSmallCard href={post.href} key={index}
+                            className='text-white'
+                            data={{
+                                title: post.title,
+                                featureImage: post.featureImage
+                            }}
+                        />
+                    ))}
                 </div>}
             </div>
             {(loadMore && nextPage) && <button disabled={loading} className={twMerge([
