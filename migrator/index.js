@@ -139,18 +139,18 @@ function postArticle({ id, ...finalPost }, prisma) {
                     }
                 }
             },
-            category: (terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.name && terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug) && {
-                connectOrCreate: {
-                    create: {
-                        name: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.name,
-                        slug: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug,
-                        language: "DV"
-                    },
-                    where: {
-                        slug: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug
-                    }
-                }
-            },
+            // category: (terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.name && terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug) && {
+            //     connectOrCreate: {
+            //         create: {
+            //             name: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.name,
+            //             slug: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug,
+            //             language: "DV"
+            //         },
+            //         where: {
+            //             slug: terms.find(t => t?.term_id === taxonomy?.find(t => t?.taxonomy === 'category')?.term_id)?.slug
+            //         }
+            //     }
+            // },
             // featureImageCaption: featureImage?.post_title,
             featureImage: featureImage?.guid && {
                 connectOrCreate: {
@@ -301,14 +301,14 @@ function postArticle({ id, ...finalPost }, prisma) {
                     version:1
                 }
             }),
-            breaking: post_meta?.find(meta => meta?.meta_key === 'breaking')?.meta_value === "0" ? false : true,
-            liveblog: false,
+            // breaking: post_meta?.find(meta => meta?.meta_key === 'breaking')?.meta_value === "0" ? false : true,
+            // liveblog: false,
             language: "DV",
             status: "published",
-            postsTags: taxonomy.filter(t => t?.taxonomy === 'post_tag').map((tr)=>({
-                "name": terms?.find(t => t?.term_id === tr?.term_id)?.name,
-                "slug": terms?.find(t => t?.term_id === tr?.term_id)?.slug
-            }))
+            // postsTags: taxonomy.filter(t => t?.taxonomy === 'post_tag').map((tr)=>({
+            //     "name": terms?.find(t => t?.term_id === tr?.term_id)?.name,
+            //     "slug": terms?.find(t => t?.term_id === tr?.term_id)?.slug
+            // }))
         }
         
         resolve(obj)
