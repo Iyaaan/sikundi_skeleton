@@ -277,7 +277,7 @@ async function HomePage () {
             createdAt: post.createdAt,
         })),
         latestPhotos: latestPhotos?.map((post) => ({
-            href: `/dv/${post.id}`,
+            href: `/dv/gallery/${post.id}`,
             title: post.title,
             featureImage: post.featureImageUrl,
             description: "",
