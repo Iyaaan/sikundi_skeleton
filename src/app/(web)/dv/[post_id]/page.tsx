@@ -1,16 +1,16 @@
-import Feature from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Feature"
-import RelatedPosts from "@sikundi/app/(web)/dv/[post_id]/(blocks)/RelatedPosts"
-import Comment from "@sikundi/app/(web)/dv/[post_id]/(blocks)/Comment"
+import Feature from "@sikundi/components/web/blocks/Feature"
+import RelatedPosts from "@sikundi/components/web/blocks/RelatedPosts"
+import Comment from "@sikundi/components/web/blocks/Comment"
 import { prisma } from "@sikundi/lib/server/utils/prisma" 
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
 import LSBanner from "@sikundi/components/web/adBanner/LSBanner"
 import ESSBanner from "@sikundi/components/web/adBanner/ESSBanner"
 import AEBanner from "@sikundi/components/web/adBanner/AEBanner"
-import Block from "@sikundi/app/(web)/dv/[post_id]/(blocks)"
+import Block from "@sikundi/components/web/blocks"
 import { Fragment } from "react"
 import IABanner from "@sikundi/components/web/adBanner/IABanner"
-import LatestPosts from "./(blocks)/LatestPosts"
+import LatestPosts from "@sikundi/components/web/blocks/LatestPosts"
 
 export const dynamicParams = true
 export const revalidate = 3600

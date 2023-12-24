@@ -1,5 +1,5 @@
 import { prisma } from "@sikundi/lib/server/utils/prisma"
-import VarientSix from "../_components/blocks/VarientSix"
+import VarientSix from "../../_components/blocks/VarientSix"
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-static'
