@@ -42,6 +42,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
                     <Image 
                         src={"/gaafu.svg"} alt="logo" 
                         width={50} height={50} 
+                        priority={true}
                         className="rounded-xl min-h-[55px] min-w-[55px] hover:scale-95 active:scale-105 transition-all object-contain" 
                     />
                 </Link>
