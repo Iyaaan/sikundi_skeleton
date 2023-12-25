@@ -1,8 +1,6 @@
 import { Fragment } from "react";
 import VarientOne from "@sikundi/app/(web)/dv/_components/blocks/VarientOne";
-import VarientThree from "@sikundi/app/(web)/dv/_components/blocks/VarientThree";
 import VarientTwo from "@sikundi/app/(web)/dv/_components/blocks/VarientTwo";
-import VarientFour from "@sikundi/app/(web)/dv/_components/blocks/VarientFour";
 import dynamicImport from 'next/dynamic'
 import { prisma } from "@sikundi/lib/server/utils/prisma";
 import MLBanner from "@sikundi/components/web/adBanner/MLBanner";
@@ -36,7 +34,26 @@ export default async function Home(props: Props) {
         ml_banner,
         msl_banner
     } = await ads()
-    const VarientFive  = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientFive"), {
+    
+    const VarientThree = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientThree"), {
+        loading: () => {
+            return (
+                <div className="lg:rounded-lg bg-web-tertiary dark:bg-web-tertiary-dark w-full aspect-video">
+
+                </div>
+            )
+        }
+    })
+    const VarientFour = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientFour"), {
+        loading: () => {
+            return (
+                <div className="lg:rounded-lg bg-web-tertiary dark:bg-web-tertiary-dark w-full aspect-video">
+
+                </div>
+            )
+        }
+    })
+    const VarientFive = dynamicImport(() => import("@sikundi/app/(web)/dv/_components/blocks/VarientFive"), {
         loading: () => {
             return (
                 <div className="lg:rounded-lg bg-web-secondary dark:bg-web-secondary-dark w-full aspect-video">

@@ -13,7 +13,7 @@ import IABanner from "@sikundi/components/web/adBanner/IABanner"
 import LatestPosts from "@sikundi/components/web/blocks/LatestPosts"
 
 export const dynamicParams = true
-export const revalidate = 3600
+export const revalidate = 1000
 
 interface Props { 
     params: { 
