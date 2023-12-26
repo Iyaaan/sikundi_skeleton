@@ -22,6 +22,7 @@ const nextConfig = {
         }
     },
     assetPrefix: isProd ? 'https://cdn.gaafu.media' : undefined,
+    crossOrigin: "anonymous"
 }
 
 module.exports = nextConfig
