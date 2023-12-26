@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@sikundi/components/ui/dialog'
 import { Button } from '@sikundi/components/ui/button'
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import { Badge } from '@sikundi/components/ui/badge'
 import useAction from '@sikundi/lib/client/hooks/useAction'
 import { deleteLibrary } from '@sikundi/app/(sikundi)/sikundi-admin/(collections)/library/_actions/delete'
@@ -28,7 +28,6 @@ export default function MediaGrid({data, permission}: { data: {[name:string]: an
                         <div className='aspect-square relative rounded-lg overflow-hidden bg-accent'>
                             <Image
                                 fill
-                                cdn={true}
                                 className='object-cover'
                                 src={media.url}
                                 alt={media.name}
@@ -58,7 +57,6 @@ export default function MediaGrid({data, permission}: { data: {[name:string]: an
                                 <Image
                                     src={active?.url}
                                     alt={active?.name}
-                                    cdn={true}
                                     fill
                                     className='object-cover'
                                 />

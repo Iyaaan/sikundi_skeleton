@@ -10,7 +10,7 @@ import { useDropzone } from 'react-dropzone'
 import P from '@sikundi/components/ui/typography/p'
 import { ScrollArea } from '@sikundi/components/ui/scroll-area'
 import H4 from '@sikundi/components/ui/typography/h4'
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import { Input } from '@sikundi/components/ui/input'
 import { Select2Async } from '@sikundi/components/ui/Select2Async'
 import axios from 'axios'
@@ -238,7 +238,6 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                             <Image
                                                 src={photo.url}
                                                 alt={photo.url}
-                                                cdn={true}
                                                 fill
                                                 className='h-full w-full rounded-md object-cover'
                                             />

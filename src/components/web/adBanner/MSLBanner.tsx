@@ -1,6 +1,6 @@
 'use client'
 
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -30,7 +30,7 @@ export default function MSLBanner(props:Props) {
     return (
         <div className='container px-4'>
             <Link href={slides?.[index]?.href || ""} className={twMerge(['relative w-full aspect-[940/121] block bg-secondary rounded-xl overflow-hidden', props?.className])}>
-                <Image cdn src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
+                <Image src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
             </Link>
         </div>
     )

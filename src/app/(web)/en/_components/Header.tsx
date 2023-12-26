@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import Image from "@sikundi/components/Image"
+import Image from "next/image"
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 import { MenuIcon, SearchIcon } from 'lucide-react'

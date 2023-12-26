@@ -1,4 +1,4 @@
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -60,7 +60,7 @@ export default function RichText({children, className}: {children:{
                     return (
                         <span key={index}>
                             <span className='aspect-video w-full bg-web-accent-dark dark:bg-web-accent relative block'>
-                                <Image src={`${block.src}`} alt={`${block?.alt}`} fill className='object-cover' cdn={true} />
+                                <Image src={`${block.src}`} alt={`${block?.alt}`} fill className='object-cover' />
                             </span>
                             <p className={twMerge(['w-full text-sm mt-2 mb-3', className])}>
                                 {block?.caption?.editorState?.root?.children?.[0]?.children?.map((block:any, index:number) => {

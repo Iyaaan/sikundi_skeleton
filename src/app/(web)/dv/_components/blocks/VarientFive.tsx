@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowDown2, ArrowLeft2, ArrowRight2 } from 'iconsax-react'
-import Image from "@sikundi/components/Image"
+import Image from "next/image"
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, FC, HTMLAttributes, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -52,7 +52,7 @@ const VarientFive:FC<Props> = ({title, data, loadMore, ...props}) => {
                 >
                     {data?.map((post, index) => (
                         <SwiperSlide className='aspect-square' key={index} onClick={() => router.push(post.href)}>
-                            <Image cdn={true} fill src={post.featureImage} alt={post.title} className='object-cover rounded-xl' />
+                            <Image fill src={post.featureImage} alt={post.title} className='object-cover rounded-xl' />
                         </SwiperSlide>
                     ))}
                 </Swiper>

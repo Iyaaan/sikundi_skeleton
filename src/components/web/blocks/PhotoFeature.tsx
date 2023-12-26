@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "@sikundi/components/Image"
+import Image from "next/image"
 import React, { AnchorHTMLAttributes, FC } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { ReceiptEdit } from 'iconsax-react'
@@ -28,7 +28,6 @@ const PhotoFeature:FC<Props> = ({data, ...props}) => {
         ])}>
             <div className='dark:bg-web-accent-wall bg-web-accent-wall-dark p-4 h-full relative lg:rounded-[20px] overflow-hidden w-full aspect-square lg:aspect-[704/433]'>
                 <Image
-                    cdn={true}
                     src={data.featureImage}
                     alt={data.title}
                     fill

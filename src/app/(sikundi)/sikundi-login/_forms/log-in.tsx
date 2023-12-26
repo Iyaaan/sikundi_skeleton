@@ -3,7 +3,7 @@
 import { Button } from "@sikundi/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@sikundi/components/ui/card"
 import { Input } from "@sikundi/components/ui/input"
-import Image from "@sikundi/components/Image"
+import Image from "next/image"
 import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@sikundi/components/ui/form'

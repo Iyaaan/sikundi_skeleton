@@ -19,8 +19,7 @@ import { Calendar } from "@sikundi/components/ui/calendar"
 import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/MediaLibraryModal"
 import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
-import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/components/Image'
+import Image from "next/image"
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import UserCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/create"
 import UserUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/user/(user)/_actions/update"
@@ -88,7 +87,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("profilePictureUrl", undefined)
                                 }}>

@@ -19,7 +19,7 @@ import MediaLibraryModal from "@sikundi/app/(sikundi)/sikundi-admin/_components/
 import { Fragment, useEffect, useState } from "react"
 import axios from "axios"
 import Select2 from "@sikundi/components/ui/Select2"
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import useAction from "@sikundi/lib/client/hooks/useAction"
 import AdCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/ad-banner/_actions/create"
 import AdUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/ad-banner/_actions/update"
@@ -154,7 +154,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image cdn={true} fill src={image} alt="feature image" className="w-full h-full object-contain" />
+                                <Image fill src={image} alt="feature image" className="w-full h-full object-contain" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("adsUrl", undefined)
                                 }}>

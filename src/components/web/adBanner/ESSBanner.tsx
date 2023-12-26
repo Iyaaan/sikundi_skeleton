@@ -1,6 +1,6 @@
 'use client'
 
-import Image from '@sikundi/components/Image'
+import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -29,7 +29,7 @@ export default function ESSBanner(props:Props) {
 
     return (
         <Link href={slides?.[index]?.href || ""} className={twMerge(['relative w-full aspect-[1280/1280] block bg-secondary rounded-xl overflow-hidden', props?.className])}>
-            <Image cdn src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
+            <Image src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
         </Link>
     )
 }
