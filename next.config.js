@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const isProd = process.env.NODE_ENV === 'production'
+
 const nextConfig = {
     experimental: {
         serverActions: {
@@ -18,16 +21,7 @@ const nextConfig = {
             ]
         }
     },
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'cdn.gaafu.media',
-                // port: '',
-                pathname: '/**', 
-            }
-        ]
-    }
+    assetPrefix: isProd ? 'https://cdn.gaafu.media' : undefined,
 }
 
 module.exports = nextConfig
