@@ -21,21 +21,7 @@ const nextConfig = {
             ]
         }
     },
-    assetPrefix: isProd ? 'https://cdn.gaafu.media' : undefined,
-    crossOrigin: "anonymous",
-    async headers() {
-        return [
-            {
-                source: '/:path*',
-                headers: [
-                    {
-                        key: 'access-control-allow-origin',
-                        value: '*',
-                    },
-                ],
-            }
-        ]
-      },
+    // assetPrefix: isProd ? 'https://cdn.gaafu.media' : undefined,
 }
 
 module.exports = nextConfig
