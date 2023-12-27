@@ -42,6 +42,24 @@ export async function POST(request: NextRequest) {
     }
 }
 
+export async function DELETE(request: NextRequest) {
+    for (let index = 1; index <= Array(139135).length; index++) {
+        await prisma.post.deleteMany({
+            where: {
+                title: "deleted_post",
+                status: "soft_deleted"
+            }
+        })
+        console.log(`${index} post created`)
+        await prisma.photo.deleteMany({
+            where: {
+                title: "deleted_post",
+                status: "soft_deleted"
+            }
+        })
+    }
+}
+
 export async function PATCH(request: NextRequest) {
     const { id, ...data } = await request.json()
 
