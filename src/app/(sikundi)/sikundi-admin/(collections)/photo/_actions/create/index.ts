@@ -59,6 +59,9 @@ export default async function POST(data: PhotoSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/photo')
+        revalidatePath(`/${photo.language.toLowerCase()}`)
+        revalidatePath(`/${photo.language.toLowerCase()}/gaafu-gallery`)
+        revalidatePath(`/${photo.language.toLowerCase()}/gallery/${photo.id}`)
         return ({ 
             data: {
                 photo: photo

@@ -43,6 +43,7 @@ export default async function POST(data: CategorySchemaType) {
         })
 
         revalidatePath('/sikundi-admin/post/category')
+        revalidatePath(`/${category.language.toLowerCase()}/${category.slug}`)
         return ({ 
             data: {
                 category: category

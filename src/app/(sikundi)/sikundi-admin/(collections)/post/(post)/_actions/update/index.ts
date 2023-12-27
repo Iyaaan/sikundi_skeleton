@@ -144,13 +144,13 @@ export default async function POST(data: PostSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/post')
-        revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
         revalidatePath(`/${post.language.toLowerCase()}`)
         // @ts-ignore
         if (post?.category?.slug) {
             // @ts-ignore
             revalidatePath(`/${post.language.toLowerCase()}/${post.category.slug}`)
         }
+        revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
         return {
             data: {
                 action: action

@@ -58,6 +58,9 @@ export default async function POST(data: GraphicSchemaType) {
         })
 
         revalidatePath('/sikundi-admin/graphic')
+        revalidatePath(`/${graphic.language.toLowerCase()}`)
+        revalidatePath(`/${graphic.language.toLowerCase()}/gaafu_graphics`)
+        revalidatePath(`/${graphic.language.toLowerCase()}/gaafu_graphics/${graphic.id}`)
         return ({ 
             data: {
                 graphic: graphic

@@ -52,7 +52,9 @@ export default async function POST(data: CategorySchemaType) {
             }
         })) : (await prisma.category.delete({
             select: {
-                name: true
+                name: true,
+                language: true,
+                slug: true
             },
             where: {
                 id: id
@@ -60,6 +62,7 @@ export default async function POST(data: CategorySchemaType) {
         }))
 
         revalidatePath('/sikundi-admin/post/category')
+        revalidatePath(`/${category.language.toLowerCase()}/${category.slug}`)
         return ({ 
             data: {
                 category: category
