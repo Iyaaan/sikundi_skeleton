@@ -79,6 +79,14 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
             "description": String(data?.description),
             "locale": "dv",
             "siteName": String(process.env.NEXT_PUBLIC_APP_NAME)
+        },
+        appLinks: {
+            android: [
+                {
+                    app_name: "Gaafu",
+                    package: "media.gaafu"
+                }
+            ]
         }
     }
 }
