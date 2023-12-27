@@ -21,7 +21,19 @@ const nextConfig = {
             ]
         }
     },
-    // assetPrefix: isProd ? 'https://cdn.gaafu.media' : undefined,
+    async headers() {
+        return [
+            {
+                source: '/_next/image',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=14400, must-revalidate',
+                    }
+                ],
+            },
+        ]
+    },
 }
 
 module.exports = nextConfig
