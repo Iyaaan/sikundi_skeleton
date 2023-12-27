@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
         appLinks: {
             android: [
                 {
-                    app_name: "Gaafu",
+                    app_name: "Medium",
                     package: "media.gaafu"
                 }
             ]
