@@ -318,10 +318,10 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
       },
     [
       activeCell,
-      draggingDirection,
-      resetState,
-      updateColumnWidth,
-      updateRowHeight,
+      // draggingDirection,
+      // resetState,
+      // updateColumnWidth,
+      // updateRowHeight,
       mouseUpHandler,
     ],
   );
