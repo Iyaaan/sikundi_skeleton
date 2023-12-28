@@ -88,6 +88,7 @@ function LazyImage({
 }): JSX.Element {
   useSuspenseImage(src);
   return (
+    // eslint-disable-next-line
     <img
       className={className || undefined}
       src={src}
