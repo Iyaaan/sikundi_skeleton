@@ -31,6 +31,7 @@ const PhotoFeature:FC<Props> = ({data, ...props}) => {
                     src={data.featureImage}
                     alt={data.title}
                     fill
+                    sizes="50vw"
                     className='object-cover transition-all'
                 />
             </div>

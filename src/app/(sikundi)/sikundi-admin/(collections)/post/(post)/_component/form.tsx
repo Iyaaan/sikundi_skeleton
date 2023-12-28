@@ -238,7 +238,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                 </MediaLibraryModal>
                             </div>
                             : <div className="border rounded-md items-center justify-center flex mt-6 relative">
-                                <Image fill src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image fill sizes="50vw" src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("featureImageUrl", undefined)
                                 }}>

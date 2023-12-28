@@ -52,7 +52,7 @@ const VarientFive:FC<Props> = ({title, data, loadMore, ...props}) => {
                 >
                     {data?.map((post, index) => (
                         <SwiperSlide className='aspect-square' key={index} onClick={() => router.push(post.href)}>
-                            <Image fill src={post.featureImage} alt={post.title} className='object-cover rounded-xl' />
+                            <Image fill sizes="50vw" src={post.featureImage} alt={post.title} className='object-cover rounded-xl' />
                         </SwiperSlide>
                     ))}
                 </Swiper>

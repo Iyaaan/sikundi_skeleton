@@ -26,6 +26,7 @@ const PostMediumCard:FC<Props> = ({data, ...props}) => {
                     src={data.featureImage}
                     alt={data.title}
                     fill
+                    sizes="50vw"
                     className='object-cover group-hover:scale-110 transition-all'
                 />
             </div>

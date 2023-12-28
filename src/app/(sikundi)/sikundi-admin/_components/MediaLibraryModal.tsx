@@ -323,6 +323,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                                     src={file.preview}
                                                     alt={file.name}
                                                     fill
+                                                    sizes="50vw"
                                                     onLoad={() => {
                                                         URL.revokeObjectURL(file.preview)
                                                     }}

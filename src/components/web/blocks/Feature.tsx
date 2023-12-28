@@ -38,6 +38,7 @@ const Feature:FC<Props> = ({data, ...props}) => {
                     {data?.featureImage && 
                     <Image
                         src={data.featureImage}
+                        sizes="50vw"
                         alt={data.title}
                         fill
                         className='object-cover'

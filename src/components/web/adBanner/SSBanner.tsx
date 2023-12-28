@@ -29,7 +29,7 @@ export default function SSBanner(props:Props) {
 
     return (
         <Link href={slides?.[index]?.href || ""} className={twMerge(['relative w-full aspect-[282/394] block bg-secondary rounded-xl overflow-hidden', props?.className])}>
-            <Image src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
+            <Image src={slides?.[index]?.src || ""} fill sizes="50vw" alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
         </Link>
     )
 }

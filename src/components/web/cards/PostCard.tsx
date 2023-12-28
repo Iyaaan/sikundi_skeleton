@@ -29,6 +29,7 @@ const PostCard:FC<Props> = ({data, priority = false, ...props}) => {
                     alt={data.title}
                     priority={priority}
                     fill
+                    sizes="50vw"
                     className='object-cover group-hover:scale-110 transition-all'
                 />
             </div>

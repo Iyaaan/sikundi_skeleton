@@ -30,7 +30,7 @@ export default function TBanner(props:Props) {
     return (
         <div className='container px-4'>
             <Link href={slides?.[index]?.href || ""} className={twMerge(['relative w-full aspect-[900/114] block bg-secondary rounded-xl overflow-hidden', props?.className])}>
-                <Image src={slides?.[index]?.src || ""} fill alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
+                <Image src={slides?.[index]?.src || ""} fill sizes="50vw" alt={slides?.[index]?.altText || ""} className='object-cover w-full h-full' />
             </Link>
         </div>
     )
