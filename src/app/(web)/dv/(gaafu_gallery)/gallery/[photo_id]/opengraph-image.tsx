@@ -42,6 +42,7 @@ export default async function Image({ params }: { params: { photo_id: string } }
                 position: "relative"
                 }}
             >
+                {/* eslint-disable-next-line */}
                 <img src={`${process.env.SITE_NAME}${String(data?.featureImageUrl)}`} style={{
                     width: "100%",
                     height: "100%",
@@ -49,6 +50,7 @@ export default async function Image({ params }: { params: { photo_id: string } }
                     objectFit: "cover",
                     inset: 0
                 }} />
+                {/* eslint-disable-next-line */}
                 <img src={`${process.env.SITE_NAME}/og/OG.png`} style={{
                     width: "100%",
                     height: "100%",
