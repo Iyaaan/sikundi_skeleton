@@ -46,7 +46,6 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
     const [loading, setLoading] = useState(false)
     const [imageLoading, setImageLoading] = useState(false)
     const [rejected, setRejected] = useState([])
-    const [page, setPage] = useState(1)
     const [hasPage, setHasPage] = useState(true)
     const [photoList, setPhotoList] = useState<{
         url: string,
@@ -54,15 +53,15 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
         caption?: string | null
     }[]>([])
     const { toast } = useToast()
-    const [value, setValue] = useState<string>('')
-    const debouncedValue = useDebounce<string>(value, 500)
+    const [value, setValue] = useState<{page: number, search: string}>({page: 0, search: ""})
+    const debouncedValue = useDebounce<{page: number, search: string}>(value, 250)
   
     useEffect(() => {
         (async () => {
-            if (!disableList) {
+            if (!disableList && debouncedValue.page !== 0) {
                 setImageLoading(true)
-                const { data } = await photos(debouncedValue, page)
-                if(page !== 1) {
+                const { data } = await photos(debouncedValue.search, debouncedValue.page)
+                if(debouncedValue.page !== 1) {
                     data && setPhotoList((p) => ([
                         ...p,
                         ...data.medias
@@ -80,16 +79,13 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                 setImageLoading(false)
             }
         })()
-    }, [page, disableList])
-
-    useEffect(() => {
-        setPhotoList([])
-        setPage((p)=>p === 1 ? 0 : 1)
-    }, [debouncedValue, setPage, setPhotoList])
+    }, [disableList, debouncedValue])
 
     useEffect(() => {
         if (active) {
-            setPage(1)
+            setValue({page: 1, search: ""})
+        } else {
+            setValue({page: 0, search: ""})
         }
     }, [active])
 
@@ -217,7 +213,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                         </TabsList>}
                     <TabsContent value="library">
                         <Input className='mt-2 mb-4 max-w-lg' placeholder='search...' onChange={(event) => {
-                            setValue(event.target.value)
+                            setValue({ search: event.target.value, page: 1 })
                         }} />
                         {!disableList && photoList.length > 0 ? 
                         <Fragment>
@@ -238,13 +234,14 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                             <Image
                                                 src={photo.url}
                                                 alt={photo.url}
+                                                sizes='50vw'
                                                 fill
                                                 className='h-full w-full rounded-md object-cover'
                                             />
                                         </button>
                                     ))}
                                 </div>
-                                {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setPage(page+1)}>
+                                {hasPage && <Button variant={"secondary"} className='mx-auto my-3 block' onClick={()=>setValue((v)=>({...v, page: v.page + 1}))}>
                                     {imageLoading ? "loading" : "Load More"}    
                                 </Button>}
                             </ScrollArea>
