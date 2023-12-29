@@ -166,11 +166,11 @@ async function menu () {
             slug: true
         },
         where: {
-            posts: {
-                some: {
-                    status: "published"
-                }
-            },
+            // posts: {
+            //     some: {
+            //         status: "published"
+            //     }
+            // },
             language: "EN"
         },
         orderBy: {
