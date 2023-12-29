@@ -65,6 +65,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function SinglePage(props: Props) {
     const graphics_slug = String(props.params.graphics_slug)
+    console.log(graphics_slug)
     if(!graphics_slug) {
         return notFound()
     }
