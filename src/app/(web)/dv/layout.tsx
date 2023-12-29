@@ -142,8 +142,8 @@ export default async function RootLayout(props: Props) {
                         zIndex={1600}
                     />
                     <AnalyticsProvider>
-                        <TBanner slides={t_banner} className='max-w-4xl mx-auto mt-4' />
                         <Header menuItems={items} />
+                        <TBanner slides={t_banner} className='max-w-4xl mx-auto mb-4' />
                         <MenuModal menuItems={items} latestPosts={latestPosts} />
                         <main className='w-full min-h-[calc(100vh-6.4rem)]'>
                             {props.children}
