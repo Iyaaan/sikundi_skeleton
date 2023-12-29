@@ -30,7 +30,8 @@ async function graphicsList(page?: number) {
             graphicsUrl: true,
             title: true,
             description: true,
-            createdAt: true
+            createdAt: true,
+            slug: true
         },
         where: {
             status: "published",
@@ -51,12 +52,12 @@ async function graphicsList(page?: number) {
     })
 
     return {
-        graphics: graphics.map((photo) => ({
-            href: `/dv/gallery/${photo.id}`,
-            title: photo.title,
-            description: photo.description,
-            createdAt: photo.createdAt,
-            featureImage: photo.graphicsUrl
+        graphics: graphics.map((graphic) => ({
+            href: `/dv/gaafu_graphics/${graphic.slug}`,
+            title: graphic.title,
+            description: graphic.description,
+            createdAt: graphic.createdAt,
+            featureImage: graphic.graphicsUrl
         })),
         nextPage: Math.ceil((Number(totalgraphics._count)/per_page)) >= (current + 1) ? (current + 1) : null
     }

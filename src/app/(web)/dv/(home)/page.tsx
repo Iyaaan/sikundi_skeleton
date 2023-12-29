@@ -219,6 +219,7 @@ async function HomePage () {
             id: true,
             graphicsUrl: true,
             title: true,
+            slug: true,
             createdAt: true,
         },
         where: {
@@ -308,7 +309,7 @@ async function HomePage () {
             createdAt: post.createdAt,
         })),
         latestGraphics: latestGraphics?.map((post) => ({
-            href: `/dv/gaafu_graphics/${post.id}`,
+            href: `/dv/gaafu_graphics/${post.slug}`,
             title: post.title,
             featureImage: post.graphicsUrl,
             description: "",
