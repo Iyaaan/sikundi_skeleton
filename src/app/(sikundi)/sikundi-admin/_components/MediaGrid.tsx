@@ -28,7 +28,7 @@ export default function MediaGrid({data, permission}: { data: {[name:string]: an
                         <div className='aspect-square relative rounded-lg overflow-hidden bg-accent'>
                             <Image
                                 fill
-                                sizes="50vw"
+                                sizes="75vw"
                                 className='object-cover'
                                 src={media.url}
                                 alt={media.name}
@@ -58,7 +58,7 @@ export default function MediaGrid({data, permission}: { data: {[name:string]: an
                                 <Image
                                     src={active?.url}
                                     alt={active?.name}
-                                    sizes="50vw"
+                                    sizes="75vw"
                                     fill
                                     className='object-cover'
                                 />

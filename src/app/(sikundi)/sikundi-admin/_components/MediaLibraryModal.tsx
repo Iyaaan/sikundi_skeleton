@@ -35,9 +35,10 @@ interface Props extends ButtonProps {
     }[]) => void
     disableList?: boolean
     group?: string
+    multi?: boolean
 }
 
-export default function MediaLibraryModal({onComplete, disableList, group, ...props}: Props) {
+export default function MediaLibraryModal({onComplete, disableList, group, multi = true, ...props}: Props) {
     const [files, setFiles] = useState([])
     const [caption, setCaption] = useState("")
     const [tags, setTags] = useState([])
@@ -130,7 +131,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
             'image/*': []
         },
         // maxSize: 1024 * 4000,
-        maxFiles: 5,
+        maxFiles: multi ? 20: 1,
         onDrop
     })
   
@@ -224,17 +225,29 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                             'relative aspect-square col-span-1 rounded-md',
                                             selected.includes(photo) && " border-2 border-primary"
                                         ])} key={index} onClick={() => {
-                                            setSelected((s)=>{
-                                                if (s.includes(photo)) {
-                                                    return [...s.filter((a)=>a!==photo)]
-                                                }
-                                                return [...s, photo]
-                                            })
+                                            if (multi) {
+                                                setSelected((s)=>{
+                                                    if (s.includes(photo)) {
+                                                        return [...s.filter((a)=>a!==photo)]
+                                                    }
+                                                    return [...s, photo]
+                                                })
+                                            } else {
+                                                onComplete?.([
+                                                    {
+                                                        url: photo?.url, 
+                                                        id: photo?.id,
+                                                        caption: photo?.caption || null
+                                                    }
+                                                ])
+                                                setSelected([])
+                                                setActive(false)
+                                            }
                                         }}>
                                             <Image
                                                 src={photo.url}
                                                 alt={photo.url}
-                                                sizes='50vw'
+                                                sizes='75vw'
                                                 fill
                                                 className='h-full w-full rounded-md object-cover'
                                             />
@@ -323,7 +336,7 @@ export default function MediaLibraryModal({onComplete, disableList, group, ...pr
                                                     src={file.preview}
                                                     alt={file.name}
                                                     fill
-                                                    sizes="50vw"
+                                                    sizes="75vw"
                                                     onLoad={() => {
                                                         URL.revokeObjectURL(file.preview)
                                                     }}

@@ -163,7 +163,6 @@ async function fileExists(fileName:string) {
         await fs.access(fileName);
         return true;
     } catch (error) {
-        console.log(error)
         return false;
     }
 }

@@ -184,14 +184,14 @@ export default function PostForm({ user, data, type, permission }: Props) {
                         {
                             !image ? 
                             <div className="border rounded-md items-center justify-center flex mt-6">
-                                <MediaLibraryModal onComplete={(values) => {
+                                <MediaLibraryModal multi={false} onComplete={(values) => {
                                     form.setValue("featureImageUrl", values[0].url)
                                 }}>
                                     <ImageIcon className="mr-2" /> Add Feature Image
                                 </MediaLibraryModal>
                             </div>
                             : <Fragment>
-                                <Image fill sizes="50vw" src={image} alt="feature image" className="w-full h-full object-cover" />
+                                <Image fill sizes="75vw" src={image} alt="feature image" className="w-full h-full object-cover" />
                                 <Button type="button" variant={"destructive"} className="relative self-center justify-self-center" onClick={() => {
                                     form.setValue("featureImageUrl", undefined)
                                 }}>
