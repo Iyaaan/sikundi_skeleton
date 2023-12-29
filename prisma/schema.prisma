@@ -274,6 +274,7 @@ model Graphic {
   title       String
   longTitle   String?
   latinTitle  String?
+  slug        String @unique
   description String?
   language    Lang @default(EN)
   status      Status @default(drafted)

@@ -4,6 +4,7 @@ const GraphicSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     longTitle: z.string().optional(),
     latinTitle: z.string().optional(),
+    slug: z.string(),
     description: z.string().optional(),
     createdBy: z.object({
         value: z.string(),

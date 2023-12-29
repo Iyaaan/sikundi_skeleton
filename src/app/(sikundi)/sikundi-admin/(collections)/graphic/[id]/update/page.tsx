@@ -75,6 +75,7 @@ const graphic = async (query: Props) => {
                 }
             },
             language: true,
+            slug: true,
         },
         where: {
             id: parseInt(query.params.id)

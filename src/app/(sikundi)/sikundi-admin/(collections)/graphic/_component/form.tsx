@@ -76,6 +76,7 @@ export default function PostForm({ user, data, type, permission }: Props) {
             form.setValue("latinTitle", ThaanaLatin(form.getValues('title'))?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))?.join(' '))
             if(type === "create") {
                 form.setValue("longTitle", form.getValues('title'))
+                form.setValue("slug", ThaanaLatin(form.getValues('title'))?.split(' ')?.map(word => word?.charAt(0)?.toUpperCase() + word?.slice(1))?.join('-'))
             }
         }
     }, [title, form, data?.title, type])
@@ -145,6 +146,19 @@ export default function PostForm({ user, data, type, permission }: Props) {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Latin title</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='slug'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Slug</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
