@@ -75,10 +75,10 @@ export default async function SinglePage(props: Props) {
         <div className="bg-web-secondary dark:bg-web-secondary-dark w-full min-h-screen">
             <div className="container grid grid-cols-12 lg:gap-x-8 lg:gap-y-4 px-4">
                 <div className="lg:col-span-10 col-span-12 lg:col-start-2 lg:pt-8 pt-4">
+                    <h1 className='text-center font-black text-6xl text-white mb-10'>
+                        {String(data?.longTitle)}
+                    </h1>
                     <div className="max-w-lg mx-auto">
-                        <h1 className='col-span-4 text-center font-black text-6xl text-white mb-10'>
-                            {String(data?.longTitle)}
-                        </h1>
                         <div className="w-full overflow-hidden aspect-square bg-web-tertiary dark:bg-web-tertiary-dark rounded-lg relative lg:mb-12 mb-8">
                             {data?.graphicsUrl && <Image
                                 fill
