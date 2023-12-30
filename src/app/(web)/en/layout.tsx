@@ -146,7 +146,7 @@ export default async function RootLayout(props: Props) {
                         </main>
                         <Footer items={[
                             { name: "About us", url: "/pages/about-us" },
-                            { name: "Privacy Policy", url: "/pages/privacy-policy" },
+                            { name: "Team", url: "/team" },
                             { name: "Terms of Service", url: "/pages/terms-of-service" },
                             { name: "Privacy Policy", url: "/pages/privacy-policy" }
                         ]} />

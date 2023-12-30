@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge"
 
 const menuItems = [
     { label: "About us", link: "/pages/about-us", className: "order-0" },
-    { label: "Privacy Policy", link: "/pages/privacy-policy", className: "order-1" },
+    { label: "Team", link: "/team", className: "order-1" },
     { label: "Terms of Service", link: "/pages/terms-of-service", className: "order-3" },
     { label: "Privacy Policy", link: "/pages/privacy-policy", className: "order-4" }
 ]
