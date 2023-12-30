@@ -12,7 +12,7 @@ interface Props {
     }[]
 }
 
-const VarientTwo:FC<Props> = ({ ...props }) => {
+const VarientTwo:FC<Props> = ({ title, posts, ...props }) => {
     return (
         <div>VarientTwo</div>
     )

@@ -9,7 +9,7 @@ interface Props {
         url: string
         featureImageUrl?: string
     }
-    mostRead: {
+    posts: {
         createdAt: Date
         title: string
         url: string
@@ -19,7 +19,7 @@ interface Props {
     }[]
 }
 
-const VarientOne:FC<Props> = ({ data, mostRead, ...props }) => {
+const VarientOne:FC<Props> = ({ data, posts, ...props }) => {
     return (
         <div>VarientOne</div>
     )

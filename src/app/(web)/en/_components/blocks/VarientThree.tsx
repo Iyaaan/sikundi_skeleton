@@ -13,7 +13,7 @@ interface Props {
     }[]
 }
 
-const VarientThree:FC<Props> = ({ ...props }) => {
+const VarientThree:FC<Props> = ({ title, posts, ...props }) => {
     return (
         <div>VarientThree</div>
     )
