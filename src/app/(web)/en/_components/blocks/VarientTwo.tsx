@@ -1,6 +1,9 @@
-import React, { FC } from 'react'
+import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import { twMerge } from 'tailwind-merge'
+import PostLargeCard from '@sikundi/app/(web)/en/_components/cards/PostLargeCard'
+import PostListCard from '@sikundi/app/(web)/en/_components/cards/PostListCard'
 
-interface Props {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
     posts: {
         createdAt: Date
@@ -12,9 +15,28 @@ interface Props {
     }[]
 }
 
-const VarientTwo:FC<Props> = ({ title, posts, ...props }) => {
+const VarientTwo:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div>VarientTwo</div>
+        <div { ...props } className={twMerge(['', className])}>
+            <h5>{title}</h5>
+            <div className='grid grid-cols-12 gap-4'>
+                <div className='col-span-12 md:col-span-4'>
+                    {posts?.map(({ url, ...post }, index) => <PostListCard key={index} href={url} data={{
+                        createdAt: post.createdAt,
+                        category: post.category,
+                        title: post.title,
+                        description: post.description
+                    }} />)}
+                </div>
+                {posts?.[0] && <PostLargeCard href={posts?.[0].url} className='col-span-12 md:col-span-8' data={{
+                    createdAt: posts?.[0].createdAt,
+                    category: posts?.[0].category,
+                    title: posts?.[0].title,
+                    description: posts?.[0].description,
+                    featureImageUrl: posts?.[0].featureImageUrl,
+                }} />}
+            </div>
+        </div>
     )
 }
 

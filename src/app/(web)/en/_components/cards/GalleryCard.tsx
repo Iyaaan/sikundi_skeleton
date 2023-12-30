@@ -1,7 +1,14 @@
-import React, { FC } from 'react'
+import React, { AnchorHTMLAttributes, FC } from 'react'
+import { LinkProps } from 'next/link'
 
-interface Props {
-    
+type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
+    data: {
+        createdBy?: {
+            name: string
+        }
+        title: string
+        featureImageUrl?: string
+    }
 }
 
 const GalleryCard:FC<Props> = ({ ...props }) => {

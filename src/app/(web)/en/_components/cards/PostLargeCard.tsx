@@ -1,7 +1,14 @@
-import React, { FC } from 'react'
+import React, { AnchorHTMLAttributes, FC } from 'react'
+import { LinkProps } from 'next/link'
 
-interface Props {
-    
+type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
+    data: {
+        createdAt: Date
+        category?: string
+        title: string
+        description?: string
+        featureImageUrl?: string
+    }
 }
 
 const PostLargeCard:FC<Props> = ({ ...props }) => {

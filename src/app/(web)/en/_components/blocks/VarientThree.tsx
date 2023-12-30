@@ -1,6 +1,8 @@
-import React, { FC } from 'react'
+import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import PostCard from '@sikundi/app/(web)/en/_components/cards/PostCard'
+import { twMerge } from 'tailwind-merge'
 
-interface Props {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
     posts: {
         createdBy?: {
@@ -13,9 +15,19 @@ interface Props {
     }[]
 }
 
-const VarientThree:FC<Props> = ({ title, posts, ...props }) => {
+const VarientThree:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div>VarientThree</div>
+        <div {...props} className={twMerge(['', className])}>
+            <h5>{title}</h5>
+            <div className='flex gap-4'>
+                {posts?.map((post, index) => <PostCard key={index} href={post.url} data={{
+                    createdBy: post.createdBy,
+                    category: post.category,
+                    title: post.title,
+                    featureImageUrl: post.featureImageUrl
+                }} />)}
+            </div>
+        </div>
     )
 }
 

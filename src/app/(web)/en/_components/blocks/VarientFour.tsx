@@ -1,6 +1,8 @@
-import React, { FC } from 'react'
+import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import GalleryCard from '@sikundi/app/(web)/en/_components/cards/GalleryCard'
+import { twMerge } from 'tailwind-merge'
 
-interface Props {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
     posts: {
         createdBy?: {
@@ -12,9 +14,14 @@ interface Props {
     }[]
 }
 
-const VarientFour:FC<Props> = ({ title, posts, ...props }) => {
+const VarientFour:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div>VarientFour</div>
+        <div {...props} className={twMerge(['', className])}>
+            <h5>{title}</h5>
+            <div className='grid grid-cols-6 gap-4'>
+                {posts?.map(({ url, ...post }, index) => <GalleryCard key={index} href={url} data={post} />)}
+            </div>
+        </div>
     )
 }
 
