@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 import { MenuIcon, SearchIcon } from 'lucide-react'
-import { ThemeSwitcherEN } from '@sikundi/components/web/Theme'
+import { ThemeSwitcherEN } from '@sikundi/app/(web)/dv/_components/Theme'
 
 export default function Header({ menuItems }: any) {
     const [menu, setMenu] = useState(false)

@@ -1,6 +1,6 @@
 import '../../globals.css'
-import ThemeProvider from "@sikundi/components/web/Theme"
-import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
+import ThemeProvider from "@sikundi/app/(web)/dv/_components/Theme"
+import AnalyticsProvider from '@sikundi/app/(web)/dv/_components/GoogleAnalytics'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import Header from '@sikundi/app/(web)/en/_components/Header'

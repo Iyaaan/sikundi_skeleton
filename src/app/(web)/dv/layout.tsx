@@ -1,6 +1,6 @@
 import '../../globals.css'
-import ThemeProvider from "@sikundi/components/web/Theme"
-import AnalyticsProvider from '@sikundi/components/web/GoogleAnalytics'
+import ThemeProvider from "@sikundi/app/(web)/dv/_components/Theme"
+import AnalyticsProvider from '@sikundi/app/(web)/dv/_components/GoogleAnalytics'
 import Header from '@sikundi/app/(web)/dv/_components/Header'
 import Footer from '@sikundi/app/(web)/dv/_components/Footer'
 import MenuModal from '@sikundi/app/(web)/dv/_components/MenuModal'
