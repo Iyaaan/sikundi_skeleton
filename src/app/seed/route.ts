@@ -185,7 +185,6 @@ async function downloadImage(url:string, directoryPath:string) {
             writer.on('error', reject);
         });
     } catch (err) {
-      console.log(err);
+        console.log(err);
     }
-  
-  }
+}
