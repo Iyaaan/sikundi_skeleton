@@ -1,4 +1,4 @@
-import PostSmallCard from '@sikundi/components/web/cards/PostSmallCard'
+import PostSmallCard from '@sikundi/app/(web)/dv/_components/cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import Heading from './Heading'

@@ -3,8 +3,8 @@ import VarientOne from "@sikundi/app/(web)/dv/_components/blocks/VarientOne";
 import VarientTwo from "@sikundi/app/(web)/dv/_components/blocks/VarientTwo";
 import dynamicImport from 'next/dynamic'
 import { prisma } from "@sikundi/lib/server/utils/prisma";
-import MLBanner from "@sikundi/components/web/adBanner/MLBanner";
-import MSLBanner from "@sikundi/components/web/adBanner/MSLBanner";
+import MLBanner from "@sikundi/app/(web)/dv/_components/adBanner/MLBanner";
+import MSLBanner from "@sikundi/app/(web)/dv/_components/adBanner/MSLBanner";
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-static'

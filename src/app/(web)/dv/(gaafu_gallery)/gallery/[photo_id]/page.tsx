@@ -1,10 +1,10 @@
-import Feature from "@sikundi/components/web/blocks/Feature"
+import Feature from "@sikundi/app/(web)/dv/_components/richText/Feature"
 import { prisma } from "@sikundi/lib/server/utils/prisma" 
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
-import Block from "@sikundi/components/web/blocks"
+import Block from "@sikundi/app/(web)/dv/_components/richText"
 import { Fragment } from "react"
-import PhotoFeature from "@sikundi/components/web/blocks/PhotoFeature"
+import PhotoFeature from "@sikundi/app/(web)/dv/_components/richText/PhotoFeature"
 
 export const dynamicParams = true
 export const revalidate = 3600

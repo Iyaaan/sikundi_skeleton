@@ -7,7 +7,7 @@ import MenuModal from '@sikundi/app/(web)/dv/_components/MenuModal'
 import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import { prisma } from '@sikundi/lib/server/utils/prisma'
-import TBanner from '@sikundi/components/web/adBanner/TBanner'
+import TBanner from '@sikundi/app/(web)/dv/_components/adBanner/TBanner'
 export { metadata } from '@sikundi/sikundi.config'
 
 export const runtime = 'nodejs'

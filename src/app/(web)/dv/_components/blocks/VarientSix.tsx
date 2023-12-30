@@ -1,8 +1,8 @@
 "use client"
 
 import React, { DetailedHTMLProps, FC, HTMLAttributes, useState } from 'react'
-import PostMediumCard from '@sikundi/components/web/cards/PostMediumCard'
-import PostSmallCard from '../../../../../components/web/cards/PostSmallCard'
+import PostMediumCard from '@sikundi/app/(web)/dv/_components/cards/PostMediumCard'
+import PostSmallCard from '../cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
 import { RefreshCcw } from 'lucide-react'

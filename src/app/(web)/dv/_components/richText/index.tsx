@@ -1,15 +1,15 @@
 'use client'
 
 import React, { Fragment } from 'react'
-import Paragraph from "@sikundi/components/web/blocks/Paragraph"
-import Heading from "@sikundi/components/web/blocks/Heading"
-import Quote from "@sikundi/components/web/blocks/Quote"
-import Tweet from "@sikundi/components/web/blocks/Tweet"
-import Youtube from "@sikundi/components/web/blocks/Youtube"
-import Facebook from "@sikundi/components/web/blocks/Facebook"
-import Collapsible from "@sikundi/components/web/blocks/Collapsible"
-import RichText from "@sikundi/components/web/blocks/RichText"
-import List from "@sikundi/components/web/blocks/List"
+import Paragraph from "@sikundi/app/(web)/dv/_components/richText/Paragraph"
+import Heading from "@sikundi/app/(web)/dv/_components/richText/Heading"
+import Quote from "@sikundi/app/(web)/dv/_components/richText/Quote"
+import Tweet from "@sikundi/app/(web)/dv/_components/richText/Tweet"
+import Youtube from "@sikundi/app/(web)/dv/_components/richText/Youtube"
+import Facebook from "@sikundi/app/(web)/dv/_components/richText/Facebook"
+import Collapsible from "@sikundi/app/(web)/dv/_components/richText/Collapsible"
+import RichText from "@sikundi/app/(web)/dv/_components/richText/RichText"
+import List from "@sikundi/app/(web)/dv/_components/richText/List"
 
 export default function index({ block, className }: { block: any, className?: string }) {
     if(block?.type === "paragraph") return <Paragraph style={{

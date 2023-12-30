@@ -1,6 +1,6 @@
 "use client"
 
-import PostSmallCard from '@sikundi/components/web/cards/PostSmallCardAlt'
+import PostSmallCard from '@sikundi/app/(web)/dv/_components/cards/PostSmallCardAlt'
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 import Heading from './Heading'
 import { twMerge } from 'tailwind-merge'

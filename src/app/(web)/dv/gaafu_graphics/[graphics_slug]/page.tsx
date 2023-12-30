@@ -1,10 +1,6 @@
-import Feature from "@sikundi/components/web/blocks/Feature"
 import { prisma } from "@sikundi/lib/server/utils/prisma" 
 import type { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from "next/navigation"
-import Block from "@sikundi/components/web/blocks"
-import { Fragment } from "react"
-import PhotoFeature from "@sikundi/components/web/blocks/PhotoFeature"
 import Image from "next/image"
 import Link from "next/link"
 

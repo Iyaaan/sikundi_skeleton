@@ -1,9 +1,9 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import PostCard from '@sikundi/components/web/cards/PostCard'
-import PostSmallCard from '../../../../../components/web/cards/PostSmallCard'
+import PostCard from '@sikundi/app/(web)/dv/_components/cards/PostCard'
+import PostSmallCard from '../cards/PostSmallCard'
 import { ArrowDown2 } from 'iconsax-react'
 import { twMerge } from 'tailwind-merge'
-import SSBanner from '@sikundi/components/web/adBanner/SSBanner'
+import SSBanner from '@sikundi/app/(web)/dv/_components/adBanner/SSBanner'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
