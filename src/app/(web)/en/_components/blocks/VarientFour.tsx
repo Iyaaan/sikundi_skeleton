@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const VarientFour = () => {
+interface Props {
+
+}
+
+const VarientFour:FC<Props> = ({ ...props }) => {
     return (
         <div>VarientFour</div>
     )

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const PostMostReadCard = () => {
+interface Props {
+    
+}
+
+const PostMostReadCard:FC<Props> = ({ ...props }) => {
     return (
         <div>PostMostReadCard</div>
     )

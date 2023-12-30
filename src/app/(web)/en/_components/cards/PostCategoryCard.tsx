@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const PostCategoryCard = () => {
+interface Props {
+    
+}
+
+const PostCategoryCard:FC<Props> = ({ ...props }) => {
     return (
         <div>PostCategoryCard</div>
     )

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const PostLargeCard = () => {
+interface Props {
+    
+}
+
+const PostLargeCard:FC<Props> = ({ ...props }) => {
     return (
         <div>PostLargeCard</div>
     )

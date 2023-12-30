@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const GalleryCard = () => {
+interface Props {
+    
+}
+
+const GalleryCard:FC<Props> = ({ ...props }) => {
     return (
         <div>GalleryCard</div>
     )

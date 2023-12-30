@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const PostMediumCard = () => {
+interface Props {
+    
+}
+
+const PostMediumCard:FC<Props> = ({ ...props }) => {
     return (
         <div>PostMediumCard</div>
     )

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-const PostListCard = () => {
+interface Props {
+    
+}
+
+const PostListCard:FC<Props> = ({ ...props }) => {
     return (
         <div>PostListCard</div>
     )
