@@ -26,7 +26,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 const VarientOne:FC<Props> = ({ data, posts, className, ...props }) => {
     return (
         <div { ...props } className={twMerge(['relative min-h-[calc(100vh-125px)] flex flex-col justify-end', className])}>
-            <div className='absolute w-full h-full max-h-[calc(100vh-350px)] lg:max-h-screen top-0'>
+            <div className='absolute w-full h-full max-h-[calc(75vh)] lg:max-h-screen top-0'>
                 {data?.featureImageUrl && <Image
                     src={data?.featureImageUrl}
                     alt={data?.title}

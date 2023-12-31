@@ -59,7 +59,7 @@ export default function Page() {
 
     return (
         <Fragment>
-            <VarientOne data={{
+            <VarientOne className='lg:mb-20 mb-4' data={{
                 createdAt: new Date(),
                 category: "Health",
                 title: "COVID-19 Vaccine Rollout Accelerated Across the State",
@@ -84,7 +84,7 @@ export default function Page() {
                     url: `/${123}`
                 }
             ]} />
-            <VarientTwo title={"Latest news"} posts={[
+            <VarientTwo title={"Latest news"} className='mb-14' posts={[
                 {
                     category: "Health",
                     createdAt: new Date(),
@@ -112,13 +112,6 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Amazing Plans to Expand Its Delivery Network to Rural Areas",
                     description: "Amazing is set to expand its delivery network to rural areas, aiming to reach more customers and compete with other online retailers.",
-                    url: `/{123}`
-                },
-                {
-                    category: "Health",
-                    createdAt: new Date(),
-                    title: "Study Finds Link Between Social Media Use and Mental Health Issues",
-                    description: "A new study has found a link between excessive social media use and mental health issues such as depression and anxiety, raising concerns about the impact of social media on mental well-being.",
                     url: `/{123}`
                 },
             ]} />

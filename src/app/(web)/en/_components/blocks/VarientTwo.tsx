@@ -18,10 +18,13 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 const VarientTwo:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
         <div { ...props } className={twMerge(['container px-4', className])}>
-            <h5>{title}</h5>
+            <h5 className='text-xl text-web-background-dark dark:text-web-background uppercase font-semibold mb-12'>{title}</h5>
             <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-12 lg:col-span-4'>
-                    {posts?.map(({ url, ...post }, index) => index !== 0 && <PostListCard key={index} href={url} data={{
+                    {posts?.map(({ url, ...post }, index) => index !== 0 && <PostListCard className={twMerge([
+                        index !== (posts.length -1) && "mb-10",
+                        "lg:me-12"
+                    ])} key={index} href={url} data={{
                         createdAt: post.createdAt,
                         category: post.category,
                         title: post.title,
