@@ -24,16 +24,16 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 
 const VarientOne:FC<Props> = ({ data, posts, className, ...props }) => {
     return (
-        <div { ...props } className={twMerge(['relative', className])}>
-            <div className="container grid grid-cols-12 gap-4">
-                <PostBigCard className='lg:col-span-8 col-span-12' data={{
+        <div { ...props } className={twMerge(['relative min-h-[calc(100vh-150px)] flex flex-col justify-end', className])}>
+            <div className="container grid grid-cols-12 gap-4 px-4 relative">
+                <PostBigCard className='lg:col-span-5 col-span-12' data={{
                     createdAt: data.createdAt,
                     category: data.category,
                     title: data.title,
                     description: data.description,
                     url: data.url,
                 }} />
-                <PostMostReadCard className='lg:col-span-4 col-span-12' posts={ posts } />
+                <PostMostReadCard title='Most Read' className='lg:col-span-4 col-span-12 lg:col-start-9' posts={posts} />
             </div>
         </div>
     )

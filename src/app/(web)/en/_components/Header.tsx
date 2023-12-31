@@ -12,7 +12,7 @@ export default function Header({ menuItems }: any) {
     const [searchActive, setSearchActive] = useState(false)
 
     return (
-        <header className='w-full border-b border-[#0000000F] sticky top-0 bg-web-en-background dark:bg-web-en-background-dark'>
+        <header className='w-full border-b border-[#0000000F] sticky top-0 bg-web-en-background dark:bg-web-en-background-dark z-50'>
             <div className='flex container px-4 h-20 items-center gap-2'>
                 <div className='flex items-center gap-4'>
                     <Image src={"/gaafu.svg"} alt='logo' width={48} height={48} />

@@ -1,5 +1,7 @@
 import React, { AnchorHTMLAttributes, FC } from 'react'
 import Link, { LinkProps } from 'next/link'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     data: {
@@ -7,19 +9,18 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
         createdBy?: {
             name: string
         }
-        category?: string
         title: string
-        description?: string
-        featureImageUrl?: string
     }
 }
+dayjs.extend(relativeTime)
 
-const PostMediumCard:FC<Props> = ({ ...props }) => {
+const PostListMediumCard:FC<Props> = ({ data, ...props }) => {
     return (
         <Link {...props}>
-        
+            <b>{data.title}</b>
+            <span>{`${dayjs(data.createdAt).fromNow()}${data?.createdBy?.name && `   by ${data?.createdBy?.name}`}`}</span>
         </Link>
     )
 }
 
-export default PostMediumCard
+export default PostListMediumCard

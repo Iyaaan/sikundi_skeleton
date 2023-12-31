@@ -1,6 +1,8 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
+import PostListMediumCard from './PostListMediumCard'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    title?: string
     posts: {
         createdAt: Date
         title: string
@@ -11,9 +13,12 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
     }[]
 }
 
-const PostMostReadCard:FC<Props> = ({ ...props }) => {
+const PostMostReadCard:FC<Props> = ({ title, posts, ...props }) => {
     return (
-        <div>PostMostReadCard</div>
+        <div {...props}>
+            {title && <h6>{title}</h6>}
+            {posts?.map(({url, ...post}, index)=><PostListMediumCard key={index} data={post} href={url} />)}
+        </div>
     )
 }
 
