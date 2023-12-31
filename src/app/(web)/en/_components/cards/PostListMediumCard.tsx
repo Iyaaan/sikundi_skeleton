@@ -2,6 +2,7 @@ import React, { AnchorHTMLAttributes, FC } from 'react'
 import Link, { LinkProps } from 'next/link'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { twMerge } from 'tailwind-merge'
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     data: {
@@ -14,11 +15,14 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
 }
 dayjs.extend(relativeTime)
 
-const PostListMediumCard:FC<Props> = ({ data, ...props }) => {
+const PostListMediumCard:FC<Props> = ({ data, className, ...props }) => {
     return (
-        <Link {...props}>
-            <b>{data.title}</b>
-            <span suppressHydrationWarning>{`${dayjs(data.createdAt).fromNow()}${data?.createdBy?.name && `   by ${data?.createdBy?.name}`}`}</span>
+        <Link {...props} className={twMerge(['block hover:opacity-75 active:opacity-50', className])}>
+            <b className='text-xl text-white font-semibold block mb-2'>{data.title}</b>
+            <span className='text-white font-normal text-sm'>
+                <span suppressHydrationWarning className='opacity-70'>{`${dayjs(data.createdAt).fromNow()}`}</span>
+                {data?.createdBy?.name && `   by ${data?.createdBy?.name}`}
+            </span>
         </Link>
     )
 }

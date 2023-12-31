@@ -36,15 +36,15 @@ const VarientOne:FC<Props> = ({ data, posts, className, ...props }) => {
                 />}
                 <span className='gradient-feature-post inset-0 block absolute' />
             </div>
-            <div className="container grid grid-cols-12 gap-4 px-4 relative py-10 items-end">
-                <PostBigCard className='lg:col-span-5 col-span-12' data={{
+            <div className="container grid grid-cols-12 gap-4 px-4 relative py-10 items-end mt-4 lg:mt-0">
+                <PostBigCard className='lg:col-span-5 col-span-12 mb-8' data={{
                     createdAt: data.createdAt,
                     category: data.category,
                     title: data.title,
                     description: data.description,
                     url: data.url,
                 }} />
-                <PostMostReadCard title='Most Read' className='lg:col-span-4 col-span-12 lg:col-start-9 bg-[#0D3167] p-10' posts={posts} />
+                <PostMostReadCard title='Most Read' className='lg:col-span-4 col-span-12 lg:col-start-9' posts={posts} />
             </div>
         </div>
     )
