@@ -21,7 +21,7 @@ export default async function page({params, searchParams}: Props) {
     })
     const usr = await user()
     // @ts-ignore
-    const data = await edit(usr)
+    const data = await edit(usr?.payload)
 
     return (
         <div className='container p-4'>
