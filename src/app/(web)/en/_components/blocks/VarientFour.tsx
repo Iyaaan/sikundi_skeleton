@@ -16,10 +16,14 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 
 const VarientFour:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div {...props} className={twMerge(['', className])}>
-            <h5>{title}</h5>
-            <div className='grid grid-cols-6 gap-4'>
-                {posts?.map(({ url, ...post }, index) => <GalleryCard key={index} href={url} data={post} />)}
+        <div {...props} className={twMerge(['bg-web-secondary dark:bg-web-secondary-dark', className])}>
+            <div className='container'>
+                <h5>{title}</h5>
+                <div className='grid grid-cols-6 gap-4'>
+                    {posts?.map(({ url, ...post }, index) => <GalleryCard key={index} href={url} data={post} className={twMerge([
+                        index === 0 ? "lg:col-span-3 col-span-6 row-span-2" : "lg:col-span-1 col-span-3"
+                    ])} />)}
+                </div>
             </div>
         </div>
     )
