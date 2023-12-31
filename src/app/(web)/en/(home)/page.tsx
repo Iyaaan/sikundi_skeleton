@@ -65,7 +65,7 @@ export default function Page() {
                 title: "COVID-19 Vaccine Rollout Accelerated Across the State",
                 description: "The States is accelerating its COVID-19 vaccine rollout, with plans to administer at least one dose of the vaccine to all eligible adults by the end of April.",
                 url: `/${123}`,
-                featureImageUrl: `/asd`
+                featureImageUrl: `/sikundi-content/uploads/2023/12/img1.jpg`
             }} posts={[
                 {
                     createdAt: new Date(),
@@ -90,7 +90,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Study Finds Link Between Social Media Use and Mental Health Issues",
                     description: "A new study has found a link between excessive social media use and mental health issues such as depression and anxiety, raising concerns about the impact of social media on mental well-being.",
-                    featureImageUrl: `/asd`,
+                    featureImageUrl: `/sikundi-content/uploads/2023/12/img1.jpg`,
                     url: `/{123}`
                 },
                 {
@@ -129,7 +129,7 @@ export default function Page() {
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: `/${123}`
                 },
                 {
@@ -138,7 +138,7 @@ export default function Page() {
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: `/${123}`
                 },
                 {
@@ -147,7 +147,7 @@ export default function Page() {
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: `/${123}`
                 },
                 {
@@ -156,7 +156,7 @@ export default function Page() {
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: `/${123}`
                 },
             ]} />
@@ -167,7 +167,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -175,7 +175,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -183,7 +183,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -191,7 +191,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -199,7 +199,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -207,7 +207,7 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
@@ -215,13 +215,13 @@ export default function Page() {
                         name: "Shajaath Ahmed"
                     },
                     url: `/${123}`,
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
             ]} />
             <VarientFive title={"Sports"} posts={[
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lobortis quis amet pellentesque arcu, tincidunt.",
                     createdBy: {
                         name: "Shoo Phar Mhien"
@@ -230,7 +230,7 @@ export default function Page() {
                 },
                 {
                     title: "20 Of The Best Songs Released In February",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
@@ -238,7 +238,7 @@ export default function Page() {
                 },
                 {
                     title: "20 Of The Best Songs Released In February",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     createdBy: {
                         name: "Shoo Phar Mhien"
                     },
@@ -276,7 +276,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -284,7 +284,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -292,7 +292,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -300,14 +300,14 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
             ]} />
             <VarientFive title={"Sports"} posts={[
                 {
                     category: "Entertainment",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     title: "20 Of The Best Songs Released In February",
                     createdAt: new Date(),
                     createdBy: {
@@ -317,7 +317,7 @@ export default function Page() {
                 },
                 {
                     category: "Entertainment",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     title: "20 Of The Best Songs Released In February",
                     createdAt: new Date(),
                     createdBy: {
@@ -327,7 +327,7 @@ export default function Page() {
                 },
                 {
                     category: "Entertainment",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     title: "20 Of The Best Songs Released In February",
                     createdAt: new Date(),
                     createdBy: {
@@ -367,7 +367,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -375,7 +375,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -383,7 +383,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
                 {
@@ -391,7 +391,7 @@ export default function Page() {
                     createdAt: new Date(),
                     title: "Tech Giants Set to Face Antitrust Lawsuits in Continent E",
                     description: "The E Union is preparing to file antitrust lawsuits against several major tech companies, including Giggle and Acebook, for alleged anti-competitive behavior.",
-                    featureImageUrl: "/asd",
+                    featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                     url: "/${123}",
                 },
             ]} />

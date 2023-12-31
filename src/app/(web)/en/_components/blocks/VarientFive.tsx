@@ -23,7 +23,7 @@ const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
         <div {...props} className={twMerge(['container px-4', className])}>
             <h5>{title}</h5>
             <div className='grid grid-cols-4 gap-4'>
-                {posts?.[0] && <PostCard href={posts[0].url} className='lg:col-span-2' data={{
+                {posts?.[0] && <PostCard href={posts[0].url} className='lg:col-span-2 col-span-4' data={{
                     createdAt: posts[0].createdAt,
                     createdBy: posts[0].createdBy,
                     category: posts[0].category,
@@ -31,7 +31,7 @@ const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
                     description: posts[0].description,
                     featureImageUrl: posts[0].featureImageUrl
                 }} />} 
-                <div>
+                <div className='lg:col-span-1 col-span-4'>
                     {posts?.[1] && <PostCard href={posts[1].url} data={{
                         createdAt: posts[1].createdAt,
                         createdBy: posts[1].createdBy,
@@ -49,7 +49,7 @@ const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
                         featureImageUrl: posts[2].featureImageUrl
                     }} />}
                 </div>
-                <div>
+                <div className='lg:col-span-1 col-span-4'>
                     {posts?.map(({ url, ...post }, index) => (index > 2 && <PostListSmallCard key={index} href={url} data={post} />))}
                 </div>
             </div>

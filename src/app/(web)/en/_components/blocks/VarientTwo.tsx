@@ -20,7 +20,7 @@ const VarientTwo:FC<Props> = ({ title, posts, className, ...props }) => {
         <div { ...props } className={twMerge(['container px-4', className])}>
             <h5>{title}</h5>
             <div className='grid grid-cols-12 gap-4'>
-                <div className='col-span-12 md:col-span-4'>
+                <div className='col-span-12 lg:col-span-4'>
                     {posts?.map(({ url, ...post }, index) => index !== 0 && <PostListCard key={index} href={url} data={{
                         createdAt: post.createdAt,
                         category: post.category,
@@ -28,7 +28,7 @@ const VarientTwo:FC<Props> = ({ title, posts, className, ...props }) => {
                         description: post.description
                     }} />)}
                 </div>
-                {posts?.[0] && <PostLargeCard href={posts?.[0].url} className='col-span-12 md:col-span-8' data={{
+                {posts?.[0] && <PostLargeCard href={posts?.[0].url} className='col-span-12 lg:col-span-8' data={{
                     createdAt: posts?.[0].createdAt,
                     category: posts?.[0].category,
                     title: posts?.[0].title,

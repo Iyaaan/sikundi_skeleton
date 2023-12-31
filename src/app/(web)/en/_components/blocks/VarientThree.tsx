@@ -19,8 +19,8 @@ const VarientThree:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
         <div {...props} className={twMerge(['container px-4', className])}>
             <h5>{title}</h5>
-            <div className='flex gap-4'>
-                {posts?.map((post, index) => <PostCard key={index} href={post.url} data={{
+            <div className='gap-4 grid grid-cols-4'>
+                {posts?.map((post, index) => <PostCard key={index} href={post.url} className='lg:col-span-1 col-span-4' data={{
                     createdBy: post.createdBy,
                     category: post.category,
                     title: post.title,
