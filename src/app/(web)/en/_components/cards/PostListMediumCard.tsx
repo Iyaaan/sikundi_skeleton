@@ -18,7 +18,7 @@ const PostListMediumCard:FC<Props> = ({ data, ...props }) => {
     return (
         <Link {...props}>
             <b>{data.title}</b>
-            <span>{`${dayjs(data.createdAt).fromNow()}${data?.createdBy?.name && `   by ${data?.createdBy?.name}`}`}</span>
+            <span suppressHydrationWarning>{`${dayjs(data.createdAt).fromNow()}${data?.createdBy?.name && `   by ${data?.createdBy?.name}`}`}</span>
         </Link>
     )
 }

@@ -24,7 +24,7 @@ const PostCard:FC<Props> = ({ data, ...props }) => {
             </span>
             {data?.category && <span>{data.category}</span>}
             <b>{data.title}</b>
-            {data?.createdAt && <span>{data.createdAt.toLocaleDateString()}</span>}
+            {data?.createdAt && <span suppressHydrationWarning>{data.createdAt.toLocaleDateString()}</span>}
             {data?.description && <span>{data.description}</span>}
             <span>
                 {data?.createdBy?.profilePicture && <span></span>}

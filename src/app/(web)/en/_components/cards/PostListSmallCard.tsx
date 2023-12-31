@@ -12,7 +12,7 @@ const PostListSmallCard:FC<Props> = ({ data, ...props }) => {
     return (
         <Link {...props}>
             <b>{data.title}</b>
-            <span>{data.createdAt?.toLocaleDateString()}</span>
+            <span suppressHydrationWarning>{data.createdAt?.toLocaleDateString()}</span>
         </Link>
     )
 }
