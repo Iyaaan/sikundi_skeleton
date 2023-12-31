@@ -8,10 +8,11 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     }
 }
 
-const PostListSmallCard:FC<Props> = ({ ...props }) => {
+const PostListSmallCard:FC<Props> = ({ data, ...props }) => {
     return (
         <Link {...props}>
-        
+            <b>{data.title}</b>
+            <span>{data.createdAt?.toLocaleDateString()}</span>
         </Link>
     )
 }

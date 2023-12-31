@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
-import PostMediumCard from '../cards/PostMediumCard'
 import PostListSmallCard from '../cards/PostListSmallCard'
 import { twMerge } from 'tailwind-merge'
+import PostCard from '../cards/PostCard'
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title?: string
@@ -20,19 +20,19 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 
 const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div {...props} className={twMerge(['', className])}>
+        <div {...props} className={twMerge(['container', className])}>
             <h5>{title}</h5>
             <div className='grid grid-cols-4 gap-4'>
-                {posts?.[0] && <PostMediumCard href={posts[0].url} data={{
+                {posts?.[0] && <PostCard href={posts[0].url} className='lg:col-span-2' data={{
                     createdAt: posts[0].createdAt,
                     createdBy: posts[0].createdBy,
                     category: posts[0].category,
                     title: posts[0].title,
                     description: posts[0].description,
                     featureImageUrl: posts[0].featureImageUrl
-                }} />}
+                }} />} 
                 <div>
-                    {posts?.[1] && <PostMediumCard href={posts[1].url} data={{
+                    {posts?.[1] && <PostCard href={posts[1].url} data={{
                         createdAt: posts[1].createdAt,
                         createdBy: posts[1].createdBy,
                         category: posts[1].category,
@@ -40,7 +40,7 @@ const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
                         description: posts[1].description,
                         featureImageUrl: posts[1].featureImageUrl
                     }} />}
-                    {posts?.[2] && <PostMediumCard href={posts[2].url} data={{
+                    {posts?.[2] && <PostCard href={posts[2].url} data={{
                         createdAt: posts[2].createdAt,
                         createdBy: posts[2].createdBy,
                         category: posts[2].category,

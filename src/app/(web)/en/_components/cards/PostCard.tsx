@@ -6,8 +6,11 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     data: {
         createdBy?: {
             name: string
+            profilePicture?: string
         }
         category?: string
+        createdAt?: Date
+        description?: string
         title: string
         featureImageUrl?: string
     }
@@ -19,10 +22,12 @@ const PostCard:FC<Props> = ({ data, ...props }) => {
             <span className='block relative'>
                 {data.featureImageUrl && <Image src={data.featureImageUrl} fill sizes='75vw' alt={data.title} /> }
             </span>
-            <span>{data.category}</span>
+            {data?.category && <span>{data.category}</span>}
             <b>{data.title}</b>
+            {data?.createdAt && <span>{data.createdAt.toLocaleDateString()}</span>}
+            {data?.description && <span>{data.description}</span>}
             <span>
-                <span></span>
+                {data?.createdBy?.profilePicture && <span></span>}
                 {data?.createdBy && `by ${data.createdBy.name}`}
             </span>
         </Link>
