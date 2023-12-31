@@ -115,7 +115,7 @@ export default function Page() {
                     url: `/{123}`
                 },
             ]} />
-            <VarientThree title={"Editors Pick"} posts={[
+            <VarientThree title={"Editors Pick"} className='mb-14' posts={[
                 {
                     category: "Entertainment",
                     title: "Behind the Scenes of the Making of the Latest Zoom Movie",
