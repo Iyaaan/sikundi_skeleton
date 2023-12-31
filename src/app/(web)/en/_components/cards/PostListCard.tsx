@@ -10,10 +10,15 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
     }
 }
 
-const PostListCard:FC<Props> = ({ ...props }) => {
+const PostListCard:FC<Props> = ({ data, ...props }) => {
     return (
         <Link {...props}>
-        
+            <span suppressHydrationWarning>
+                {data?.category && <span>{data.category}</span>}
+                {data?.createdAt?.toLocaleDateString()}
+            </span>
+            <b>{data.title}</b>
+            {data?.description && <span>{data.description}</span>}
         </Link>
     )
 }
