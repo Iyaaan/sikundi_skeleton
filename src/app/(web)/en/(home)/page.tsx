@@ -153,7 +153,7 @@ export default function Page() {
                     url: `/${123}`
                 },
             ]} />
-            <VarientFour title={"Gallery"} posts={[
+            <VarientFour title={"Gallery"} className='mb-14' posts={[
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
                     createdBy: {
@@ -211,7 +211,7 @@ export default function Page() {
                     featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
                 },
             ]} />
-            <VarientFive title={"Sports"} posts={[
+            <VarientFive title={"Sports"} className='mb-12' posts={[
                 {
                     title: "TikTok Made Me Buy It Products You Shouldn't Sleep On",
                     featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
@@ -263,7 +263,7 @@ export default function Page() {
                     url: "/${123}",
                 },
             ]} />
-            <VarientSix title={"Earth"} posts={[
+            <VarientSix title={"Earth"} className='mb-12' posts={[
                 {
                     category: "Technology",
                     createdAt: new Date(),
@@ -297,7 +297,7 @@ export default function Page() {
                     url: "/${123}",
                 },
             ]} />
-            <VarientFive title={"Sports"} posts={[
+            <VarientFive title={"Sports"} className='mb-12' posts={[
                 {
                     category: "Entertainment",
                     featureImageUrl: "/sikundi-content/uploads/2023/12/img1.jpg",
@@ -354,7 +354,7 @@ export default function Page() {
                     url: "/${123}",
                 },
             ]} />
-            <VarientSix title={"Worklife"} posts={[
+            <VarientSix title={"Worklife"} className='mb-12' posts={[
                 {
                     category: "Technology",
                     createdAt: new Date(),
