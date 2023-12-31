@@ -20,7 +20,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 
 const VarientFive:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div {...props} className={twMerge(['container', className])}>
+        <div {...props} className={twMerge(['container px-4', className])}>
             <h5>{title}</h5>
             <div className='grid grid-cols-4 gap-4'>
                 {posts?.[0] && <PostCard href={posts[0].url} className='lg:col-span-2' data={{

@@ -17,7 +17,7 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 
 const VarientThree:FC<Props> = ({ title, posts, className, ...props }) => {
     return (
-        <div {...props} className={twMerge(['container', className])}>
+        <div {...props} className={twMerge(['container px-4', className])}>
             <h5>{title}</h5>
             <div className='flex gap-4'>
                 {posts?.map((post, index) => <PostCard key={index} href={post.url} data={{
