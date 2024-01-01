@@ -14,7 +14,7 @@ const PostSchema = z.object({
     category: z.object({
         value: z.string(),
         label: z.string()
-    }).optional(),
+    }),
     featureImageUrl: z.string().optional(),
     featureImageCaption: z.string().optional(),
     language: z.object({
@@ -26,7 +26,9 @@ const PostSchema = z.object({
     tags: z.object({
         value: z.string(),
         label: z.string()
-    }).array().optional(),
+    }).array().refine((tags) => tags.length >= 1, {
+        message: 'At least one tag is required for the "tags" field'
+    }),
     push: z.object({
         all: z.boolean().optional(),
         facebook: z.boolean().optional(),

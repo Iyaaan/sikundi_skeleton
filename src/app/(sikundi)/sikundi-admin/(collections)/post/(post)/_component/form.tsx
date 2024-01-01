@@ -43,6 +43,13 @@ interface Props {
     editingUser?: any
 }
 
+const status = {
+    drafted: "draft",
+    published: "publish",
+    soft_deleted: "soft_delete",
+    pending: "pending",
+}
+
 export default function PostForm({ user, data, type, permission, editingUser }: Props) {
     const { toast } = useToast()
     const [image, setImage] = useState<string | undefined>(undefined)
@@ -533,21 +540,29 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                             )}
                         />
                         <div className="grid grid-cols-2 items-center gap-2">
+                            <Button className="hidden" onClick={() => {
+                                // @ts-ignore
+                                form.setValue("action", (status?.[data.status] || "draft"))
+                            }}>
+                                submitter
+                            </Button>
                             {permission?.draft && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
                                 {(isLoading && form.getValues("action") === "draft") ? 
                                 <Fragment>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Loading
                                 </Fragment>
-                                : "draft"}
-                            </Button> }
+                                // @ts-ignore
+                                : (status?.[data.status]==="draft" ? "save" : "draft")}
+                            </Button>}
                             {permission?.publish && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "publish")}>
                                 {(isLoading && form.getValues("action") === "publish") ? 
                                 <Fragment>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Loading
                                 </Fragment>
-                                : "publish"}
+                                // @ts-ignore
+                                : (status?.[data.status]==="publish" ? "save" : "publish")}
                             </Button>}
                             {permission?.pending && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
                                 {(isLoading && form.getValues("action") === "pending") ? 
@@ -555,7 +570,8 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Loading
                                 </Fragment>
-                                : "pending"}
+                                // @ts-ignore
+                                : (status?.[data.status]==="pending" ? "save" : "pending")}
                             </Button>}
                             {data?.id ? <Fragment>
                                 {data?.status === "soft_deleted" ? <Fragment>
@@ -565,7 +581,8 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        : "shift delete"}
+                                        // @ts-ignore
+                                        : (status?.[data.status]==="shift delete" ? "save" : "shift delete")}
                                     </Button>}
                                 </Fragment> : <Fragment>
                                     {permission?.soft_delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
@@ -574,7 +591,8 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        : "delete"}
+                                        // @ts-ignore
+                                        : (status?.[data.status]==="delete" ? "save" : "delete")}
                                     </Button> }
                                 </Fragment>}
                             </Fragment> : null}
