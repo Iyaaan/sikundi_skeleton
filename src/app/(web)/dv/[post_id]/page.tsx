@@ -135,7 +135,7 @@ export default async function SinglePage(props: Props) {
                 <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
                     <LSBanner slides={ls_banner} className="hidden lg:block" />
                     <LatestPosts />
-                    <ESSBanner slides={ess_banner} />
+                    <ESSBanner slides={ess_banner} className="hidden lg:block" />
                 </div>
             </div>
             <div className="lg:col-span-9 col-span-12">
