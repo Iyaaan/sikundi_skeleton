@@ -100,7 +100,7 @@ export default async function SinglePage(props: Props) {
 
     return (
         <div className="container grid grid-cols-12 lg:gap-x-8 lg:gap-y-4 lg:px-4 px-0">
-            <div className="lg:col-span-9 col-span-12">
+            <div className="lg:col-span-9 col-span-12 lg:order-1">
                 <Feature className="pb-12" data={{
                     title: `${data?.longTitle}`,
                     featureImage: data?.featureImageUrl,
@@ -131,21 +131,21 @@ export default async function SinglePage(props: Props) {
                     ))}
                 </div>
             </div>
-            <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0">
-                <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
-                    <LSBanner slides={ls_banner} className="hidden lg:block" />
-                    <LatestPosts />
-                    <ESSBanner slides={ess_banner} className="hidden lg:block" />
-                </div>
-            </div>
-            <div className="lg:col-span-9 col-span-12">
-                {relatedPosts?.length > 0 && <RelatedPosts className="mb-8" data={relatedPosts} />}
+            <div className="lg:col-span-9 col-span-12 lg:order-4">
                 <div className="max-w-3xl mx-auto px-6 mb-8">
                     <AEBanner slides={ae_banner} className="" />
                 </div>
-            </div>
-            <div className="lg:col-span-9 col-span-12">
                 <Comment />
+            </div>
+            <div className="lg:col-span-9 col-span-12 lg:order-3">
+                {relatedPosts?.length > 0 && <RelatedPosts className="mb-8" data={relatedPosts} />}
+            </div>
+            <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0 lg:order-2">
+                <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
+                    <LSBanner slides={ls_banner} className="hidden lg:block" />
+                    <LatestPosts />
+                    <ESSBanner slides={ess_banner} />
+                </div>
             </div>
         </div>
     )
