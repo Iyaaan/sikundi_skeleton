@@ -129,7 +129,7 @@ export default async function SinglePage(props: Props) {
                     title: `${data?.longTitle}`,
                     featureImage: data?.featureImageUrl,
                     // @ts-ignore
-                    tags: data?.postsTags?.map((tag) => tag.tag?.name),
+                    tags: data?.postsTags?.map((tag) => tag.tag?.name) || [],
                     published: {
                         by: {
                             // @ts-ignore
