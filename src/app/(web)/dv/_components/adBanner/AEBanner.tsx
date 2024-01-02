@@ -23,7 +23,7 @@ export default function AEBanner(props:Props) {
         } else {
             setIndex(0)
         }
-    }, 5000)
+    }, 7000)
 
     if(!slides?.[index]?.src) return null
 
