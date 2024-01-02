@@ -542,7 +542,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                         <div className="grid grid-cols-2 items-center gap-2">
                             <Button className="hidden" onClick={() => {
                                 // @ts-ignore
-                                form.setValue("action", (status?.[data.status] || "draft"))
+                                form.setValue("action", (status?.[data?.status] || "draft"))
                             }}>
                                 submitter
                             </Button>
@@ -553,7 +553,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                     Loading
                                 </Fragment>
                                 // @ts-ignore
-                                : (status?.[data.status]==="draft" ? "save" : "draft")}
+                                : (status?.[data?.status]==="draft" ? "save" : "draft")}
                             </Button>}
                             {permission?.publish && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "publish")}>
                                 {(isLoading && form.getValues("action") === "publish") ? 
@@ -562,7 +562,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                     Loading
                                 </Fragment>
                                 // @ts-ignore
-                                : (status?.[data.status]==="publish" ? "save" : "publish")}
+                                : (status?.[data?.status]==="publish" ? "save" : "publish")}
                             </Button>}
                             {permission?.pending && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
                                 {(isLoading && form.getValues("action") === "pending") ? 
@@ -571,7 +571,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                     Loading
                                 </Fragment>
                                 // @ts-ignore
-                                : (status?.[data.status]==="pending" ? "save" : "pending")}
+                                : (status?.[data?.status]==="pending" ? "save" : "pending")}
                             </Button>}
                             {data?.id ? <Fragment>
                                 {data?.status === "soft_deleted" ? <Fragment>
@@ -582,7 +582,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                             Loading
                                         </Fragment>
                                         // @ts-ignore
-                                        : (status?.[data.status]==="shift delete" ? "save" : "shift delete")}
+                                        : (status?.[data?.status]==="shift delete" ? "save" : "shift delete")}
                                     </Button>}
                                 </Fragment> : <Fragment>
                                     {permission?.soft_delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
@@ -592,7 +592,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                             Loading
                                         </Fragment>
                                         // @ts-ignore
-                                        : (status?.[data.status]==="delete" ? "save" : "delete")}
+                                        : (status?.[data?.status]==="delete" ? "save" : "delete")}
                                     </Button> }
                                 </Fragment>}
                             </Fragment> : null}
