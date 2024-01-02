@@ -136,10 +136,14 @@ export default async function SinglePage(props: Props) {
                     <AEBanner slides={ae_banner} className="" />
                 </div>
                 <Comment />
+                <div className="max-w-3xl mx-auto px-6 my-8 lg:hidden">
+                    <AEBanner slides={ae_banner.reverse()} className="" />
+                </div>
             </div>
+            {relatedPosts?.length > 0 && 
             <div className="lg:col-span-9 col-span-12 lg:order-3">
-                {relatedPosts?.length > 0 && <RelatedPosts className="mb-8" data={relatedPosts} />}
-            </div>
+                <RelatedPosts className="mb-8" data={relatedPosts} />
+            </div>}
             <div className="lg:col-span-3 lg:row-span-2 col-span-12 px-4 lg:px-0 lg:order-2">
                 <div className="sticky top-28 pb-8 grid lg:gap-8 gap-6">
                     <LSBanner slides={ls_banner} className="hidden lg:block" />
