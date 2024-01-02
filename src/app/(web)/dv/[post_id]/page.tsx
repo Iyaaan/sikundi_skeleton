@@ -39,6 +39,30 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
                     tag: {
                         select: {
                             name: true
+                        },
+                        where: {
+                            AND: [
+                                {
+                                    slug: {
+                                        not: "bodu"
+                                    }
+                                },
+                                {
+                                    slug: {
+                                        not: "big"
+                                    }
+                                },
+                                {
+                                    slug: {
+                                        not: "kuda"
+                                    }
+                                },
+                                {
+                                    slug: {
+                                        not: "small"
+                                    }
+                                },
+                            ]
                         }
                     }
                 }
