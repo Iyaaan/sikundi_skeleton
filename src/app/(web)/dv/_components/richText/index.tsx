@@ -31,11 +31,11 @@ export default function index({ block, className }: { block: any, className?: st
     if(block?.type === "list") return <List type={block?.listType}>
         {block?.children}
     </List>
-    if(block?.type === "quote") return <Quote>{
+    if(block?.type === "quote") return <Quote className='block clear-left'>{
         <RichText className={className}>{block?.children}</RichText> 
     }</Quote>
-    if(block?.type === "horizontalrule" || block?.type === "page-break") return <hr className="h-[2px] bg-web-tertiary text-web-tertiary mb-8" />
-    if(block?.type === "layout-container") return <div className="flex">
+    if(block?.type === "horizontalrule" || block?.type === "page-break") return <hr className="h-[2px] bg-web-tertiary text-web-tertiary mb-8 block clear-left" />
+    if(block?.type === "layout-container") return <div className="flex clear-left">
         {
             block?.children?.map((text:any, index:any) => {
                 return <Fragment key={index}>{text.children?.map((t:any, index:any) => {
@@ -46,11 +46,11 @@ export default function index({ block, className }: { block: any, className?: st
             })    
         }
     </div>
-    if(block?.type === "tweet") return <Tweet id={block?.id} />
+    if(block?.type === "tweet") return <Tweet id={block?.id} className="block clear-left" />
         
-    if(block?.type === "youtube") return <Youtube id={block?.videoID} />
-    if(block?.type === "facebook") return <Facebook id={block.postID} />
-    if(block?.type === "collapsible-container") return <Collapsible name={block?.children?.[0]} open={false}>
+    if(block?.type === "youtube") return <Youtube id={block?.videoID} className="block clear-left" />
+    if(block?.type === "facebook") return <Facebook id={block.postID} className="block clear-left" />
+    if(block?.type === "collapsible-container") return <Collapsible name={block?.children?.[0]} open={false} className="block clear-left">
         {block?.children?.[1]}
     </Collapsible>
 }

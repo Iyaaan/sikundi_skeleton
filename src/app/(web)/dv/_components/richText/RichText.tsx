@@ -58,7 +58,7 @@ export default function RichText({children, className}: {children:{
                 }
                 if(block.type == "image") {
                     return (
-                        <span key={index}>
+                        <span key={index} className='block clear-left'>
                             <span className='aspect-video w-full bg-web-accent-dark dark:bg-web-accent relative block'>
                                 <Image sizes="75vw" src={`${block.src}`} alt={`${block?.alt}`} fill className='object-cover' />
                             </span>
