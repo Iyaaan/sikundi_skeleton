@@ -195,6 +195,30 @@ function postData(id:number) {
                         tag: {
                             select: {
                                 name: true
+                            },
+                            where: {
+                                AND: [
+                                    {
+                                        slug: {
+                                            not: "bodu"
+                                        }
+                                    },
+                                    {
+                                        slug: {
+                                            not: "big"
+                                        }
+                                    },
+                                    {
+                                        slug: {
+                                            not: "kuda"
+                                        }
+                                    },
+                                    {
+                                        slug: {
+                                            not: "small"
+                                        }
+                                    },
+                                ]
                             }
                         }
                     }
