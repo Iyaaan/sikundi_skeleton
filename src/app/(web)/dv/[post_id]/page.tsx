@@ -126,7 +126,7 @@ export default async function SinglePage(props: Props) {
                     {data?.lead && JSON.parse(String(data?.lead))?.root?.children?.map((block:any, index: number) => (
                         <Fragment key={index}>
                             <Block block={block} />
-                            {index === 1 && <IABanner slides={ia_banner} className="lg:float-left lg:max-w-[304px] lg:mr-4 mb-6 lg:mb-0" />}
+                            {index === 1 && <IABanner slides={ia_banner} className="lg:float-left lg:max-w-[304px] lg:mr-4 mb-4" />}
                         </Fragment>
                     ))}
                 </div>
