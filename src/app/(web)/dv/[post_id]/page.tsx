@@ -39,30 +39,6 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
                     tag: {
                         select: {
                             name: true
-                        },
-                        where: {
-                            AND: [
-                                {
-                                    slug: {
-                                        not: "bodu"
-                                    }
-                                },
-                                {
-                                    slug: {
-                                        not: "big"
-                                    }
-                                },
-                                {
-                                    slug: {
-                                        not: "kuda"
-                                    }
-                                },
-                                {
-                                    slug: {
-                                        not: "small"
-                                    }
-                                },
-                            ]
                         }
                     }
                 }
@@ -129,7 +105,7 @@ export default async function SinglePage(props: Props) {
                     title: `${data?.longTitle}`,
                     featureImage: data?.featureImageUrl,
                     // @ts-ignore
-                    tags: data?.postsTags?.map((tag) => tag.tag?.name) || [],
+                    tags: [...data?.postsTags?.map((tag) => tag.tag?.name)]?.filter((tag) => (tag.tag?.name !== "bodu" && tag.tag?.name !== "big" && tag.tag?.name !== "kuda" && tag.tag?.name !== "small")),
                     published: {
                         by: {
                             // @ts-ignore
@@ -195,30 +171,6 @@ function postData(id:number) {
                         tag: {
                             select: {
                                 name: true
-                            },
-                            where: {
-                                AND: [
-                                    {
-                                        slug: {
-                                            not: "bodu"
-                                        }
-                                    },
-                                    {
-                                        slug: {
-                                            not: "big"
-                                        }
-                                    },
-                                    {
-                                        slug: {
-                                            not: "kuda"
-                                        }
-                                    },
-                                    {
-                                        slug: {
-                                            not: "small"
-                                        }
-                                    },
-                                ]
                             }
                         }
                     }
