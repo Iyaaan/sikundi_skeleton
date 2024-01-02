@@ -21,9 +21,8 @@ export default function useRealTime(ping: (data: { id: number }) => Promise<cust
                     // @ts-ignore
                     data?.error?.details?.data?.redirect && router.push(data?.error?.details?.data?.redirect)
                     if(data?.error?.details) setError(true)
-                    console.log(data)
                 } catch (error) {
-                    console.log(error)
+                    console.error(error)
                 }
             }
             const id = setInterval(fetchData, 1000)

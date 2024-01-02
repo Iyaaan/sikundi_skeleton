@@ -40,6 +40,34 @@ const PostSchema = z.object({
     }).optional(),
     breaking: z.boolean().optional(),
     liveblog: z.boolean().optional()
+}).refine((data) => {
+    if (data.action === 'publish' && `${data.description}`.length === 0) return false
+    return true
+}, {
+    message: "description is required when publishing",
+    path: ["description"]
+}).refine((data) => {
+    if (data.action === 'publish' && data.category?.value === undefined) return false
+    return true
+}, {
+    message: "category is required when publishing",
+    path: ["category"]
+}).refine((data) => {
+    if (data.action === 'publish' && data.tags?.length === 0) return false
+    return true
+}, {
+    message: "atleast one tag is required when publishing",
+    path: ["tags"]
+}).refine((data) => {
+    if (data.action === "publish" && !(data.breaking || data.liveblog)) {
+        if (String(data.featureImageUrl).length === 0) return false
+        if (String(data.featureImageCaption).length === 0) return false
+    }
+    
+    return true
+}, {
+    message: "feature image & caption is required when publishing",
+    path: ["featureImageCaption"]
 })
 
 export type PostSchemaType = z.infer<typeof PostSchema>

@@ -273,7 +273,6 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                             name='featureImageCaption'
                             render={({ field }) => (
                                 <FormItem className="w-full">
-                                    {/* <FormLabel>Feature Image Caption</FormLabel> */}
                                     <FormControl>
                                         <Input dir={lang.value === "DV" ? "rtl" : "ltr"} {...field} />
                                     </FormControl>
