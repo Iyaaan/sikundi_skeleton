@@ -105,7 +105,7 @@ export default async function SinglePage(props: Props) {
                     title: `${data?.longTitle}`,
                     featureImage: data?.featureImageUrl,
                     // @ts-ignore
-                    tags: [...data?.postsTags?.map((tag) => tag.tag?.name)]?.filter((tag) => (tag.tag?.name !== "bodu" && tag.tag?.name !== "big" && tag.tag?.name !== "kuda" && tag.tag?.name !== "small")),
+                    tags: [...data?.postsTags?.map((tag) => tag.tag?.name)]?.filter((tag) => (tag !== "bodu" && tag !== "big" && tag !== "kuda" && tag !== "small")),
                     published: {
                         by: {
                             // @ts-ignore
