@@ -17,6 +17,9 @@ interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDi
 const VarientTwo:FC<Props> = ({title, data, loadMore, containerClassName, ...props}) => {
     return (
         <div className='container lg:px-4 px-0'>
+            {title && <h1 className='col-span-4 text-center font-black text-4xl lg:text-6xl text-web-background dark:text-web-background-dark lg:mb-10 mb-0 stroke-text-accent'>
+                {title}
+            </h1>}
             <div {...props} className={twMerge([
                 'bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] relative',
                 props.className

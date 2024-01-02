@@ -71,7 +71,7 @@ export default async function Home(props: Props) {
             <MLBanner slides={ml_banner} className="mb-8" />
             {(latestPosts?.length > 0) && 
             // @ts-ignore
-            <VarientTwo className="mb-12" data={latestPosts} />}
+            <VarientTwo title="ފަހުގެ ޙަބަރު" className="mb-12" data={latestPosts} />}
             <MSLBanner slides={msl_banner} className="mb-8 max-w-[940px] mx-auto" />
             {(latestPhotos?.length > 0) && 
             // @ts-ignore
