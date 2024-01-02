@@ -71,6 +71,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
             description: "",
             featureImageUrl: "",
             featureImageCaption: "",
+            action: "draft",
             tags: [],
             push: {
                 all: false,
