@@ -41,7 +41,7 @@ export default async function page({params, searchParams}: Props) {
     const categories = (await prisma.category.findMany({
         orderBy: {
             posts: {
-                _count: "asc"
+                _count: "desc"
             }
         },
         select: {
@@ -57,7 +57,7 @@ export default async function page({params, searchParams}: Props) {
     const tags = (await prisma.tag.findMany({
         orderBy: {
             tagsPosts: {
-                _count: "asc"
+                _count: "desc"
             }
         },
         select: {
