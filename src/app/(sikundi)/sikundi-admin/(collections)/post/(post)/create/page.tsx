@@ -4,6 +4,7 @@ import Loading from './loading'
 import getUser from '@sikundi/lib/server/utils/getUser'
 import getPermission from '@sikundi/lib/server/utils/getPermission'
 import { redirect } from 'next/navigation'
+import {prisma} from '@sikundi/lib/server/utils/prisma'
 
 interface Props {
     params: {}
@@ -37,6 +38,38 @@ export default async function page({params, searchParams}: Props) {
         loading: () => <Loading />
     })
     const user = await getUser()
+    const categories = (await prisma.category.findMany({
+        orderBy: {
+            posts: {
+                _count: "asc"
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            slug: true
+        },
+        take: 5
+    })).map((tag)=>({
+        label: tag.name,
+        value: tag.slug
+    }))
+    const tags = (await prisma.tag.findMany({
+        orderBy: {
+            tagsPosts: {
+                _count: "asc"
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            slug: true
+        },
+        take: 5
+    })).map((tag)=>({
+        label: tag.name,
+        value: tag.slug
+    }))
 
     return (
         <Form user={JSON.parse(JSON.stringify(user))} type='create' permission={{
@@ -45,7 +78,7 @@ export default async function page({params, searchParams}: Props) {
             soft_delete: permission?.post?.soft_delete, 
             publish: permission?.post?.publish,
             pending: permission?.post?.pending
-        }} />
+        }} categories={categories} tags={tags} />
     )
 }
 
