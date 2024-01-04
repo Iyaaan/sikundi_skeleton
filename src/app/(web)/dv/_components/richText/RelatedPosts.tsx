@@ -22,7 +22,7 @@ const RelatedPosts:FC<Props> = ({data, loadMore, title, ...props}) => {
                 props.className
             ])}>
                 <div className='lg:col-span-4 col-span-2' dir='ltr'>
-                    <Heading className=' text-web-accent dark:text-web-accent-dark mb-0 text-base'>Related</Heading>
+                    <Heading className=' text-web-accent dark:text-web-accent-dark mb-0 text-base'>{"ގުޅުންހުރި"}</Heading>
                 </div>
                 {data?.map((post, index) => (
                     <PostSmallCard href={post.href} key={index}
