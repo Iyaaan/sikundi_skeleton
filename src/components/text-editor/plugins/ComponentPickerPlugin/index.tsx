@@ -216,26 +216,26 @@ function getBaseOptions(editor: LexicalEditor, OpenModal: any, CloseModal: any) 
           }
         }),
     }),
-    new ComponentPickerOption('Code', {
-      icon: <Code2Icon className="h-5 w-5 me-2" />,
-      keywords: ['javascript', 'python', 'js', 'codeblock'],
-      onSelect: () =>
-        editor.update(() => {
-          const selection = $getSelection();
+    // new ComponentPickerOption('Code', {
+    //   icon: <Code2Icon className="h-5 w-5 me-2" />,
+    //   keywords: ['javascript', 'python', 'js', 'codeblock'],
+    //   onSelect: () =>
+    //     editor.update(() => {
+    //       const selection = $getSelection();
 
-          if ($isRangeSelection(selection)) {
-            if (selection.isCollapsed()) {
-              $setBlocksType(selection, () => $createCodeNode());
-            } else {
-              // Will this ever happen?
-              const textContent = selection.getTextContent();
-              const codeNode = $createCodeNode();
-              selection.insertNodes([codeNode]);
-              selection.insertRawText(textContent);
-            }
-          }
-        }),
-    }),
+    //       if ($isRangeSelection(selection)) {
+    //         if (selection.isCollapsed()) {
+    //           $setBlocksType(selection, () => $createCodeNode());
+    //         } else {
+    //           // Will this ever happen?
+    //           const textContent = selection.getTextContent();
+    //           const codeNode = $createCodeNode();
+    //           selection.insertNodes([codeNode]);
+    //           selection.insertRawText(textContent);
+    //         }
+    //       }
+    //     }),
+    // }),
     new ComponentPickerOption('Divider', {
       icon: <RulerIcon className="h-5 w-5 me-2" />,
       keywords: ['horizontal rule', 'divider', 'hr'],
