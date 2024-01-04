@@ -21,7 +21,7 @@ const RelatedPosts:FC<Props> = ({data, loadMore, title, ...props}) => {
                 'p-6 pb-12 grid lg:grid-cols-4 grid-cols-2 gap-4 bg-web-foreground dark:bg-web-foreground-dark rounded-[20px] mb-6 relative',
                 props.className
             ])}>
-                <div className='lg:col-span-4 col-span-2' dir='ltr'>
+                <div className='lg:col-span-4 col-span-2'>
                     <Heading className=' text-web-accent dark:text-web-accent-dark mb-0 text-base'>{"ގުޅުންހުރި"}</Heading>
                 </div>
                 {data?.map((post, index) => (
