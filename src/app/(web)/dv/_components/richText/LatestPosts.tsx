@@ -21,7 +21,7 @@ const LatestPosts:FC<Props> = (props) => {
                 props.className
             ])}>
                 {posts?.map((post, index) => index <= 4 && (
-                    <PostSmallCard className='min-w-[80vw] md:min-w-[unset]' href={post.href} key={index}
+                    <PostSmallCard className='min-w-[70vw] md:min-w-[unset]' href={post.href} key={index}
                         data={{
                             title: post.title,
                             featureImage: String(post.featureImage)
