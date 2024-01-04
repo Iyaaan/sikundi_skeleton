@@ -4,10 +4,12 @@ import { Button } from '@sikundi/components/ui/button'
 import { CommandEmpty, CommandGroup, CommandDialog, CommandInput, CommandItem, CommandList, CommandSeparator } from '@sikundi/components/ui/command'
 import { menuItems } from '@sikundi/sikundi.config'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { Fragment, useState } from 'react'
 
 export default function Search() {
     const [open, setOpen] = useState(false)
+    const router = useRouter()
    
     React.useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -41,7 +43,7 @@ export default function Search() {
                         <Fragment key={index}>
                             <CommandGroup heading={item.title} key={index}>
                                 {item.items.map((child, key) => (
-                                    <CommandItem key={key}>
+                                    <CommandItem key={key} onSelect={() => router.push(child.link)}>
                                         <Link href={child.link} className='flex'>
                                             <child.Icon className='h-5 w-5 me-3' />
                                             {child.name}
