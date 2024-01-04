@@ -34,6 +34,7 @@ import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@sikundi/components/ui/dialog"
+import { Badge } from "@sikundi/components/ui/badge"
 
 interface Props {
     user: UserType
@@ -437,6 +438,10 @@ export default function PostForm({ user, data, type, permission, editingUser, ca
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-2">
                     <CardContent className="grid gap-4">
+                        <div className="flex items-end justify-end">
+                            {/* @ts-ignore */}
+                            {status?.[data?.status] && <Badge variant={"secondary"}>{status?.[data?.status]}</Badge>}
+                        </div>
                         <FormField
                             control={form.control}
                             name='language'
@@ -536,62 +541,41 @@ export default function PostForm({ user, data, type, permission, editingUser, ca
                             )}
                         />
                         <div className="grid grid-cols-2 items-center gap-2">
-                            <Button className="hidden" onClick={() => {
+                            {
                                 // @ts-ignore
-                                form.setValue("action", (status?.[data?.status] || "draft"))
-                            }}>
-                                submitter
-                            </Button>
-                            {permission?.draft && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
-                                {(isLoading && form.getValues("action") === "draft") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
+                                permission?.[(status?.[data?.status] || "draft")] &&
                                 // @ts-ignore
-                                : (status?.[data?.status]==="draft" ? "save" : "draft")}
-                            </Button>}
-                            {permission?.publish && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "publish")}>
-                                {(isLoading && form.getValues("action") === "publish") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
-                                // @ts-ignore
-                                : (status?.[data?.status]==="publish" ? "save" : "publish")}
-                            </Button>}
-                            {permission?.pending && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
-                                {(isLoading && form.getValues("action") === "pending") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
-                                // @ts-ignore
-                                : (status?.[data?.status]==="pending" ? "save" : "pending")}
-                            </Button>}
-                            {data?.id ? <Fragment>
-                                {data?.status === "soft_deleted" ? <Fragment>
-                                    {permission?.delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "delete")}>
-                                        {(isLoading && form.getValues("action") === "delete") ? 
+                                <Button onClick={()=>form.setValue("action", (status?.[data?.status] || "draft"))} disabled={isLoading} aria-disabled={isLoading} className="col-span-2">
+                                    {/* @ts-ignore */}
+                                    {(isLoading && form.getValues("action") === (status?.[data?.status] || "draft")) ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "Save"}
+                                </Button>
+                            }
+                            {Object.entries(status).map(([key, value], index) => (
+                                permission?.[value] &&
+                                <Fragment key={index}>
+                                    <Button onClick={()=>form.setValue("action", (data?.status === "soft_deleted" && key === "soft_deleted") ? "delete" : value)} 
+                                        disabled={isLoading} aria-disabled={isLoading} variant={"secondary"}
+                                    >
+                                        {(isLoading && (form.getValues("action") === value || (
+                                            form.getValues("action") === "delete" && key === "soft_deleted"
+                                        ))) ?
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        // @ts-ignore
-                                        : (status?.[data?.status]==="shift delete" ? "save" : "shift delete")}
-                                    </Button>}
-                                </Fragment> : <Fragment>
-                                    {permission?.soft_delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
-                                        {(isLoading && form.getValues("action") === "soft_delete") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        // @ts-ignore
-                                        : (status?.[data?.status]==="delete" ? "save" : "delete")}
-                                    </Button> }
-                                </Fragment>}
-                            </Fragment> : null}
+                                        : (
+                                            key === "soft_deleted" ?
+                                            (data?.status === "soft_deleted" ? "delete" : value.replaceAll("_", " ")) :
+                                            value.replaceAll("_", " ")
+                                        )}
+                                    </Button>
+                                </Fragment>
+                            ))}
                             {data?.id ? <Fragment>
                                 {data?.status !== "published" ? <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
                                     <Link href={`/${data?.id}/preview`}>Preview</Link>

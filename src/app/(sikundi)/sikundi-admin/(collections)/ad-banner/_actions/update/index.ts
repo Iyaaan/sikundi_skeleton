@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: AdSchemaType) {
-    return (await ErrorHandler(data, AdSchema, async ({createdBy, adsUrl, language, action, id, ...data}:AdSchemaType) => {
+    return (await ErrorHandler<any, any>(data, AdSchema, async ({createdBy, adsUrl, language, action, id, ...data}:AdSchemaType) => {
         const user = await getUser()
 
         const permission = await getPermission({
@@ -87,6 +87,10 @@ export default async function POST(data: AdSchemaType) {
         revalidatePath('/sikundi-admin/ad-banner')
         revalidatePath('/', 'layout')
         return {
+            data: {
+                adBanner: adBanner,
+                action: action
+            },
             notification: {
                 title: `Ad Banner Successfully ${action}`,
                 description: `a ad Banner have ${action}, under the name ${adBanner.altTxt}`

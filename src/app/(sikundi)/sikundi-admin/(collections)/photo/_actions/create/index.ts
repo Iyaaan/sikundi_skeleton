@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: PhotoSchemaType) {
-    return (await ErrorHandler(data, PhotoSchema, async ({action, id, push, featureImageUrl, ...data}:PhotoSchemaType) => {
+    return (await ErrorHandler<any, any>(data, PhotoSchema, async ({action, id, push, featureImageUrl, ...data}:PhotoSchemaType) => {
         const user = await getUser()
         const permission = await getPermission({
             photo: [
@@ -64,7 +64,8 @@ export default async function POST(data: PhotoSchemaType) {
         revalidatePath(`/${photo.language.toLowerCase()}/gallery/${photo.id}`)
         return ({ 
             data: {
-                photo: photo
+                photo: photo,
+                action: action
             },
             notification: {
                 title: `Photo Successfully Created`,

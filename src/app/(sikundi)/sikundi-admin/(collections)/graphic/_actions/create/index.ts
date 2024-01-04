@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: GraphicSchemaType) {
-    return (await ErrorHandler(data, GraphicSchema, async ({action, id, push, graphicsUrl, ...data}:GraphicSchemaType) => {
+    return (await ErrorHandler<any, any>(data, GraphicSchema, async ({action, id, push, graphicsUrl, ...data}:GraphicSchemaType) => {
         const user = await getUser()
         const permission = await getPermission({
             graphic: [
@@ -63,7 +63,8 @@ export default async function POST(data: GraphicSchemaType) {
         revalidatePath(`/${graphic.language.toLowerCase()}/gaafu_graphics/${graphic.id}`)
         return ({ 
             data: {
-                graphic: graphic
+                graphic: graphic,
+                action: action
             },
             notification: {
                 title: `Graphic Successfully Created`,

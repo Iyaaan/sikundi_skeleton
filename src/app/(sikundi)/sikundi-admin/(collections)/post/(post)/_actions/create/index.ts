@@ -113,7 +113,8 @@ export default async function POST(data: PostSchemaType) {
         revalidatePath('/sikundi-admin/post')
         return ({ 
             data: {
-                post: post
+                post: post,
+                action: action
             },
             notification: {
                 title: `Post Successfully Created`,

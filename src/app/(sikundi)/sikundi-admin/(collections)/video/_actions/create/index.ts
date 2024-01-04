@@ -55,7 +55,8 @@ export default async function POST(data: VideoSchemaType) {
         revalidatePath('/sikundi-admin/video')
         return ({ 
             data: {
-                video: video
+                video: video,
+                action: action
             },
             notification: {
                 title: `Video Successfully Created`,

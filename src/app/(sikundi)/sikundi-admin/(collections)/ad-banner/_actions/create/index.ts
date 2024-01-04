@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: AdSchemaType) {
-    return (await ErrorHandler(data, AdSchema, async ({action, id, adsUrl, ...data}:AdSchemaType) => {
+    return (await ErrorHandler<any, any>(data, AdSchema, async ({action, id, adsUrl, ...data}:AdSchemaType) => {
         const user = await getUser()
         const permission = await getPermission({
             adBanner: [
@@ -63,7 +63,8 @@ export default async function POST(data: AdSchemaType) {
         revalidatePath('/', 'layout')
         return ({ 
             data: {
-                adBanner: adBanner
+                adBanner: adBanner,
+                action: action
             },
             notification: {
                 title: `Ad banner Successfully Created`,

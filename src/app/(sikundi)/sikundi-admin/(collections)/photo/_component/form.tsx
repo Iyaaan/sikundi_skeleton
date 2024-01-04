@@ -29,14 +29,21 @@ import PhotoCreateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections
 import PhotoUpdateAction from "@sikundi/app/(sikundi)/sikundi-admin/(collections)/photo/_actions/update"
 import { TimePickerDemo } from "@sikundi/components/ui/time-picker-demo"
 import Link from "next/link"
-import { User } from "@prisma/client"
 import { UserType } from "@sikundi/lib/server/utils/getUser"
+import { Badge } from "@sikundi/components/ui/badge"
 
 interface Props {
     user: UserType
     data?: {[name:string]: unknown}
     permission?: {[name:string]: boolean}
     type: "create" | "update"
+}
+
+const status = {
+    drafted: "draft",
+    published: "publish",
+    soft_deleted: "soft_delete",
+    pending: "pending",
 }
 
 export default function PostForm({ user, data, type, permission }: Props) {
@@ -103,7 +110,13 @@ export default function PostForm({ user, data, type, permission }: Props) {
 
     const { isLoading, execute } = useAction(type === "create" ? PhotoCreateAction : PhotoUpdateAction, {
         onSuccess: ({ data }) => {
-            router.push('/sikundi-admin/photo')
+            if (data.action === "pending") {
+                router.push('/sikundi-admin/photo/copydesk')
+            } else if (data.action === "soft_delete") {
+                router.push('/sikundi-admin/photo/trash')
+            } else {
+                router.push('/sikundi-admin/photo')
+            }
         },
         onError: ({ error }) => console.error(error),
         onValidationError: (data) => form.setError(
@@ -248,6 +261,10 @@ export default function PostForm({ user, data, type, permission }: Props) {
                 </Card>
                 <Card className="pt-6 lg:col-span-4 lg:order-2">
                     <CardContent className="grid gap-4">
+                        <div className="flex items-end justify-end">
+                            {/* @ts-ignore */}
+                            {status?.[data?.status] && <Badge variant={"secondary"}>{status?.[data?.status]}</Badge>}
+                        </div>
                         <FormField
                             control={form.control}
                             name='language'
@@ -347,56 +364,46 @@ export default function PostForm({ user, data, type, permission }: Props) {
                             )}
                         />
                         <div className="grid grid-cols-2 items-center gap-2">
-                            {permission?.draft && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "draft")}>
-                                {(isLoading && form.getValues("action") === "draft") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
-                                : "draft"}
-                            </Button> }
-                            {permission?.publish && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "publish")}>
-                                {(isLoading && form.getValues("action") === "publish") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
-                                : "publish"}
-                            </Button>}
-                            {permission?.pending && <Button disabled={isLoading} aria-disabled={isLoading} onClick={()=>form.setValue("action", "pending")}>
-                                {(isLoading && form.getValues("action") === "pending") ? 
-                                <Fragment>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading
-                                </Fragment>
-                                : "pending"}
-                            </Button>}
-                            {data?.id ? <Fragment>
-                                {data?.status === "soft_deleted" ? <Fragment>
-                                    {permission?.delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "delete")}>
-                                        {(isLoading && form.getValues("action") === "delete") ? 
+                            {
+                                // @ts-ignore
+                                permission?.[(status?.[data?.status] || "draft")] &&
+                                // @ts-ignore
+                                <Button onClick={()=>form.setValue("action", (status?.[data?.status] || "draft"))} disabled={isLoading} aria-disabled={isLoading} className="col-span-2">
+                                    {/* @ts-ignore */}
+                                    {(isLoading && form.getValues("action") === (status?.[data?.status] || "draft")) ? 
+                                    <Fragment>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Loading
+                                    </Fragment>
+                                    : "Save"}
+                                </Button>
+                            }
+                            {Object.entries(status).map(([key, value], index) => (
+                                permission?.[value] &&
+                                <Fragment key={index}>
+                                    <Button onClick={()=>form.setValue("action", (data?.status === "soft_deleted" && key === "soft_deleted") ? "delete" : value)} 
+                                        disabled={isLoading} aria-disabled={isLoading} variant={"secondary"}
+                                    >
+                                        {(isLoading && (form.getValues("action") === value || (
+                                            form.getValues("action") === "delete" && key === "soft_deleted"
+                                        ))) ?
                                         <Fragment>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Loading
                                         </Fragment>
-                                        : "shift delete"}
-                                    </Button>}
-                                </Fragment> : <Fragment>
-                                    {permission?.soft_delete && <Button disabled={isLoading} aria-disabled={isLoading} variant={"destructive"} onClick={()=>form.setValue("action", "soft_delete")}>
-                                        {(isLoading && form.getValues("action") === "soft_delete") ? 
-                                        <Fragment>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Loading
-                                        </Fragment>
-                                        : "delete"}
-                                    </Button> }
-                                </Fragment>}
-                            </Fragment> : null}
+                                        : (
+                                            key === "soft_deleted" ?
+                                            (data?.status === "soft_deleted" ? "delete" : value.replaceAll("_", " ")) :
+                                            value.replaceAll("_", " ")
+                                        )}
+                                    </Button>
+                                </Fragment>
+                            ))}
                             {data?.id ? <Fragment>
                                 {data?.status !== "published" ? <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
-                                    <Link href={`/${data?.id}/preview`}>Preview</Link>
+                                    <Link href={`/gallery/${data?.id}/preview`}>Preview</Link>
                                 </Button> : <Button variant={"outline"} disabled={isLoading} aria-disabled={isLoading} className="col-span-2" type="button" asChild>
-                                    <Link href={`/${data?.id}`}>Perma Link</Link>
+                                    <Link href={`/gallery/${data?.id}`}>Perma Link</Link>
                                 </Button>}
                             </Fragment> : null}
                         </div>

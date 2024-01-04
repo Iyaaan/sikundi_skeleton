@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: VideoSchemaType) {
-    return (await ErrorHandler(data, VideoSchema, async ({createdBy, language, push, action, id, ...data}:VideoSchemaType) => {
+    return (await ErrorHandler<any, any>(data, VideoSchema, async ({createdBy, language, push, action, id, ...data}:VideoSchemaType) => {
         const user = await getUser()
         const permission = await getPermission({
             video: [
@@ -77,6 +77,10 @@ export default async function POST(data: VideoSchemaType) {
 
         revalidatePath('/sikundi-admin/video')
         return {
+            data: {
+                video: video,
+                action: action
+            },
             notification: {
                 title: `Video Successfully ${action}`,
                 description: `a video have ${action}, under the name ${video.title}`

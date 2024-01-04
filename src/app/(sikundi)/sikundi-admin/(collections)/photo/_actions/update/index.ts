@@ -15,7 +15,7 @@ const statusFromActions = {
 }
 
 export default async function POST(data: PhotoSchemaType) {
-    return (await ErrorHandler(data, PhotoSchema, async ({createdBy, featureImageUrl, language, push, action, id, ...data}:PhotoSchemaType) => {
+    return (await ErrorHandler<any, any>(data, PhotoSchema, async ({createdBy, featureImageUrl, language, push, action, id, ...data}:PhotoSchemaType) => {
         const user = await getUser()
         const permission = await getPermission({
             photo: [
@@ -85,6 +85,10 @@ export default async function POST(data: PhotoSchemaType) {
         revalidatePath(`/${photo.language.toLowerCase()}/gaafu-gallery`)
         revalidatePath(`/${photo.language.toLowerCase()}/gallery/${photo.id}`)
         return {
+            data: {
+                photo: photo,
+                action: action
+            },
             notification: {
                 title: `Photo Successfully ${action}`,
                 description: `a photo have ${action}, under the name ${photo.title}`

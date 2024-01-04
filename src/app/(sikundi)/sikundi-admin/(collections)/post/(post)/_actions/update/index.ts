@@ -153,6 +153,7 @@ export default async function POST(data: PostSchemaType) {
         revalidatePath(`/${post.language.toLowerCase()}/${post.id}`)
         return {
             data: {
+                post: post,
                 action: action
             },
             notification: {
