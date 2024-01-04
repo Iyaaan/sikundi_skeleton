@@ -41,6 +41,8 @@ interface Props {
     permission?: {[name:string]: boolean}
     type: "create" | "update"
     editingUser?: any
+    tags: {value: string, label: string}[]
+    categories: {value: string, label: string}[]
 }
 
 const status = {
@@ -50,7 +52,7 @@ const status = {
     pending: "pending",
 }
 
-export default function PostForm({ user, data, type, permission, editingUser }: Props) {
+export default function PostForm({ user, data, type, permission, editingUser, categories, tags }: Props) {
     const { toast } = useToast()
     const [image, setImage] = useState<string | undefined>(undefined)
     const [lead, setLead] = useState<{[name:string]: any}>(data?.lead ? JSON?.parse(String(data?.lead)) : {})
@@ -294,10 +296,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                         <Select2Async
                                             isClearable={false}
                                             className='col-span-2 justify-start'
-                                            defaultOptions={[{
-                                                // @ts-ignore
-                                                label: `search for categories`, value: `search for categories`, isDisabled: true
-                                            }]}
+                                            defaultOptions={[...categories]}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                 axios.get('/sikundi-admin/post/category/api/select', {
                                                     params: {
@@ -333,10 +332,7 @@ export default function PostForm({ user, data, type, permission, editingUser }: 
                                             createAble
                                             isMulti
                                             className='col-span-2 justify-start'
-                                            defaultOptions={[{
-                                                // @ts-ignore
-                                                label: `search for tags`, value: `search for tags`, isDisabled: true
-                                            }]}
+                                            defaultOptions={[...tags]}
                                             loadOptions={(inputValue: string) => new Promise(async (resolve) => {
                                                 axios.get('/sikundi-admin/post/tag/api/select', {
                                                     params: {

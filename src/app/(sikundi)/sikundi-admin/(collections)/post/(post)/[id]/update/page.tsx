@@ -43,6 +43,38 @@ export default async function page({params, searchParams}: Props) {
     const user = await getUser()
     const editingUser = JSON.parse(String(await redis.get(`post:${params.id}:editing`)))
     const data = await post({params, searchParams})
+    const categories = (await prisma.category.findMany({
+        orderBy: {
+            posts: {
+                _count: "asc"
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            slug: true
+        },
+        take: 5
+    })).map((tag)=>({
+        label: tag.name,
+        value: tag.slug
+    }))
+    const tags = (await prisma.tag.findMany({
+        orderBy: {
+            tagsPosts: {
+                _count: "asc"
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            slug: true
+        },
+        take: 5
+    })).map((tag)=>({
+        label: tag.name,
+        value: tag.slug
+    }))
 
     return (
         <Form data={JSON.parse(JSON.stringify(data))} user={JSON.parse(JSON.stringify(user))} type='update' editingUser={editingUser} permission={{
@@ -51,7 +83,7 @@ export default async function page({params, searchParams}: Props) {
             soft_delete: permission?.post?.soft_delete, 
             publish: permission?.post?.publish,
             pending: permission?.post?.pending
-        }} />
+        }} categories={categories} tags={tags} />
     )
 }
 
