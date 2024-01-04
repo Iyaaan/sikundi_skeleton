@@ -10,9 +10,17 @@ import H1 from '@sikundi/components/ui/typography/h1'
 import { SheetTrigger } from '@sikundi/components/ui/sheet'
 import { MoreVertical } from 'lucide-react'
 import Search from './Search'
-import Link from 'next/link'
+import Link from 'next/link' 
 
-export default async function Header () {
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+    permission: {
+        [name:string]: {
+            [name:string]: boolean
+        }
+    }
+}
+
+export default async function Header (props:SidebarProps) {
     const user = await getUser()
     return (
         <div className="border-b">
@@ -23,7 +31,7 @@ export default async function Header () {
                         <H1 className="text-2xl text-center font-bold">Sikundi.io</H1>
                     </div>
                     <div className="flex-1">
-                        <Search />
+                        <Search permission={props.permission} />
                     </div>
                     <ThemeSwitcher />
                     <DropdownMenu>

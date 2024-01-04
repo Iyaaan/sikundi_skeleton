@@ -7,7 +7,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { Fragment, useState } from 'react'
 
-export default function Search() {
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+    permission: {
+        [name:string]: {
+            [name:string]: boolean
+        }
+    }
+}
+
+export default function Search(props:SidebarProps) {
     const [open, setOpen] = useState(false)
     const router = useRouter()
    
@@ -42,7 +50,7 @@ export default function Search() {
                     {menuItems.map((item, index) => (
                         <Fragment key={index}>
                             <CommandGroup heading={item.title} key={index}>
-                                {item.items.map((child, key) => (
+                                {item.items.map((child, key) => (props?.permission?.[String(child.collection)]?.view || !child.collection) && (
                                     <CommandItem key={key} onSelect={() => {
                                         router.push(child.link) 
                                         setOpen(false)
@@ -52,7 +60,6 @@ export default function Search() {
                                             {child.name}
                                         </Link>
                                     </CommandItem>
-
                                 ))}
                             </CommandGroup>
                             {index !== (menuItems.length - 1) && <CommandSeparator />}

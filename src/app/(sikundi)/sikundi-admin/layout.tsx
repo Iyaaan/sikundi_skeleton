@@ -25,7 +25,7 @@ export default async function SikundiAdminLayout(props: Props) {
 
     return (
         <Sheet>
-            <Header />
+            <Header permission={permission} />
             <div className="flex h-[calc(100vh-4.1rem)]">
                 <SideBar permission={permission} className="h-full" />
                 <ScrollArea className="w-full">
