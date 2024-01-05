@@ -40,7 +40,7 @@ const Header = ({ menuItems }: { menuItems: any }) => {
             <div className="container px-4 flex gap-4 h-[6.4rem] items-center">
                 <Link href={`/dv`}>
                     <Image 
-                        src={"/gaafu.svg"} alt="logo" 
+                        src={"/logo.png"} alt="logo" 
                         width={50} height={50} 
                         priority={true}
                         className="rounded-xl min-h-[55px] min-w-[55px] hover:scale-95 active:scale-105 transition-all object-contain" 
