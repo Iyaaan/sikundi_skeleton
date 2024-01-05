@@ -1,6 +1,4 @@
-import { prisma } from "@sikundi/lib/server/utils/prisma"
-
-const roles = [
+const Roles = [
     {
         name: "Admin",
         permissions: {
@@ -87,26 +85,57 @@ const roles = [
 
         }
     }
+];
+
+const Users = [
+    {
+        userName: "ހަސަން އިޔާން",
+        userNameEn: "Hassan Iyan",
+        email: "hassan.iyan.l@gmail.com",
+        password: "iyan@sikundi",
+        description: "I am the developer of the websote",
+        status: "active",
+        roleId: 1
+    },
+    // {
+    //     userName: "ޢާލިމް އަބްދުއްލަތީފް",
+    //     userNameEn: "Aalim Abdul Latheef",
+    //     email: "aalimabdullatheef133@gmail.com",
+    //     password: "aalimabdullatheef133@sikundi",
+    //     description: "I dont care",
+    //     status: "active",
+    //     roleId: 2
+    // },
+    // {
+    //     userName: "ހުސައިން އަހްމަދު",
+    //     userNameEn: "Hussain Ahmed",
+    //     email: "comphusen2340@gmail.com",
+    //     password: "hussain@sikundi",
+    //     description: "CEO of gaafu",
+    //     status: "active",
+    //     roleId: 2
+    // },
+    // {
+    //     userName: "އަހްމަދު ސަދޫފް",
+    //     userNameEn: "Ahmed Sadhoof Moosa",
+    //     email: "sadhoofmoosa@gmail.com",
+    //     password: "shadhoof@sikundi",
+    //     description: "Journalist tester",
+    //     status: "active",
+    //     roleId: 2
+    // },
+    // {
+    //     userName: "ދާއިން",
+    //     userNameEn: "Dhaain",
+    //     email: "asneird@gmail.com",
+    //     password: "asneird@sikundi",
+    //     description: "Journalist tester",
+    //     status: "active",
+    //     roleId: 2
+    // },
 ]
 
-export default async function seed() {
-    return new Promise(async (resolve, reject) => {
-        try {
-            await Promise.all([roles.forEach(async (role) => console.table(await prisma.role.upsert({
-                // @ts-ignore
-                create: role,
-                // @ts-ignore
-                update: role,
-                where: {
-                    name: role.name
-                }
-            })))])
-            
-            console.log("Roles Seeded!")
-            await new Promise(r => setTimeout(r, 2000));
-            resolve(true)
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
+module.exports = {
+    Roles,
+    Users
+};

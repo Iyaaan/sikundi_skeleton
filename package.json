@@ -8,6 +8,7 @@
         "start": "next start",
         "clean": "rm -rf .next && rm -rf node_modules",
         "db:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
+        "db:seed": "dotenv -e .env.local -- node prisma/seed.js",
         "orm:generate": "dotenv -e .env.local -- npx prisma generate",
         "orm:studio": "dotenv -e .env.local -- npx prisma studio",
         "lint": "next lint",
