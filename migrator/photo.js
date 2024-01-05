@@ -5,8 +5,8 @@ import cheerio from 'cheerio'
 export async function GET() {
     const prisma = new PrismaClient()
 
-    const lan = "http://localhost:3000/seed/photo"
-    const wan = "https://gaafu.media/seed/photo"
+    const lan = "http://localhost:3000/migrate/photo"
+    const wan = "https://gaafu.media/migrate/photo"
 
     const posts = await prisma.wp_posts.findMany({
         select: {
