@@ -25,6 +25,7 @@ export async function DELETE(request: NextRequest) {
             status: "soft_deleted"
         }
     })
+    console.log("deleted")
 }
 
 export async function PATCH(request: NextRequest) {
