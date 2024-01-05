@@ -119,7 +119,6 @@ function postArticle({ id, ...finalPost }, prisma) {
                     }
                 }
             },
-            featureImageCaption: featureImage?.post_title,
             featureImage: featureImage?.guid && {
                 connectOrCreate: {
                     create: {
