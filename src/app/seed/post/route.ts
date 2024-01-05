@@ -7,7 +7,7 @@ import { ThaanaLatin } from '@sikundi/lib/transliterate'
 import { revalidatePath } from 'next/cache'
 
 export async function POST(request: NextRequest) {
-    for (let index = 1; index <= Array(139135).length; index++) {
+    for (let index = 1; index <= Array(140221).length; index++) {
         await prisma.post.create({
             data: {
                 title: "deleted_post",
