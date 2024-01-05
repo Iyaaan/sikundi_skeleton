@@ -8,13 +8,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function POST(request: NextRequest) {
     for (let index = 1; index <= Array(140221).length; index++) {
-        await prisma.post.create({
-            data: {
-                title: "deleted_post",
-                status: "soft_deleted"
-            }
-        })
-        console.log(`${index} post created`)
+        console.log(`${index} photo created`)
         await prisma.photo.create({
             data: {
                 title: "deleted_post",

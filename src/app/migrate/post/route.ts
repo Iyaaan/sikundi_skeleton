@@ -15,12 +15,6 @@ export async function POST(request: NextRequest) {
             }
         })
         console.log(`${index} post created`)
-        await prisma.photo.create({
-            data: {
-                title: "deleted_post",
-                status: "soft_deleted"
-            }
-        })
     }
 }
 
