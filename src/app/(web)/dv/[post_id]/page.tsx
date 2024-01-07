@@ -135,7 +135,7 @@ export default async function SinglePage(props: Props) {
                 <div className="max-w-3xl mx-auto px-6 mb-8">
                     <AEBanner slides={ae_banner} className="" />
                 </div>
-                <Comment />
+                <Comment lang="dv" />
                 <div className="max-w-3xl mx-auto px-6 my-8 lg:hidden">
                     <AEBanner slides={ae_banner.reverse()} className="" />
                 </div>

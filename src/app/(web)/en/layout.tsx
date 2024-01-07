@@ -199,20 +199,24 @@ async function menu () {
 
     return {
         items: [
+            {
+                name: "home",
+                url: `/en`,
+            },
             ...categories.map((category) => ({
                 name: category.name,
                 url: `/en/category/${category.slug}`
             })),
             havePhotos > 0 && {
-                name: "ފޮޓޯ",
+                name: "photo",
                 url: `/en/gaafu-gallery`,
             },
             haveVideos > 0 && {
-                name: "ވިޑިއޯ", 
+                name: "video", 
                 url: `/en/videos`,
             },
             haveGraphics > 0 && {
-                name: "ގްރެފިކްސް",
+                name: "graphics",
                 url: `/en/gaafu_graphics`,
             },
         ].filter(Boolean)
